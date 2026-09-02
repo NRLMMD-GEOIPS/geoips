@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.utils.types.script_datatree &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.utils.types.script_datatree &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Helpers for OBP-style plugin calls from scripts.&quot;&quot;&quot;</span>
+<span class="sd">"""Helpers for OBP-style plugin calls from scripts."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">StrEnum</span>
@@ -841,7 +843,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="RetentionPolicy"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.RetentionPolicy">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RetentionPolicy</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retention policies for OBP-style scripted plugin calls.</span>
+<span class="w">    </span><span class="sd">"""Retention policies for OBP-style scripted plugin calls.</span>
 
 <span class="sd">    Use these values when initializing a script DataTree or overriding</span>
 <span class="sd">    retention behavior for a single scripted plugin call. Each enum member is</span>
@@ -852,21 +854,21 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; from geoips.scripting import RetentionPolicy, initialize_script_tree</span>
 <span class="sd">    &gt;&gt;&gt; tree = initialize_script_tree(</span>
-<span class="sd">    ...     &quot;abi_infrared_test&quot;,</span>
+<span class="sd">    ...     "abi_infrared_test",</span>
 <span class="sd">    ...     retention_policy=RetentionPolicy.metadata_only,</span>
 <span class="sd">    ... )</span>
 <span class="sd">    &gt;&gt;&gt; tree = reader_plugin(</span>
 <span class="sd">    ...     data=tree,</span>
 <span class="sd">    ...     filenames=fnames,</span>
-<span class="sd">    ...     step_id=&quot;read_data&quot;,</span>
+<span class="sd">    ...     step_id="read_data",</span>
 <span class="sd">    ... )</span>
 
-<span class="sd">    String values such as ``&quot;metadata_only&quot;`` are also accepted for</span>
+<span class="sd">    String values such as ``"metadata_only"`` are also accepted for</span>
 <span class="sd">    configuration-driven scripts.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">description</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a string-like retention policy with a description.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create a string-like retention policy with a description."""</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">obj</span><span class="o">.</span><span class="n">_value_</span> <span class="o">=</span> <span class="n">value</span>
         <span class="n">obj</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
@@ -874,113 +876,113 @@ window.runMermaid = runMermaid;</script>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">__doc__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the policy description for interactive help.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the policy description for interactive help."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span>
 
     <span class="n">keep_all</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s2">&quot;keep_all&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Keep every plugin result intact. Useful for debugging, exploratory &quot;</span>
-        <span class="s2">&quot;scripts, notebooks, and tests where intermediate data should remain &quot;</span>
-        <span class="s2">&quot;available for inspection.&quot;</span><span class="p">,</span>
+        <span class="s2">"keep_all"</span><span class="p">,</span>
+        <span class="s2">"Keep every plugin result intact. Useful for debugging, exploratory "</span>
+        <span class="s2">"scripts, notebooks, and tests where intermediate data should remain "</span>
+        <span class="s2">"available for inspection."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">metadata_only</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s2">&quot;metadata_only&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Keep the current plugin result intact, but reduce older results to &quot;</span>
-        <span class="s2">&quot;attrs only. Useful for preserving provenance while reducing memory &quot;</span>
-        <span class="s2">&quot;used by previous datasets.&quot;</span><span class="p">,</span>
+        <span class="s2">"metadata_only"</span><span class="p">,</span>
+        <span class="s2">"Keep the current plugin result intact, but reduce older results to "</span>
+        <span class="s2">"attrs only. Useful for preserving provenance while reducing memory "</span>
+        <span class="s2">"used by previous datasets."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">current_only</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s2">&quot;current_only&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Keep only the current plugin result and discard older step nodes. &quot;</span>
-        <span class="s2">&quot;Useful for memory-sensitive processing where only the latest data &quot;</span>
-        <span class="s2">&quot;product is needed.&quot;</span><span class="p">,</span>
+        <span class="s2">"current_only"</span><span class="p">,</span>
+        <span class="s2">"Keep only the current plugin result and discard older step nodes. "</span>
+        <span class="s2">"Useful for memory-sensitive processing where only the latest data "</span>
+        <span class="s2">"product is needed."</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
-<span class="n">SCRIPT_EXECUTION_MODE</span> <span class="o">=</span> <span class="s2">&quot;script&quot;</span>
+<span class="n">SCRIPT_EXECUTION_MODE</span> <span class="o">=</span> <span class="s2">"script"</span>
 <span class="n">RETENTION_POLICIES</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">RetentionPolicy</span><span class="p">)</span>
 <span class="n">_RESERVED_ROOT_ATTRS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span>
-    <span class="p">(</span><span class="s2">&quot;execution_mode&quot;</span><span class="p">,</span> <span class="s2">&quot;retention_policy&quot;</span><span class="p">,</span> <span class="s2">&quot;start_time&quot;</span><span class="p">,</span> <span class="s2">&quot;end_time&quot;</span><span class="p">)</span>
+    <span class="p">(</span><span class="s2">"execution_mode"</span><span class="p">,</span> <span class="s2">"retention_policy"</span><span class="p">,</span> <span class="s2">"start_time"</span><span class="p">,</span> <span class="s2">"end_time"</span><span class="p">)</span>
 <span class="p">)</span>
 
 
 <div class="viewcode-block" id="normalize_retention_policy"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.normalize_retention_policy">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">normalize_retention_policy</span><span class="p">(</span><span class="n">retention_policy</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a canonical retention policy from a string or RetentionPolicy.</span>
+<span class="w">    </span><span class="sd">"""Return a canonical retention policy from a string or RetentionPolicy.</span>
 
 <span class="sd">    This internal helper lets user-facing functions accept either</span>
 <span class="sd">    ``RetentionPolicy.metadata_only`` style values or equivalent string values</span>
-<span class="sd">    such as ``&quot;metadata_only&quot;``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    such as ``"metadata_only"``.</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">RetentionPolicy</span><span class="p">(</span><span class="n">retention_policy</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
-        <span class="n">valid_policies</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">policy</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">policy</span> <span class="ow">in</span> <span class="n">RETENTION_POLICIES</span><span class="p">)</span>
+        <span class="n">valid_policies</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">policy</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">policy</span> <span class="ow">in</span> <span class="n">RETENTION_POLICIES</span><span class="p">)</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Invalid retention policy </span><span class="si">{</span><span class="n">retention_policy</span><span class="si">!r}</span><span class="s2">. &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Expected one of: </span><span class="si">{</span><span class="n">valid_policies</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">"Invalid retention policy </span><span class="si">{</span><span class="n">retention_policy</span><span class="si">!r}</span><span class="s2">. "</span>
+            <span class="sa">f</span><span class="s2">"Expected one of: </span><span class="si">{</span><span class="n">valid_policies</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">resp</span></div>
 
 
 <div class="viewcode-block" id="validate_retention_policy"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.validate_retention_policy">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">validate_retention_policy</span><span class="p">(</span><span class="n">retention_policy</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate a script DataTree retention policy.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Validate a script DataTree retention policy."""</span>
     <span class="n">normalize_retention_policy</span><span class="p">(</span><span class="n">retention_policy</span><span class="p">)</span></div>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_utc_now</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the current UTC datetime.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return the current UTC datetime."""</span>
     <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_format_timestamp</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span> <span class="n">field_name</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return an ISO-formatted timestamp string from a datetime or None.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return an ISO-formatted timestamp string from a datetime or None."""</span>
     <span class="k">if</span> <span class="n">timestamp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2"> must be a datetime.datetime instance or None. &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2"> must be a datetime.datetime instance or None. "</span>
+            <span class="sa">f</span><span class="s2">"Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">timestamp</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
 
 
 <div class="viewcode-block" id="is_script_tree"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.is_script_tree">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_script_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return whether *tree* is an initialized script DataTree.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return whether *tree* is an initialized script DataTree."""</span>
     <span class="k">return</span> <span class="p">(</span>
         <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">)</span>
-        <span class="ow">and</span> <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;execution_mode&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">SCRIPT_EXECUTION_MODE</span>
+        <span class="ow">and</span> <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"execution_mode"</span><span class="p">)</span> <span class="o">==</span> <span class="n">SCRIPT_EXECUTION_MODE</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="plugin_kind"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.plugin_kind">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plugin_kind</span><span class="p">(</span><span class="n">plugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the singular plugin kind for script step metadata.</span>
+<span class="w">    </span><span class="sd">"""Return the singular plugin kind for script step metadata.</span>
 
-<span class="sd">    Uses the plugin&#39;s ``interface`` attribute (e.g. ``&quot;filename_formatters&quot;``)</span>
-<span class="sd">    and returns its singular form (e.g. ``&quot;filename_formatter&quot;``).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    Uses the plugin's ``interface`` attribute (e.g. ``"filename_formatters"``)</span>
+<span class="sd">    and returns its singular form (e.g. ``"filename_formatter"``).</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.utils.types.partial_lexeme</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lexeme</span>
 
     <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">Lexeme</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">interface</span><span class="p">)</span><span class="o">.</span><span class="n">singular</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="script_call_data"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.script_call_data">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">script_call_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the data object to pass through plugin preprocessing.</span>
+<span class="w">    </span><span class="sd">"""Return the data object to pass through plugin preprocessing.</span>
 
-<span class="sd">    Script calls keep the accumulated script tree in ``data``; the plugin&#39;s</span>
+<span class="sd">    Script calls keep the accumulated script tree in ``data``; the plugin's</span>
 <span class="sd">    own call should operate on the current data input (``xarray_obj`` kwarg</span>
 <span class="sd">    when a conduit injected one, otherwise the tree itself).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xarray_obj&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"xarray_obj"</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
 
 
 <span class="nd">@cache</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">_valid_script_plugin_kinds</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return valid registered plugin kinds for script step metadata.</span>
+<span class="w">    </span><span class="sd">"""Return valid registered plugin kinds for script step metadata.</span>
 
 <span class="sd">    Interface discovery can be expensive, so this result is cached for the</span>
 <span class="sd">    lifetime of the Python process. The returned set contains registered</span>
 <span class="sd">    GeoIPS interface kinds, excluding ``product`` and ``workflow`` for now,</span>
 <span class="sd">    plus the special ``manual`` kind for user-created script data.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">geoips</span><span class="w"> </span><span class="kn">import</span> <span class="n">interfaces</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.utils.types.partial_lexeme</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lexeme</span>
 
@@ -990,43 +992,43 @@ window.runMermaid = runMermaid;</script>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span>
     <span class="p">]</span>
     <span class="n">plugin_kinds</span> <span class="o">=</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">Lexeme</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">singular</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">interface_names</span><span class="p">}</span>
-    <span class="n">plugin_kinds</span><span class="o">.</span><span class="n">difference_update</span><span class="p">({</span><span class="s2">&quot;product&quot;</span><span class="p">,</span> <span class="s2">&quot;workflow&quot;</span><span class="p">})</span>
-    <span class="n">plugin_kinds</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;manual&quot;</span><span class="p">)</span>
+    <span class="n">plugin_kinds</span><span class="o">.</span><span class="n">difference_update</span><span class="p">({</span><span class="s2">"product"</span><span class="p">,</span> <span class="s2">"workflow"</span><span class="p">})</span>
+    <span class="n">plugin_kinds</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">"manual"</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">plugin_kinds</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_validate_script_step_metadata</span><span class="p">(</span><span class="n">step_name</span><span class="p">,</span> <span class="n">plugin_kind</span><span class="p">,</span> <span class="n">plugin_name</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate script step metadata before attaching a result.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Validate script step metadata before attaching a result."""</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">step_name</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;A step_id or plugin_name is required to attach a result.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"A step_id or plugin_name is required to attach a result."</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">step_name</span><span class="o">.</span><span class="n">isidentifier</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Script step id </span><span class="si">{</span><span class="n">step_name</span><span class="si">!r}</span><span class="s2"> is invalid. Step ids must be valid &quot;</span>
-            <span class="s2">&quot;Python identifiers.&quot;</span>
+            <span class="sa">f</span><span class="s2">"Script step id </span><span class="si">{</span><span class="n">step_name</span><span class="si">!r}</span><span class="s2"> is invalid. Step ids must be valid "</span>
+            <span class="s2">"Python identifiers."</span>
         <span class="p">)</span>
 
     <span class="n">valid_plugin_kinds</span> <span class="o">=</span> <span class="n">_valid_script_plugin_kinds</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">plugin_kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_plugin_kinds</span><span class="p">:</span>
-        <span class="n">valid_kinds</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">valid_plugin_kinds</span><span class="p">))</span>
+        <span class="n">valid_kinds</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">valid_plugin_kinds</span><span class="p">))</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Invalid script plugin kind </span><span class="si">{</span><span class="n">plugin_kind</span><span class="si">!r}</span><span class="s2">. &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Expected one of: </span><span class="si">{</span><span class="n">valid_kinds</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">"Invalid script plugin kind </span><span class="si">{</span><span class="n">plugin_kind</span><span class="si">!r}</span><span class="s2">. "</span>
+            <span class="sa">f</span><span class="s2">"Expected one of: </span><span class="si">{</span><span class="n">valid_kinds</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">plugin_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plugin_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;plugin_name must be a string when provided.&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">plugin_name</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;plugin_name must be a non-empty string when provided.&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">plugin_kind</span> <span class="o">!=</span> <span class="s2">&quot;manual&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">plugin_name</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;plugin_name must be a non-empty string.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"plugin_name must be a string when provided."</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">plugin_name</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"plugin_name must be a non-empty string when provided."</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">plugin_kind</span> <span class="o">!=</span> <span class="s2">"manual"</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">plugin_name</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"plugin_name must be a non-empty string."</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="initialize_script_tree"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.initialize_script_tree">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">initialize_script_tree</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">retention_policy</span><span class="p">,</span> <span class="o">**</span><span class="n">attrs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize a root DataTree for OBP-style scripted plugin calls.</span>
+<span class="w">    </span><span class="sd">"""Initialize a root DataTree for OBP-style scripted plugin calls.</span>
 
 <span class="sd">    The returned tree is intended to be passed as the ``data`` argument to</span>
 <span class="sd">    direct plugin calls. Plugins infer script-mode OBP behavior from the</span>
-<span class="sd">    tree&#39;s ``execution_mode`` metadata and attach results back onto this</span>
+<span class="sd">    tree's ``execution_mode`` metadata and attach results back onto this</span>
 <span class="sd">    script tree using ``step_id``.</span>
 
 <span class="sd">    Parameters</span>
@@ -1055,32 +1057,32 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; from geoips.scripting import RetentionPolicy, initialize_script_tree</span>
 <span class="sd">    &gt;&gt;&gt; tree = initialize_script_tree(</span>
-<span class="sd">    ...     &quot;abi_infrared_test&quot;,</span>
+<span class="sd">    ...     "abi_infrared_test",</span>
 <span class="sd">    ...     retention_policy=RetentionPolicy.metadata_only,</span>
 <span class="sd">    ... )</span>
 <span class="sd">    &gt;&gt;&gt; tree = reader_plugin(</span>
 <span class="sd">    ...     data=tree,</span>
 <span class="sd">    ...     filenames=fnames,</span>
-<span class="sd">    ...     step_id=&quot;read_data&quot;,</span>
+<span class="sd">    ...     step_id="read_data",</span>
 <span class="sd">    ... )</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">retention_policy</span> <span class="o">=</span> <span class="n">normalize_retention_policy</span><span class="p">(</span><span class="n">retention_policy</span><span class="p">)</span>
 
     <span class="n">reserved_attrs</span> <span class="o">=</span> <span class="n">_RESERVED_ROOT_ATTRS</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">reserved_attrs</span><span class="p">:</span>
-        <span class="n">reserved_names</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">reserved_attrs</span><span class="p">))</span>
+        <span class="n">reserved_names</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">reserved_attrs</span><span class="p">))</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Script DataTree metadata fields are reserved and may not be &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;overridden: </span><span class="si">{</span><span class="n">reserved_names</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="s2">"Script DataTree metadata fields are reserved and may not be "</span>
+            <span class="sa">f</span><span class="s2">"overridden: </span><span class="si">{</span><span class="n">reserved_names</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
 
     <span class="n">tree</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
     <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
         <span class="p">{</span>
-            <span class="s2">&quot;execution_mode&quot;</span><span class="p">:</span> <span class="n">SCRIPT_EXECUTION_MODE</span><span class="p">,</span>
-            <span class="s2">&quot;retention_policy&quot;</span><span class="p">:</span> <span class="n">retention_policy</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-            <span class="s2">&quot;start_time&quot;</span><span class="p">:</span> <span class="n">_utc_now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
-            <span class="s2">&quot;end_time&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">"execution_mode"</span><span class="p">:</span> <span class="n">SCRIPT_EXECUTION_MODE</span><span class="p">,</span>
+            <span class="s2">"retention_policy"</span><span class="p">:</span> <span class="n">retention_policy</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="s2">"start_time"</span><span class="p">:</span> <span class="n">_utc_now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="s2">"end_time"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
             <span class="o">**</span><span class="n">attrs</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">)</span>
@@ -1088,7 +1090,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_normalize_script_step_result</span><span class="p">(</span><span class="n">step_data</span><span class="p">,</span> <span class="n">step_name</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalize a plugin result to a DataTree-compatible script node.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Normalize a plugin result to a DataTree-compatible script node."""</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step_data</span><span class="p">,</span> <span class="n">DataTreeDitto</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">step_data</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step_data</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">):</span>
@@ -1098,42 +1100,42 @@ window.runMermaid = runMermaid;</script>
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
         <span class="n">step_data_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">step_data</span><span class="p">)</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Cannot attach result for script step </span><span class="si">{</span><span class="n">step_name</span><span class="si">!r}</span><span class="s2">: step_data &quot;</span>
-            <span class="s2">&quot;must be an xarray DataTree, DataTreeDitto, xarray Dataset, &quot;</span>
-            <span class="s2">&quot;xarray DataArray, or another type convertible by DataTreeDitto. &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="n">step_data_type</span><span class="o">.</span><span class="vm">__module__</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">step_data_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">. &quot;</span>
-            <span class="s2">&quot;To attach a scalar or other simple value, wrap it in a Dataset, &quot;</span>
-            <span class="s2">&quot;DataArray, or supported dict, for example {&#39;value&#39;: 0}. &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Original conversion error: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"Cannot attach result for script step </span><span class="si">{</span><span class="n">step_name</span><span class="si">!r}</span><span class="s2">: step_data "</span>
+            <span class="s2">"must be an xarray DataTree, DataTreeDitto, xarray Dataset, "</span>
+            <span class="s2">"xarray DataArray, or another type convertible by DataTreeDitto. "</span>
+            <span class="sa">f</span><span class="s2">"Got </span><span class="si">{</span><span class="n">step_data_type</span><span class="o">.</span><span class="vm">__module__</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">step_data_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">. "</span>
+            <span class="s2">"To attach a scalar or other simple value, wrap it in a Dataset, "</span>
+            <span class="s2">"DataArray, or supported dict, for example {'value': 0}. "</span>
+            <span class="sa">f</span><span class="s2">"Original conversion error: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_require_script_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raise if *tree* is not an initialized script DataTree.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Raise if *tree* is not an initialized script DataTree."""</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="s2">&quot;Script DataTree helpers require an xarray.DataTree created by &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;initialize_script_tree(). Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span><span class="si">}</span><span class="s2">.&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="s2">"Script DataTree helpers require an xarray.DataTree created by "</span>
+            <span class="sa">f</span><span class="s2">"initialize_script_tree(). Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span><span class="si">}</span><span class="s2">."</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
-    <span class="k">if</span> <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;execution_mode&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="n">SCRIPT_EXECUTION_MODE</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"execution_mode"</span><span class="p">)</span> <span class="o">!=</span> <span class="n">SCRIPT_EXECUTION_MODE</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Script DataTree helpers may only operate on a DataTree created &quot;</span>
-            <span class="s2">&quot;by initialize_script_tree().&quot;</span>
+            <span class="s2">"Script DataTree helpers may only operate on a DataTree created "</span>
+            <span class="s2">"by initialize_script_tree()."</span>
         <span class="p">)</span>
-    <span class="n">required_attrs</span> <span class="o">=</span> <span class="n">_RESERVED_ROOT_ATTRS</span> <span class="o">-</span> <span class="p">{</span><span class="s2">&quot;execution_mode&quot;</span><span class="p">}</span>
+    <span class="n">required_attrs</span> <span class="o">=</span> <span class="n">_RESERVED_ROOT_ATTRS</span> <span class="o">-</span> <span class="p">{</span><span class="s2">"execution_mode"</span><span class="p">}</span>
     <span class="n">missing_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">attr</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">required_attrs</span> <span class="k">if</span> <span class="n">attr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">missing_attrs</span><span class="p">:</span>
-        <span class="n">missing_attr_names</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">missing_attrs</span><span class="p">)</span>
+        <span class="n">missing_attr_names</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">missing_attrs</span><span class="p">)</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Script DataTree is missing required metadata. Use &quot;</span>
-            <span class="s2">&quot;initialize_script_tree() to create script trees. Missing attrs: &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">missing_attr_names</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="s2">"Script DataTree is missing required metadata. Use "</span>
+            <span class="s2">"initialize_script_tree() to create script trees. Missing attrs: "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">missing_attr_names</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_normalize_output_products</span><span class="p">(</span><span class="n">output_products</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return output products as a list of paths/products.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return output products as a list of paths/products."""</span>
     <span class="k">if</span> <span class="n">output_products</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output_products</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -1142,7 +1144,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="get_output_products"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.get_output_products">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_output_products</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">step_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return products written by scripted output formatter steps.</span>
+<span class="w">    </span><span class="sd">"""Return products written by scripted output formatter steps.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1150,7 +1152,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Root script DataTree created by ``initialize_script_tree``.</span>
 <span class="sd">    step_id : str, optional</span>
 <span class="sd">        Specific output formatter step to inspect. If omitted, products from</span>
-<span class="sd">        all steps with ``attrs[&quot;output_products&quot;]`` are returned in tree order.</span>
+<span class="sd">        all steps with ``attrs["output_products"]`` are returned in tree order.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1168,53 +1170,53 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    &gt;&gt;&gt; from geoips.scripting import get_output_products</span>
 <span class="sd">    &gt;&gt;&gt; output_products = get_output_products(tree)</span>
 <span class="sd">    &gt;&gt;&gt; output_products</span>
-<span class="sd">    [&quot;/path/to/output.png&quot;]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    ["/path/to/output.png"]</span>
+<span class="sd">    """</span>
     <span class="n">_require_script_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">step_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">step_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Script DataTree does not contain step </span><span class="si">{</span><span class="n">step_id</span><span class="si">!r}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Script DataTree does not contain step </span><span class="si">{</span><span class="n">step_id</span><span class="si">!r}</span><span class="s2">."</span><span class="p">)</span>
         <span class="n">output_products</span> <span class="o">=</span> <span class="n">_normalize_output_products</span><span class="p">(</span>
-            <span class="n">tree</span><span class="p">[</span><span class="n">step_id</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_products&quot;</span><span class="p">)</span>
+            <span class="n">tree</span><span class="p">[</span><span class="n">step_id</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"output_products"</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">output_products</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Script step </span><span class="si">{</span><span class="n">step_id</span><span class="si">!r}</span><span class="s2"> does not contain output products.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Script step </span><span class="si">{</span><span class="n">step_id</span><span class="si">!r}</span><span class="s2"> does not contain output products."</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">output_products</span>
 
     <span class="n">output_products</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">product</span>
         <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">product</span> <span class="ow">in</span> <span class="n">_normalize_output_products</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_products&quot;</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">product</span> <span class="ow">in</span> <span class="n">_normalize_output_products</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"output_products"</span><span class="p">))</span>
     <span class="p">]</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">output_products</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;No output products are available. Run an output formatter step &quot;</span>
-            <span class="s2">&quot;before calling get_output_products().&quot;</span>
+            <span class="s2">"No output products are available. Run an output formatter step "</span>
+            <span class="s2">"before calling get_output_products()."</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">output_products</span></div>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_attrs_only_node</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a DataTree node containing only attrs from *node*.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return a DataTree node containing only attrs from *node*."""</span>
     <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">attrs</span><span class="p">)))</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_older_step_ids</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">current_step_id</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return top-level step ids older than *current_step_id*.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return top-level step ids older than *current_step_id*."""</span>
     <span class="n">step_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">step_ids</span><span class="p">[:</span> <span class="n">step_ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">current_step_id</span><span class="p">)]</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_iter_steps_newest_first</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">up_to</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Yield top-level step ids newest-first, optionally capped at *up_to*.</span>
+<span class="w">    </span><span class="sd">"""Yield top-level step ids newest-first, optionally capped at *up_to*.</span>
 
 <span class="sd">    When *up_to* is given, only steps up to and including *up_to* are yielded</span>
 <span class="sd">    (in newest-first order). Otherwise all steps are yielded newest-first.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">step_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">up_to</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">step_ids</span> <span class="o">=</span> <span class="n">step_ids</span><span class="p">[:</span> <span class="n">step_ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">up_to</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
@@ -1222,27 +1224,27 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_reduce_step_to_attrs_only</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">step_id</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reduce a top-level script step node to attrs-only metadata.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Reduce a top-level script step node to attrs-only metadata."""</span>
     <span class="n">tree</span><span class="p">[</span><span class="n">step_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">_attrs_only_node</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">step_id</span><span class="p">])</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_remove_step</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">step_id</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove a top-level script step node.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Remove a top-level script step node."""</span>
     <span class="k">del</span> <span class="n">tree</span><span class="p">[</span><span class="n">step_id</span><span class="p">]</span>
 
 
-<span class="n">_XARRAY_DATA_PLUGIN_KINDS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">((</span><span class="s2">&quot;algorithm&quot;</span><span class="p">,</span> <span class="s2">&quot;interpolator&quot;</span><span class="p">,</span> <span class="s2">&quot;manual&quot;</span><span class="p">,</span> <span class="s2">&quot;reader&quot;</span><span class="p">))</span>
+<span class="n">_XARRAY_DATA_PLUGIN_KINDS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">((</span><span class="s2">"algorithm"</span><span class="p">,</span> <span class="s2">"interpolator"</span><span class="p">,</span> <span class="s2">"manual"</span><span class="p">,</span> <span class="s2">"reader"</span><span class="p">))</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_is_xarray_data_step</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return whether *node* should provide xarray input to later plugins.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plugin_kind&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">_XARRAY_DATA_PLUGIN_KINDS</span> <span class="ow">and</span> <span class="n">has_data_vars</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">"""Return whether *node* should provide xarray input to later plugins."""</span>
+    <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"plugin_kind"</span><span class="p">)</span> <span class="ow">in</span> <span class="n">_XARRAY_DATA_PLUGIN_KINDS</span> <span class="ow">and</span> <span class="n">has_data_vars</span><span class="p">(</span>
         <span class="n">node</span>
     <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_latest_xarray_data_step_id</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">current_step_id</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the newest xarray-data step at or before *current_step_id*.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return the newest xarray-data step at or before *current_step_id*."""</span>
     <span class="k">for</span> <span class="n">step_id</span> <span class="ow">in</span> <span class="n">_iter_steps_newest_first</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">up_to</span><span class="o">=</span><span class="n">current_step_id</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">_is_xarray_data_step</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">step_id</span><span class="p">]):</span>
             <span class="k">return</span> <span class="n">step_id</span>
@@ -1250,7 +1252,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_metadata_only_preserved_step_ids</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">current_step_id</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return step ids that must remain intact for metadata_only retention.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return step ids that must remain intact for metadata_only retention."""</span>
     <span class="n">preserved</span> <span class="o">=</span> <span class="p">{</span><span class="n">current_step_id</span><span class="p">}</span>
     <span class="n">latest_data_step_id</span> <span class="o">=</span> <span class="n">_latest_xarray_data_step_id</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">current_step_id</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">latest_data_step_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1259,7 +1261,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="get_current_data"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.get_current_data">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_current_data</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the dataset from the most recent data-containing script step.</span>
+<span class="w">    </span><span class="sd">"""Return the dataset from the most recent data-containing script step.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1280,7 +1282,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    ValueError</span>
 <span class="sd">        If *tree* is not an initialized script DataTree or no data-containing</span>
 <span class="sd">        step is available.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">_require_script_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">step_id</span> <span class="ow">in</span> <span class="n">_iter_steps_newest_first</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
@@ -1289,13 +1291,13 @@ window.runMermaid = runMermaid;</script>
             <span class="k">return</span> <span class="n">to_mutable_dataset</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
 
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-        <span class="s2">&quot;No data-containing script steps are available. Attach a plugin result &quot;</span>
-        <span class="s2">&quot;or manual data step before calling get_current_data().&quot;</span>
+        <span class="s2">"No data-containing script steps are available. Attach a plugin result "</span>
+        <span class="s2">"or manual data step before calling get_current_data()."</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="add_data_step"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.add_data_step">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_data_step</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">step_id</span><span class="p">,</span> <span class="n">retention_policy</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Attach user-created or user-modified data as a manual script step.</span>
+<span class="w">    </span><span class="sd">"""Attach user-created or user-modified data as a manual script step.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1314,18 +1316,18 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    xarray.DataTree</span>
 <span class="sd">        The same root script DataTree, updated in place and returned for</span>
 <span class="sd">        convenient chaining.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">attach_plugin_result</span><span class="p">(</span>
         <span class="n">tree</span><span class="p">,</span>
         <span class="n">data</span><span class="p">,</span>
         <span class="n">step_id</span><span class="o">=</span><span class="n">step_id</span><span class="p">,</span>
-        <span class="n">plugin_kind</span><span class="o">=</span><span class="s2">&quot;manual&quot;</span><span class="p">,</span>
+        <span class="n">plugin_kind</span><span class="o">=</span><span class="s2">"manual"</span><span class="p">,</span>
         <span class="n">retention_policy</span><span class="o">=</span><span class="n">retention_policy</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="apply_script_retention"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.apply_script_retention">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">apply_script_retention</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">current_step_id</span><span class="p">,</span> <span class="n">retention_policy</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply a retention policy to an initialized script DataTree.</span>
+<span class="w">    </span><span class="sd">"""Apply a retention policy to an initialized script DataTree.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1348,16 +1350,16 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    ValueError</span>
 <span class="sd">        If *tree* is not an initialized script DataTree, if *current_step_id*</span>
 <span class="sd">        does not exist, or if the retention policy is invalid.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">_require_script_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">current_step_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Cannot apply script retention for unknown step </span><span class="si">{</span><span class="n">current_step_id</span><span class="si">!r}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">"Cannot apply script retention for unknown step </span><span class="si">{</span><span class="n">current_step_id</span><span class="si">!r}</span><span class="s2">."</span>
         <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">retention_policy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">retention_policy</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;retention_policy&quot;</span><span class="p">)</span>
+        <span class="n">retention_policy</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"retention_policy"</span><span class="p">)</span>
     <span class="n">retention_policy</span> <span class="o">=</span> <span class="n">normalize_retention_policy</span><span class="p">(</span><span class="n">retention_policy</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">retention_policy</span> <span class="ow">is</span> <span class="n">RetentionPolicy</span><span class="o">.</span><span class="n">keep_all</span><span class="p">:</span>
@@ -1377,7 +1379,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">_remove_step</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">step_id</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tree</span>
 
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unhandled retention policy </span><span class="si">{</span><span class="n">retention_policy</span><span class="si">!r}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unhandled retention policy </span><span class="si">{</span><span class="n">retention_policy</span><span class="si">!r}</span><span class="s2">."</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="attach_plugin_result"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.attach_plugin_result">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">attach_plugin_result</span><span class="p">(</span>
@@ -1391,7 +1393,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">end_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">retention_policy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Attach a scripted plugin result to an initialized script DataTree.</span>
+<span class="w">    </span><span class="sd">"""Attach a scripted plugin result to an initialized script DataTree.</span>
 
 <span class="sd">    This internal helper records one plugin result under the supplied</span>
 <span class="sd">    ``step_id``. If ``step_id`` is omitted, the plugin name is used. Duplicate</span>
@@ -1411,20 +1413,20 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    step_id : str, optional</span>
 <span class="sd">        Name to use for the attached result node. Defaults to *plugin_name*.</span>
 <span class="sd">    plugin_kind : str</span>
-<span class="sd">        Registered plugin kind that produced *step_data*, or ``&quot;manual&quot;`` for</span>
+<span class="sd">        Registered plugin kind that produced *step_data*, or ``"manual"`` for</span>
 <span class="sd">        user-created script data. Values are validated against the cached GeoIPS</span>
-<span class="sd">        interface list plus ``&quot;manual&quot;``.</span>
+<span class="sd">        interface list plus ``"manual"``.</span>
 <span class="sd">    plugin_name : str, optional</span>
 <span class="sd">        Plugin name that produced *step_data*. Required for registered plugin</span>
-<span class="sd">        kinds. For ``plugin_kind=&quot;manual&quot;``, omitted plugin names are recorded</span>
-<span class="sd">        as ``&quot;manual&quot;``.</span>
+<span class="sd">        kinds. For ``plugin_kind="manual"``, omitted plugin names are recorded</span>
+<span class="sd">        as ``"manual"``.</span>
 <span class="sd">    start_time : datetime.datetime, optional</span>
 <span class="sd">        Step start datetime. Defaults to the current UTC time for</span>
-<span class="sd">        registered plugin kinds. For ``plugin_kind=&quot;manual&quot;``, omitted times</span>
+<span class="sd">        registered plugin kinds. For ``plugin_kind="manual"``, omitted times</span>
 <span class="sd">        are recorded as ``None``.</span>
 <span class="sd">    end_time : datetime.datetime, optional</span>
 <span class="sd">        Step end datetime. Defaults to the current UTC time for</span>
-<span class="sd">        registered plugin kinds. For ``plugin_kind=&quot;manual&quot;``, omitted times</span>
+<span class="sd">        registered plugin kinds. For ``plugin_kind="manual"``, omitted times</span>
 <span class="sd">        are recorded as ``None``.</span>
 <span class="sd">    retention_policy : RetentionPolicy or str, optional</span>
 <span class="sd">        Retention policy used for this step. Defaults to the policy stored on</span>
@@ -1444,32 +1446,32 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        is invalid.</span>
 <span class="sd">    TypeError</span>
 <span class="sd">        If *step_data* cannot be converted to a script DataTree node.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">_require_script_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
 
     <span class="n">step_name</span> <span class="o">=</span> <span class="n">step_id</span> <span class="ow">or</span> <span class="n">plugin_name</span>
-    <span class="k">if</span> <span class="n">plugin_kind</span> <span class="o">==</span> <span class="s2">&quot;manual&quot;</span> <span class="ow">and</span> <span class="n">plugin_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">plugin_name</span> <span class="o">=</span> <span class="s2">&quot;manual&quot;</span>
+    <span class="k">if</span> <span class="n">plugin_kind</span> <span class="o">==</span> <span class="s2">"manual"</span> <span class="ow">and</span> <span class="n">plugin_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">plugin_name</span> <span class="o">=</span> <span class="s2">"manual"</span>
         <span class="n">step_name</span> <span class="o">=</span> <span class="n">step_name</span> <span class="ow">or</span> <span class="n">plugin_name</span>
     <span class="n">_validate_script_step_metadata</span><span class="p">(</span><span class="n">step_name</span><span class="p">,</span> <span class="n">plugin_kind</span><span class="p">,</span> <span class="n">plugin_name</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">step_name</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Script DataTree already contains step </span><span class="si">{</span><span class="n">step_name</span><span class="si">!r}</span><span class="s2">. &quot;</span>
-            <span class="s2">&quot;Provide a unique step_id to avoid clobbering existing results.&quot;</span>
+            <span class="sa">f</span><span class="s2">"Script DataTree already contains step </span><span class="si">{</span><span class="n">step_name</span><span class="si">!r}</span><span class="s2">. "</span>
+            <span class="s2">"Provide a unique step_id to avoid clobbering existing results."</span>
         <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">retention_policy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">retention_policy</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;retention_policy&quot;</span><span class="p">)</span>
+        <span class="n">retention_policy</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"retention_policy"</span><span class="p">)</span>
     <span class="n">retention_policy</span> <span class="o">=</span> <span class="n">normalize_retention_policy</span><span class="p">(</span><span class="n">retention_policy</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">plugin_kind</span> <span class="o">==</span> <span class="s2">&quot;manual&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">plugin_kind</span> <span class="o">==</span> <span class="s2">"manual"</span><span class="p">:</span>
         <span class="n">step_start_time</span> <span class="o">=</span> <span class="n">start_time</span>
         <span class="n">step_end_time</span> <span class="o">=</span> <span class="n">end_time</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">step_start_time</span> <span class="o">=</span> <span class="n">start_time</span> <span class="ow">or</span> <span class="n">_utc_now</span><span class="p">()</span>
         <span class="n">step_end_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="ow">or</span> <span class="n">_utc_now</span><span class="p">()</span>
-    <span class="n">step_start_time</span> <span class="o">=</span> <span class="n">_format_timestamp</span><span class="p">(</span><span class="n">step_start_time</span><span class="p">,</span> <span class="s2">&quot;start_time&quot;</span><span class="p">)</span>
-    <span class="n">step_end_time</span> <span class="o">=</span> <span class="n">_format_timestamp</span><span class="p">(</span><span class="n">step_end_time</span><span class="p">,</span> <span class="s2">&quot;end_time&quot;</span><span class="p">)</span>
+    <span class="n">step_start_time</span> <span class="o">=</span> <span class="n">_format_timestamp</span><span class="p">(</span><span class="n">step_start_time</span><span class="p">,</span> <span class="s2">"start_time"</span><span class="p">)</span>
+    <span class="n">step_end_time</span> <span class="o">=</span> <span class="n">_format_timestamp</span><span class="p">(</span><span class="n">step_end_time</span><span class="p">,</span> <span class="s2">"end_time"</span><span class="p">)</span>
 
     <span class="n">node</span> <span class="o">=</span> <span class="n">_normalize_script_step_result</span><span class="p">(</span><span class="n">step_data</span><span class="p">,</span> <span class="n">step_name</span><span class="p">)</span>
     <span class="n">tree</span><span class="p">[</span><span class="n">step_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span>
@@ -1477,12 +1479,12 @@ window.runMermaid = runMermaid;</script>
     <span class="n">attached</span> <span class="o">=</span> <span class="n">tree</span><span class="p">[</span><span class="n">step_name</span><span class="p">]</span>
     <span class="n">attached</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
         <span class="p">{</span>
-            <span class="s2">&quot;step_id&quot;</span><span class="p">:</span> <span class="n">step_name</span><span class="p">,</span>
-            <span class="s2">&quot;plugin_kind&quot;</span><span class="p">:</span> <span class="n">plugin_kind</span><span class="p">,</span>
-            <span class="s2">&quot;plugin_name&quot;</span><span class="p">:</span> <span class="n">plugin_name</span><span class="p">,</span>
-            <span class="s2">&quot;start_time&quot;</span><span class="p">:</span> <span class="n">step_start_time</span><span class="p">,</span>
-            <span class="s2">&quot;end_time&quot;</span><span class="p">:</span> <span class="n">step_end_time</span><span class="p">,</span>
-            <span class="s2">&quot;retention_policy&quot;</span><span class="p">:</span> <span class="n">retention_policy</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="s2">"step_id"</span><span class="p">:</span> <span class="n">step_name</span><span class="p">,</span>
+            <span class="s2">"plugin_kind"</span><span class="p">:</span> <span class="n">plugin_kind</span><span class="p">,</span>
+            <span class="s2">"plugin_name"</span><span class="p">:</span> <span class="n">plugin_name</span><span class="p">,</span>
+            <span class="s2">"start_time"</span><span class="p">:</span> <span class="n">step_start_time</span><span class="p">,</span>
+            <span class="s2">"end_time"</span><span class="p">:</span> <span class="n">step_end_time</span><span class="p">,</span>
+            <span class="s2">"retention_policy"</span><span class="p">:</span> <span class="n">retention_policy</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">)</span>
     <span class="n">apply_script_retention</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">step_name</span><span class="p">,</span> <span class="n">retention_policy</span><span class="o">=</span><span class="n">retention_policy</span><span class="p">)</span>
@@ -1498,14 +1500,14 @@ window.runMermaid = runMermaid;</script>
     <span class="n">step_start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">retention_policy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Attach a scripted plugin result and return the updated script tree.</span>
+<span class="w">    </span><span class="sd">"""Attach a scripted plugin result and return the updated script tree.</span>
 
 <span class="sd">    Thin convenience wrapper around ``attach_plugin_result`` that derives</span>
-<span class="sd">    ``plugin_kind`` from *plugin*&#39;s interface and ``plugin_name`` from</span>
+<span class="sd">    ``plugin_kind`` from *plugin*'s interface and ``plugin_name`` from</span>
 <span class="sd">    ``plugin.name``, and defaults the end time to the current UTC time.</span>
 <span class="sd">    Used by ``BaseClassPlugin._invoke`` so the two script-mode attach sites do</span>
 <span class="sd">    not duplicate the metadata-derivation logic.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">attach_plugin_result</span><span class="p">(</span>
         <span class="n">script_tree</span><span class="p">,</span>
         <span class="n">result</span><span class="p">,</span>

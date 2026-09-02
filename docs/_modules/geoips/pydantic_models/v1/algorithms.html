@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.pydantic_models.v1.algorithms &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.pydantic_models.v1.algorithms &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -831,7 +833,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Pydantic models used to validate GeoIPS algorithm plugins.&quot;&quot;&quot;</span>
+<span class="sd">"""Pydantic models used to validate GeoIPS algorithm plugins."""</span>
 
 <span class="c1"># cspell:ignore fcst</span>
 
@@ -846,67 +848,67 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="AlgorithmArgumentsModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.algorithms.AlgorithmArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">AlgorithmArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Algorithm step argument definition.</span>
+<span class="w">    </span><span class="sd">"""Algorithm step argument definition.</span>
 
 <span class="sd">    Pydantic model defining and validating Algorithm step arguments.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;List of input variables used in algorithm processing&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"List of input variables used in algorithm processing"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">output_data_range</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">StrictFloat</span><span class="p">,</span> <span class="n">StrictFloat</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;list of min and max value for output data product.&quot;</span>
-        <span class="s2">&quot; This is applied LAST after all other corrections/adjustments.&quot;</span>
-        <span class="s2">&quot; If None, use data.min() and data.max()&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"list of min and max value for output data product."</span>
+        <span class="s2">" This is applied LAST after all other corrections/adjustments."</span>
+        <span class="s2">" If None, use data.min() and data.max()"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">min_outbounds</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Method to use when applying minimum value of&quot;</span>
-        <span class="s2">&quot;&#39;output_data_range&#39;, if specified.&quot;</span>
-        <span class="s2">&quot;  Valid values are: &quot;</span>
-        <span class="s2">&quot; * retain: keep all pixels as is&quot;</span>
-        <span class="s2">&quot; * mask: mask all pixels that are out of range&quot;</span>
-        <span class="s2">&quot; * crop: set out of range values to the nearest bound (min_val or max_val)&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Method to use when applying minimum value of"</span>
+        <span class="s2">"'output_data_range', if specified."</span>
+        <span class="s2">"  Valid values are: "</span>
+        <span class="s2">" * retain: keep all pixels as is"</span>
+        <span class="s2">" * mask: mask all pixels that are out of range"</span>
+        <span class="s2">" * crop: set out of range values to the nearest bound (min_val or max_val)"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">max_outbounds</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Method to use when applying maximum value of&quot;</span>
-        <span class="s2">&quot;&#39;output_data_range&#39;, if specified.&quot;</span>
-        <span class="s2">&quot;  Valid values are: &quot;</span>
-        <span class="s2">&quot; * retain: keep all pixels as is&quot;</span>
-        <span class="s2">&quot; * mask: mask all pixels that are out of range&quot;</span>
-        <span class="s2">&quot; * crop: set out of range values to the nearest bound (min_val or max_val)&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Method to use when applying maximum value of"</span>
+        <span class="s2">"'output_data_range', if specified."</span>
+        <span class="s2">"  Valid values are: "</span>
+        <span class="s2">" * retain: keep all pixels as is"</span>
+        <span class="s2">" * mask: mask all pixels that are out of range"</span>
+        <span class="s2">" * crop: set out of range values to the nearest bound (min_val or max_val)"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">norm</span><span class="p">:</span> <span class="n">StrictBool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Boolean flag indicating whether to normalize (True) or not (False)&quot;</span>
-        <span class="s2">&quot;* * If True, returned data will be in the range from 0 to 1:&quot;</span>
-        <span class="s2">&quot;  * If False, returned data will be in the range from min_val to max_val&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Boolean flag indicating whether to normalize (True) or not (False)"</span>
+        <span class="s2">"* * If True, returned data will be in the range from 0 to 1:"</span>
+        <span class="s2">"  * If False, returned data will be in the range from min_val to max_val"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">inverse</span><span class="p">:</span> <span class="n">StrictBool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;* Boolean flag indicating whether to inverse (True) or not (False)&quot;</span>
-        <span class="s2">&quot; * If True, returned data will be inverted&quot;</span>
-        <span class="s2">&quot; * If False, returned data will not be inverted&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"* Boolean flag indicating whether to inverse (True) or not (False)"</span>
+        <span class="s2">" * If True, returned data will be inverted"</span>
+        <span class="s2">" * If False, returned data will not be inverted"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="c1"># This should default to (?, 1000) or (1000, ?) or (None, None)</span>
-    <span class="c1"># The upper bound in &#39;windbarbs_dmw_low.yaml&#39; is of type float</span>
+    <span class="c1"># The upper bound in 'windbarbs_dmw_low.yaml' is of type float</span>
     <span class="n">pressure_level_range</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;list of min and max pressure levels to filter derived motion wind&quot;</span>
-        <span class="s2">&quot; retrievals. Defaults to None, which results in using all wind retrievals.&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"list of min and max pressure levels to filter derived motion wind"</span>
+        <span class="s2">" retrievals. Defaults to None, which results in using all wind retrievals."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">input_units</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Units of input data, for applying &quot;</span>
-        <span class="s2">&quot;necessary conversions. Defaults to None, resulting in no unit conversions.&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Units of input data, for applying "</span>
+        <span class="s2">"necessary conversions. Defaults to None, resulting in no unit conversions."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">output_units</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Units of input data, for applying &quot;</span>
-        <span class="s2">&quot;necessary conversions. Defaults to None, resulting in no unit conversions.&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Units of input data, for applying "</span>
+        <span class="s2">"necessary conversions. Defaults to None, resulting in no unit conversions."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">gamma_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">StrictFloat</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
     <span class="n">min_night_zen</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
@@ -917,24 +919,24 @@ window.runMermaid = runMermaid;</script>
     <span class="n">scale_factor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
     <span class="n">sun_zen_correction</span><span class="p">:</span> <span class="n">StrictBool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Boolean flag indicating whether to apply solar zenith correction&quot;</span>
-        <span class="s2">&quot;(True) or not (False)&quot;</span>
-        <span class="s2">&quot;  * If True, returned data will have solar zenith correction applied&quot;</span>
-        <span class="s2">&quot;      (see data_manipulations.corrections.apply_solar_zenith_correction)&quot;</span>
-        <span class="s2">&quot;  * If False, returned data will not be modified based on solar zenith angle)&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Boolean flag indicating whether to apply solar zenith correction"</span>
+        <span class="s2">"(True) or not (False)"</span>
+        <span class="s2">"  * If True, returned data will have solar zenith correction applied"</span>
+        <span class="s2">"      (see data_manipulations.corrections.apply_solar_zenith_correction)"</span>
+        <span class="s2">"  * If False, returned data will not be modified based on solar zenith angle)"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">satellite_zenith_angle_cutoff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Cutoff for masking data where satellite zenith angle exceeds&quot;</span>
-        <span class="s2">&quot;threshold. None, no masking&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Cutoff for masking data where satellite zenith angle exceeds"</span>
+        <span class="s2">"threshold. None, no masking"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">pressure_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
     <span class="n">time_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
     <span class="n">time_fcst</span><span class="p">:</span> <span class="n">StrictInt</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-    <span class="n">time_dim</span><span class="p">:</span> <span class="n">StrictInt</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;Time_Dimension&quot;</span><span class="p">)</span>
+    <span class="n">time_dim</span><span class="p">:</span> <span class="n">StrictInt</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"Time_Dimension"</span><span class="p">)</span>
     <span class="n">grid_geo</span><span class="p">:</span> <span class="n">StrictBool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
     <span class="n">var_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="p">{},</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Dictionary that maps input variables to names used in xobj&quot;</span>
+        <span class="p">{},</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Dictionary that maps input variables to names used in xobj"</span>
     <span class="p">)</span></div>
 </pre></div>
 

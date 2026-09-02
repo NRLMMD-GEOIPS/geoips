@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Extend GeoIPS with a new Dynamic Sector &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>Extend GeoIPS with a new Dynamic Sector &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="Extend GeoIPS with a new Static Sector" href="../static_sector/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -127,8 +127,8 @@
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -593,13 +593,13 @@ additional information if needed.</p>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;sector_metadata_generators&quot;</span>
-<span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;volc&quot;</span>
-<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;volc_parser&quot;</span>
+<span class="n">interface</span> <span class="o">=</span> <span class="s2">"sector_metadata_generators"</span>
+<span class="n">family</span> <span class="o">=</span> <span class="s2">"volc"</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">"volc_parser"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="n">trackfile_name</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse a sample volcano csv file.</span>
+<span class="w">    </span><span class="sd">"""Parse a sample volcano csv file.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -608,7 +608,7 @@ additional information if needed.</p>
 <span class="sd">        * columns: lat lon time</span>
 <span class="sd">        * lat/lon format: decimal</span>
 <span class="sd">        * time format: YYYYMMDDTHHMM</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">csv_parser</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">trackfile_name</span><span class="p">)</span>
 
     <span class="n">all_fields</span> <span class="o">=</span> <span class="p">[]</span>
@@ -617,20 +617,20 @@ additional information if needed.</p>
         <span class="n">tmp_fields</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">fields</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="c1"># grab the lat and lon field</span>
-        <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;clat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_fields</span><span class="p">[</span><span class="s2">&quot;Lat&quot;</span><span class="p">]</span>
-        <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;clon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_fields</span><span class="p">[</span><span class="s2">&quot;Lon&quot;</span><span class="p">]</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"clat"</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_fields</span><span class="p">[</span><span class="s2">"Lat"</span><span class="p">]</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"clon"</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_fields</span><span class="p">[</span><span class="s2">"Lon"</span><span class="p">]</span>
         <span class="c1"># parse time to a datetime.datetime obj</span>
-        <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">tmp_fields</span><span class="p">[</span><span class="s2">&quot;Time&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">tmp_fields</span><span class="p">[</span><span class="s2">"Time"</span><span class="p">])</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
         <span class="c1"># append it all as a dict</span>
         <span class="n">all_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
 
-    <span class="n">volcano_name</span> <span class="o">=</span> <span class="n">tmp_fields</span><span class="p">[</span><span class="s2">&quot;Name&quot;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="s2">&quot;volcano&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">volcano_name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+    <span class="n">volcano_name</span> <span class="o">=</span> <span class="n">tmp_fields</span><span class="p">[</span><span class="s2">"Name"</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">"volcano"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">volcano_name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
         <span class="c1"># append volcano so its the volcano not just geographic location</span>
-        <span class="n">volcano_name</span> <span class="o">=</span> <span class="n">volcano_name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_VOLCANO&quot;</span>
+        <span class="n">volcano_name</span> <span class="o">=</span> <span class="n">volcano_name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"_VOLCANO"</span>
     <span class="c1"># grab the year and set aid type to BEST</span>
     <span class="c1"># could change AID type if we get different bulletin sources</span>
-    <span class="k">return</span> <span class="n">all_fields</span><span class="p">,</span> <span class="n">volcano_name</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y&quot;</span><span class="p">),</span> <span class="s2">&quot;BEST&quot;</span>
+    <span class="k">return</span> <span class="n">all_fields</span><span class="p">,</span> <span class="n">volcano_name</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y"</span><span class="p">),</span> <span class="s2">"BEST"</span>
 </pre></div>
 </div>
 <p>The parser works in tandem with the trackfile, users should have a specific

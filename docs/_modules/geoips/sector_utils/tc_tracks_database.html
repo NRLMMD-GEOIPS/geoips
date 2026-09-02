@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.sector_utils.tc_tracks_database &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.sector_utils.tc_tracks_database &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Utilities for creating a database of tropical cyclone tracks.&quot;&quot;&quot;</span>
+<span class="sd">"""Utilities for creating a database of tropical cyclone tracks."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileFormatError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.filenames.base_paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">PATHS</span> <span class="k">as</span> <span class="n">gpaths</span>
@@ -838,27 +840,27 @@ window.runMermaid = runMermaid;</script>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">TC_DECKS_DB</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_TC_DECKS_DB&quot;</span><span class="p">]</span>
-<span class="n">TC_DECKS_DIR</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_TC_DECKS_DIR&quot;</span><span class="p">]</span>
+<span class="n">TC_DECKS_DB</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">"GEOIPS_TC_DECKS_DB"</span><span class="p">]</span>
+<span class="n">TC_DECKS_DIR</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">"GEOIPS_TC_DECKS_DIR"</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="open_tc_db"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks_database.open_tc_db">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">open_tc_db</span><span class="p">(</span><span class="n">dbname</span><span class="o">=</span><span class="n">TC_DECKS_DB</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Open the TC Decks Database, create it if it doesn&#39;t exist.&quot;&quot;&quot;</span>
-    <span class="c1"># Make sure the directory exists.  If the db doesn&#39;t exist,</span>
+<span class="w">    </span><span class="sd">"""Open the TC Decks Database, create it if it doesn't exist."""</span>
+    <span class="c1"># Make sure the directory exists.  If the db doesn't exist,</span>
     <span class="c1"># the sqlite3.connect command will create it - which will</span>
-    <span class="c1"># fail if the directory doesn&#39;t exist.</span>
+    <span class="c1"># fail if the directory doesn't exist.</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">dirname</span> <span class="k">as</span> <span class="n">pathdirname</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.filenames.base_paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_dirs</span>
 
     <span class="n">make_dirs</span><span class="p">(</span><span class="n">pathdirname</span><span class="p">(</span><span class="n">dbname</span><span class="p">))</span>
 
     <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dbname</span><span class="p">)</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;Opening tc db: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">dbname</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">"Opening tc db: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">dbname</span><span class="p">)</span>
     <span class="n">conn_cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
     <span class="c1"># Try to create the table - if it already exists, it will just fail</span>
     <span class="c1"># trying to create, pass, and return the already opened db.</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">conn_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;CREATE TABLE tc_trackfiles</span>
+        <span class="n">conn_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""CREATE TABLE tc_trackfiles</span>
 <span class="s2">            (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,</span>
 <span class="s2">                filename text,</span>
 <span class="s2">                last_updated timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,</span>
@@ -870,7 +872,7 @@ window.runMermaid = runMermaid;</script>
 <span class="s2">                start_vmax real,</span>
 <span class="s2">                start_name real,</span>
 <span class="s2">                vmax real,</span>
-<span class="s2">                end_datetime timestamp)&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="s2">                end_datetime timestamp)"""</span><span class="p">)</span>
         <span class="c1"># Add in at some point?</span>
         <span class="c1"># storm_start_datetime timestamp,</span>
     <span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">OperationalError</span><span class="p">:</span>
@@ -879,39 +881,39 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="check_db"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks_database.check_db">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">check_db</span><span class="p">(</span><span class="n">filenames</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">process</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check TC database for passed filenames.</span>
+<span class="w">    </span><span class="sd">"""Check TC database for passed filenames.</span>
 
 <span class="sd">    filenames is a list of filenames and directories. if a list element is a</span>
 <span class="sd">    string directory name, it expands to list of files in dir.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">join</span> <span class="k">as</span> <span class="n">pathjoin</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">glob</span><span class="w"> </span><span class="kn">import</span> <span class="n">glob</span>
 
     <span class="k">if</span> <span class="n">filenames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">filenames</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">pathjoin</span><span class="p">(</span><span class="n">TC_DECKS_DIR</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">))</span>
+        <span class="n">filenames</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">pathjoin</span><span class="p">(</span><span class="n">TC_DECKS_DIR</span><span class="p">,</span> <span class="s2">"*"</span><span class="p">))</span>
 
     <span class="n">updated_files</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">cc</span><span class="p">,</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">open_tc_db</span><span class="p">()</span>
 
-    <span class="c1"># We might want to rearrange this so we don&#39;t open up every file...</span>
+    <span class="c1"># We might want to rearrange this so we don't open up every file...</span>
     <span class="c1"># Check timestamps first.</span>
     <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">updated_files</span> <span class="o">+=</span> <span class="n">update_fields</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">cc</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">process</span><span class="o">=</span><span class="n">process</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Failed parsing </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Failed parsing </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
             <span class="k">continue</span>
 
-    <span class="n">cc</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM tc_trackfiles&quot;</span><span class="p">)</span>
+    <span class="n">cc</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SELECT * FROM tc_trackfiles"</span><span class="p">)</span>
     <span class="c1"># data = cc.fetchall()</span>
     <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
     <span class="c1"># return data</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> updated storms&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">updated_files</span><span class="p">))</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2"> updated storms"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">updated_files</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">updated_files</span></div>
 
 
 <div class="viewcode-block" id="update_fields"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks_database.update_fields">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">update_fields</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">,</span> <span class="n">cc</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">process</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update fields in TC track database with passed tc_trackfilename.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Update fields in TC track database with passed tc_trackfilename."""</span>
     <span class="c1"># Must be of form similar to</span>
     <span class="c1"># Gal912016.dat</span>
 
@@ -922,149 +924,149 @@ window.runMermaid = runMermaid;</script>
 
     <span class="n">updated_files</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Checking &quot;</span> <span class="o">+</span> <span class="n">tc_trackfilename</span> <span class="o">+</span> <span class="s2">&quot; ... process &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">process</span><span class="p">))</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Checking "</span> <span class="o">+</span> <span class="n">tc_trackfilename</span> <span class="o">+</span> <span class="s2">" ... process "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">process</span><span class="p">))</span>
 
     <span class="c1"># Check if we match Gxxdddddd.dat filename format.</span>
-    <span class="c1"># If not just return and don&#39;t do anything.</span>
+    <span class="c1"># If not just return and don't do anything.</span>
     <span class="k">if</span> <span class="p">(</span>
-        <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;G\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+        <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"G\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat"</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
             <span class="n">pathbasename</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">)</span>
         <span class="p">)</span>
-        <span class="ow">and</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;G\D\D\d\d\d\d\d\d\.dat&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"G\D\D\d\d\d\d\d\d\.dat"</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
             <span class="n">pathbasename</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">)</span>
         <span class="p">)</span>
-        <span class="ow">and</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;b\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"b\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat"</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
             <span class="n">pathbasename</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">)</span>
         <span class="p">)</span>
-        <span class="ow">and</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;b\D\D\d\d\d\d\d\d\.dat&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"b\D\D\d\d\d\d\d\d\.dat"</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
             <span class="n">pathbasename</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">)</span>
         <span class="p">)</span>
     <span class="p">):</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="s2">&quot;    DID NOT MATCH REQUIRED FILENAME FORMAT, SKIPPING: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tc_trackfilename</span>
+            <span class="s2">"    DID NOT MATCH REQUIRED FILENAME FORMAT, SKIPPING: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">tc_trackfilename</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">[]</span>
 
     <span class="c1"># Get all fields for the database entry for the current filename</span>
-    <span class="n">cc</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM tc_trackfiles WHERE filename = ?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">,))</span>
+    <span class="n">cc</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SELECT * FROM tc_trackfiles WHERE filename = ?"</span><span class="p">,</span> <span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">,))</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">cc</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
 
     <span class="n">file_timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">osstat</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">)</span><span class="o">.</span><span class="n">st_mtime</span><span class="p">)</span>
     <span class="c1"># Reads timestamp out as string - convert to datetime object.</span>
     <span class="c1"># Check if timestamp on file is newer than timestamp in database -</span>
-    <span class="c1"># if not, just return and don&#39;t do anything.</span>
+    <span class="c1"># if not, just return and don't do anything.</span>
     <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">last_updated_tstamp</span> <span class="o">=</span> <span class="n">cc</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
-                <span class="s2">&quot;SELECT last_updated from tc_trackfiles WHERE filename = ?&quot;</span><span class="p">,</span>
+                <span class="s2">"SELECT last_updated from tc_trackfiles WHERE filename = ?"</span><span class="p">,</span>
                 <span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">,),</span>
             <span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">if</span> <span class="s2">&quot;.&quot;</span> <span class="ow">in</span> <span class="n">last_updated_tstamp</span><span class="p">:</span>
-                <span class="n">tstamp_fmt</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="s2">"."</span> <span class="ow">in</span> <span class="n">last_updated_tstamp</span><span class="p">:</span>
+                <span class="n">tstamp_fmt</span> <span class="o">=</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">"</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">tstamp_fmt</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span>
+                <span class="n">tstamp_fmt</span> <span class="o">=</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S"</span>
             <span class="n">database_timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">last_updated_tstamp</span><span class="p">,</span> <span class="n">tstamp_fmt</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed on </span><span class="si">{</span><span class="n">tc_trackfilename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAILED ON </span><span class="si">{</span><span class="n">tc_trackfilename</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">resp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed on </span><span class="si">{</span><span class="n">tc_trackfilename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"FAILED ON </span><span class="si">{</span><span class="n">tc_trackfilename</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">resp</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">file_timestamp</span> <span class="o">&lt;</span> <span class="n">database_timestamp</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
-                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> already in </span><span class="si">%s</span><span class="s2"> and up to date, not doing anything&quot;</span><span class="p">,</span>
+                <span class="s2">"</span><span class="si">%s</span><span class="s2"> already in </span><span class="si">%s</span><span class="s2"> and up to date, not doing anything"</span><span class="p">,</span>
                 <span class="n">tc_trackfilename</span><span class="p">,</span>
                 <span class="n">TC_DECKS_DB</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="p">[]</span>
 
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
     <span class="c1"># Remove any empty lines:</span>
-    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lines</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[a-zA-Z0-9]&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">())]</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lines</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">"[a-zA-Z0-9]"</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">())]</span>
     <span class="c1"># Remove any whitespace from the loaded deck file lines - otherwise will fail</span>
     <span class="c1"># parsing datetime information downstream</span>
-    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
-    <span class="n">start_line</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+    <span class="n">start_line</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span>
     <span class="c1"># Start 24h prior to start in sectorfile, for initial processing</span>
-    <span class="c1"># storm_start_datetime = datetime.strptime(start_line[2],&#39;%Y%m%d%H&#39;)</span>
-    <span class="n">start_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start_line</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
-    <span class="n">end_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H&quot;</span><span class="p">)</span>
+    <span class="c1"># storm_start_datetime = datetime.strptime(start_line[2],'%Y%m%d%H')</span>
+    <span class="n">start_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start_line</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">%H"</span><span class="p">)</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+    <span class="n">end_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">%H"</span><span class="p">)</span>
     <span class="n">start_vmax</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
     <span class="n">vmax</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
-        <span class="n">currv</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)[</span><span class="mi">8</span><span class="p">]</span>
-        <span class="n">track</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)[</span><span class="mi">4</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">currv</span> <span class="ow">and</span> <span class="n">track</span> <span class="o">==</span> <span class="s2">&quot;BEST&quot;</span> <span class="ow">and</span> <span class="nb">float</span><span class="p">(</span><span class="n">currv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">vmax</span><span class="p">:</span>
+        <span class="n">currv</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)[</span><span class="mi">8</span><span class="p">]</span>
+        <span class="n">track</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">currv</span> <span class="ow">and</span> <span class="n">track</span> <span class="o">==</span> <span class="s2">"BEST"</span> <span class="ow">and</span> <span class="nb">float</span><span class="p">(</span><span class="n">currv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">vmax</span><span class="p">:</span>
             <span class="n">vmax</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">currv</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">data</span> <span class="ow">and</span> <span class="n">database_timestamp</span> <span class="o">&lt;</span> <span class="n">file_timestamp</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
-            <span class="s2">&quot;Updating start/end datetime and last_updated fields for &quot;</span>
+            <span class="s2">"Updating start/end datetime and last_updated fields for "</span>
             <span class="o">+</span> <span class="n">tc_trackfilename</span>
-            <span class="o">+</span> <span class="s2">&quot; in &quot;</span>
+            <span class="o">+</span> <span class="s2">" in "</span>
             <span class="o">+</span> <span class="n">TC_DECKS_DB</span>
         <span class="p">)</span>
         <span class="n">old_start_datetime</span><span class="p">,</span> <span class="n">old_end_datetime</span><span class="p">,</span> <span class="n">old_vmax</span> <span class="o">=</span> <span class="n">cc</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
-            <span class="s2">&quot;SELECT start_datetime,end_datetime,vmax from tc_trackfiles WHERE &quot;</span>
-            <span class="s2">&quot;filename = ?&quot;</span><span class="p">,</span>
+            <span class="s2">"SELECT start_datetime,end_datetime,vmax from tc_trackfiles WHERE "</span>
+            <span class="s2">"filename = ?"</span><span class="p">,</span>
             <span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">,),</span>
         <span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
         <span class="c1"># Eventually add in storm_start_datetime</span>
         <span class="c1"># old_storm_start_datetime,old_start_datetime,old_end_datetime,old_vmax =</span>
-        <span class="c1">#   cc.execute(&quot;SELECT storm_start_datetime,start_datetime,end_datetime,vmax</span>
-        <span class="c1">#   from tc_trackfiles WHERE filename = ?&quot;, (tc_trackfilename,)).fetchone()</span>
-        <span class="k">if</span> <span class="n">old_start_datetime</span> <span class="o">==</span> <span class="n">start_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">):</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;    UNCHANGED start_datetime: &quot;</span> <span class="o">+</span> <span class="n">old_start_datetime</span><span class="p">)</span>
+        <span class="c1">#   cc.execute("SELECT storm_start_datetime,start_datetime,end_datetime,vmax</span>
+        <span class="c1">#   from tc_trackfiles WHERE filename = ?", (tc_trackfilename,)).fetchone()</span>
+        <span class="k">if</span> <span class="n">old_start_datetime</span> <span class="o">==</span> <span class="n">start_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S"</span><span class="p">):</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">"    UNCHANGED start_datetime: "</span> <span class="o">+</span> <span class="n">old_start_datetime</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
-                <span class="s2">&quot;    Old start_datetime: &quot;</span>
+                <span class="s2">"    Old start_datetime: "</span>
                 <span class="o">+</span> <span class="n">old_start_datetime</span>
-                <span class="o">+</span> <span class="s2">&quot; to new: &quot;</span>
-                <span class="o">+</span> <span class="n">start_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+                <span class="o">+</span> <span class="s2">" to new: "</span>
+                <span class="o">+</span> <span class="n">start_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S"</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="n">updated_files</span> <span class="o">+=</span> <span class="p">[</span><span class="n">tc_trackfilename</span><span class="p">]</span>
         <span class="c1"># if old_storm_start_datetime ==</span>
-        <span class="c1">#                            storm_start_datetime.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;):</span>
-        <span class="c1">#    LOG.info(&#39;    UNCHANGED storm_start_datetime: &#39;+old_storm_start_datetime)</span>
+        <span class="c1">#                            storm_start_datetime.strftime('%Y-%m-%d %H:%M:%S'):</span>
+        <span class="c1">#    LOG.info('    UNCHANGED storm_start_datetime: '+old_storm_start_datetime)</span>
         <span class="c1"># else:</span>
-        <span class="c1">#    LOG.info(&#39;    Old storm_start_datetime: &#39;+old_storm_start_datetime+&#39; to</span>
-        <span class="c1">#              new: &#39;+storm_start_datetime.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;))</span>
-        <span class="k">if</span> <span class="n">old_end_datetime</span> <span class="o">==</span> <span class="n">end_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">):</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;    UNCHANGED end_datetime: &quot;</span> <span class="o">+</span> <span class="n">old_end_datetime</span><span class="p">)</span>
+        <span class="c1">#    LOG.info('    Old storm_start_datetime: '+old_storm_start_datetime+' to</span>
+        <span class="c1">#              new: '+storm_start_datetime.strftime('%Y-%m-%d %H:%M:%S'))</span>
+        <span class="k">if</span> <span class="n">old_end_datetime</span> <span class="o">==</span> <span class="n">end_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S"</span><span class="p">):</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">"    UNCHANGED end_datetime: "</span> <span class="o">+</span> <span class="n">old_end_datetime</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
-                <span class="s2">&quot;    Old end_datetime: &quot;</span>
+                <span class="s2">"    Old end_datetime: "</span>
                 <span class="o">+</span> <span class="n">old_end_datetime</span>
-                <span class="o">+</span> <span class="s2">&quot; to new: &quot;</span>
-                <span class="o">+</span> <span class="n">end_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+                <span class="o">+</span> <span class="s2">" to new: "</span>
+                <span class="o">+</span> <span class="n">end_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S"</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="n">updated_files</span> <span class="o">+=</span> <span class="p">[</span><span class="n">tc_trackfilename</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">database_timestamp</span> <span class="o">==</span> <span class="n">file_timestamp</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
-                <span class="s2">&quot;    UNCHANGED last_updated: &quot;</span>
-                <span class="o">+</span> <span class="n">database_timestamp</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+                <span class="s2">"    UNCHANGED last_updated: "</span>
+                <span class="o">+</span> <span class="n">database_timestamp</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S"</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
-                <span class="s2">&quot;    Old last_updated: &quot;</span>
-                <span class="o">+</span> <span class="n">database_timestamp</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
-                <span class="o">+</span> <span class="s2">&quot; to new: &quot;</span>
-                <span class="o">+</span> <span class="n">file_timestamp</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+                <span class="s2">"    Old last_updated: "</span>
+                <span class="o">+</span> <span class="n">database_timestamp</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S"</span><span class="p">)</span>
+                <span class="o">+</span> <span class="s2">" to new: "</span>
+                <span class="o">+</span> <span class="n">file_timestamp</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S"</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="n">updated_files</span> <span class="o">+=</span> <span class="p">[</span><span class="n">tc_trackfilename</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">old_vmax</span> <span class="o">==</span> <span class="n">vmax</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;    UNCHANGED vmax: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">old_vmax</span><span class="p">))</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">"    UNCHANGED vmax: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">old_vmax</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;    Old vmax: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">old_vmax</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; to new: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">vmax</span><span class="p">))</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">"    Old vmax: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">old_vmax</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" to new: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">vmax</span><span class="p">))</span>
             <span class="n">updated_files</span> <span class="o">+=</span> <span class="p">[</span><span class="n">tc_trackfilename</span><span class="p">]</span>
         <span class="n">cc</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;UPDATE tc_trackfiles SET</span>
+<span class="w">            </span><span class="sd">"""UPDATE tc_trackfiles SET</span>
 <span class="sd">                        last_updated=?,</span>
 <span class="sd">                        start_datetime=?,</span>
 <span class="sd">                        end_datetime=?,</span>
 <span class="sd">                        vmax=?</span>
-<span class="sd">                      WHERE filename = ?&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="sd">                      WHERE filename = ?"""</span><span class="p">,</span>
             <span class="c1"># Eventually add in ?</span>
             <span class="c1"># storm_start_datetime=?,</span>
             <span class="p">(</span>
@@ -1079,17 +1081,17 @@ window.runMermaid = runMermaid;</script>
         <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">updated_files</span>
 
-    <span class="n">start_lat</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s2">&quot;S&quot;</span> <span class="ow">in</span> <span class="n">start_lat</span><span class="p">:</span>
-        <span class="n">start_lat</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">start_lat</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-    <span class="n">start_lon</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s2">&quot;W&quot;</span> <span class="ow">in</span> <span class="n">start_lon</span><span class="p">:</span>
-        <span class="n">start_lon</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">start_lon</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;W&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">start_lat</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"N"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">"S"</span> <span class="ow">in</span> <span class="n">start_lat</span><span class="p">:</span>
+        <span class="n">start_lat</span> <span class="o">=</span> <span class="s2">"-"</span> <span class="o">+</span> <span class="n">start_lat</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"S"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+    <span class="n">start_lon</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"E"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">"W"</span> <span class="ow">in</span> <span class="n">start_lon</span><span class="p">:</span>
+        <span class="n">start_lon</span> <span class="o">=</span> <span class="s2">"-"</span> <span class="o">+</span> <span class="n">start_lon</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"W"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
     <span class="n">storm_basin</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">storm_num</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;b\D\D\d\d\d\d\d\d\.dat&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"b\D\D\d\d\d\d\d\d\.dat"</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
         <span class="n">pathbasename</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">)</span>
-    <span class="p">)</span> <span class="ow">or</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;b\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+    <span class="p">)</span> <span class="ow">or</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"b\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat"</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
         <span class="n">pathbasename</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">)</span>
     <span class="p">):</span>
         <span class="c1"># For the most part, b-deck files line up fairly with G-deck files, but the</span>
@@ -1105,9 +1107,9 @@ window.runMermaid = runMermaid;</script>
             <span class="n">start_name</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">41</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># print &#39;    Adding &#39;+tc_trackfilename+&#39; to &#39;+TC_DECKS_DB</span>
+        <span class="c1"># print '    Adding '+tc_trackfilename+' to '+TC_DECKS_DB</span>
         <span class="n">cc</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;insert into tc_trackfiles(</span>
+<span class="w">            </span><span class="sd">"""insert into tc_trackfiles(</span>
 <span class="sd">                        filename,</span>
 <span class="sd">                        last_updated,</span>
 <span class="sd">                        vmax,</span>
@@ -1118,9 +1120,9 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">                        start_lon,</span>
 <span class="sd">                        start_vmax,</span>
 <span class="sd">                        start_name,</span>
-<span class="sd">                        end_datetime) values(?, ?,?, ?,?,?,?,?,?,?,?)&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="sd">                        end_datetime) values(?, ?,?, ?,?,?,?,?,?,?,?)"""</span><span class="p">,</span>
             <span class="c1"># Eventually add in ?</span>
-            <span class="c1"># end_datetime) values(?, ?, ?,?, ?,?,?,?,?,?,?,?)&#39;&#39;&#39;,</span>
+            <span class="c1"># end_datetime) values(?, ?, ?,?, ?,?,?,?,?,?,?,?)''',</span>
             <span class="c1"># storm_start_datetime,</span>
             <span class="p">(</span>
                 <span class="n">tc_trackfilename</span><span class="p">,</span>
@@ -1137,8 +1139,8 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">end_datetime</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;    Adding &quot;</span> <span class="o">+</span> <span class="n">tc_trackfilename</span> <span class="o">+</span> <span class="s2">&quot; to &quot;</span> <span class="o">+</span> <span class="n">TC_DECKS_DB</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">"    Adding "</span> <span class="o">+</span> <span class="n">tc_trackfilename</span> <span class="o">+</span> <span class="s2">" to "</span> <span class="o">+</span> <span class="n">TC_DECKS_DB</span><span class="p">)</span>
         <span class="n">updated_files</span> <span class="o">+=</span> <span class="p">[</span><span class="n">tc_trackfilename</span><span class="p">]</span>
         <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 
@@ -1153,28 +1155,28 @@ window.runMermaid = runMermaid;</script>
 <span class="c1"># at this time. 9/27/23</span>
 
 <span class="c1"># def reprocess_storm(tc_trackfilename):</span>
-<span class="c1">#     &quot;&quot;&quot;Reprocess storm tc_trackfilename, using info in TC tracks database.&quot;&quot;&quot;</span>
-<span class="c1">#     datelist = [startdt.strftime(&quot;%Y%m%d&quot;)]</span>
+<span class="c1">#     """Reprocess storm tc_trackfilename, using info in TC tracks database."""</span>
+<span class="c1">#     datelist = [startdt.strftime("%Y%m%d")]</span>
 <span class="c1">#     for nn in range((enddt - startdt).days + 2):</span>
-<span class="c1">#         datelist += [(startdt + timedelta(nn)).strftime(&quot;%Y%m%d&quot;)]</span>
+<span class="c1">#         datelist += [(startdt + timedelta(nn)).strftime("%Y%m%d")]</span>
 
 <span class="c1">#     hourlist = []</span>
 <span class="c1">#     for ii in range(24):</span>
-<span class="c1">#         hourlist += [(enddt - timedelta(hours=ii)).strftime(&quot;%H&quot;)]</span>
+<span class="c1">#         hourlist += [(enddt - timedelta(hours=ii)).strftime("%H")]</span>
 <span class="c1">#     hourlist.sort()</span>
 <span class="c1">#     # Do newest first</span>
 <span class="c1">#     datelist.sort(reverse=True)</span>
 
 <span class="c1">#     for sat, sensor in [</span>
-<span class="c1">#         (&quot;gcom-w1&quot;, &quot;amsr2&quot;),</span>
-<span class="c1">#         (&quot;gpm&quot;, &quot;gmi&quot;),</span>
-<span class="c1">#         (&quot;npp&quot;, &quot;viirs&quot;),</span>
-<span class="c1">#         (&quot;jpss-1&quot;, &quot;viirs&quot;),</span>
-<span class="c1">#         (&quot;aqua&quot;, &quot;modis&quot;),</span>
-<span class="c1">#         (&quot;terra&quot;, &quot;modis&quot;),</span>
-<span class="c1">#         (&quot;himawari-8&quot;, &quot;ahi&quot;),</span>
-<span class="c1">#         (&quot;goes-16&quot;, &quot;abi&quot;),</span>
-<span class="c1">#         (&quot;goes-17&quot;, &quot;abi&quot;),</span>
+<span class="c1">#         ("gcom-w1", "amsr2"),</span>
+<span class="c1">#         ("gpm", "gmi"),</span>
+<span class="c1">#         ("npp", "viirs"),</span>
+<span class="c1">#         ("jpss-1", "viirs"),</span>
+<span class="c1">#         ("aqua", "modis"),</span>
+<span class="c1">#         ("terra", "modis"),</span>
+<span class="c1">#         ("himawari-8", "ahi"),</span>
+<span class="c1">#         ("goes-16", "abi"),</span>
+<span class="c1">#         ("goes-17", "abi"),</span>
 <span class="c1">#     ]:</span>
 <span class="c1">#         for datestr in datelist:</span>
 <span class="c1">#             process_overpass(</span>
@@ -1187,7 +1189,7 @@ window.runMermaid = runMermaid;</script>
 <span class="c1">#                 sector_file=sector_file,</span>
 <span class="c1">#                 datelist=[datestr],</span>
 <span class="c1">#                 hourlist=hourlist,</span>
-<span class="c1">#                 queue=os.getenv(&quot;DEFAULT_QUEUE&quot;),</span>
+<span class="c1">#                 queue=os.getenv("DEFAULT_QUEUE"),</span>
 <span class="c1">#                 mp_max_cpus=3,</span>
 <span class="c1">#                 allstatic=False,</span>
 <span class="c1">#                 alldynamic=True,</span>
@@ -1207,7 +1209,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">trackfile_parser</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">include_track_files</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get all entries from all storms within a specific range of time from the TC DB.</span>
+<span class="w">    </span><span class="sd">"""Get all entries from all storms within a specific range of time from the TC DB.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1224,30 +1226,30 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; startdt = datetime.strptime(&#39;20200216&#39;, &#39;%Y%m%d&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; enddt = datetime.strptime(&#39;20200217&#39;, &#39;%Y%m%d&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; startdt = datetime.strptime('20200216', '%Y%m%d')</span>
+<span class="sd">    &gt;&gt;&gt; enddt = datetime.strptime('20200217', '%Y%m%d')</span>
 <span class="sd">    &gt;&gt;&gt; get_storm_from_db(startdt, enddt)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">exists</span> <span class="k">as</span> <span class="n">path_exists</span>
 
     <span class="n">allowed_aid_types</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">return_area_defs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">connection_cursor</span><span class="p">,</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">open_tc_db</span><span class="p">()</span>
     <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
-        <span class="s2">&quot;Getting all storms from tcdb from &#39;</span><span class="si">%s</span><span class="s2">&#39; to &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
+        <span class="s2">"Getting all storms from tcdb from '</span><span class="si">%s</span><span class="s2">' to '</span><span class="si">%s</span><span class="s2">'"</span><span class="p">,</span>
         <span class="n">start_datetime</span><span class="p">,</span>
         <span class="n">end_datetime</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;connection: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"connection: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">connection_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;SELECT filename from tc_trackfiles WHERE</span>
+<span class="w">            </span><span class="sd">"""SELECT filename from tc_trackfiles WHERE</span>
 <span class="sd">                                     end_datetime &gt;= ?</span>
-<span class="sd">                                     AND start_datetime &lt;= ?&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="sd">                                     AND start_datetime &lt;= ?"""</span><span class="p">,</span>
             <span class="p">(</span><span class="n">start_datetime</span><span class="p">,</span> <span class="n">end_datetime</span><span class="p">),</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">InterfaceError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="si">}</span><span class="s2"> error getting fields from database, return empty list&quot;</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">resp</span><span class="si">}</span><span class="s2"> error getting fields from database, return empty list"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">return_area_defs</span>
     <span class="n">deck_filenames</span> <span class="o">=</span> <span class="n">connection_cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.sector_utils.tc_tracks</span><span class="w"> </span><span class="kn">import</span> <span class="n">trackfile_to_area_defs</span>
@@ -1256,9 +1258,9 @@ window.runMermaid = runMermaid;</script>
         <span class="k">if</span> <span class="n">deck_filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Is a tuple</span>
             <span class="p">(</span><span class="n">deck_filename</span><span class="p">,)</span> <span class="o">=</span> <span class="n">deck_filename</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;deck_filename </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">deck_filename</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"deck_filename </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">deck_filename</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">path_exists</span><span class="p">(</span><span class="n">deck_filename</span><span class="p">):</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Deck file does not exist! </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">deck_filename</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Deck file does not exist! </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">deck_filename</span><span class="p">)</span>
             <span class="k">continue</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Deck files are expected to be properly formatted</span>
@@ -1269,9 +1271,9 @@ window.runMermaid = runMermaid;</script>
             <span class="p">)</span>
         <span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">error_message</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Could not parse deck file with </span><span class="si">{</span><span class="n">trackfile_parser</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">deck_filename</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">This may be due to a poorly formatted trackfile &quot;</span>
-                <span class="s2">&quot;and requires manual inspection&quot;</span>
+                <span class="sa">f</span><span class="s2">"Could not parse deck file with </span><span class="si">{</span><span class="n">trackfile_parser</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">deck_filename</span><span class="si">}</span><span class="s2">"</span>
+                <span class="s2">"</span><span class="se">\n</span><span class="s2">This may be due to a poorly formatted trackfile "</span>
+                <span class="s2">"and requires manual inspection"</span>
             <span class="p">)</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">FileFormatError</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
@@ -1285,7 +1287,7 @@ window.runMermaid = runMermaid;</script>
                     <span class="n">return_area_defs</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">deck_filename</span><span class="p">)]</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">return_area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">area_def</span><span class="p">]</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> storms found in time range in tcdb!&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">return_area_defs</span><span class="p">))</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2"> storms found in time range in tcdb!"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">return_area_defs</span><span class="p">))</span>
     <span class="c1"># return None if no storm matched</span>
     <span class="k">return</span> <span class="n">return_area_defs</span><span class="p">,</span> <span class="n">allowed_aid_types</span></div>
 </pre></div>

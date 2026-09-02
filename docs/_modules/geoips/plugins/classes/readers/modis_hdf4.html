@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.readers.modis_hdf4 &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.readers.modis_hdf4 &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;MODIS HDF4 reader.</span>
+<span class="sd">"""MODIS HDF4 reader.</span>
 
 <span class="sd">This reader is designed for geoips for importing MODIS data files in hdf4 format</span>
 <span class="sd">Example files are::</span>
@@ -846,7 +848,7 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">The MOD03 and MOD14 files have the geolocation (lat/lon) and sensor geometry</span>
 <span class="sd">infomation, while other files have values at each channels.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseReaderPlugin</span>
 
@@ -864,98 +866,98 @@ window.runMermaid = runMermaid;</script>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="n">import_optional_dependencies</span><span class="p">(</span><span class="n">loglevel</span><span class="o">=</span><span class="s2">&quot;info&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Attempt to import a package and print to LOG.info if the import fails.&quot;&quot;&quot;</span>
+<span class="k">with</span> <span class="n">import_optional_dependencies</span><span class="p">(</span><span class="n">loglevel</span><span class="o">=</span><span class="s2">"info"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Attempt to import a package and print to LOG.info if the import fails."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyhdf.HDF</span><span class="w"> </span><span class="kn">import</span> <span class="n">ishdf</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyhdf.SD</span><span class="w"> </span><span class="kn">import</span> <span class="n">SD</span><span class="p">,</span> <span class="n">SDC</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyhdf.error</span><span class="w"> </span><span class="kn">import</span> <span class="n">HDF4Error</span>
 
-<span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;info on imported functions&quot;</span><span class="p">)</span>
+<span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"info on imported functions"</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="ModisHdf4ReaderPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.modis_hdf4.ModisHdf4ReaderPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ModisHdf4ReaderPlugin</span><span class="p">(</span><span class="n">BaseReaderPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Modis Hdf4 reader plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Modis Hdf4 reader plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;modis_hdf4&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"readers"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"modis_hdf4"</span>
 
-    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;modis&quot;</span><span class="p">]</span>
+    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"modis"</span><span class="p">]</span>
 
 <div class="viewcode-block" id="ModisHdf4ReaderPlugin.parse_metadata"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.modis_hdf4.ModisHdf4ReaderPlugin.parse_metadata">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">parse_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadatadict</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse MODIS metadata dictionary.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Parse MODIS metadata dictionary."""</span>
         <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">metadatadict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="c1"># metadata passed by reference - add to it in subroutines.</span>
-            <span class="k">if</span> <span class="n">ii</span> <span class="o">==</span> <span class="s2">&quot;CoreMetadata.0&quot;</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">parse_core_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">metadatadict</span><span class="p">[</span><span class="s2">&quot;CoreMetadata.0&quot;</span><span class="p">])</span>
-            <span class="k">elif</span> <span class="n">ii</span> <span class="o">==</span> <span class="s2">&quot;ArchiveMetadata.0&quot;</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">parse_archive_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">metadatadict</span><span class="p">[</span><span class="s2">&quot;ArchiveMetadata.0&quot;</span><span class="p">])</span>
-            <span class="k">elif</span> <span class="n">ii</span> <span class="o">==</span> <span class="s2">&quot;StructMetadata.0&quot;</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">parse_struct_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">metadatadict</span><span class="p">[</span><span class="s2">&quot;StructMetadata.0&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">ii</span> <span class="o">==</span> <span class="s2">"CoreMetadata.0"</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parse_core_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">metadatadict</span><span class="p">[</span><span class="s2">"CoreMetadata.0"</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">ii</span> <span class="o">==</span> <span class="s2">"ArchiveMetadata.0"</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parse_archive_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">metadatadict</span><span class="p">[</span><span class="s2">"ArchiveMetadata.0"</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">ii</span> <span class="o">==</span> <span class="s2">"StructMetadata.0"</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parse_struct_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">metadatadict</span><span class="p">[</span><span class="s2">"StructMetadata.0"</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">metadata</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadatadict</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">metadata</span></div>
 
 <div class="viewcode-block" id="ModisHdf4ReaderPlugin.parse_struct_metadata"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.modis_hdf4.ModisHdf4ReaderPlugin.parse_struct_metadata">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">parse_struct_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">metadatastr</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse metadata struct.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Parse metadata struct."""</span>
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="ModisHdf4ReaderPlugin.parse_core_metadata"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.modis_hdf4.ModisHdf4ReaderPlugin.parse_core_metadata">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">parse_core_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">metadatastr</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse core metadata.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Parse core metadata."""</span>
         <span class="n">ii</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">lines</span> <span class="o">=</span> <span class="n">metadatastr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">metadatastr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
         <span class="c1"># The HDF4 structure is stored as a big text string in</span>
         <span class="c1"># ArchiveMetadata.0, StructMetadata.0, and CoreMetadata.0</span>
         <span class="c1"># dictionary entries.  Parsing out the values we need from</span>
         <span class="c1"># CoreMetadata.0</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
-            <span class="c1"># We want to skip END_OBJECT, and only match OBJECT tags. So put a &#39; &#39;</span>
+            <span class="c1"># We want to skip END_OBJECT, and only match OBJECT tags. So put a ' '</span>
             <span class="c1"># in front of OBJECT Get the value 2 lines past the opening tag</span>
-            <span class="c1"># (that is the actual value) Remove white space and &quot;s</span>
+            <span class="c1"># (that is the actual value) Remove white space and "s</span>
 
             <span class="c1"># Lines like:</span>
-            <span class="c1"># &#39;      OBJECT                 = ASSOCIATEDINSTRUMENTSHORTNAME&#39;</span>
+            <span class="c1"># '      OBJECT                 = ASSOCIATEDINSTRUMENTSHORTNAME'</span>
             <span class="c1"># Skip anything that does not fit that format</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="p">[</span><span class="n">typ</span><span class="p">,</span> <span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">piece</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">piece</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)]</span>
+                <span class="p">[</span><span class="n">typ</span><span class="p">,</span> <span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">piece</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">piece</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">)]</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                 <span class="n">ii</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="k">continue</span>
             <span class="k">for</span> <span class="n">currval</span> <span class="ow">in</span> <span class="p">[</span>
-                <span class="s2">&quot;RANGEENDINGDATE&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;RANGEBEGINNINGDATE&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;DAYNIGHTFLAG&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;SHORTNAME&quot;</span><span class="p">,</span>
+                <span class="s2">"RANGEENDINGDATE"</span><span class="p">,</span>
+                <span class="s2">"RANGEBEGINNINGDATE"</span><span class="p">,</span>
+                <span class="s2">"DAYNIGHTFLAG"</span><span class="p">,</span>
+                <span class="s2">"SHORTNAME"</span><span class="p">,</span>
             <span class="p">]:</span>
-                <span class="k">if</span> <span class="s2">&quot;OBJECT&quot;</span> <span class="o">==</span> <span class="n">typ</span> <span class="ow">and</span> <span class="n">currval</span> <span class="o">==</span> <span class="n">field</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">"OBJECT"</span> <span class="o">==</span> <span class="n">typ</span> <span class="ow">and</span> <span class="n">currval</span> <span class="o">==</span> <span class="n">field</span><span class="p">:</span>
                     <span class="n">metadata</span><span class="p">[</span><span class="n">currval</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                        <span class="n">lines</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                        <span class="n">lines</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'"'</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
                     <span class="p">)</span>
 
             <span class="c1"># Also remove the trailing .0000000 from times.</span>
-            <span class="k">for</span> <span class="n">currval</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;RANGEBEGINNINGTIME&quot;</span><span class="p">,</span> <span class="s2">&quot;RANGEENDINGTIME&quot;</span><span class="p">]:</span>
-                <span class="k">if</span> <span class="s2">&quot;OBJECT&quot;</span> <span class="o">==</span> <span class="n">typ</span> <span class="ow">and</span> <span class="s2">&quot; = &quot;</span> <span class="o">+</span> <span class="n">currval</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">currval</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"RANGEBEGINNINGTIME"</span><span class="p">,</span> <span class="s2">"RANGEENDINGTIME"</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s2">"OBJECT"</span> <span class="o">==</span> <span class="n">typ</span> <span class="ow">and</span> <span class="s2">" = "</span> <span class="o">+</span> <span class="n">currval</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
                     <span class="n">metadata</span><span class="p">[</span><span class="n">currval</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
                         <span class="n">lines</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
-                        <span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
                         <span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-                        <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-                        <span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'"'</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="p">)</span>
 
-            <span class="c1"># These have &#39;CLASS&#39; in addition to &#39;NUMVAL&#39; between OBJECT and VALUE.</span>
+            <span class="c1"># These have 'CLASS' in addition to 'NUMVAL' between OBJECT and VALUE.</span>
             <span class="c1"># So have to do ii+3</span>
-            <span class="k">for</span> <span class="n">currval</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;ASSOCIATEDSENSORSHORTNAME&quot;</span><span class="p">,</span> <span class="s2">&quot;ASSOCIATEDPLATFORMSHORTNAME&quot;</span><span class="p">]:</span>
-                <span class="k">if</span> <span class="s2">&quot;OBJECT&quot;</span> <span class="o">==</span> <span class="n">typ</span> <span class="ow">and</span> <span class="n">currval</span> <span class="o">==</span> <span class="n">field</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">currval</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"ASSOCIATEDSENSORSHORTNAME"</span><span class="p">,</span> <span class="s2">"ASSOCIATEDPLATFORMSHORTNAME"</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s2">"OBJECT"</span> <span class="o">==</span> <span class="n">typ</span> <span class="ow">and</span> <span class="n">currval</span> <span class="o">==</span> <span class="n">field</span><span class="p">:</span>
                     <span class="n">metadata</span><span class="p">[</span><span class="n">currval</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                        <span class="n">lines</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                        <span class="n">lines</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'"'</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
                     <span class="p">)</span>
             <span class="n">ii</span> <span class="o">+=</span> <span class="mi">1</span></div>
 
 <div class="viewcode-block" id="ModisHdf4ReaderPlugin.parse_archive_metadata"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.modis_hdf4.ModisHdf4ReaderPlugin.parse_archive_metadata">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">parse_archive_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">metadatastr</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse archive metadata.&quot;&quot;&quot;</span>
-        <span class="n">lines</span> <span class="o">=</span> <span class="n">metadatastr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Parse archive metadata."""</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">metadatastr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">ii</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="c1"># The HDF4 structure is stored as a big text string in</span>
@@ -964,36 +966,36 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># ArchiveMetadata.0</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">currattr</span> <span class="ow">in</span> <span class="p">[</span>
-                <span class="s2">&quot;EASTBOUNDINGCOORDINATE&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;NORTHBOUNDINGCOORDINATE&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;SOUTHBOUNDINGCOORDINATE&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;WESTBOUNDINGCOORDINATE&quot;</span><span class="p">,</span>
+                <span class="s2">"EASTBOUNDINGCOORDINATE"</span><span class="p">,</span>
+                <span class="s2">"NORTHBOUNDINGCOORDINATE"</span><span class="p">,</span>
+                <span class="s2">"SOUTHBOUNDINGCOORDINATE"</span><span class="p">,</span>
+                <span class="s2">"WESTBOUNDINGCOORDINATE"</span><span class="p">,</span>
             <span class="p">]:</span>
-                <span class="k">if</span> <span class="s2">&quot; OBJECT&quot;</span> <span class="ow">in</span> <span class="n">line</span> <span class="ow">and</span> <span class="n">currattr</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">" OBJECT"</span> <span class="ow">in</span> <span class="n">line</span> <span class="ow">and</span> <span class="n">currattr</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
                     <span class="c1"># Get the value 2 lines past the opening tag (that is the</span>
                     <span class="c1"># actual value) Remove white space</span>
-                    <span class="n">metadata</span><span class="p">[</span><span class="n">currattr</span><span class="p">]</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="n">metadata</span><span class="p">[</span><span class="n">currattr</span><span class="p">]</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
             <span class="n">ii</span> <span class="o">+=</span> <span class="mi">1</span></div>
 
 <div class="viewcode-block" id="ModisHdf4ReaderPlugin.add_to_xarray"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.modis_hdf4.ModisHdf4ReaderPlugin.add_to_xarray">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_to_xarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">varname</span><span class="p">,</span> <span class="n">nparr</span><span class="p">,</span> <span class="n">xobj</span><span class="p">,</span> <span class="n">cumulative_mask</span><span class="p">,</span> <span class="n">data_type</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add variable to xarray Dataset.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add variable to xarray Dataset."""</span>
         <span class="c1"># cumulative_mask is not the best name for this variable. It is used for mask</span>
-        <span class="c1"># info of field &#39;varname&#39; so that is not actually a cumulative mask. It should</span>
+        <span class="c1"># info of field 'varname' so that is not actually a cumulative mask. It should</span>
         <span class="c1"># be a mask for each variable.</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;ADDING </span><span class="si">%s</span><span class="s2"> to xobj&quot;</span><span class="p">,</span> <span class="n">varname</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"ADDING </span><span class="si">%s</span><span class="s2"> to xobj"</span><span class="p">,</span> <span class="n">varname</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">varname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xobj</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
             <span class="n">xobj</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">nparr</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">merged_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xobj</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">nparr</span><span class="p">])</span>
             <span class="n">xobj</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-                <span class="n">merged_array</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dim_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">merged_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s2">&quot;dim_1&quot;</span><span class="p">]</span>
+                <span class="n">merged_array</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">"dim_"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">merged_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s2">"dim_1"</span><span class="p">]</span>
             <span class="p">)</span>
             <span class="n">cumulative_mask</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
                 <span class="n">xobj</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span>
-                <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dim_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">merged_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s2">&quot;dim_1&quot;</span><span class="p">],</span>
+                <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">"dim_"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">merged_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s2">"dim_1"</span><span class="p">],</span>
             <span class="p">)</span>
 
-        <span class="c1"># add mask info for &#39;varname&#39;</span>
+        <span class="c1"># add mask info for 'varname'</span>
         <span class="k">if</span> <span class="n">varname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">cumulative_mask</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
             <span class="n">cumulative_mask</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
                 <span class="n">xobj</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span><span class="o">.</span><span class="n">mask</span>
@@ -1011,7 +1013,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read MODIS Aqua and Terra hdf data files.</span>
+<span class="w">        </span><span class="sd">"""Read MODIS Aqua and Terra hdf data files.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1044,64 +1046,64 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        :ref:`xarray_standards`</span>
 <span class="sd">            Additional information regarding required attributes and variables</span>
 <span class="sd">            for GeoIPS-formatted xarray Datasets.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">dataset_info</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;1KM&quot;</span><span class="p">:</span> <span class="p">[</span>
-                <span class="s2">&quot;chan20.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># emissive 3.750 sfc/cld temp</span>
-                <span class="s2">&quot;chan21.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># emissive 3.750 sfc/cld temp</span>
-                <span class="s2">&quot;chan22.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># emissive 3.959 sfc/cld temp</span>
-                <span class="s2">&quot;chan23.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># emissive 4.050 sfc/cld temp</span>
-                <span class="s2">&quot;chan24.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># emissive 4.465 atm temperature</span>
-                <span class="s2">&quot;chan25.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># emissive 4.515 atm temperature</span>
-                <span class="s2">&quot;chan27.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># emissive 6.715 water vapor</span>
-                <span class="s2">&quot;chan28.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># emissive 7.325 water vapor</span>
-                <span class="s2">&quot;chan29.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># emissive 8.55 sfc/cld temp</span>
-                <span class="s2">&quot;chan30.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># emissive 9.73 ozone</span>
-                <span class="s2">&quot;chan31.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># emissive 11.03 sfc/cld temp</span>
-                <span class="s2">&quot;chan32.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># emissive 12.02 sfc/cld temp</span>
-                <span class="s2">&quot;chan33.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># emissive 13.335 cld top properties</span>
-                <span class="s2">&quot;chan34.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># emissive 13.635 cld top properties</span>
-                <span class="s2">&quot;chan35.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># emissive 13.935 cld top properties</span>
-                <span class="s2">&quot;chan36.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># emissive 14.235 cld top properties</span>
-                <span class="s2">&quot;chan20.0BT&quot;</span><span class="p">,</span>  <span class="c1"># emissive 3.750 sfc/cld temp</span>
-                <span class="s2">&quot;chan21.0BT&quot;</span><span class="p">,</span>  <span class="c1"># emissive 3.750 sfc/cld temp</span>
-                <span class="s2">&quot;chan22.0BT&quot;</span><span class="p">,</span>  <span class="c1"># emissive 3.959 sfc/cld temp</span>
-                <span class="s2">&quot;chan23.0BT&quot;</span><span class="p">,</span>  <span class="c1"># emissive 4.050 sfc/cld temp</span>
-                <span class="s2">&quot;chan24.0BT&quot;</span><span class="p">,</span>  <span class="c1"># emissive 4.465 atm temperature</span>
-                <span class="s2">&quot;chan25.0BT&quot;</span><span class="p">,</span>  <span class="c1"># emissive 4.515 atm temperature</span>
-                <span class="s2">&quot;chan27.0BT&quot;</span><span class="p">,</span>  <span class="c1"># emissive 6.715 water vapor</span>
-                <span class="s2">&quot;chan28.0BT&quot;</span><span class="p">,</span>  <span class="c1"># emissive 7.325 water vapor</span>
-                <span class="s2">&quot;chan29.0BT&quot;</span><span class="p">,</span>  <span class="c1"># emissive 8.55 sfc/cld temp</span>
-                <span class="s2">&quot;chan30.0BT&quot;</span><span class="p">,</span>  <span class="c1"># emissive 9.73 ozone</span>
-                <span class="s2">&quot;chan31.0BT&quot;</span><span class="p">,</span>  <span class="c1"># emissive 11.03 sfc/cld temp</span>
-                <span class="s2">&quot;chan32.0BT&quot;</span><span class="p">,</span>  <span class="c1"># emissive 12.02 sfc/cld temp</span>
-                <span class="s2">&quot;chan33.0BT&quot;</span><span class="p">,</span>  <span class="c1"># emissive 13.335 cld top properties</span>
-                <span class="s2">&quot;chan34.0BT&quot;</span><span class="p">,</span>  <span class="c1"># emissive 13.635 cld top properties</span>
-                <span class="s2">&quot;chan35.0BT&quot;</span><span class="p">,</span>  <span class="c1"># emissive 13.935 cld top properties</span>
-                <span class="s2">&quot;chan36.0BT&quot;</span><span class="p">,</span>  <span class="c1"># emissive 14.235 cld top properties</span>
+            <span class="s2">"1KM"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">"chan20.0Rad"</span><span class="p">,</span>  <span class="c1"># emissive 3.750 sfc/cld temp</span>
+                <span class="s2">"chan21.0Rad"</span><span class="p">,</span>  <span class="c1"># emissive 3.750 sfc/cld temp</span>
+                <span class="s2">"chan22.0Rad"</span><span class="p">,</span>  <span class="c1"># emissive 3.959 sfc/cld temp</span>
+                <span class="s2">"chan23.0Rad"</span><span class="p">,</span>  <span class="c1"># emissive 4.050 sfc/cld temp</span>
+                <span class="s2">"chan24.0Rad"</span><span class="p">,</span>  <span class="c1"># emissive 4.465 atm temperature</span>
+                <span class="s2">"chan25.0Rad"</span><span class="p">,</span>  <span class="c1"># emissive 4.515 atm temperature</span>
+                <span class="s2">"chan27.0Rad"</span><span class="p">,</span>  <span class="c1"># emissive 6.715 water vapor</span>
+                <span class="s2">"chan28.0Rad"</span><span class="p">,</span>  <span class="c1"># emissive 7.325 water vapor</span>
+                <span class="s2">"chan29.0Rad"</span><span class="p">,</span>  <span class="c1"># emissive 8.55 sfc/cld temp</span>
+                <span class="s2">"chan30.0Rad"</span><span class="p">,</span>  <span class="c1"># emissive 9.73 ozone</span>
+                <span class="s2">"chan31.0Rad"</span><span class="p">,</span>  <span class="c1"># emissive 11.03 sfc/cld temp</span>
+                <span class="s2">"chan32.0Rad"</span><span class="p">,</span>  <span class="c1"># emissive 12.02 sfc/cld temp</span>
+                <span class="s2">"chan33.0Rad"</span><span class="p">,</span>  <span class="c1"># emissive 13.335 cld top properties</span>
+                <span class="s2">"chan34.0Rad"</span><span class="p">,</span>  <span class="c1"># emissive 13.635 cld top properties</span>
+                <span class="s2">"chan35.0Rad"</span><span class="p">,</span>  <span class="c1"># emissive 13.935 cld top properties</span>
+                <span class="s2">"chan36.0Rad"</span><span class="p">,</span>  <span class="c1"># emissive 14.235 cld top properties</span>
+                <span class="s2">"chan20.0BT"</span><span class="p">,</span>  <span class="c1"># emissive 3.750 sfc/cld temp</span>
+                <span class="s2">"chan21.0BT"</span><span class="p">,</span>  <span class="c1"># emissive 3.750 sfc/cld temp</span>
+                <span class="s2">"chan22.0BT"</span><span class="p">,</span>  <span class="c1"># emissive 3.959 sfc/cld temp</span>
+                <span class="s2">"chan23.0BT"</span><span class="p">,</span>  <span class="c1"># emissive 4.050 sfc/cld temp</span>
+                <span class="s2">"chan24.0BT"</span><span class="p">,</span>  <span class="c1"># emissive 4.465 atm temperature</span>
+                <span class="s2">"chan25.0BT"</span><span class="p">,</span>  <span class="c1"># emissive 4.515 atm temperature</span>
+                <span class="s2">"chan27.0BT"</span><span class="p">,</span>  <span class="c1"># emissive 6.715 water vapor</span>
+                <span class="s2">"chan28.0BT"</span><span class="p">,</span>  <span class="c1"># emissive 7.325 water vapor</span>
+                <span class="s2">"chan29.0BT"</span><span class="p">,</span>  <span class="c1"># emissive 8.55 sfc/cld temp</span>
+                <span class="s2">"chan30.0BT"</span><span class="p">,</span>  <span class="c1"># emissive 9.73 ozone</span>
+                <span class="s2">"chan31.0BT"</span><span class="p">,</span>  <span class="c1"># emissive 11.03 sfc/cld temp</span>
+                <span class="s2">"chan32.0BT"</span><span class="p">,</span>  <span class="c1"># emissive 12.02 sfc/cld temp</span>
+                <span class="s2">"chan33.0BT"</span><span class="p">,</span>  <span class="c1"># emissive 13.335 cld top properties</span>
+                <span class="s2">"chan34.0BT"</span><span class="p">,</span>  <span class="c1"># emissive 13.635 cld top properties</span>
+                <span class="s2">"chan35.0BT"</span><span class="p">,</span>  <span class="c1"># emissive 13.935 cld top properties</span>
+                <span class="s2">"chan36.0BT"</span><span class="p">,</span>  <span class="c1"># emissive 14.235 cld top properties</span>
             <span class="p">],</span>
-            <span class="s2">&quot;Fire_Mask&quot;</span><span class="p">:</span> <span class="p">[</span>
-                <span class="s2">&quot;fire_mask&quot;</span><span class="p">,</span>
+            <span class="s2">"Fire_Mask"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">"fire_mask"</span><span class="p">,</span>
             <span class="p">],</span>
-            <span class="s2">&quot;HKM&quot;</span><span class="p">:</span> <span class="p">[</span>
-                <span class="s2">&quot;chan3.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># reflective 0.470 land/cld properties</span>
-                <span class="s2">&quot;chan4.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># reflective 0.555 land/cld properties</span>
-                <span class="s2">&quot;chan5.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># reflective 1.24 land/cld properties</span>
-                <span class="s2">&quot;chan6.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># reflective 1.64 land/cld properties</span>
-                <span class="s2">&quot;chan7.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># reflective 2.13 land/cld properties</span>
-                <span class="s2">&quot;chan16.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># reflective 1.64 land/cld properties</span>
-                <span class="s2">&quot;chan3.0Ref&quot;</span><span class="p">,</span>  <span class="c1"># reflective 0.470 land/cld properties</span>
-                <span class="s2">&quot;chan4.0Ref&quot;</span><span class="p">,</span>  <span class="c1"># reflective 0.555 land/cld properties</span>
-                <span class="s2">&quot;chan5.0Ref&quot;</span><span class="p">,</span>  <span class="c1"># reflective 1.24 land/cld properties</span>
-                <span class="s2">&quot;chan6.0Ref&quot;</span><span class="p">,</span>  <span class="c1"># reflective 1.64 land/cld properties</span>
-                <span class="s2">&quot;chan7.0Ref&quot;</span><span class="p">,</span>  <span class="c1"># reflective 2.13 land/cld properties</span>
-                <span class="s2">&quot;chan16.0Ref&quot;</span><span class="p">,</span>  <span class="c1"># reflective 1.64 land/cld properties</span>
+            <span class="s2">"HKM"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">"chan3.0Rad"</span><span class="p">,</span>  <span class="c1"># reflective 0.470 land/cld properties</span>
+                <span class="s2">"chan4.0Rad"</span><span class="p">,</span>  <span class="c1"># reflective 0.555 land/cld properties</span>
+                <span class="s2">"chan5.0Rad"</span><span class="p">,</span>  <span class="c1"># reflective 1.24 land/cld properties</span>
+                <span class="s2">"chan6.0Rad"</span><span class="p">,</span>  <span class="c1"># reflective 1.64 land/cld properties</span>
+                <span class="s2">"chan7.0Rad"</span><span class="p">,</span>  <span class="c1"># reflective 2.13 land/cld properties</span>
+                <span class="s2">"chan16.0Rad"</span><span class="p">,</span>  <span class="c1"># reflective 1.64 land/cld properties</span>
+                <span class="s2">"chan3.0Ref"</span><span class="p">,</span>  <span class="c1"># reflective 0.470 land/cld properties</span>
+                <span class="s2">"chan4.0Ref"</span><span class="p">,</span>  <span class="c1"># reflective 0.555 land/cld properties</span>
+                <span class="s2">"chan5.0Ref"</span><span class="p">,</span>  <span class="c1"># reflective 1.24 land/cld properties</span>
+                <span class="s2">"chan6.0Ref"</span><span class="p">,</span>  <span class="c1"># reflective 1.64 land/cld properties</span>
+                <span class="s2">"chan7.0Ref"</span><span class="p">,</span>  <span class="c1"># reflective 2.13 land/cld properties</span>
+                <span class="s2">"chan16.0Ref"</span><span class="p">,</span>  <span class="c1"># reflective 1.64 land/cld properties</span>
             <span class="p">],</span>
-            <span class="s2">&quot;QKM&quot;</span><span class="p">:</span> <span class="p">[</span>
-                <span class="s2">&quot;chan1.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># reflective 0.645 land/cld boundaries</span>
-                <span class="s2">&quot;chan2.0Rad&quot;</span><span class="p">,</span>  <span class="c1"># reflective 0.865 land/cld boundaries</span>
-                <span class="s2">&quot;chan1.0Ref&quot;</span><span class="p">,</span>  <span class="c1"># reflective 0.645 land/cld boundaries</span>
-                <span class="s2">&quot;chan2.0Ref&quot;</span><span class="p">,</span>  <span class="c1"># reflective 0.865 land/cld boundaries</span>
+            <span class="s2">"QKM"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">"chan1.0Rad"</span><span class="p">,</span>  <span class="c1"># reflective 0.645 land/cld boundaries</span>
+                <span class="s2">"chan2.0Rad"</span><span class="p">,</span>  <span class="c1"># reflective 0.865 land/cld boundaries</span>
+                <span class="s2">"chan1.0Ref"</span><span class="p">,</span>  <span class="c1"># reflective 0.645 land/cld boundaries</span>
+                <span class="s2">"chan2.0Ref"</span><span class="p">,</span>  <span class="c1"># reflective 0.865 land/cld boundaries</span>
             <span class="p">],</span>
         <span class="p">}</span>
         <span class="c1"># @staticmethod</span>
@@ -1109,28 +1111,28 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># from pyhdf.SD import SD, SDC</span>
         <span class="c1"># from pyhdf.SD import *</span>
 
-        <span class="c1"># fnames=[&#39;MYD021KM.A2021004.2005.061.NRT.hdf&#39;,&#39;MYD03.A2021004.2005.061.NRT.hdf&#39;]  # NOQA</span>
-        <span class="c1"># fnames=[&#39;MYD14.A2021004.2005.006.NRT.hdf&#39;]</span>
-        <span class="c1"># fnames=[&#39;MYD021KM.A2021004.2005.061.NRT.hdf&#39;,&#39;MYD03.A2021004.2005.061.NRT.hdf&#39;,  # NOQA</span>
-        <span class="c1">#         &#39;MYD14.A2021004.2005.006.NRT.hdf&#39;]</span>
+        <span class="c1"># fnames=['MYD021KM.A2021004.2005.061.NRT.hdf','MYD03.A2021004.2005.061.NRT.hdf']  # NOQA</span>
+        <span class="c1"># fnames=['MYD14.A2021004.2005.006.NRT.hdf']</span>
+        <span class="c1"># fnames=['MYD021KM.A2021004.2005.061.NRT.hdf','MYD03.A2021004.2005.061.NRT.hdf',  # NOQA</span>
+        <span class="c1">#         'MYD14.A2021004.2005.006.NRT.hdf']</span>
 
         <span class="c1"># process of reading the data</span>
         <span class="n">xarrays</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">cumulative_mask</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># name of xarray for mask info of all variables</span>
         <span class="n">datapaths</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">datasettag</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">datasettag</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="n">corrections</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">corrections_ref</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;aqua&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;terra&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+        <span class="n">corrections_ref</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"aqua"</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">"terra"</span><span class="p">:</span> <span class="p">{}}</span>
 
         <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>  <span class="c1"># Loop MODIS files</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading file </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Reading file </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
 
             <span class="c1"># check for a right input MODIS data file</span>
             <span class="k">if</span> <span class="n">ishdf</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">mf</span> <span class="o">=</span> <span class="n">SD</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">SDC</span><span class="o">.</span><span class="n">READ</span><span class="p">)</span>
                 <span class="k">except</span> <span class="n">HDF4Error</span><span class="p">:</span>
-                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;wrong input hdf file </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"wrong input hdf file </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
                     <span class="k">raise</span>
 
             <span class="n">mf</span> <span class="o">=</span> <span class="n">SD</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">SDC</span><span class="o">.</span><span class="n">READ</span><span class="p">)</span>
@@ -1138,141 +1140,141 @@ window.runMermaid = runMermaid;</script>
 
             <span class="c1"># If start/end datetime happen to vary, adjust here.</span>
             <span class="n">sdt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-                <span class="n">mf_metadata</span><span class="p">[</span><span class="s2">&quot;RANGEBEGINNINGDATE&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">mf_metadata</span><span class="p">[</span><span class="s2">&quot;RANGEBEGINNINGTIME&quot;</span><span class="p">],</span>
-                <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">%H:%M:%S&quot;</span><span class="p">,</span>
+                <span class="n">mf_metadata</span><span class="p">[</span><span class="s2">"RANGEBEGINNINGDATE"</span><span class="p">]</span> <span class="o">+</span> <span class="n">mf_metadata</span><span class="p">[</span><span class="s2">"RANGEBEGINNINGTIME"</span><span class="p">],</span>
+                <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">%H:%M:%S"</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">edt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-                <span class="n">mf_metadata</span><span class="p">[</span><span class="s2">&quot;RANGEENDINGDATE&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">mf_metadata</span><span class="p">[</span><span class="s2">&quot;RANGEENDINGTIME&quot;</span><span class="p">],</span>
-                <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">%H:%M:%S&quot;</span><span class="p">,</span>
+                <span class="n">mf_metadata</span><span class="p">[</span><span class="s2">"RANGEENDINGDATE"</span><span class="p">]</span> <span class="o">+</span> <span class="n">mf_metadata</span><span class="p">[</span><span class="s2">"RANGEENDINGTIME"</span><span class="p">],</span>
+                <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">%H:%M:%S"</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="n">cname</span> <span class="o">=</span> <span class="n">mf_metadata</span><span class="p">[</span><span class="s2">&quot;SHORTNAME&quot;</span><span class="p">]</span>
-            <span class="n">xarrays</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
-            <span class="n">xarrays</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sdt</span>
-            <span class="n">xarrays</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edt</span>
-            <span class="n">xarrays</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;modis&quot;</span>
-            <span class="n">xarrays</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mf_metadata</span><span class="p">[</span>
-                <span class="s2">&quot;ASSOCIATEDPLATFORMSHORTNAME&quot;</span>
+            <span class="n">cname</span> <span class="o">=</span> <span class="n">mf_metadata</span><span class="p">[</span><span class="s2">"SHORTNAME"</span><span class="p">]</span>
+            <span class="n">xarrays</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+            <span class="n">xarrays</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sdt</span>
+            <span class="n">xarrays</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">edt</span>
+            <span class="n">xarrays</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"modis"</span>
+            <span class="n">xarrays</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"platform_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">mf_metadata</span><span class="p">[</span>
+                <span class="s2">"ASSOCIATEDPLATFORMSHORTNAME"</span>
             <span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-            <span class="n">xarrays</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;nasa&quot;</span>
-            <span class="n">xarrays</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span>
-            <span class="n">xarrays</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sample_distance_km&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># ????</span>
-            <span class="n">xarrays</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3000</span>  <span class="c1"># ???</span>
+            <span class="n">xarrays</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"data_provider"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"nasa"</span>
+            <span class="n">xarrays</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span>
+            <span class="n">xarrays</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"sample_distance_km"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># ????</span>
+            <span class="n">xarrays</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"interpolation_radius_of_influence"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3000</span>  <span class="c1"># ???</span>
             <span class="k">if</span> <span class="n">metadata_only</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">xarrays</span>
 
-            <span class="k">if</span> <span class="s2">&quot;MOD02QKM&quot;</span> <span class="o">==</span> <span class="n">cname</span> <span class="ow">or</span> <span class="s2">&quot;MYD02QKM&quot;</span> <span class="o">==</span> <span class="n">cname</span><span class="p">:</span>
-                <span class="n">datapaths</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;EV_250_RefSB&quot;</span><span class="p">]</span>
-                <span class="n">chanlocspaths</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Band_250M&quot;</span><span class="p">]</span>
-                <span class="n">datasettag</span> <span class="o">=</span> <span class="s2">&quot;QKM&quot;</span>
+            <span class="k">if</span> <span class="s2">"MOD02QKM"</span> <span class="o">==</span> <span class="n">cname</span> <span class="ow">or</span> <span class="s2">"MYD02QKM"</span> <span class="o">==</span> <span class="n">cname</span><span class="p">:</span>
+                <span class="n">datapaths</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"EV_250_RefSB"</span><span class="p">]</span>
+                <span class="n">chanlocspaths</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Band_250M"</span><span class="p">]</span>
+                <span class="n">datasettag</span> <span class="o">=</span> <span class="s2">"QKM"</span>
                 <span class="k">if</span> <span class="n">datasettag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cumulative_mask</span><span class="p">:</span>
                     <span class="n">cumulative_mask</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
                     <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
-                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="c1"># corrections_ref[0] = scale</span>
                 <span class="c1"># corrections_ref[1] = offset</span>
-                <span class="n">corrections_ref</span><span class="p">[</span><span class="s2">&quot;aqua&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;chan1.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00201941</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan2.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00327573</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                <span class="n">corrections_ref</span><span class="p">[</span><span class="s2">"aqua"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">"chan1.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00201941</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan2.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00327573</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
                 <span class="p">}</span>
-                <span class="n">corrections_ref</span><span class="p">[</span><span class="s2">&quot;terra&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;chan1.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00201509</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan2.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00326201</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                <span class="n">corrections_ref</span><span class="p">[</span><span class="s2">"terra"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">"chan1.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00201509</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan2.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00326201</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
                 <span class="p">}</span>
-            <span class="k">if</span> <span class="s2">&quot;MOD02HKM&quot;</span> <span class="o">==</span> <span class="n">cname</span> <span class="ow">or</span> <span class="s2">&quot;MYD02HKM&quot;</span> <span class="o">==</span> <span class="n">cname</span><span class="p">:</span>
-                <span class="n">datapaths</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;EV_500_RefSB&quot;</span><span class="p">]</span>
-                <span class="n">chanlocspaths</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Band_500M&quot;</span><span class="p">]</span>
-                <span class="n">datasettag</span> <span class="o">=</span> <span class="s2">&quot;HKM&quot;</span>
+            <span class="k">if</span> <span class="s2">"MOD02HKM"</span> <span class="o">==</span> <span class="n">cname</span> <span class="ow">or</span> <span class="s2">"MYD02HKM"</span> <span class="o">==</span> <span class="n">cname</span><span class="p">:</span>
+                <span class="n">datapaths</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"EV_500_RefSB"</span><span class="p">]</span>
+                <span class="n">chanlocspaths</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Band_500M"</span><span class="p">]</span>
+                <span class="n">datasettag</span> <span class="o">=</span> <span class="s2">"HKM"</span>
                 <span class="k">if</span> <span class="n">datasettag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cumulative_mask</span><span class="p">:</span>
                     <span class="n">cumulative_mask</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
                     <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
-                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="c1"># corrections_ref[0] = scale</span>
                 <span class="c1"># corrections_ref[1] = offset</span>
-                <span class="n">corrections_ref</span><span class="p">[</span><span class="s2">&quot;aqua&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;chan3.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00155510</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan4.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00174094</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan5.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00683729</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan6.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0134965</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan7.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0359228</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">corrections_ref</span><span class="p">[</span><span class="s2">"aqua"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">"chan3.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00155510</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan4.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00174094</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan5.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00683729</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan6.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0134965</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan7.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0359228</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">],</span>
                 <span class="p">}</span>
-                <span class="n">corrections_ref</span><span class="p">[</span><span class="s2">&quot;terra&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;chan3.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00155013</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan4.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00173456</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan5.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00682327</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan6.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0134728</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan7.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0358326</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">corrections_ref</span><span class="p">[</span><span class="s2">"terra"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">"chan3.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00155013</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan4.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00173456</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan5.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00682327</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan6.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0134728</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan7.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0358326</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">],</span>
                 <span class="p">}</span>
-            <span class="k">if</span> <span class="s2">&quot;MOD14&quot;</span> <span class="o">==</span> <span class="n">cname</span> <span class="ow">or</span> <span class="s2">&quot;MYD14&quot;</span> <span class="o">==</span> <span class="n">cname</span><span class="p">:</span>
-                <span class="n">datasettag</span> <span class="o">=</span> <span class="s2">&quot;Fire_Mask&quot;</span>
+            <span class="k">if</span> <span class="s2">"MOD14"</span> <span class="o">==</span> <span class="n">cname</span> <span class="ow">or</span> <span class="s2">"MYD14"</span> <span class="o">==</span> <span class="n">cname</span><span class="p">:</span>
+                <span class="n">datasettag</span> <span class="o">=</span> <span class="s2">"Fire_Mask"</span>
                 <span class="k">if</span> <span class="n">datasettag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cumulative_mask</span><span class="p">:</span>
                     <span class="n">cumulative_mask</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
                     <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
-                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">if</span> <span class="s2">&quot;MOD021KM&quot;</span> <span class="o">==</span> <span class="n">cname</span> <span class="ow">or</span> <span class="s2">&quot;MYD021KM&quot;</span> <span class="o">==</span> <span class="n">cname</span><span class="p">:</span>
-                <span class="n">datapaths</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;EV_1KM_RefSB&quot;</span><span class="p">,</span> <span class="s2">&quot;EV_1KM_Emissive&quot;</span><span class="p">]</span>
-                <span class="n">datasettag</span> <span class="o">=</span> <span class="s2">&quot;1KM&quot;</span>
-                <span class="n">chanlocspaths</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Band_1KM_RefSB&quot;</span><span class="p">,</span> <span class="s2">&quot;Band_1KM_Emissive&quot;</span><span class="p">]</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="s2">"MOD021KM"</span> <span class="o">==</span> <span class="n">cname</span> <span class="ow">or</span> <span class="s2">"MYD021KM"</span> <span class="o">==</span> <span class="n">cname</span><span class="p">:</span>
+                <span class="n">datapaths</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"EV_1KM_RefSB"</span><span class="p">,</span> <span class="s2">"EV_1KM_Emissive"</span><span class="p">]</span>
+                <span class="n">datasettag</span> <span class="o">=</span> <span class="s2">"1KM"</span>
+                <span class="n">chanlocspaths</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Band_1KM_RefSB"</span><span class="p">,</span> <span class="s2">"Band_1KM_Emissive"</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">datasettag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cumulative_mask</span><span class="p">:</span>
                     <span class="n">cumulative_mask</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
                     <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
-                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="c1"># corrections_ref[0] = scale</span>
                 <span class="c1"># corrections_ref[1] = offset</span>
-                <span class="n">corrections_ref</span><span class="p">[</span><span class="s2">&quot;aqua&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;chan8.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00185801</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan9.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00170356</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan10.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00164244</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan11.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00172248</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan12.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00171558</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan13.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00209848</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan13.5&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00209848</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan14.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00215609</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan14.5&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00215609</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan15.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00250819</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan16.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00333670</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan17.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00347492</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan18.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00372233</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan19.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00371927</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan26.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00889511</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                <span class="n">corrections_ref</span><span class="p">[</span><span class="s2">"aqua"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">"chan8.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00185801</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan9.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00170356</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan10.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00164244</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan11.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00172248</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan12.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00171558</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan13.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00209848</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan13.5"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00209848</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan14.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00215609</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan14.5"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00215609</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan15.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00250819</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan16.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00333670</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan17.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00347492</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan18.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00372233</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan19.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00371927</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan26.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00889511</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
                 <span class="p">}</span>
-                <span class="n">corrections_ref</span><span class="p">[</span><span class="s2">&quot;terra&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;chan8.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00185398</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan9.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00170009</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan10.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00163386</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan11.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00171776</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan12.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00171045</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan13.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00209057</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan13.5&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00209057</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan14.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00214607</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan14.5&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00214607</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan15.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00249967</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan16.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00332639</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan17.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00346232</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan18.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00370446</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan19.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00370657</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">],</span>
-                    <span class="s2">&quot;chan26.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00886857</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                <span class="n">corrections_ref</span><span class="p">[</span><span class="s2">"terra"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">"chan8.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00185398</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan9.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00170009</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan10.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00163386</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan11.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00171776</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan12.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00171045</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan13.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00209057</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan13.5"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00209057</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan14.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00214607</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan14.5"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00214607</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan15.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00249967</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan16.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00332639</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan17.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00346232</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan18.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00370446</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan19.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00370657</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"chan26.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00886857</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
                 <span class="p">}</span>
                 <span class="c1"># corrections[chan][0] = (ems1km_um) effective central wavelength in</span>
                 <span class="c1"># microns</span>
                 <span class="c1"># corrections[chan][1] = (tcs1km) temperature correction slope</span>
                 <span class="c1"># corrections[chan][2] = (tci1km) temperature correction intercept</span>
                 <span class="n">corrections</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;chan20.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.7853</span><span class="p">,</span> <span class="mf">9.993411e-01</span><span class="p">,</span> <span class="mf">4.770532e-01</span><span class="p">],</span>
-                    <span class="s2">&quot;chan21.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.9916</span><span class="p">,</span> <span class="mf">9.998646e-01</span><span class="p">,</span> <span class="mf">9.262664e-02</span><span class="p">],</span>
-                    <span class="s2">&quot;chan22.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.9714</span><span class="p">,</span> <span class="mf">9.998584e-01</span><span class="p">,</span> <span class="mf">9.757996e-02</span><span class="p">],</span>
-                    <span class="s2">&quot;chan23.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">4.0561</span><span class="p">,</span> <span class="mf">9.998682e-01</span><span class="p">,</span> <span class="mf">8.929242e-02</span><span class="p">],</span>
-                    <span class="s2">&quot;chan24.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">4.4726</span><span class="p">,</span> <span class="mf">9.998819e-01</span><span class="p">,</span> <span class="mf">7.310901e-02</span><span class="p">],</span>
-                    <span class="s2">&quot;chan25.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">4.5447</span><span class="p">,</span> <span class="mf">9.998845e-01</span><span class="p">,</span> <span class="mf">7.060415e-02</span><span class="p">],</span>
-                    <span class="s2">&quot;chan27.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">6.7661</span><span class="p">,</span> <span class="mf">9.994877e-01</span><span class="p">,</span> <span class="mf">2.204921e-01</span><span class="p">],</span>
-                    <span class="s2">&quot;chan28.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">7.3382</span><span class="p">,</span> <span class="mf">9.994918e-01</span><span class="p">,</span> <span class="mf">2.046087e-01</span><span class="p">],</span>
-                    <span class="s2">&quot;chan29.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">8.5238</span><span class="p">,</span> <span class="mf">9.995495e-01</span><span class="p">,</span> <span class="mf">1.599191e-01</span><span class="p">],</span>
-                    <span class="s2">&quot;chan30.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">9.7303</span><span class="p">,</span> <span class="mf">9.997398e-01</span><span class="p">,</span> <span class="mf">8.253401e-02</span><span class="p">],</span>
-                    <span class="s2">&quot;chan31.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">11.0121</span><span class="p">,</span> <span class="mf">9.995608e-01</span><span class="p">,</span> <span class="mf">1.302699e-01</span><span class="p">],</span>
-                    <span class="s2">&quot;chan32.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">12.0259</span><span class="p">,</span> <span class="mf">9.997256e-01</span><span class="p">,</span> <span class="mf">7.181833e-02</span><span class="p">],</span>
-                    <span class="s2">&quot;chan33.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">13.3629</span><span class="p">,</span> <span class="mf">9.999160e-01</span><span class="p">,</span> <span class="mf">1.972608e-02</span><span class="p">],</span>
-                    <span class="s2">&quot;chan34.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">13.6818</span><span class="p">,</span> <span class="mf">9.999167e-01</span><span class="p">,</span> <span class="mf">1.913568e-02</span><span class="p">],</span>
-                    <span class="s2">&quot;chan35.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">13.9108</span><span class="p">,</span> <span class="mf">9.999191e-01</span><span class="p">,</span> <span class="mf">1.817817e-02</span><span class="p">],</span>
-                    <span class="s2">&quot;chan36.0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">14.1937</span><span class="p">,</span> <span class="mf">9.999281e-01</span><span class="p">,</span> <span class="mf">1.583042e-02</span><span class="p">],</span>
+                    <span class="s2">"chan20.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.7853</span><span class="p">,</span> <span class="mf">9.993411e-01</span><span class="p">,</span> <span class="mf">4.770532e-01</span><span class="p">],</span>
+                    <span class="s2">"chan21.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.9916</span><span class="p">,</span> <span class="mf">9.998646e-01</span><span class="p">,</span> <span class="mf">9.262664e-02</span><span class="p">],</span>
+                    <span class="s2">"chan22.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.9714</span><span class="p">,</span> <span class="mf">9.998584e-01</span><span class="p">,</span> <span class="mf">9.757996e-02</span><span class="p">],</span>
+                    <span class="s2">"chan23.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">4.0561</span><span class="p">,</span> <span class="mf">9.998682e-01</span><span class="p">,</span> <span class="mf">8.929242e-02</span><span class="p">],</span>
+                    <span class="s2">"chan24.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">4.4726</span><span class="p">,</span> <span class="mf">9.998819e-01</span><span class="p">,</span> <span class="mf">7.310901e-02</span><span class="p">],</span>
+                    <span class="s2">"chan25.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">4.5447</span><span class="p">,</span> <span class="mf">9.998845e-01</span><span class="p">,</span> <span class="mf">7.060415e-02</span><span class="p">],</span>
+                    <span class="s2">"chan27.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">6.7661</span><span class="p">,</span> <span class="mf">9.994877e-01</span><span class="p">,</span> <span class="mf">2.204921e-01</span><span class="p">],</span>
+                    <span class="s2">"chan28.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">7.3382</span><span class="p">,</span> <span class="mf">9.994918e-01</span><span class="p">,</span> <span class="mf">2.046087e-01</span><span class="p">],</span>
+                    <span class="s2">"chan29.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">8.5238</span><span class="p">,</span> <span class="mf">9.995495e-01</span><span class="p">,</span> <span class="mf">1.599191e-01</span><span class="p">],</span>
+                    <span class="s2">"chan30.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">9.7303</span><span class="p">,</span> <span class="mf">9.997398e-01</span><span class="p">,</span> <span class="mf">8.253401e-02</span><span class="p">],</span>
+                    <span class="s2">"chan31.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">11.0121</span><span class="p">,</span> <span class="mf">9.995608e-01</span><span class="p">,</span> <span class="mf">1.302699e-01</span><span class="p">],</span>
+                    <span class="s2">"chan32.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">12.0259</span><span class="p">,</span> <span class="mf">9.997256e-01</span><span class="p">,</span> <span class="mf">7.181833e-02</span><span class="p">],</span>
+                    <span class="s2">"chan33.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">13.3629</span><span class="p">,</span> <span class="mf">9.999160e-01</span><span class="p">,</span> <span class="mf">1.972608e-02</span><span class="p">],</span>
+                    <span class="s2">"chan34.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">13.6818</span><span class="p">,</span> <span class="mf">9.999167e-01</span><span class="p">,</span> <span class="mf">1.913568e-02</span><span class="p">],</span>
+                    <span class="s2">"chan35.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">13.9108</span><span class="p">,</span> <span class="mf">9.999191e-01</span><span class="p">,</span> <span class="mf">1.817817e-02</span><span class="p">],</span>
+                    <span class="s2">"chan36.0"</span><span class="p">:</span> <span class="p">[</span><span class="mf">14.1937</span><span class="p">,</span> <span class="mf">9.999281e-01</span><span class="p">,</span> <span class="mf">1.583042e-02</span><span class="p">],</span>
                 <span class="p">}</span>
 
             <span class="c1"># Lat/Lons found in 1km data file appears to be downsampled to 406x271,</span>
@@ -1280,14 +1282,14 @@ window.runMermaid = runMermaid;</script>
             <span class="c1"># files appear to have full 1km resolution also (2030x1354)</span>
             <span class="c1"># Also, the python resize function appears to just replicate the data,</span>
             <span class="c1"># and not interpolate. Which is not what we want.</span>
-            <span class="k">if</span> <span class="n">cname</span> <span class="o">==</span> <span class="s2">&quot;MOD03&quot;</span> <span class="ow">or</span> <span class="n">cname</span> <span class="o">==</span> <span class="s2">&quot;MYD03&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cname</span> <span class="o">==</span> <span class="s2">"MOD03"</span> <span class="ow">or</span> <span class="n">cname</span> <span class="o">==</span> <span class="s2">"MYD03"</span><span class="p">:</span>
                 <span class="n">scifile_names</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;Latitude&quot;</span><span class="p">:</span> <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;Longitude&quot;</span><span class="p">:</span> <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;SolarZenith&quot;</span><span class="p">:</span> <span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;SensorZenith&quot;</span><span class="p">:</span> <span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;SolarAzimuth&quot;</span><span class="p">:</span> <span class="s2">&quot;solar_azimuth_angle&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;SensorAzimuth&quot;</span><span class="p">:</span> <span class="s2">&quot;satellite_azimuth_angle&quot;</span><span class="p">,</span>
+                    <span class="s2">"Latitude"</span><span class="p">:</span> <span class="s2">"latitude"</span><span class="p">,</span>
+                    <span class="s2">"Longitude"</span><span class="p">:</span> <span class="s2">"longitude"</span><span class="p">,</span>
+                    <span class="s2">"SolarZenith"</span><span class="p">:</span> <span class="s2">"solar_zenith_angle"</span><span class="p">,</span>
+                    <span class="s2">"SensorZenith"</span><span class="p">:</span> <span class="s2">"satellite_zenith_angle"</span><span class="p">,</span>
+                    <span class="s2">"SolarAzimuth"</span><span class="p">:</span> <span class="s2">"solar_azimuth_angle"</span><span class="p">,</span>
+                    <span class="s2">"SensorAzimuth"</span><span class="p">:</span> <span class="s2">"satellite_azimuth_angle"</span><span class="p">,</span>
                 <span class="p">}</span>
 
                 <span class="k">for</span> <span class="n">datasettag</span> <span class="ow">in</span> <span class="n">dataset_info</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>  <span class="c1"># loop the data_type</span>
@@ -1295,7 +1297,7 @@ window.runMermaid = runMermaid;</script>
                     <span class="k">if</span> <span class="n">datasettag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cumulative_mask</span><span class="p">:</span>
                         <span class="n">cumulative_mask</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
                         <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
-                        <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
                     <span class="k">for</span> <span class="p">(</span>
                         <span class="n">currvar</span>
@@ -1313,20 +1315,20 @@ window.runMermaid = runMermaid;</script>
                         <span class="k">if</span> <span class="ow">not</span> <span class="n">chans</span> <span class="ow">or</span> <span class="nb">list</span><span class="p">(</span>
                             <span class="nb">set</span><span class="p">(</span><span class="n">chans</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">dataset_info</span><span class="p">[</span><span class="n">datasettag</span><span class="p">])</span>
                         <span class="p">):</span>
-                            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    adding &quot;</span> <span class="o">+</span> <span class="n">datasettag</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">currvar</span><span class="p">)</span>
+                            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    adding "</span> <span class="o">+</span> <span class="n">datasettag</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="n">currvar</span><span class="p">)</span>
                             <span class="k">pass</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="k">continue</span>
 
                         <span class="n">outdata</span> <span class="o">=</span> <span class="n">data</span>
-                        <span class="k">if</span> <span class="n">datasettag</span> <span class="o">==</span> <span class="s2">&quot;QKM&quot;</span> <span class="ow">or</span> <span class="n">datasettag</span> <span class="o">==</span> <span class="s2">&quot;HKM&quot;</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">datasettag</span> <span class="o">==</span> <span class="s2">"QKM"</span> <span class="ow">or</span> <span class="n">datasettag</span> <span class="o">==</span> <span class="s2">"HKM"</span><span class="p">:</span>
                             <span class="c1">#  create a xarray for a datasettag if it does not exist</span>
                             <span class="c1"># if datasettag not in cumulative_mask:</span>
                             <span class="c1">#    cumulative_mask[datasettag] = False</span>
                             <span class="c1">#    xarrays[datasettag] = xr.Dataset()</span>
 
                             <span class="n">factor</span> <span class="o">=</span> <span class="mi">2</span>
-                            <span class="k">if</span> <span class="n">datasettag</span> <span class="o">==</span> <span class="s2">&quot;QKM&quot;</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">datasettag</span> <span class="o">==</span> <span class="s2">"QKM"</span><span class="p">:</span>
                                 <span class="n">factor</span> <span class="o">=</span> <span class="mi">4</span>
                             <span class="n">outdata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
                                 <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">*</span> <span class="n">factor</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">factor</span><span class="p">),</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span>
@@ -1347,13 +1349,13 @@ window.runMermaid = runMermaid;</script>
                             <span class="n">outdata</span> <span class="o">=</span> <span class="n">newKernel</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">)</span>
                         <span class="c1"># Appears lat/lon does not need to be *.01, and</span>
                         <span class="c1"># Zenith/Azimuth do. These scale_factors are hard coded</span>
-                        <span class="c1"># because I can&#39;t seem to easily pull them out of the big</span>
+                        <span class="c1"># because I can't seem to easily pull them out of the big</span>
                         <span class="c1"># text metadata string.</span>
                         <span class="n">factor</span> <span class="o">=</span> <span class="mi">1</span>
-                        <span class="k">if</span> <span class="s2">&quot;scale_factor&quot;</span> <span class="ow">in</span> <span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                            <span class="n">factor</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;scale_factor&quot;</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="s2">"scale_factor"</span> <span class="ow">in</span> <span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                            <span class="n">factor</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">"scale_factor"</span><span class="p">]</span>
                         <span class="n">masked_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_equal</span><span class="p">(</span>
-                            <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">outdata</span> <span class="o">*</span> <span class="n">factor</span><span class="p">),</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;_FillValue&quot;</span><span class="p">]</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">outdata</span> <span class="o">*</span> <span class="n">factor</span><span class="p">),</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">"_FillValue"</span><span class="p">]</span>
                         <span class="p">)</span>
                         <span class="c1"># variables get propagated to top level in scifile object.</span>
                         <span class="c1"># geolocation_variables do not since azimuth/zenith need</span>
@@ -1372,42 +1374,42 @@ window.runMermaid = runMermaid;</script>
                             <span class="p">]</span>
 
                     <span class="c1"># Add attributes</span>
-                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sdt</span>
-                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edt</span>
-                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;modis&quot;</span>
-                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mf_metadata</span><span class="p">[</span>
-                        <span class="s2">&quot;ASSOCIATEDPLATFORMSHORTNAME&quot;</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sdt</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">edt</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"modis"</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"platform_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">mf_metadata</span><span class="p">[</span>
+                        <span class="s2">"ASSOCIATEDPLATFORMSHORTNAME"</span>
                     <span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;nasa&quot;</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"data_provider"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"nasa"</span>
                     <span class="k">if</span> <span class="p">(</span>
                         <span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
-                        <span class="ow">not</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span>
+                        <span class="ow">not</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span>
                     <span class="p">):</span>
-                        <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span>
+                        <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span>
                             <span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
                         <span class="p">]</span>
-                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sample_distance_km&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># ????</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"sample_distance_km"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># ????</span>
                     <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
-                        <span class="s2">&quot;interpolation_radius_of_influence&quot;</span>
+                        <span class="s2">"interpolation_radius_of_influence"</span>
                     <span class="p">]</span> <span class="o">=</span> <span class="mi">3000</span>  <span class="c1"># ???</span>
 
-            <span class="c1"># elif (&#39;MOD14&#39; == cname or &#39;MYD14&#39; == cname) and &#39;fire_mask&#39; in chans:</span>
-            <span class="k">elif</span> <span class="s2">&quot;MOD14&quot;</span> <span class="o">==</span> <span class="n">cname</span> <span class="ow">or</span> <span class="s2">&quot;MYD14&quot;</span> <span class="o">==</span> <span class="n">cname</span><span class="p">:</span>
+            <span class="c1"># elif ('MOD14' == cname or 'MYD14' == cname) and 'fire_mask' in chans:</span>
+            <span class="k">elif</span> <span class="s2">"MOD14"</span> <span class="o">==</span> <span class="n">cname</span> <span class="ow">or</span> <span class="s2">"MYD14"</span> <span class="o">==</span> <span class="n">cname</span><span class="p">:</span>
                 <span class="c1"># Put shell statement here to figure out how to correct fire_mask</span>
-                <span class="n">fire_mask</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;fire mask&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+                <span class="n">fire_mask</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">"fire mask"</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
                 <span class="n">masked_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fire_mask</span><span class="p">),</span> <span class="mi">7</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">add_to_xarray</span><span class="p">(</span>
-                    <span class="s2">&quot;fire_mask&quot;</span><span class="p">,</span>
+                    <span class="s2">"fire_mask"</span><span class="p">,</span>
                     <span class="n">masked_data</span><span class="p">,</span>
                     <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">],</span>
                     <span class="n">cumulative_mask</span><span class="p">[</span><span class="n">datasettag</span><span class="p">],</span>
                     <span class="n">datasettag</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="n">scifile_names</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;Latitude&quot;</span><span class="p">:</span> <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;Longitude&quot;</span><span class="p">:</span> <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
+                    <span class="s2">"Latitude"</span><span class="p">:</span> <span class="s2">"latitude"</span><span class="p">,</span>
+                    <span class="s2">"Longitude"</span><span class="p">:</span> <span class="s2">"longitude"</span><span class="p">,</span>
                 <span class="p">}</span>
-                <span class="c1"># Read lat/lons directly out of MOD14 file, don&#39;t need satzenith,etc</span>
+                <span class="c1"># Read lat/lons directly out of MOD14 file, don't need satzenith,etc</span>
 
                 <span class="k">for</span> <span class="n">currvar</span> <span class="ow">in</span> <span class="n">scifile_names</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                     <span class="n">sfgvar</span> <span class="o">=</span> <span class="n">scifile_names</span><span class="p">[</span><span class="n">currvar</span><span class="p">]</span>
@@ -1415,7 +1417,7 @@ window.runMermaid = runMermaid;</script>
                         <span class="n">select_data</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">currvar</span><span class="p">)</span>  <span class="c1"># select this field</span>
                     <span class="k">except</span> <span class="n">HDF4Error</span><span class="p">:</span>
                         <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                            <span class="s2">&quot;SKIPPING </span><span class="si">%s</span><span class="s2"> does not exist in </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">currvar</span><span class="p">,</span> <span class="n">datasettag</span>
+                            <span class="s2">"SKIPPING </span><span class="si">%s</span><span class="s2"> does not exist in </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">currvar</span><span class="p">,</span> <span class="n">datasettag</span>
                         <span class="p">)</span>
                         <span class="k">continue</span>
                     <span class="n">attrs</span> <span class="o">=</span> <span class="n">select_data</span><span class="o">.</span><span class="n">attributes</span><span class="p">()</span>  <span class="c1"># get attributes of this field</span>
@@ -1433,21 +1435,21 @@ window.runMermaid = runMermaid;</script>
                         <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">][</span><span class="n">sfgvar</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attrname</span><span class="p">]</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="n">attrname</span><span class="p">]</span>
 
                 <span class="c1"># Add attributes</span>
-                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sdt</span>
-                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edt</span>
-                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;modis&quot;</span>
-                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mf_metadata</span><span class="p">[</span>
-                    <span class="s2">&quot;ASSOCIATEDPLATFORMSHORTNAME&quot;</span>
+                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sdt</span>
+                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">edt</span>
+                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"modis"</span>
+                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"platform_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">mf_metadata</span><span class="p">[</span>
+                    <span class="s2">"ASSOCIATEDPLATFORMSHORTNAME"</span>
                 <span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;nasa&quot;</span>
+                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"data_provider"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"nasa"</span>
                 <span class="k">if</span> <span class="p">(</span>
                     <span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
-                    <span class="ow">not</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span>
+                    <span class="ow">not</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span>
                 <span class="p">):</span>
-                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span>
-                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sample_distance_km&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># ????</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span>
+                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"sample_distance_km"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># ????</span>
                 <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
-                    <span class="s2">&quot;interpolation_radius_of_influence&quot;</span>
+                    <span class="s2">"interpolation_radius_of_influence"</span>
                 <span class="p">]</span> <span class="o">=</span> <span class="mi">3000</span>  <span class="c1"># ???</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">datapaths</span><span class="p">)):</span>
@@ -1460,50 +1462,50 @@ window.runMermaid = runMermaid;</script>
                     <span class="n">attrs</span> <span class="o">=</span> <span class="n">select_alldata</span><span class="o">.</span><span class="n">attributes</span><span class="p">()</span>
 
                     <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">chanlocs</span><span class="p">)):</span>
-                        <span class="n">channame</span> <span class="o">=</span> <span class="s2">&quot;chan&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">chanlocs</span><span class="p">[</span><span class="n">jj</span><span class="p">])</span>
+                        <span class="n">channame</span> <span class="o">=</span> <span class="s2">"chan"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">chanlocs</span><span class="p">[</span><span class="n">jj</span><span class="p">])</span>
                         <span class="k">if</span> <span class="p">(</span>
                             <span class="ow">not</span> <span class="n">chans</span>
-                            <span class="ow">or</span> <span class="n">channame</span> <span class="o">+</span> <span class="s2">&quot;Rad&quot;</span> <span class="ow">in</span> <span class="n">chans</span>
-                            <span class="ow">or</span> <span class="n">channame</span> <span class="o">+</span> <span class="s2">&quot;Ref&quot;</span> <span class="ow">in</span> <span class="n">chans</span>
-                            <span class="ow">or</span> <span class="n">channame</span> <span class="o">+</span> <span class="s2">&quot;BT&quot;</span> <span class="ow">in</span> <span class="n">chans</span>
+                            <span class="ow">or</span> <span class="n">channame</span> <span class="o">+</span> <span class="s2">"Rad"</span> <span class="ow">in</span> <span class="n">chans</span>
+                            <span class="ow">or</span> <span class="n">channame</span> <span class="o">+</span> <span class="s2">"Ref"</span> <span class="ow">in</span> <span class="n">chans</span>
+                            <span class="ow">or</span> <span class="n">channame</span> <span class="o">+</span> <span class="s2">"BT"</span> <span class="ow">in</span> <span class="n">chans</span>
                         <span class="p">):</span>
                             <span class="k">pass</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="k">continue</span>
 
                         <span class="n">ind</span> <span class="o">=</span> <span class="n">jj</span>
-                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;radiance_offsets&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"radiance_offsets"</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                             <span class="n">ind</span> <span class="o">=</span> <span class="mi">0</span>
-                        <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="n">alldata</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">-</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;radiance_offsets&quot;</span><span class="p">][</span><span class="n">ind</span><span class="p">])</span> <span class="o">*</span> <span class="n">attrs</span><span class="p">[</span>
-                            <span class="s2">&quot;radiance_scales&quot;</span>
+                        <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="n">alldata</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">-</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">"radiance_offsets"</span><span class="p">][</span><span class="n">ind</span><span class="p">])</span> <span class="o">*</span> <span class="n">attrs</span><span class="p">[</span>
+                            <span class="s2">"radiance_scales"</span>
                         <span class="p">][</span><span class="n">ind</span><span class="p">]</span>
                         <span class="n">masked_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_equal</span><span class="p">(</span>
-                            <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;_FillValue&quot;</span><span class="p">]</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">"_FillValue"</span><span class="p">]</span>
                         <span class="p">)</span>
                         <span class="n">masked_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_greater</span><span class="p">(</span>
-                            <span class="n">masked_data</span><span class="p">,</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;valid_range&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                            <span class="n">masked_data</span><span class="p">,</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">"valid_range"</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
                         <span class="p">)</span>
                         <span class="n">masked_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less</span><span class="p">(</span>
-                            <span class="n">masked_data</span><span class="p">,</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;valid_range&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                            <span class="n">masked_data</span><span class="p">,</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">"valid_range"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
                         <span class="p">)</span>
 
                         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                            <span class="s2">&quot;    Adding channame: &quot;</span>
-                            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">channame</span> <span class="o">+</span> <span class="s2">&quot;Rad&quot;</span><span class="p">)</span>
-                            <span class="o">+</span> <span class="s2">&quot; offset: &quot;</span>
-                            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;radiance_offsets&quot;</span><span class="p">][</span><span class="n">ind</span><span class="p">])</span>
-                            <span class="o">+</span> <span class="s2">&quot; scale: &quot;</span>
-                            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;radiance_scales&quot;</span><span class="p">][</span><span class="n">ind</span><span class="p">])</span>
+                            <span class="s2">"    Adding channame: "</span>
+                            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">channame</span> <span class="o">+</span> <span class="s2">"Rad"</span><span class="p">)</span>
+                            <span class="o">+</span> <span class="s2">" offset: "</span>
+                            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"radiance_offsets"</span><span class="p">][</span><span class="n">ind</span><span class="p">])</span>
+                            <span class="o">+</span> <span class="s2">" scale: "</span>
+                            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"radiance_scales"</span><span class="p">][</span><span class="n">ind</span><span class="p">])</span>
                         <span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">add_to_xarray</span><span class="p">(</span>
-                            <span class="n">channame</span> <span class="o">+</span> <span class="s2">&quot;Rad&quot;</span><span class="p">,</span>
+                            <span class="n">channame</span> <span class="o">+</span> <span class="s2">"Rad"</span><span class="p">,</span>
                             <span class="n">masked_data</span><span class="p">,</span>
                             <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">],</span>
                             <span class="n">cumulative_mask</span><span class="p">[</span><span class="n">datasettag</span><span class="p">],</span>
                             <span class="n">datasettag</span><span class="p">,</span>
                         <span class="p">)</span>
                         <span class="k">for</span> <span class="n">attrname</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>  <span class="c1"># add attributes</span>
-                            <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">][</span><span class="n">channame</span> <span class="o">+</span> <span class="s2">&quot;Rad&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attrname</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">][</span><span class="n">channame</span> <span class="o">+</span> <span class="s2">"Rad"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attrname</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
                                 <span class="n">attrs</span><span class="p">[</span><span class="n">attrname</span><span class="p">]</span>
                             <span class="p">)</span>
 
@@ -1537,66 +1539,66 @@ window.runMermaid = runMermaid;</script>
                             <span class="n">masked_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">data2</span> <span class="o">-</span> <span class="n">cor</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="n">cor</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
                             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                                <span class="s2">&quot;    Adding channame: &quot;</span>
-                                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">channame</span> <span class="o">+</span> <span class="s2">&quot;BT&quot;</span><span class="p">)</span>
-                                <span class="o">+</span> <span class="s2">&quot; offset: &quot;</span>
-                                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;radiance_offsets&quot;</span><span class="p">][</span><span class="n">ind</span><span class="p">])</span>
-                                <span class="o">+</span> <span class="s2">&quot; scale: &quot;</span>
-                                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;radiance_scales&quot;</span><span class="p">][</span><span class="n">ind</span><span class="p">])</span>
-                                <span class="o">+</span> <span class="s2">&quot; ems1km: &quot;</span>
+                                <span class="s2">"    Adding channame: "</span>
+                                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">channame</span> <span class="o">+</span> <span class="s2">"BT"</span><span class="p">)</span>
+                                <span class="o">+</span> <span class="s2">" offset: "</span>
+                                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"radiance_offsets"</span><span class="p">][</span><span class="n">ind</span><span class="p">])</span>
+                                <span class="o">+</span> <span class="s2">" scale: "</span>
+                                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"radiance_scales"</span><span class="p">][</span><span class="n">ind</span><span class="p">])</span>
+                                <span class="o">+</span> <span class="s2">" ems1km: "</span>
                                 <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cor</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                                <span class="o">+</span> <span class="s2">&quot; tcs1km: &quot;</span>
+                                <span class="o">+</span> <span class="s2">" tcs1km: "</span>
                                 <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cor</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-                                <span class="o">+</span> <span class="s2">&quot; tci1km: &quot;</span>
+                                <span class="o">+</span> <span class="s2">" tci1km: "</span>
                                 <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cor</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-                                <span class="o">+</span> <span class="s2">&quot; min: &quot;</span>
+                                <span class="o">+</span> <span class="s2">" min: "</span>
                                 <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">masked_data</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
-                                <span class="o">+</span> <span class="s2">&quot; max: &quot;</span>
+                                <span class="o">+</span> <span class="s2">" max: "</span>
                                 <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">masked_data</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
                             <span class="p">)</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">add_to_xarray</span><span class="p">(</span>
-                                <span class="n">channame</span> <span class="o">+</span> <span class="s2">&quot;BT&quot;</span><span class="p">,</span>
+                                <span class="n">channame</span> <span class="o">+</span> <span class="s2">"BT"</span><span class="p">,</span>
                                 <span class="n">masked_data</span><span class="p">,</span>
                                 <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">],</span>
                                 <span class="n">cumulative_mask</span><span class="p">[</span><span class="n">datasettag</span><span class="p">],</span>
                                 <span class="n">datasettag</span><span class="p">,</span>
                             <span class="p">)</span>
-                            <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">][</span><span class="n">channame</span> <span class="o">+</span> <span class="s2">&quot;BT&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
-                                <span class="s2">&quot;units&quot;</span>
-                            <span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Kelvin&quot;</span>
+                            <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">][</span><span class="n">channame</span> <span class="o">+</span> <span class="s2">"BT"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
+                                <span class="s2">"units"</span>
+                            <span class="p">]</span> <span class="o">=</span> <span class="s2">"Kelvin"</span>
                         <span class="k">if</span> <span class="p">(</span>
                             <span class="n">channame</span>
                             <span class="ow">in</span> <span class="n">corrections_ref</span><span class="p">[</span>
-                                <span class="n">mf_metadata</span><span class="p">[</span><span class="s2">&quot;ASSOCIATEDPLATFORMSHORTNAME&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                                <span class="n">mf_metadata</span><span class="p">[</span><span class="s2">"ASSOCIATEDPLATFORMSHORTNAME"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
                             <span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
                         <span class="p">):</span>
                             <span class="n">corrected_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_equal</span><span class="p">(</span>
-                                <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;_FillValue&quot;</span><span class="p">]</span>
+                                <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">"_FillValue"</span><span class="p">]</span>
                             <span class="p">)</span>
                             <span class="n">corrected_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_greater</span><span class="p">(</span>
-                                <span class="n">masked_data</span><span class="p">,</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;valid_range&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                                <span class="n">masked_data</span><span class="p">,</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">"valid_range"</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
                             <span class="p">)</span>
                             <span class="n">corrected_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less</span><span class="p">(</span>
-                                <span class="n">masked_data</span><span class="p">,</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;valid_range&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                                <span class="n">masked_data</span><span class="p">,</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">"valid_range"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
                             <span class="p">)</span>
                             <span class="n">offset</span> <span class="o">=</span> <span class="n">corrections_ref</span><span class="p">[</span>
-                                <span class="n">mf_metadata</span><span class="p">[</span><span class="s2">&quot;ASSOCIATEDPLATFORMSHORTNAME&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                                <span class="n">mf_metadata</span><span class="p">[</span><span class="s2">"ASSOCIATEDPLATFORMSHORTNAME"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
                             <span class="p">][</span><span class="n">channame</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
                             <span class="n">scale</span> <span class="o">=</span> <span class="n">corrections_ref</span><span class="p">[</span>
-                                <span class="n">mf_metadata</span><span class="p">[</span><span class="s2">&quot;ASSOCIATEDPLATFORMSHORTNAME&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                                <span class="n">mf_metadata</span><span class="p">[</span><span class="s2">"ASSOCIATEDPLATFORMSHORTNAME"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
                             <span class="p">][</span><span class="n">channame</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
                             <span class="n">corrected_data</span> <span class="o">+=</span> <span class="n">offset</span>
                             <span class="n">corrected_data</span> <span class="o">*=</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="n">scale</span>
                             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                                <span class="s2">&quot;    Adding channame: &quot;</span>
-                                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">channame</span> <span class="o">+</span> <span class="s2">&quot;Ref&quot;</span><span class="p">)</span>
-                                <span class="o">+</span> <span class="s2">&quot; offset: &quot;</span>
+                                <span class="s2">"    Adding channame: "</span>
+                                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">channame</span> <span class="o">+</span> <span class="s2">"Ref"</span><span class="p">)</span>
+                                <span class="o">+</span> <span class="s2">" offset: "</span>
                                 <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
-                                <span class="o">+</span> <span class="s2">&quot; scale: &quot;</span>
+                                <span class="o">+</span> <span class="s2">" scale: "</span>
                                 <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">scale</span><span class="p">)</span>
                             <span class="p">)</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">add_to_xarray</span><span class="p">(</span>
-                                <span class="n">channame</span> <span class="o">+</span> <span class="s2">&quot;Ref&quot;</span><span class="p">,</span>
+                                <span class="n">channame</span> <span class="o">+</span> <span class="s2">"Ref"</span><span class="p">,</span>
                                 <span class="n">corrected_data</span><span class="p">,</span>
                                 <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">],</span>
                                 <span class="n">cumulative_mask</span><span class="p">[</span><span class="n">datasettag</span><span class="p">],</span>
@@ -1604,47 +1606,47 @@ window.runMermaid = runMermaid;</script>
                             <span class="p">)</span>
 
                 <span class="c1"># Add attributes</span>
-                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sdt</span>
-                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edt</span>
-                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;modis&quot;</span>
-                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mf_metadata</span><span class="p">[</span>
-                    <span class="s2">&quot;ASSOCIATEDPLATFORMSHORTNAME&quot;</span>
+                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sdt</span>
+                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">edt</span>
+                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"modis"</span>
+                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"platform_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">mf_metadata</span><span class="p">[</span>
+                    <span class="s2">"ASSOCIATEDPLATFORMSHORTNAME"</span>
                 <span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;nasa&quot;</span>
+                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"data_provider"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"nasa"</span>
                 <span class="k">if</span> <span class="p">(</span>
                     <span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
-                    <span class="ow">not</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span>
+                    <span class="ow">not</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span>
                 <span class="p">):</span>
-                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span>
-                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sample_distance_km&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># ????</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span>
+                <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"sample_distance_km"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># ????</span>
                 <span class="n">xarrays</span><span class="p">[</span><span class="n">datasettag</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
-                    <span class="s2">&quot;interpolation_radius_of_influence&quot;</span>
+                    <span class="s2">"interpolation_radius_of_influence"</span>
                 <span class="p">]</span> <span class="o">=</span> <span class="mi">3000</span>  <span class="c1"># ???</span>
 
         <span class="c1"># compbine output fields</span>
         <span class="n">xarray_returns</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Trying xarrays[</span><span class="si">%s</span><span class="s2">]&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">dtype</span> <span class="o">!=</span> <span class="s2">&quot;METADATA&quot;</span> <span class="ow">and</span> <span class="s2">&quot;latitude&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Trying xarrays[</span><span class="si">%s</span><span class="s2">]"</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">dtype</span> <span class="o">!=</span> <span class="s2">"METADATA"</span> <span class="ow">and</span> <span class="s2">"latitude"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span>
                 <span class="n">xarrays</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
             <span class="p">):</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="s2">&quot;No data read for dataset </span><span class="si">%s</span><span class="s2">, removing from xarray list&quot;</span><span class="p">,</span> <span class="n">dtype</span>
+                    <span class="s2">"No data read for dataset </span><span class="si">%s</span><span class="s2">, removing from xarray list"</span><span class="p">,</span> <span class="n">dtype</span>
                 <span class="p">)</span>
                 <span class="k">continue</span>
-            <span class="k">if</span> <span class="n">dtype</span> <span class="o">!=</span> <span class="s2">&quot;METADATA&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dtype</span> <span class="o">!=</span> <span class="s2">"METADATA"</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">xarrays</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
                     <span class="n">xarrays</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarrays</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
                         <span class="o">~</span><span class="n">cumulative_mask</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="n">varname</span><span class="p">]</span>
                     <span class="p">)</span>
 
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Adding xarrays[</span><span class="si">%s</span><span class="s2">]&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Adding xarrays[</span><span class="si">%s</span><span class="s2">]"</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
             <span class="n">xarray_returns</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarrays</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">xarray_returns</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;No data found for requested channels </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">chans</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">"No data found for requested channels </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">chans</span><span class="p">)</span>
 
-        <span class="n">xarray_returns</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">xarray_returns</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">][[]]</span>
+        <span class="n">xarray_returns</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">xarray_returns</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">][[]]</span>
 
         <span class="k">return</span> <span class="n">xarray_returns</span></div></div>
 

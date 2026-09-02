@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Using inotifywait for Near Real-Time Processing &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>Using inotifywait for Near Real-Time Processing &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="Near Real-Time Processing" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -127,8 +127,8 @@
       
     
     
-    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -576,15 +576,15 @@ Make sure you have <code class="docutils literal notranslate"><span class="pre">
 This is an example script, but you can run whatever processing you want:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
-<span class="nv">WATCH_DIR</span><span class="o">=</span><span class="s2">&quot;/path/to/watch/directory&quot;</span><span class="w">  </span><span class="c1"># Directory to watch for new files</span>
-mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$WATCH_DIR</span><span class="w"> </span><span class="c1"># Make directory if it doesn&#39;t exist</span>
+<span class="nv">WATCH_DIR</span><span class="o">=</span><span class="s2">"/path/to/watch/directory"</span><span class="w">  </span><span class="c1"># Directory to watch for new files</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$WATCH_DIR</span><span class="w"> </span><span class="c1"># Make directory if it doesn't exist</span>
 
 <span class="c1"># Run inotifywait in a loop to monitor for new files</span>
-inotifywait<span class="w"> </span>-m<span class="w"> </span>-e<span class="w"> </span>close_write<span class="w"> </span>--format<span class="w"> </span><span class="s2">&quot;%f&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$WATCH_DIR</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>FILENAME
+inotifywait<span class="w"> </span>-m<span class="w"> </span>-e<span class="w"> </span>close_write<span class="w"> </span>--format<span class="w"> </span><span class="s2">"%f"</span><span class="w"> </span><span class="s2">"</span><span class="nv">$WATCH_DIR</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>FILENAME
 <span class="k">do</span>
-<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Processing new file: </span><span class="nv">$FILENAME</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Processing new file: </span><span class="nv">$FILENAME</span><span class="s2">"</span>
 <span class="w">    </span>geoips<span class="w"> </span>run<span class="w"> </span>order_based<span class="w"> </span>abi_visible_unprojected<span class="w"> </span><span class="se">\</span>
-<span class="w">         </span><span class="s2">&quot;</span><span class="nv">$WATCH_DIR</span><span class="s2">/</span><span class="nv">$FILENAME</span><span class="s2">&quot;</span>
+<span class="w">         </span><span class="s2">"</span><span class="nv">$WATCH_DIR</span><span class="s2">/</span><span class="nv">$FILENAME</span><span class="s2">"</span>
 <span class="k">done</span>
 </pre></div>
 </div>

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.commandline.geoips_command &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.commandline.geoips_command &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,12 +830,12 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Code to implement GeoipsCommand Abstract Base Class for the CLI.</span>
+<span class="sd">"""Code to implement GeoipsCommand Abstract Base Class for the CLI.</span>
 
-<span class="sd">Will implement a plethora of commands, but for the meantime, we&#39;ll work on</span>
-<span class="sd">&#39;geoips config&#39;,&#39;geoips describe&#39;, &#39;geoips list&#39;, &#39;geoips run&#39;, &#39;geoips test&#39;, and</span>
-<span class="sd">&#39;geoips validate&#39;.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Will implement a plethora of commands, but for the meantime, we'll work on</span>
+<span class="sd">'geoips config','geoips describe', 'geoips list', 'geoips run', 'geoips test', and</span>
+<span class="sd">'geoips validate'.</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
@@ -863,7 +865,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="PluginPackages"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.PluginPackages">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PluginPackages</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to hold the plugin packages and their paths.</span>
+<span class="w">    </span><span class="sd">"""Class to hold the plugin packages and their paths.</span>
 
 <span class="sd">    This class is used to hold the plugin packages and their paths, which are used</span>
 <span class="sd">    throughout the CLI to determine which plugins are available to the user. This</span>
@@ -871,21 +873,21 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    the user.</span>
 
 <span class="sd">    Moving this to a class reduced GeoIPS CLI startup time by about 30%.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the PluginPackages class.</span>
+<span class="w">        </span><span class="sd">"""Initialize the PluginPackages class.</span>
 
 <span class="sd">        Initialize the plugin packages and their paths. This is done by using the</span>
 <span class="sd">        get_plugin_packages() and get_plugin_package_paths() functions.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">entrypoints</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">ep</span><span class="o">.</span><span class="n">value</span>
-            <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">"geoips.plugin_packages"</span><span class="p">))</span>
         <span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">paths</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">ep</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
-            <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">"geoips.plugin_packages"</span><span class="p">))</span>
         <span class="p">]</span></div>
 
 
@@ -893,15 +895,15 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="AlphabeticalHelpFormatter"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.AlphabeticalHelpFormatter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">AlphabeticalHelpFormatter</span><span class="p">(</span><span class="n">argparse</span><span class="o">.</span><span class="n">RawTextHelpFormatter</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Help message formatter with arguments sorted alphabetically.</span>
 
 <span class="sd">    This custom formatter extends RawTextHelpFormatter to sort command-line</span>
 <span class="sd">    arguments alphabetically when displaying help messages.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="AlphabeticalHelpFormatter.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.AlphabeticalHelpFormatter.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actions</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Sort command-line arguments via alphabetical order when added to a parser.</span>
 
 <span class="sd">        This method takes a list of argument actions (positional or flag argument</span>
@@ -918,17 +920,17 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">        - For arguments with option flags (like -h or --help),</span>
 <span class="sd">          it uses the first option flag for ordering.</span>
-<span class="sd">        - For arguments without option flags, it uses the argument&#39;s name.</span>
+<span class="sd">        - For arguments without option flags, it uses the argument's name.</span>
 <span class="sd">        - For arguments with aliases flags (like config or conf),</span>
 <span class="sd">          it uses the non-alias action word for ordering.</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; argparse.ArgumentParser(formatter_class=SortingHelpFormatter)</span>
-<span class="sd">        &gt;&gt;&gt; parser.add_argument(&#39;-z&#39;, &#39;--zeta&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; parser.add_argument(&#39;-a&#39;, &#39;--alpha&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; # Help text will show &#39;-a, --alpha&#39; before &#39;-z, --zeta&#39;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; parser.add_argument('-z', '--zeta')</span>
+<span class="sd">        &gt;&gt;&gt; parser.add_argument('-a', '--alpha')</span>
+<span class="sd">        &gt;&gt;&gt; # Help text will show '-a, --alpha' before '-z, --zeta'</span>
+<span class="sd">        """</span>
         <span class="n">actions</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
             <span class="n">actions</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">option_strings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">option_strings</span> <span class="k">else</span> <span class="n">x</span><span class="o">.</span><span class="n">dest</span>
         <span class="p">)</span>
@@ -936,36 +938,36 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="ParentParsers"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.ParentParsers">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ParentParsers</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object containing shared arguments for commands in a hierarchical order.</span>
+<span class="w">    </span><span class="sd">"""Object containing shared arguments for commands in a hierarchical order.</span>
 
 <span class="sd">    The name of the parsers in this class directly link to the name of the top-level</span>
 <span class="sd">    command which will share its arguments. For example, since our top-level command is</span>
-<span class="sd">    &#39;geoips&#39; (see GeoipsCLI), then the arguments created by &#39;geoips_parser&#39; will be</span>
+<span class="sd">    'geoips' (see GeoipsCLI), then the arguments created by 'geoips_parser' will be</span>
 <span class="sd">    shared amongst all of its child commands. As such, every argument created by</span>
-<span class="sd">    &#39;list_parser&#39; will be shared by &#39;list&#39; commands, and so on. So long as the name of</span>
+<span class="sd">    'list_parser' will be shared by 'list' commands, and so on. So long as the name of</span>
 <span class="sd">    the class matches the structure &lt;class_name&gt;_parser, then the arguments will be</span>
 <span class="sd">    shared correctly.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">geoips_parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">formatter_class</span><span class="o">=</span><span class="n">AlphabeticalHelpFormatter</span><span class="p">)</span>
     <span class="n">geoips_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-log&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--log-level&quot;</span><span class="p">,</span>
+        <span class="s2">"-log"</span><span class="p">,</span>
+        <span class="s2">"--log-level"</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;interactive&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">"interactive"</span><span class="p">,</span>
         <span class="c1"># Specified in order of what will be shown. First is lowest level (10).</span>
-        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">,</span> <span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;warning&quot;</span><span class="p">,</span> <span class="s2">&quot;interactive&quot;</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="s2">&quot;critical&quot;</span><span class="p">],</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Log level to output when using the CLI.&quot;</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">"debug"</span><span class="p">,</span> <span class="s2">"info"</span><span class="p">,</span> <span class="s2">"warning"</span><span class="p">,</span> <span class="s2">"interactive"</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">,</span> <span class="s2">"critical"</span><span class="p">],</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Log level to output when using the CLI."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">geoips_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--warnings&quot;</span><span class="p">,</span>
+        <span class="s2">"--warnings"</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GEOIPS_WARNING_LEVEL&quot;</span><span class="p">,</span> <span class="s2">&quot;ignore&quot;</span><span class="p">),</span>
-        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="s2">&quot;always&quot;</span><span class="p">,</span> <span class="s2">&quot;module&quot;</span><span class="p">,</span> <span class="s2">&quot;once&quot;</span><span class="p">],</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"GEOIPS_WARNING_LEVEL"</span><span class="p">,</span> <span class="s2">"ignore"</span><span class="p">),</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">"default"</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">,</span> <span class="s2">"ignore"</span><span class="p">,</span> <span class="s2">"always"</span><span class="p">,</span> <span class="s2">"module"</span><span class="p">,</span> <span class="s2">"once"</span><span class="p">],</span>
         <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;Set the warning level for the CLI. See the warnings module documentation &quot;</span>
-            <span class="s2">&quot;for more information: &quot;</span>
-            <span class="s2">&quot;https://docs.python.org/3/library/warnings.html#warning-filter&quot;</span>
+            <span class="s2">"Set the warning level for the CLI. See the warnings module documentation "</span>
+            <span class="s2">"for more information: "</span>
+            <span class="s2">"https://docs.python.org/3/library/warnings.html#warning-filter"</span>
         <span class="p">),</span>
     <span class="p">)</span>
 
@@ -973,68 +975,68 @@ window.runMermaid = runMermaid;</script>
         <span class="n">add_help</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">formatter_class</span><span class="o">=</span><span class="n">AlphabeticalHelpFormatter</span>
     <span class="p">)</span>
     <span class="n">list_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--package-name&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
+        <span class="s2">"--package-name"</span><span class="p">,</span>
+        <span class="s2">"-p"</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">"all"</span><span class="p">,</span>
         <span class="n">choices</span><span class="o">=</span><span class="n">plugin_packages</span><span class="o">.</span><span class="n">entrypoints</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The GeoIPS package to list from.&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"The GeoIPS package to list from."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">mutex_group</span> <span class="o">=</span> <span class="n">list_parser</span><span class="o">.</span><span class="n">add_mutually_exclusive_group</span><span class="p">()</span>
     <span class="n">mutex_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--long&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;-l&quot;</span><span class="p">,</span>
+        <span class="s2">"--long"</span><span class="p">,</span>
+        <span class="s2">"-l"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Flag representing the &#39;long&#39; listing of a certain command.&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Flag representing the 'long' listing of a certain command."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">mutex_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--columns&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;-c&quot;</span><span class="p">,</span>
+        <span class="s2">"--columns"</span><span class="p">,</span>
+        <span class="s2">"-c"</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">"+"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Specific Headers of Data you&#39;d like to see listed.</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"""Specific Headers of Data you'd like to see listed.</span>
 <span class="s2">                For more in formation on headers available, run</span>
-<span class="s2">                &#39;geoips list &lt;cmd&gt; &lt;positional_args&gt; --columns help&#39;.</span>
-<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+<span class="s2">                'geoips list &lt;cmd&gt; &lt;positional_args&gt; --columns help'.</span>
+<span class="s2">                """</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">config_parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">add_help</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">config_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-n&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--namespace&quot;</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">,</span>
+        <span class="s2">"-n"</span><span class="p">,</span>
+        <span class="s2">"--namespace"</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">"geoips.plugin_packages"</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;The namespace of plugin packages to create plugin registries for. &quot;</span>
-            <span class="s2">&quot;If not specified, this defaults to &#39;geoips.plugin_packages&#39;.&quot;</span>
+            <span class="s2">"The namespace of plugin packages to create plugin registries for. "</span>
+            <span class="s2">"If not specified, this defaults to 'geoips.plugin_packages'."</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">config_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--packages&quot;</span><span class="p">,</span>
+        <span class="s2">"-p"</span><span class="p">,</span>
+        <span class="s2">"--packages"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">"+"</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;The plugin packages to create or delete plugin registries for. Defaults to&quot;</span>
-            <span class="s2">&quot; None. If None, all plugin packages under &#39;namespace&#39; will have their &quot;</span>
-            <span class="s2">&quot;plugin registries created or deleted, based on the command supplied.&quot;</span>
+            <span class="s2">"The plugin packages to create or delete plugin registries for. Defaults to"</span>
+            <span class="s2">" None. If None, all plugin packages under 'namespace' will have their "</span>
+            <span class="s2">"plugin registries created or deleted, based on the command supplied."</span>
         <span class="p">),</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GeoipsCommand"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.GeoipsCommand">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsCommand</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract Base Class for top-level GeoIPS Command Classes, such as run or list.</span>
+<span class="w">    </span><span class="sd">"""Abstract Base Class for top-level GeoIPS Command Classes, such as run or list.</span>
 
 <span class="sd">    This class is a blueprint of what each top-level GeoIPS Command Classes should</span>
 <span class="sd">    implement. Includes shared attributes and an ``add_suparsers`` function which is</span>
 <span class="sd">    used for initializing command classes of a certain GeoIPS Command.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LOG</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">legacy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize GeoipsCommand with a subparser and default to the command func.</span>
+<span class="w">        </span><span class="sd">"""Initialize GeoipsCommand with a subparser and default to the command func.</span>
 
 <span class="sd">        Do this for each GeoipsCLI.geoips_command_classes. This will instantiate</span>
 <span class="sd">        each subcommand class with a parser and point towards the correct default</span>
@@ -1045,32 +1047,32 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        LOG: optional - Logger Object</span>
 <span class="sd">            - Logging utility which can be used by any command class. Defaults to</span>
 <span class="sd">              LOG.interactive, however, can be changed to one of the values in</span>
-<span class="sd">              [&quot;debug&quot;, &quot;error&quot;, &quot;info&quot;, &quot;interactive&quot;, &quot;warning&quot;] if</span>
-<span class="sd">              &#39;--log_level/--log &lt;log_level_name&gt;&#39; is specified at the command line.</span>
+<span class="sd">              ["debug", "error", "info", "interactive", "warning"] if</span>
+<span class="sd">              '--log_level/--log &lt;log_level_name&gt;' is specified at the command line.</span>
 <span class="sd">        parent: optional - GeoipsCommand Class</span>
-<span class="sd">            - The parent command class that possibly is initializing it&#39;s child.</span>
+<span class="sd">            - The parent command class that possibly is initializing it's child.</span>
 <span class="sd">              Ex. GeoipsList would invoke this init function for each of its subcommand</span>
 <span class="sd">              classes (GeoipsListPackages, GeoipsListScripts, ...). When it invokes this</span>
-<span class="sd">              init, it supplies &#39;self&#39; as an argument to follow the correct logic below.</span>
+<span class="sd">              init, it supplies 'self' as an argument to follow the correct logic below.</span>
 <span class="sd">        legacy: optional - bool</span>
 <span class="sd">            - Whether or not the command supplied was called in legacy mode. This only</span>
-<span class="sd">              occurs for &#39;geoips run&#39; commands, where instead of typing &#39;geoips run&#39;,</span>
-<span class="sd">              the user called &#39;run_procflow&#39; or &#39;data_fusion_procflow&#39;. This is used for</span>
-<span class="sd">              suppressing or displaying help information for &#39;--procflow&#39;.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">              occurs for 'geoips run' commands, where instead of typing 'geoips run',</span>
+<span class="sd">              the user called 'run_procflow' or 'data_fusion_procflow'. This is used for</span>
+<span class="sd">              suppressing or displaying help information for '--procflow'.</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">legacy</span> <span class="o">=</span> <span class="n">legacy</span>
-        <span class="c1"># This is the Logger Object, not the actual logger call function of &#39;log_level&#39;.</span>
+        <span class="c1"># This is the Logger Object, not the actual logger call function of 'log_level'.</span>
         <span class="c1"># So, a command class would use the logger via:</span>
         <span class="c1"># self.LOG.&lt;log_level&gt;(log_statement)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">LOG</span> <span class="o">=</span> <span class="n">LOG</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">github_org_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/NRLMMD-GEOIPS/&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">github_org_url</span> <span class="o">=</span> <span class="s2">"https://github.com/NRLMMD-GEOIPS/"</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">alias_mapping</span> <span class="o">=</span> <span class="n">alias_mapping</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
             <span class="c1"># Set the combined name of the provided object. For example, if this was the</span>
-            <span class="c1"># parent &#39;list&#39; command, it would be &#39;geoips_list&#39;. If it was a child of</span>
-            <span class="c1"># list, for example &#39;scripts&#39;, combined name would be &#39;geoips_list_scripts&#39;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">combined_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parent</span><span class="o">.</span><span class="n">combined_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="c1"># parent 'list' command, it would be 'geoips_list'. If it was a child of</span>
+            <span class="c1"># list, for example 'scripts', combined name would be 'geoips_list_scripts'</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">combined_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">parent</span><span class="o">.</span><span class="n">combined_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span>
 
             <span class="c1"># The logic below traverses up from the current command class through all</span>
             <span class="c1"># of its parents. For example, if this was GeoipsListPackages, the parent</span>
@@ -1080,26 +1082,26 @@ window.runMermaid = runMermaid;</script>
             <span class="c1"># GeoipsListPackages</span>
             <span class="n">curr_parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parent_parsers</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">while</span> <span class="n">curr_parent</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ParentParsers</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">curr_parent</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_parser&quot;</span><span class="p">):</span>
-                <span class="c1"># Don&#39;t add parent parser arguments to &#39;geoips config install&#39;. Config&#39;s</span>
-                <span class="c1"># shared arguments only apply to &#39;create-registries&#39; and</span>
-                <span class="c1"># &#39;delete-registries&#39; and the time being. I&#39;ve looked for easier</span>
-                <span class="c1"># workarounds and can&#39;t find any suitable options other than hardcoding.</span>
+            <span class="k">while</span> <span class="n">curr_parent</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ParentParsers</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">curr_parent</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_parser"</span><span class="p">):</span>
+                <span class="c1"># Don't add parent parser arguments to 'geoips config install'. Config's</span>
+                <span class="c1"># shared arguments only apply to 'create-registries' and</span>
+                <span class="c1"># 'delete-registries' and the time being. I've looked for easier</span>
+                <span class="c1"># workarounds and can't find any suitable options other than hardcoding.</span>
 
                 <span class="c1"># If we end up needing to add more hardcoded special cases here, it</span>
                 <span class="c1"># might be worth looking into other methods of how to share arguments</span>
                 <span class="c1"># among specific commands, or subsets of commands. For now, this works</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;install&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;config&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">"install"</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">"config"</span><span class="p">:</span>
                     <span class="k">break</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;install-github&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;config&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">"install-github"</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">"config"</span><span class="p">:</span>
                     <span class="k">break</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;create&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;config&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">"create"</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">"config"</span><span class="p">:</span>
                     <span class="k">break</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;validate&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;config&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">"validate"</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">"config"</span><span class="p">:</span>
                     <span class="k">break</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">parent_parsers</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
                     <span class="mi">0</span><span class="p">,</span>
-                    <span class="nb">getattr</span><span class="p">(</span><span class="n">ParentParsers</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">curr_parent</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_parser&quot;</span><span class="p">),</span>
+                    <span class="nb">getattr</span><span class="p">(</span><span class="n">ParentParsers</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">curr_parent</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_parser"</span><span class="p">),</span>
                 <span class="p">)</span>
                 <span class="n">curr_parent</span> <span class="o">=</span> <span class="n">curr_parent</span><span class="o">.</span><span class="n">parent</span>
 
@@ -1114,51 +1116,51 @@ window.runMermaid = runMermaid;</script>
                 <span class="bp">self</span><span class="o">.</span><span class="n">cmd_instructions</span> <span class="o">=</span> <span class="n">cmd_instructions</span>
 
             <span class="k">try</span><span class="p">:</span>
-                <span class="c1"># Add custom logic for the &#39;order_based&#39; command. This is the only</span>
+                <span class="c1"># Add custom logic for the 'order_based' command. This is the only</span>
                 <span class="c1"># command which has epilog text, which in this case, is a warning saying</span>
                 <span class="c1"># this procflow is in development and is subject to change at any time</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;order_based&quot;</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">PATHS</span><span class="p">[</span><span class="s2">&quot;NO_COLOR&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">"order_based"</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">PATHS</span><span class="p">[</span><span class="s2">"NO_COLOR"</span><span class="p">]:</span>
                         <span class="n">epilog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">warning_no_color</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">epilog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">warning_with_color</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">epilog</span> <span class="o">=</span> <span class="kc">None</span>
-                <span class="c1"># If the command&#39;s name exists w/in the alias mapping, then</span>
+                <span class="c1"># If the command's name exists w/in the alias mapping, then</span>
                 <span class="c1"># add those aliases to the parser, otherwise just set it as an empty</span>
                 <span class="c1"># list.</span>
-                <span class="n">aliases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alias_mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">),</span> <span class="p">[])</span>
+                <span class="n">aliases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alias_mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"_"</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">),</span> <span class="p">[])</span>
                 <span class="c1"># Attempt to create a sepate sub-parser for the specific command</span>
                 <span class="c1"># class being initialized so we can separate the commands arguments</span>
                 <span class="c1"># in a tree-like structure</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                    <span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd_instructions</span><span class="p">[</span><span class="s2">&quot;instructions&quot;</span><span class="p">][</span>
+                    <span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd_instructions</span><span class="p">[</span><span class="s2">"instructions"</span><span class="p">][</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">combined_name</span>
-                    <span class="p">][</span><span class="s2">&quot;help_str&quot;</span><span class="p">],</span>
-                    <span class="n">help</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd_instructions</span><span class="p">[</span><span class="s2">&quot;instructions&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">combined_name</span><span class="p">][</span>
-                        <span class="s2">&quot;help_str&quot;</span>
+                    <span class="p">][</span><span class="s2">"help_str"</span><span class="p">],</span>
+                    <span class="n">help</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd_instructions</span><span class="p">[</span><span class="s2">"instructions"</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">combined_name</span><span class="p">][</span>
+                        <span class="s2">"help_str"</span>
                     <span class="p">],</span>
-                    <span class="n">usage</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd_instructions</span><span class="p">[</span><span class="s2">&quot;instructions&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">combined_name</span><span class="p">][</span>
-                        <span class="s2">&quot;usage_str&quot;</span>
+                    <span class="n">usage</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd_instructions</span><span class="p">[</span><span class="s2">"instructions"</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">combined_name</span><span class="p">][</span>
+                        <span class="s2">"usage_str"</span>
                     <span class="p">],</span>
                     <span class="n">epilog</span><span class="o">=</span><span class="n">epilog</span><span class="p">,</span>
                     <span class="n">parents</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parent_parsers</span><span class="p">,</span>
-                    <span class="n">conflict_handler</span><span class="o">=</span><span class="s2">&quot;resolve&quot;</span><span class="p">,</span>
+                    <span class="n">conflict_handler</span><span class="o">=</span><span class="s2">"resolve"</span><span class="p">,</span>
                     <span class="n">aliases</span><span class="o">=</span><span class="n">aliases</span><span class="p">,</span>
                     <span class="n">formatter_class</span><span class="o">=</span><span class="n">AlphabeticalHelpFormatter</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
-                    <span class="s2">&quot;Error, the supplied command line instructions are improperly &quot;</span>
-                    <span class="s2">&quot;formatted. You need an &#39;instructions&#39; entry that contains a &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">combined_name</span><span class="si">}</span><span class="s2">&#39; key.&quot;</span>
+                    <span class="s2">"Error, the supplied command line instructions are improperly "</span>
+                    <span class="s2">"formatted. You need an 'instructions' entry that contains a "</span>
+                    <span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">combined_name</span><span class="si">}</span><span class="s2">' key."</span>
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Otherwise initialize a top-level parser for this command.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                <span class="n">conflict_handler</span><span class="o">=</span><span class="s2">&quot;resolve&quot;</span><span class="p">,</span>
+                <span class="n">conflict_handler</span><span class="o">=</span><span class="s2">"resolve"</span><span class="p">,</span>
                 <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">ParentParsers</span><span class="o">.</span><span class="n">geoips_parser</span><span class="p">],</span>
                 <span class="n">formatter_class</span><span class="o">=</span><span class="n">AlphabeticalHelpFormatter</span><span class="p">,</span>
             <span class="p">)</span>
@@ -1167,14 +1169,14 @@ window.runMermaid = runMermaid;</script>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span>
-            <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">combined_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">),</span>
+            <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">combined_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"_"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">),</span>
             <span class="n">command_parser</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_handle_top_level_args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set up and retrieve the logger object for use in the CLI.</span>
+<span class="w">        </span><span class="sd">"""Set up and retrieve the logger object for use in the CLI.</span>
 
-<span class="sd">        If either flag [&#39;--log-level&#39;, &#39;--log&#39;] was provided with a valid log level</span>
+<span class="sd">        If either flag ['--log-level', '--log'] was provided with a valid log level</span>
 <span class="sd">        after that flag, then set up the logger using the provided log level as the</span>
 <span class="sd">        filter for what will be logged.</span>
 
@@ -1187,26 +1189,26 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        - info</span>
 <span class="sd">        - warning</span>
 <span class="sd">        - error</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># An independent parser is needed as this overrides the help messages of the CLI</span>
         <span class="c1"># by providing ``add_help=False``, we keep the custom help messages for the CLI</span>
         <span class="c1"># and by providing a parent class to the top level CLI parser, then it will be</span>
         <span class="c1"># shown in the help messages as well.</span>
         <span class="n">independent_parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">add_help</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">independent_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;-log&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;--log-level&quot;</span><span class="p">,</span>
+            <span class="s2">"-log"</span><span class="p">,</span>
+            <span class="s2">"--log-level"</span><span class="p">,</span>
             <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-            <span class="n">default</span><span class="o">=</span><span class="s2">&quot;interactive&quot;</span><span class="p">,</span>
-            <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;interactive&quot;</span><span class="p">,</span> <span class="s2">&quot;debug&quot;</span><span class="p">,</span> <span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;warning&quot;</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">],</span>
+            <span class="n">default</span><span class="o">=</span><span class="s2">"interactive"</span><span class="p">,</span>
+            <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">"interactive"</span><span class="p">,</span> <span class="s2">"debug"</span><span class="p">,</span> <span class="s2">"info"</span><span class="p">,</span> <span class="s2">"warning"</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">],</span>
         <span class="p">)</span>
         <span class="n">independent_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;--warnings&quot;</span><span class="p">,</span>
+            <span class="s2">"--warnings"</span><span class="p">,</span>
             <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-            <span class="n">default</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GEOIPS_WARNING_LEVEL&quot;</span><span class="p">,</span> <span class="s2">&quot;ignore&quot;</span><span class="p">),</span>
-            <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="s2">&quot;always&quot;</span><span class="p">,</span> <span class="s2">&quot;module&quot;</span><span class="p">,</span> <span class="s2">&quot;once&quot;</span><span class="p">],</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"GEOIPS_WARNING_LEVEL"</span><span class="p">,</span> <span class="s2">"ignore"</span><span class="p">),</span>
+            <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">"default"</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">,</span> <span class="s2">"ignore"</span><span class="p">,</span> <span class="s2">"always"</span><span class="p">,</span> <span class="s2">"module"</span><span class="p">,</span> <span class="s2">"once"</span><span class="p">],</span>
         <span class="p">)</span>
-        <span class="c1"># Parse now, as we&#39;ll use logging among all of the child command classes</span>
+        <span class="c1"># Parse now, as we'll use logging among all of the child command classes</span>
         <span class="n">known_args</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">independent_parser</span><span class="o">.</span><span class="n">parse_known_args</span><span class="p">()</span>  <span class="c1"># NOQA</span>
 
         <span class="c1"># Set up warning level</span>
@@ -1221,33 +1223,33 @@ window.runMermaid = runMermaid;</script>
     <span class="nd">@property</span>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Name of the command class.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Name of the command class."""</span>
         <span class="k">pass</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">command_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of command_classes related to the top level command.</span>
+<span class="w">        </span><span class="sd">"""List of command_classes related to the top level command.</span>
 
 <span class="sd">        For example, if the class provided was GeoipsList, command_classes would</span>
-<span class="sd">        be the list of available command_classes that &quot;geoips list&quot; implements.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        be the list of available command_classes that "geoips list" implements.</span>
+<span class="sd">        """</span>
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="GeoipsCommand.add_subparsers"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.GeoipsCommand.add_subparsers">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_subparsers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add subparsers for each command class.</span>
+<span class="w">        </span><span class="sd">"""Add subparsers for each command class.</span>
 
 <span class="sd">        This is done so we can limit the scope of what arguments are accepted for each</span>
 <span class="sd">        geoips &lt;cmd&gt; command. This is only done for the top-level command, such as</span>
-<span class="sd">        &quot;list&quot;, &quot;run&quot;, &quot;describe&quot;, etc.</span>
+<span class="sd">        "list", "run", "describe", etc.</span>
 
 <span class="sd">        For example, if this were the GeoipsList Command Class, we would create a</span>
 <span class="sd">        self.list_subparsers attribute, which we then add individual parsers for each</span>
 <span class="sd">        command, as in interfaces, plugins, packages, scripts, etc.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">command_classes</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">subparsers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span>
-                <span class="n">help</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> instructions.&quot;</span>
+                <span class="n">help</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> instructions."</span>
             <span class="p">)</span>
             <span class="c1"># Sort subcommands alphabetically:</span>
             <span class="n">sorted_command_classes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">command_classes</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
@@ -1256,24 +1258,24 @@ window.runMermaid = runMermaid;</script>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">plugin_package_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of names of all installed Geoips Plugin Packages.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""List of names of all installed Geoips Plugin Packages."""</span>
         <span class="k">return</span> <span class="n">plugin_packages</span><span class="o">.</span><span class="n">entrypoints</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">plugin_package_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of paths to all installed Geoips Plugin Packages.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""List of paths to all installed Geoips Plugin Packages."""</span>
         <span class="k">return</span> <span class="n">plugin_packages</span><span class="o">.</span><span class="n">paths</span></div>
 
 
 <div class="viewcode-block" id="GeoipsExecutableCommand"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.GeoipsExecutableCommand">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsExecutableCommand</span><span class="p">(</span><span class="n">GeoipsCommand</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract Base Class for executable CLI commands, inheriting from GeoipsCommand.</span>
+<span class="w">    </span><span class="sd">"""Abstract Base Class for executable CLI commands, inheriting from GeoipsCommand.</span>
 
 <span class="sd">    This class is a blueprint of what each executable GeoIPS Command Classes</span>
 <span class="sd">    can implement.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LOG</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">legacy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize GeoipsExecutableCommand.</span>
+<span class="w">        </span><span class="sd">"""Initialize GeoipsExecutableCommand.</span>
 
 <span class="sd">        This is a child of GeoipsCommand and will invoke the functionality of</span>
 <span class="sd">        GeoipsCommand __init__ func alongside additional logic needed to set up</span>
@@ -1286,23 +1288,23 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        LOG: Logger Object</span>
 <span class="sd">            - Logging utility which can be used by any command class. Defaults to</span>
 <span class="sd">              LOG.interactive, however, can be changed to one of the values in</span>
-<span class="sd">              [&quot;debug&quot;, &quot;error&quot;, &quot;info&quot;, &quot;interactive&quot;, &quot;warning&quot;] if</span>
-<span class="sd">              &#39;--log_level/--log &lt;log_level_name&gt;&#39; is specified at the command line.</span>
+<span class="sd">              ["debug", "error", "info", "interactive", "warning"] if</span>
+<span class="sd">              '--log_level/--log &lt;log_level_name&gt;' is specified at the command line.</span>
 <span class="sd">        parent: optional - GeoipsCommand Class</span>
-<span class="sd">            - The parent command class that possibly is initializing it&#39;s child.</span>
+<span class="sd">            - The parent command class that possibly is initializing it's child.</span>
 <span class="sd">              Ex. GeoipsList would invoke this init function for each of its subcommand</span>
 <span class="sd">              classes (GeoipsListPackages, GeoipsListScripts, ...). When it invokes this</span>
-<span class="sd">              init, it supplies &#39;self&#39; as an argument to follow the correct logic below.</span>
+<span class="sd">              init, it supplies 'self' as an argument to follow the correct logic below.</span>
 <span class="sd">        legacy: optional - bool</span>
 <span class="sd">            - Whether or not the command supplied was called in legacy mode. This only</span>
-<span class="sd">              occurs for &#39;geoips run&#39; commands, where instead of typing &#39;geoips run&#39;,</span>
-<span class="sd">              the user called &#39;run_procflow&#39; or &#39;data_fusion_procflow&#39;. This is used for</span>
-<span class="sd">              suppressing or displaying help information for &#39;--procflow&#39;.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">              occurs for 'geoips run' commands, where instead of typing 'geoips run',</span>
+<span class="sd">              the user called 'run_procflow' or 'data_fusion_procflow'. This is used for</span>
+<span class="sd">              suppressing or displaying help information for '--procflow'.</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">LOG</span><span class="o">=</span><span class="n">LOG</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">legacy</span><span class="o">=</span><span class="n">legacy</span><span class="p">)</span>
         <span class="c1"># Since this class is executable (ie. not the cli, top-level list...),</span>
         <span class="c1"># add available arguments for that command and set that function to</span>
-        <span class="c1"># the command&#39;s executable function (__call__) if that command is called.</span>
+        <span class="c1"># the command's executable function (__call__) if that command is called.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_arguments</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span>
             <span class="n">exe_command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="fm">__call__</span><span class="p">,</span>
@@ -1310,34 +1312,34 @@ window.runMermaid = runMermaid;</script>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">terminal_width</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The Width in ANSI-Characters of the User&#39;s Terminal.</span>
+<span class="w">        </span><span class="sd">"""The Width in ANSI-Characters of the User's Terminal.</span>
 
 <span class="sd">        Generate this every time as the screen width may change during usage.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">get_terminal_size</span><span class="p">()</span><span class="o">.</span><span class="n">columns</span> <span class="o">-</span> <span class="mi">1</span>
 
 <div class="viewcode-block" id="GeoipsExecutableCommand.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.GeoipsExecutableCommand.add_arguments">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments related to the command class.</span>
+<span class="w">        </span><span class="sd">"""Add arguments related to the command class.</span>
 
-<span class="sd">        This is an abstract method because we don&#39;t know which arguments need to be</span>
+<span class="sd">        This is an abstract method because we don't know which arguments need to be</span>
 <span class="sd">        added for each class at this moment.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">pass</span></div>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Functionality to execute the command being called.</span>
+<span class="w">        </span><span class="sd">"""Functionality to execute the command being called.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        args: argparse Namespace()</span>
 <span class="sd">            - The namespace of the arguments of a specific CLI Command.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">pass</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_output_dictionary_highlighted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dict_entry</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print to terminal the yaml-dumped dictionary of a certain interface/plugin.</span>
+<span class="w">        </span><span class="sd">"""Print to terminal the yaml-dumped dictionary of a certain interface/plugin.</span>
 
 <span class="sd">        Color the key, value pairs cyan, yellow to highlight the text in a human</span>
 <span class="sd">        readable manner. This is done for every `geoips describe ...` command.</span>
@@ -1346,39 +1348,39 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        ----------</span>
 <span class="sd">        plugin_entry: dict</span>
 <span class="sd">            - The dictionary of info for a certain plugin in the plugin registry.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">yaml_text</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">dict_entry</span><span class="p">,</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">yaml_text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">yaml_text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">):</span>
             <span class="c1"># Color the keys in cyan and values in yellow</span>
-            <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
-                <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-                <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Package&quot;</span><span class="p">,</span> <span class="s2">&quot;Geoips Package&quot;</span><span class="p">]:</span>
-                    <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;GeoIPS Package&quot;</span>
-                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;Relpath&quot;</span><span class="p">:</span>
-                    <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;Relative Path&quot;</span>
+            <span class="k">if</span> <span class="s2">":"</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"_"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"Package"</span><span class="p">,</span> <span class="s2">"Geoips Package"</span><span class="p">]:</span>
+                    <span class="n">key</span> <span class="o">=</span> <span class="s2">"GeoIPS Package"</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">"Relpath"</span><span class="p">:</span>
+                    <span class="n">key</span> <span class="o">=</span> <span class="s2">"Relative Path"</span>
 
-                <span class="k">if</span> <span class="n">PATHS</span><span class="p">[</span><span class="s2">&quot;NO_COLOR&quot;</span><span class="p">]:</span>
-                    <span class="n">formatted_line</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">if</span> <span class="n">PATHS</span><span class="p">[</span><span class="s2">"NO_COLOR"</span><span class="p">]:</span>
+                    <span class="n">formatted_line</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">formatted_line</span> <span class="o">=</span> <span class="n">Fore</span><span class="o">.</span><span class="n">CYAN</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span>
+                    <span class="n">formatted_line</span> <span class="o">=</span> <span class="n">Fore</span><span class="o">.</span><span class="n">CYAN</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span> <span class="s2">":"</span> <span class="o">+</span> <span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span>
                     <span class="n">formatted_line</span> <span class="o">+=</span> <span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span> <span class="o">+</span> <span class="n">value</span> <span class="o">+</span> <span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span>
                 <span class="nb">print</span><span class="p">(</span><span class="n">formatted_line</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">PATHS</span><span class="p">[</span><span class="s2">&quot;NO_COLOR&quot;</span><span class="p">]:</span>
-                    <span class="n">formatted_line</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">if</span> <span class="n">PATHS</span><span class="p">[</span><span class="s2">"NO_COLOR"</span><span class="p">]:</span>
+                    <span class="n">formatted_line</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s2">"</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">formatted_line</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span> <span class="o">+</span> <span class="n">line</span> <span class="o">+</span> <span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span>
+                    <span class="n">formatted_line</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\t</span><span class="s2">"</span> <span class="o">+</span> <span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span> <span class="o">+</span> <span class="n">line</span> <span class="o">+</span> <span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span>
                 <span class="nb">print</span><span class="p">(</span><span class="n">formatted_line</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_registry_by_interface_and_package</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interface</span><span class="p">,</span> <span class="n">package_name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve the correct plugin registry given interface and package name.</span>
+<span class="w">        </span><span class="sd">"""Retrieve the correct plugin registry given interface and package name.</span>
 
 <span class="sd">        Given a GeoIPS Interface and a package name, load in the correct plugin</span>
 <span class="sd">        registry. This could be the global plugin registry which each interface has</span>
 <span class="sd">        access to, or it could be the correct interface entry of a certain plugin</span>
-<span class="sd">        package&#39;s &quot;registered_plugins.json&quot;, if we are just searching through a</span>
+<span class="sd">        package's "registered_plugins.json", if we are just searching through a</span>
 <span class="sd">        single package (which occurs when -p &lt;package_name&gt; is given).</span>
 
 <span class="sd">        Parameters</span>
@@ -1387,23 +1389,23 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            - The interface we will be parsing and displaying.</span>
 <span class="sd">        package_name: str</span>
 <span class="sd">            - The name of the package to retrive the appropriate interfaces from:</span>
-<span class="sd">              If name is &quot;all&quot;, just use the plugin registry that&#39;s on all interfaces.</span>
+<span class="sd">              If name is "all", just use the plugin registry that's on all interfaces.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        interface_registry: dict</span>
 <span class="sd">            - The plugin registry associated with the given interface. If the provided</span>
-<span class="sd">              interface doesn&#39;t exist in a certain package&#39;s plugin registry, then None</span>
+<span class="sd">              interface doesn't exist in a certain package's plugin registry, then None</span>
 <span class="sd">              is returned instead.</span>
 <span class="sd">        interface_type: str</span>
 <span class="sd">            - The type of interface we are dealing with:</span>
-<span class="sd">              (&quot;module_based&quot;, &quot;yaml_based&quot;, &quot;text_based&quot;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">package_name</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+<span class="sd">              ("module_based", "yaml_based", "text_based")</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">package_name</span> <span class="o">==</span> <span class="s2">"all"</span><span class="p">:</span>
             <span class="c1"># If there are no plugins of current interface, just return None, do not</span>
-            <span class="c1"># fail catastrophically. This will fail on &quot;sector_adjusters&quot; interface</span>
-            <span class="c1"># during &quot;geoips list plugins&quot; if only geoips repo is installed (since there</span>
-            <span class="c1"># are no &quot;sector_adjuster&quot; plugins in the geoips repo)</span>
+            <span class="c1"># fail catastrophically. This will fail on "sector_adjusters" interface</span>
+            <span class="c1"># during "geoips list plugins" if only geoips repo is installed (since there</span>
+            <span class="c1"># are no "sector_adjuster" plugins in the geoips repo)</span>
             <span class="k">if</span> <span class="p">(</span>
                 <span class="n">interface</span><span class="o">.</span><span class="n">name</span>
                 <span class="ow">in</span> <span class="n">interface</span><span class="o">.</span><span class="n">plugin_registry</span><span class="o">.</span><span class="n">registered_plugins</span><span class="p">[</span>
@@ -1417,9 +1419,9 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">interface_registry</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">registry_file</span> <span class="o">=</span> <span class="n">REGISTRY_DIRECTORY</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;geoips.plugin_packages/</span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">/registered_plugins.json&quot;</span>
+                <span class="sa">f</span><span class="s2">"geoips.plugin_packages/</span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">/registered_plugins.json"</span>
             <span class="p">)</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">registry_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fo</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">registry_file</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fo</span><span class="p">:</span>
                 <span class="n">interface_registry</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fo</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">interface</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">interface_registry</span><span class="p">[</span><span class="n">interface</span><span class="o">.</span><span class="n">interface_type</span><span class="p">]:</span>
                 <span class="n">interface_registry</span> <span class="o">=</span> <span class="n">interface_registry</span><span class="p">[</span><span class="n">interface</span><span class="o">.</span><span class="n">interface_type</span><span class="p">][</span>
@@ -1430,11 +1432,11 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">interface_registry</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_headers_by_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">default_headers</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve the appropriate headers from a list command with the given args.</span>
+<span class="w">        </span><span class="sd">"""Retrieve the appropriate headers from a list command with the given args.</span>
 
-<span class="sd">        Headers are the top-row of the tabular output from &#39;list&#39; commands. These are</span>
+<span class="sd">        Headers are the top-row of the tabular output from 'list' commands. These are</span>
 <span class="sd">        customizable via optional args [--column, --long] and we retrieve the</span>
-<span class="sd">        appropriate headers based on those optional arguments and the &#39;list&#39; command</span>
+<span class="sd">        appropriate headers based on those optional arguments and the 'list' command</span>
 <span class="sd">        provided.</span>
 
 <span class="sd">        Parameters</span>
@@ -1446,16 +1448,16 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        headers: list of str</span>
 <span class="sd">            - The list of column headers that will be outputted</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">columns</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">columns</span>
         <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
             <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">default_headers</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
                     <span class="n">err_str</span> <span class="o">=</span> <span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Column header &#39;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&#39;, is not a valid header. Please select &quot;</span>
-                        <span class="s2">&quot;one or more of the following keys, which correspond to the &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;appropriate value:</span><span class="se">\n</span><span class="si">{</span><span class="n">default_headers</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">"Column header '</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">', is not a valid header. Please select "</span>
+                        <span class="s2">"one or more of the following keys, which correspond to the "</span>
+                        <span class="sa">f</span><span class="s2">"appropriate value:</span><span class="se">\n</span><span class="si">{</span><span class="n">default_headers</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err_str</span><span class="p">)</span>
                 <span class="n">headers</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_headers</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
@@ -1465,9 +1467,9 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">headers</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_print_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interface</span><span class="p">,</span> <span class="n">interface_registry</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print the plugins under a certain interface in alongside minimal info.</span>
+<span class="w">        </span><span class="sd">"""Print the plugins under a certain interface in alongside minimal info.</span>
 
-<span class="sd">        &quot;Long Format&quot; includes these pieces of information:</span>
+<span class="sd">        "Long Format" includes these pieces of information:</span>
 <span class="sd">            - GeoIPS Package</span>
 <span class="sd">            - Interface Name</span>
 <span class="sd">            - Interface Type</span>
@@ -1484,15 +1486,15 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            - The plugin registry associated with the given interface.</span>
 <span class="sd">        args: argparse Argument Namespace</span>
 <span class="sd">            - The arguments provided to a certain list command</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">default_headers</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="s2">&quot;GeoIPS Package&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="s2">&quot;Interface Name&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;plugin_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Interface Type&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="s2">&quot;Family&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;plugin_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Plugin Name&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;source_names&quot;</span><span class="p">:</span> <span class="s2">&quot;Source Names&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;relpath&quot;</span><span class="p">:</span> <span class="s2">&quot;Relative Path&quot;</span><span class="p">,</span>
+            <span class="s2">"package"</span><span class="p">:</span> <span class="s2">"GeoIPS Package"</span><span class="p">,</span>
+            <span class="s2">"interface"</span><span class="p">:</span> <span class="s2">"Interface Name"</span><span class="p">,</span>
+            <span class="s2">"plugin_type"</span><span class="p">:</span> <span class="s2">"Interface Type"</span><span class="p">,</span>
+            <span class="s2">"family"</span><span class="p">:</span> <span class="s2">"Family"</span><span class="p">,</span>
+            <span class="s2">"plugin_name"</span><span class="p">:</span> <span class="s2">"Plugin Name"</span><span class="p">,</span>
+            <span class="s2">"source_names"</span><span class="p">:</span> <span class="s2">"Source Names"</span><span class="p">,</span>
+            <span class="s2">"relpath"</span><span class="p">:</span> <span class="s2">"Relative Path"</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="n">headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_headers_by_command</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">default_headers</span><span class="p">)</span>
         <span class="n">table_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_table_data_by_interface</span><span class="p">(</span>
@@ -1504,17 +1506,17 @@ window.runMermaid = runMermaid;</script>
             <span class="n">tabulate</span><span class="p">(</span>
                 <span class="n">table_data</span><span class="p">,</span>
                 <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
-                <span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;rounded_grid&quot;</span><span class="p">,</span>
+                <span class="n">tablefmt</span><span class="o">=</span><span class="s2">"rounded_grid"</span><span class="p">,</span>
                 <span class="n">maxcolwidths</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">terminal_width</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">headers</span><span class="p">),</span>
             <span class="p">)</span>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_generate_table_data_by_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interface</span><span class="p">,</span> <span class="n">interface_registry</span><span class="p">,</span> <span class="n">headers</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the table data needed for output in &#39;_print_plugins.</span>
+<span class="w">        </span><span class="sd">"""Generate the table data needed for output in '_print_plugins.</span>
 
 <span class="sd">        Given a certain interface and a list of headers, generate a list of table data</span>
-<span class="sd">        used for outputting information used by &#39;geoips list interface&#39; and</span>
-<span class="sd">        &#39;geoips list plugins&#39;.</span>
+<span class="sd">        used for outputting information used by 'geoips list interface' and</span>
+<span class="sd">        'geoips list plugins'.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1524,16 +1526,16 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            - The plugin registry associated with the given interface.</span>
 <span class="sd">        headers: dict</span>
 <span class="sd">            - Dictionary of strings representing the key-value mapping of the</span>
-<span class="sd">              headers we&#39;d like to output.</span>
+<span class="sd">              headers we'd like to output.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        table_data: 2D List of Strings</span>
 <span class="sd">            - The corresponding data we will output, where each sub-list is ordered</span>
 <span class="sd">              by headers.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">table_data</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="n">interface</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;products&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">interface</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">"products"</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">plugin_key</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">interface_registry</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
                 <span class="n">product_dict</span> <span class="o">=</span> <span class="n">interface_registry</span><span class="p">[</span><span class="n">plugin_key</span><span class="p">]</span>
                 <span class="n">table_data</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry</span><span class="p">(</span><span class="n">product_dict</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
@@ -1542,12 +1544,12 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">table_data</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin_dict</span><span class="p">,</span> <span class="n">headers</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a table of info based on the plugin and headers provided.</span>
+<span class="w">        </span><span class="sd">"""Generate a table of info based on the plugin and headers provided.</span>
 
 <span class="sd">        Where a table of info is a 2D list of strings that represents the</span>
 <span class="sd">        plugin x headers combination of data. Say, for product plugin yaml file</span>
-<span class="sd">        abi.yaml, we&#39;d loop over every product in that file, add to that product</span>
-<span class="sd">        plugin&#39;s entry each header (&#39;source_name&#39;, &#39;family&#39;, &#39;plugin_name&#39;, etc.) that</span>
+<span class="sd">        abi.yaml, we'd loop over every product in that file, add to that product</span>
+<span class="sd">        plugin's entry each header ('source_name', 'family', 'plugin_name', etc.) that</span>
 <span class="sd">        was selected, and return the 2D table where each 1D list represents the info</span>
 <span class="sd">        that corresponds to the product plugin.</span>
 
@@ -1558,29 +1560,29 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">              certain interface or all plugins of a certain product.</span>
 <span class="sd">        headers: dict</span>
 <span class="sd">            - Dictionary of strings representing the key-value mapping of the</span>
-<span class="sd">              headers we&#39;d like to output.</span>
+<span class="sd">              headers we'd like to output.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        table_data: 2D list of str</span>
 <span class="sd">            - A 2D list of strings containing information about plugins listed in the</span>
 <span class="sd">              order of headers.keys()</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">table_data</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">plugin_key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">plugin_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
             <span class="n">plugin_entry</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">header</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">headers</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
                 <span class="k">if</span> <span class="p">(</span>
-                    <span class="n">header</span> <span class="o">==</span> <span class="s2">&quot;source_names&quot;</span>
-                    <span class="ow">and</span> <span class="n">plugin_dict</span><span class="p">[</span><span class="n">plugin_key</span><span class="p">][</span><span class="s2">&quot;interface&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;products&quot;</span>
+                    <span class="n">header</span> <span class="o">==</span> <span class="s2">"source_names"</span>
+                    <span class="ow">and</span> <span class="n">plugin_dict</span><span class="p">[</span><span class="n">plugin_key</span><span class="p">][</span><span class="s2">"interface"</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">"products"</span>
                 <span class="p">):</span>
-                    <span class="n">plugin_entry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;N/A&quot;</span><span class="p">)</span>
+                    <span class="n">plugin_entry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"N/A"</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="p">(</span>
-                    <span class="n">header</span> <span class="o">==</span> <span class="s2">&quot;family&quot;</span>
-                    <span class="ow">and</span> <span class="n">plugin_dict</span><span class="p">[</span><span class="n">plugin_key</span><span class="p">][</span><span class="s2">&quot;interface&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;products&quot;</span>
+                    <span class="n">header</span> <span class="o">==</span> <span class="s2">"family"</span>
+                    <span class="ow">and</span> <span class="n">plugin_dict</span><span class="p">[</span><span class="n">plugin_key</span><span class="p">][</span><span class="s2">"interface"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"products"</span>
                 <span class="p">):</span>
-                    <span class="n">plugin_entry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;N/A&quot;</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">header</span> <span class="o">==</span> <span class="s2">&quot;plugin_name&quot;</span><span class="p">:</span>
+                    <span class="n">plugin_entry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"N/A"</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">header</span> <span class="o">==</span> <span class="s2">"plugin_name"</span><span class="p">:</span>
                     <span class="n">plugin_entry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin_key</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">plugin_entry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin_dict</span><span class="p">[</span><span class="n">plugin_key</span><span class="p">][</span><span class="n">header</span><span class="p">])</span>
@@ -1589,7 +1591,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="GeoipsWorkflowCommand"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.GeoipsWorkflowCommand">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsWorkflowCommand</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Executable command class used for two workflow-specific commands.</span>
+<span class="w">    </span><span class="sd">"""Executable command class used for two workflow-specific commands.</span>
 
 <span class="sd">    Those commands include ``geoips test workflow`` and ``geoips run order_based``.</span>
 <span class="sd">    This class has been created to share functionality for detecting input workflows</span>
@@ -1598,10 +1600,10 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Accepted inputs include the name of a registered workflow plugin, a .json or .yaml</span>
 <span class="sd">    filepath to an unregistered workflow plugin, or a dictionary representing a</span>
 <span class="sd">    workflow that will be literally evaluated as such.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="GeoipsWorkflowCommand.ensure_valid_json_or_yaml_path"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.GeoipsWorkflowCommand.ensure_valid_json_or_yaml_path">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">ensure_valid_json_or_yaml_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure &#39;value&#39; is a valid path to a json/yaml file and convert to a Path object.  # NOQA</span>
+<span class="w">        </span><span class="sd">"""Ensure 'value' is a valid path to a json/yaml file and convert to a Path object.  # NOQA</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1612,10 +1614,10 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        path: Path</span>
 <span class="sd">            - A json or yaml pathlib.Path object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;.json&quot;</span><span class="p">,</span> <span class="s2">&quot;.yaml&quot;</span><span class="p">,</span> <span class="s2">&quot;.yml&quot;</span><span class="p">}:</span>
+        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">".json"</span><span class="p">,</span> <span class="s2">".yaml"</span><span class="p">,</span> <span class="s2">".yml"</span><span class="p">}:</span>
             <span class="k">return</span> <span class="kc">False</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
@@ -1624,7 +1626,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">path</span></div>
 
 <div class="viewcode-block" id="GeoipsWorkflowCommand.workflow_type"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.GeoipsWorkflowCommand.workflow_type">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">workflow_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Path</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cast input value to a workflow type.</span>
+<span class="w">        </span><span class="sd">"""Cast input value to a workflow type.</span>
 
 <span class="sd">        If value cannot be cast to an accepted workflow type, argparse will raise an</span>
 <span class="sd">        error denoting that your argument value could not be associated with an</span>
@@ -1640,9 +1642,9 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        workflow: WorkflowPlugin-like</span>
 <span class="sd">            - The same input value as long as it could be cast to any of the accepted</span>
 <span class="sd">              workflow types. Workflow has been automatically expanded in the case that</span>
-<span class="sd">              we need to apply overrides to it. Doesn&#39;t change the functionality of the</span>
-<span class="sd">              OBP if overrides don&#39;t occur.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">              we need to apply overrides to it. Doesn't change the functionality of the</span>
+<span class="sd">              OBP if overrides don't occur.</span>
+<span class="sd">        """</span>
         <span class="c1"># unregistered generated workflow</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
             <span class="n">workflow</span> <span class="o">=</span> <span class="n">value</span>
@@ -1664,25 +1666,25 @@ window.runMermaid = runMermaid;</script>
                     <span class="c1"># usually None to an Objects __init__ function. It will construct</span>
                     <span class="c1"># differently if those parameters are provided. In this case, we are</span>
                     <span class="c1"># telling pydantic to expand the workflow, rather than validate just</span>
-                    <span class="c1"># what&#39;s in the data provided</span>
-                    <span class="n">context</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;expand&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                    <span class="c1"># what's in the data provided</span>
+                    <span class="n">context</span><span class="o">=</span><span class="p">{</span><span class="s2">"expand"</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
                 <span class="p">)</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
             <span class="k">except</span> <span class="p">(</span><span class="n">ValidationError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not parse workflow dict: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Could not parse workflow dict: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="c1"># unregistered workflow @ filepath (any path that exists on disk)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ensure_valid_json_or_yaml_path</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
             <span class="c1"># since the filepath was valid and exists, load the data and validate it</span>
             <span class="n">filepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ensure_valid_json_or_yaml_path</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">filepath</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;.json&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">filepath</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">".json"</span><span class="p">:</span>
                 <span class="n">loader</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">loader</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span>
 
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">workflow</span> <span class="o">=</span> <span class="n">loader</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
             <span class="c1"># This assumes if you pass the filepath option that the plugin itself is</span>
-            <span class="c1"># not registered. Validate that it&#39;s formatted correctly.</span>
+            <span class="c1"># not registered. Validate that it's formatted correctly.</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">workflow</span> <span class="o">=</span> <span class="n">WorkflowPluginModel</span><span class="p">(</span>
                     <span class="o">**</span><span class="n">workflow</span><span class="p">,</span>
@@ -1691,11 +1693,11 @@ window.runMermaid = runMermaid;</script>
                     <span class="c1"># usually None to an Objects __init__ function. It will construct</span>
                     <span class="c1"># differently if those parameters are provided. In this case, we are</span>
                     <span class="c1"># telling pydantic to expand the workflow, rather than validate just</span>
-                    <span class="c1"># what&#39;s in the data provided</span>
-                    <span class="n">context</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;expand&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                    <span class="c1"># what's in the data provided</span>
+                    <span class="n">context</span><span class="o">=</span><span class="p">{</span><span class="s2">"expand"</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
                 <span class="p">)</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
             <span class="k">except</span> <span class="p">(</span><span class="n">ValidationError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not parse workflow file &#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Could not parse workflow file '</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">': </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="c1"># registered named workflow</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="c1"># Whether to rebuild the plugin registry before resolving the named</span>
@@ -1705,7 +1707,7 @@ window.runMermaid = runMermaid;</script>
             <span class="c1"># ``non_existent`` names are used by tests to assert failure without</span>
             <span class="c1"># triggering a rebuild, so the rebuild is force-disabled for them.</span>
             <span class="n">rbr</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="kc">False</span> <span class="k">if</span> <span class="s2">&quot;non_existent&quot;</span> <span class="ow">in</span> <span class="n">value</span> <span class="k">else</span> <span class="n">PATHS</span><span class="p">[</span><span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">]</span>
+                <span class="kc">False</span> <span class="k">if</span> <span class="s2">"non_existent"</span> <span class="ow">in</span> <span class="n">value</span> <span class="k">else</span> <span class="n">PATHS</span><span class="p">[</span><span class="s2">"GEOIPS_REBUILD_REGISTRIES"</span><span class="p">]</span>
             <span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">workflow</span> <span class="o">=</span> <span class="n">workflows</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span>
@@ -1713,26 +1715,26 @@ window.runMermaid = runMermaid;</script>
                 <span class="p">)</span>
             <span class="k">except</span> <span class="n">PluginError</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Error: could not load workflow plugin under name &#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Error: could not load workflow plugin under name '</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">'."</span>
                 <span class="p">)</span>
             <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Workflow &#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39; failed validation:</span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Workflow '</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">' failed validation:</span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="s2">&quot;Error: positional argument &#39;workflow&#39; could not be associated with an&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot; accepted type. Input = </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> ; accepted types = &quot;</span>
-                <span class="s2">&quot;[str, Path, dict]. If you provided a Path, make sure it&#39;s either a &quot;</span>
-                <span class="s2">&quot;.json or .yaml file and that the file exists.&quot;</span>
+                <span class="s2">"Error: positional argument 'workflow' could not be associated with an"</span>
+                <span class="sa">f</span><span class="s2">" accepted type. Input = </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> ; accepted types = "</span>
+                <span class="s2">"[str, Path, dict]. If you provided a Path, make sure it's either a "</span>
+                <span class="s2">".json or .yaml file and that the file exists."</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">workflow</span></div></div>
 
 
 <div class="viewcode-block" id="CommandClassFactory"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.CommandClassFactory">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CommandClassFactory</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An abstract class factory for creating CLI-based Command Classes.</span>
+<span class="w">    </span><span class="sd">"""An abstract class factory for creating CLI-based Command Classes.</span>
 
 <span class="sd">    This architecture can be used to generate CLI command classes for specific use</span>
-<span class="sd">    cases. A couple which we&#39;ll implement early on is are:</span>
+<span class="sd">    cases. A couple which we'll implement early on is are:</span>
 
 <span class="sd">    * GeoipsListSingleInterface:</span>
 
@@ -1750,47 +1752,47 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">    This class has been created to reduce the verbosity of geoips commands without</span>
 <span class="sd">    having to copy-paste classes specifc to a certain interface.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_class</span><span class="p">,</span> <span class="n">class_name</span><span class="p">,</span> <span class="n">add_attrs</span><span class="o">=</span><span class="p">{}):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the class factory and generate a class derived from base_class.</span>
+<span class="w">        </span><span class="sd">"""Initialize the class factory and generate a class derived from base_class.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        base_class: Class</span>
 <span class="sd">            - The base class to build each generated class with..</span>
 <span class="sd">            - Ie. if we were creating a class factory for GeoipsListSingleInterface, the</span>
-<span class="sd">              base class would be &#39;GeoipsListSingleInterface&#39;.</span>
+<span class="sd">              base class would be 'GeoipsListSingleInterface'.</span>
 <span class="sd">        class_name: str</span>
-<span class="sd">            - The name of the class that we&#39;d like to generate.</span>
+<span class="sd">            - The name of the class that we'd like to generate.</span>
 <span class="sd">            - Ie. if we were creating a class factory for GeoipsListSingleInterface, the</span>
 <span class="sd">              class to generate would be a strign that represents all the class for the</span>
-<span class="sd">              associated interface we&#39;d like to generate (&#39;algorithms&#39;, ...).</span>
+<span class="sd">              associated interface we'd like to generate ('algorithms', ...).</span>
 <span class="sd">            - The classes would then look like:</span>
-<span class="sd">                - &quot;GeoipsListAlgorithms&quot;</span>
-<span class="sd">                - &quot;GeoipsListColormappers&quot;</span>
+<span class="sd">                - "GeoipsListAlgorithms"</span>
+<span class="sd">                - "GeoipsListColormappers"</span>
 <span class="sd">                - ...</span>
-<span class="sd">                - &quot;&lt;base_class_name&gt;&lt;class_name&gt;&quot;</span>
+<span class="sd">                - "&lt;base_class_name&gt;&lt;class_name&gt;"</span>
 <span class="sd">        add_attrs: dict (optional)</span>
-<span class="sd">            - A dictionary of attributes we&#39;d like to assign to each command class</span>
+<span class="sd">            - A dictionary of attributes we'd like to assign to each command class</span>
 <span class="sd">            - If specified and has overlapping keys to those specified below, this</span>
 <span class="sd">              dictionary will override the defaults.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_class</span> <span class="o">=</span> <span class="n">base_class</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_class_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_class</span><span class="o">.</span><span class="vm">__name__</span>
         <span class="n">default_attrs</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">class_name</span><span class="p">,</span>
-            <span class="s2">&quot;command_classes&quot;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="s2">&quot;add_arguments&quot;</span><span class="p">:</span> <span class="n">base_class</span><span class="o">.</span><span class="n">add_arguments</span><span class="p">,</span>
-            <span class="s2">&quot;__call__&quot;</span><span class="p">:</span> <span class="n">base_class</span><span class="o">.</span><span class="fm">__call__</span><span class="p">,</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="n">class_name</span><span class="p">,</span>
+            <span class="s2">"command_classes"</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">"add_arguments"</span><span class="p">:</span> <span class="n">base_class</span><span class="o">.</span><span class="n">add_arguments</span><span class="p">,</span>
+            <span class="s2">"__call__"</span><span class="p">:</span> <span class="n">base_class</span><span class="o">.</span><span class="fm">__call__</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="c1"># Combine with additional attributes, overwriting defaults where applicable.</span>
         <span class="n">class_attrs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">default_attrs</span><span class="p">,</span> <span class="o">**</span><span class="n">add_attrs</span><span class="p">}</span>
-        <span class="c1"># Add the class of &lt;base_class_name&gt;&lt;class_name&gt; to the constructors &#39;classes&#39;</span>
-        <span class="c1"># attribute. Don&#39;t actually initialize these classes as we&#39;ll be doing that</span>
+        <span class="c1"># Add the class of &lt;base_class_name&gt;&lt;class_name&gt; to the constructors 'classes'</span>
+        <span class="c1"># attribute. Don't actually initialize these classes as we'll be doing that</span>
         <span class="c1"># later once we have the required information.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">generated_class</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_class_name</span><span class="si">}{</span><span class="n">class_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_class_name</span><span class="si">}{</span><span class="n">class_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'_'</span><span class="p">,</span><span class="w"> </span><span class="s1">''</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
             <span class="p">(</span><span class="n">base_class</span><span class="p">,),</span>
             <span class="n">class_attrs</span><span class="p">,</span>
         <span class="p">)</span></div>

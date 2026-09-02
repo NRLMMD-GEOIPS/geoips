@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.readers.utils.remss_reader &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.readers.utils.remss_reader &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Read derived surface winds from REMSS SMAP, WINDSAT, and AMSR netcdf data.&quot;&quot;&quot;</span>
+<span class="sd">"""Read derived surface winds from REMSS SMAP, WINDSAT, and AMSR netcdf data."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
@@ -849,59 +851,59 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="read_remss_data"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.readers.utils.html#geoips.plugins.classes.readers.utils.remss_reader.read_remss_data">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">read_remss_data</span><span class="p">(</span><span class="n">wind_xarray</span><span class="p">,</span> <span class="n">data_type</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Reformat SMAP or WindSat xarray object appropriately.</span>
 
 <span class="sd">    variables: latitude, longitude, time, wind_speed_kts</span>
 <span class="sd">    attributes: source_name, platform_name, data_provider,</span>
 <span class="sd">    interpolation_radius_of_influence</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
 
     <span class="c1"># Set attributes appropriately</span>
-    <span class="k">if</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">&quot;smap&quot;</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading SMAP data&quot;</span><span class="p">)</span>
-        <span class="n">wind_varname</span> <span class="o">=</span> <span class="s2">&quot;wind&quot;</span>
-        <span class="n">day_of_month_varname</span> <span class="o">=</span> <span class="s2">&quot;day_of_month_of observation&quot;</span>
-        <span class="n">minute_varname</span> <span class="o">=</span> <span class="s2">&quot;minute&quot;</span>
-    <span class="k">elif</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">&quot;windsat&quot;</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading WindSat data&quot;</span><span class="p">)</span>
-        <span class="n">wind_varname</span> <span class="o">=</span> <span class="s2">&quot;wind_speed_TC&quot;</span>
-        <span class="n">day_of_month_varname</span> <span class="o">=</span> <span class="s2">&quot;day_of_month_of_observation&quot;</span>
-        <span class="n">minute_varname</span> <span class="o">=</span> <span class="s2">&quot;time&quot;</span>
-    <span class="k">elif</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">&quot;amsr2&quot;</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading AMSR2 data&quot;</span><span class="p">)</span>
-        <span class="n">wind_varname</span> <span class="o">=</span> <span class="s2">&quot;wind_speed_TC&quot;</span>
-        <span class="n">day_of_month_varname</span> <span class="o">=</span> <span class="s2">&quot;day_of_month_of_observation&quot;</span>
-        <span class="n">minute_varname</span> <span class="o">=</span> <span class="s2">&quot;time&quot;</span>
-    <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;full_day_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">"smap"</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Reading SMAP data"</span><span class="p">)</span>
+        <span class="n">wind_varname</span> <span class="o">=</span> <span class="s2">"wind"</span>
+        <span class="n">day_of_month_varname</span> <span class="o">=</span> <span class="s2">"day_of_month_of observation"</span>
+        <span class="n">minute_varname</span> <span class="o">=</span> <span class="s2">"minute"</span>
+    <span class="k">elif</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">"windsat"</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Reading WindSat data"</span><span class="p">)</span>
+        <span class="n">wind_varname</span> <span class="o">=</span> <span class="s2">"wind_speed_TC"</span>
+        <span class="n">day_of_month_varname</span> <span class="o">=</span> <span class="s2">"day_of_month_of_observation"</span>
+        <span class="n">minute_varname</span> <span class="o">=</span> <span class="s2">"time"</span>
+    <span class="k">elif</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">"amsr2"</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Reading AMSR2 data"</span><span class="p">)</span>
+        <span class="n">wind_varname</span> <span class="o">=</span> <span class="s2">"wind_speed_TC"</span>
+        <span class="n">day_of_month_varname</span> <span class="o">=</span> <span class="s2">"day_of_month_of_observation"</span>
+        <span class="n">minute_varname</span> <span class="o">=</span> <span class="s2">"time"</span>
+    <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"full_day_file"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="n">wind_xarray_1</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
     <span class="n">wind_xarray_1</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">wind_xarray_1</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;current_node_dimension&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;node_dimension = 1&quot;</span>
+    <span class="n">wind_xarray_1</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"current_node_dimension"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"node_dimension = 1"</span>
 
     <span class="n">wind_xarray_2</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
     <span class="n">wind_xarray_2</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">wind_xarray_2</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;current_node_dimension&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;node_dimension = 2&quot;</span>
+    <span class="n">wind_xarray_2</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"current_node_dimension"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"node_dimension = 2"</span>
 
     <span class="c1"># Set wind_speed_kts appropriately</span>
     <span class="n">winds_1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">wind_xarray</span><span class="p">[</span><span class="n">wind_varname</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">])</span>
     <span class="n">winds_2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">wind_xarray</span><span class="p">[</span><span class="n">wind_varname</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">])</span>
 
     <span class="c1"># Full dataset is 720x1440x2, break that up into ascending and descending nodes.</span>
-    <span class="n">wind_xarray_1</span><span class="p">[</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-        <span class="n">winds_1</span> <span class="o">*</span> <span class="n">MS_TO_KTS</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;wind_speed_kts&quot;</span>
+    <span class="n">wind_xarray_1</span><span class="p">[</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">winds_1</span> <span class="o">*</span> <span class="n">MS_TO_KTS</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"wind_speed_kts"</span>
     <span class="p">)</span>
-    <span class="n">wind_xarray_1</span><span class="p">[</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="n">wind_varname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
-    <span class="n">wind_xarray_1</span><span class="p">[</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;kts&quot;</span>
+    <span class="n">wind_xarray_1</span><span class="p">[</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="n">wind_varname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
+    <span class="n">wind_xarray_1</span><span class="p">[</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"kts"</span>
 
-    <span class="n">wind_xarray_2</span><span class="p">[</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-        <span class="n">winds_2</span> <span class="o">*</span> <span class="n">MS_TO_KTS</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;wind_speed_kts&quot;</span>
+    <span class="n">wind_xarray_2</span><span class="p">[</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">winds_2</span> <span class="o">*</span> <span class="n">MS_TO_KTS</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"wind_speed_kts"</span>
     <span class="p">)</span>
-    <span class="n">wind_xarray_2</span><span class="p">[</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="n">wind_varname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
-    <span class="n">wind_xarray_2</span><span class="p">[</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;kts&quot;</span>
+    <span class="n">wind_xarray_2</span><span class="p">[</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="n">wind_varname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
+    <span class="n">wind_xarray_2</span><span class="p">[</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"kts"</span>
 
     <span class="c1"># Set lat/lons appropriately</span>
     <span class="c1"># These are (1440x720)</span>
@@ -910,19 +912,19 @@ window.runMermaid = runMermaid;</script>
     <span class="c1"># lons2d = numpy.dstack([lons2d.transpose(), lons2d.transpose()])</span>
     <span class="n">lats2d</span> <span class="o">=</span> <span class="n">lats2d</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
     <span class="n">lons2d</span> <span class="o">=</span> <span class="n">lons2d</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
-    <span class="n">wind_xarray_1</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">lats2d</span><span class="p">))</span>
-    <span class="n">wind_xarray_1</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">lons2d</span><span class="p">)</span>
-    <span class="n">wind_xarray_2</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">lats2d</span><span class="p">))</span>
-    <span class="n">wind_xarray_2</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">lons2d</span><span class="p">)</span>
-    <span class="n">wind_xarray_1</span> <span class="o">=</span> <span class="n">wind_xarray_1</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">])</span>
-    <span class="n">wind_xarray_2</span> <span class="o">=</span> <span class="n">wind_xarray_2</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">])</span>
+    <span class="n">wind_xarray_1</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">lats2d</span><span class="p">))</span>
+    <span class="n">wind_xarray_1</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">lons2d</span><span class="p">)</span>
+    <span class="n">wind_xarray_2</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">lats2d</span><span class="p">))</span>
+    <span class="n">wind_xarray_2</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">lons2d</span><span class="p">)</span>
+    <span class="n">wind_xarray_1</span> <span class="o">=</span> <span class="n">wind_xarray_1</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">])</span>
+    <span class="n">wind_xarray_2</span> <span class="o">=</span> <span class="n">wind_xarray_2</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">])</span>
 
     <span class="c1"># Set time appropriately</span>
     <span class="n">year</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">year_of_observation</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">month_of_observation</span>
     <span class="n">day</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">day_of_month_varname</span><span class="p">]</span>
     <span class="n">basedt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-        <span class="s2">&quot;</span><span class="si">{0:04d}{1:02d}{2:02d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">),</span> <span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span>
+        <span class="s2">"</span><span class="si">{0:04d}{1:02d}{2:02d}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">),</span> <span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">"</span>
     <span class="p">)</span>
     <span class="c1"># minarr = wind_xarray.minute</span>
     <span class="n">minarr</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">wind_xarray</span><span class="p">[</span><span class="n">minute_varname</span><span class="p">])</span>
@@ -937,8 +939,8 @@ window.runMermaid = runMermaid;</script>
     <span class="n">slice_1_flat</span> <span class="o">=</span> <span class="n">minarr</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
 
     <span class="c1"># 3. Convert to timedelta via Pandas (handles NaNs and floats perfectly)</span>
-    <span class="n">timedelta_0_flat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">slice_0_flat</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-    <span class="n">timedelta_1_flat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">slice_1_flat</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="n">timedelta_0_flat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">slice_0_flat</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"m"</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="n">timedelta_1_flat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">slice_1_flat</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"m"</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 
     <span class="c1"># 4. Reshape back to the original 2D spatial grid (720, 1440)</span>
     <span class="n">timedelta_0</span> <span class="o">=</span> <span class="n">timedelta_0_flat</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">720</span><span class="p">,</span> <span class="mi">1440</span><span class="p">)</span>
@@ -948,11 +950,11 @@ window.runMermaid = runMermaid;</script>
     <span class="n">decoded_time_0</span> <span class="o">=</span> <span class="n">base_np</span> <span class="o">+</span> <span class="n">timedelta_0</span>
     <span class="n">decoded_time_1</span> <span class="o">=</span> <span class="n">base_np</span> <span class="o">+</span> <span class="n">timedelta_1</span>
 
-    <span class="n">wind_xarray_1</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">decoded_time_0</span><span class="p">)</span>
-    <span class="n">wind_xarray_2</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">decoded_time_1</span><span class="p">)</span>
-    <span class="n">wind_xarray_1</span> <span class="o">=</span> <span class="n">wind_xarray_1</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
-    <span class="n">wind_xarray_2</span> <span class="o">=</span> <span class="n">wind_xarray_2</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;WINDSPEED_1&quot;</span><span class="p">:</span> <span class="n">wind_xarray_1</span><span class="p">,</span> <span class="s2">&quot;WINDSPEED_2&quot;</span><span class="p">:</span> <span class="n">wind_xarray_2</span><span class="p">}</span></div>
+    <span class="n">wind_xarray_1</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">decoded_time_0</span><span class="p">)</span>
+    <span class="n">wind_xarray_2</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">decoded_time_1</span><span class="p">)</span>
+    <span class="n">wind_xarray_1</span> <span class="o">=</span> <span class="n">wind_xarray_1</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">"time"</span><span class="p">])</span>
+    <span class="n">wind_xarray_2</span> <span class="o">=</span> <span class="n">wind_xarray_2</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">"time"</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">"WINDSPEED_1"</span><span class="p">:</span> <span class="n">wind_xarray_1</span><span class="p">,</span> <span class="s2">"WINDSPEED_2"</span><span class="p">:</span> <span class="n">wind_xarray_2</span><span class="p">}</span></div>
 </pre></div>
 
                 </article>

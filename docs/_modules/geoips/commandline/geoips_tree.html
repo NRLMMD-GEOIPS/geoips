@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.commandline.geoips_tree &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.commandline.geoips_tree &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,11 +830,11 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;GeoIPS CLI &quot;tree&quot; command.</span>
+<span class="sd">"""GeoIPS CLI "tree" command.</span>
 
-<span class="sd">Single &#39;geoips tree&#39; command which will display GeoIPS CLI commands up to a --max-depth</span>
+<span class="sd">Single 'geoips tree' command which will display GeoIPS CLI commands up to a --max-depth</span>
 <span class="sd">value.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="c1"># :cspell: ignore gpaths</span>
 
@@ -843,16 +845,16 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="GeoipsTree"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_tree.GeoipsTree">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsTree</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tree Command Class for displaying GeoIPS CLI commands in a tree-like fashion.</span>
+<span class="w">    </span><span class="sd">"""Tree Command Class for displaying GeoIPS CLI commands in a tree-like fashion.</span>
 
 <span class="sd">    Can be configured to print in a colored fashion, up to a maximum depth, and whether</span>
-<span class="sd">    or not we want the full command string or just the command name at it&#39;s depth.</span>
+<span class="sd">    or not we want the full command string or just the command name at it's depth.</span>
 
-<span class="sd">    Where depth denotes the level of the command you&#39;d like to display.</span>
+<span class="sd">    Where depth denotes the level of the command you'd like to display.</span>
 <span class="sd">    I.e. &lt;0&gt; geoips &lt;1&gt; list &lt;2&gt; scripts</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;tree&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"tree"</span>
     <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">describe_sectors_outputted</span> <span class="o">=</span> <span class="kc">False</span>
@@ -860,34 +862,34 @@ window.runMermaid = runMermaid;</script>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">cmd_aliases</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of aliases we don&#39;t want to include in the tree.</span>
+<span class="w">        </span><span class="sd">"""List of aliases we don't want to include in the tree.</span>
 
 <span class="sd">        Without this attribute there will be an entry for each alias of a command name.</span>
-<span class="sd">        So for &#39;list&#39; (or &#39;ls&#39;), there will be two &#39;geoips list&#39; entries which we don&#39;t</span>
+<span class="sd">        So for 'list' (or 'ls'), there will be two 'geoips list' entries which we don't</span>
 <span class="sd">        want.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_cmd_aliases&quot;</span><span class="p">):</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"_cmd_aliases"</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_cmd_aliases</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">cmd_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">alias_mapping</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">alias</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">alias_mapping</span><span class="p">[</span><span class="n">cmd_name</span><span class="p">]:</span>
                     <span class="c1"># Aliases below are names of actual commands and we need to deal</span>
-                    <span class="c1"># with this using conditionals in &#39;print_tree&#39;</span>
-                    <span class="k">if</span> <span class="n">alias</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;sector&quot;</span><span class="p">]:</span>
+                    <span class="c1"># with this using conditionals in 'print_tree'</span>
+                    <span class="k">if</span> <span class="n">alias</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"sector"</span><span class="p">]:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_cmd_aliases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmd_aliases</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">top_level_parser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The parser associated with the top level &#39;geoips&#39; command.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_top_level_parser&quot;</span><span class="p">):</span>
-            <span class="c1"># Get &#39;geoips&#39; parser</span>
+<span class="w">        </span><span class="sd">"""The parser associated with the top level 'geoips' command."""</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"_top_level_parser"</span><span class="p">):</span>
+            <span class="c1"># Get 'geoips' parser</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_top_level_parser</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parser</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_top_level_parser</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">level_to_color</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;A color-mapping dictionary based on the depth of the command tree.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_level_to_color&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""A color-mapping dictionary based on the depth of the command tree."""</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"_level_to_color"</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_level_to_color</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="mi">0</span><span class="p">:</span> <span class="n">Fore</span><span class="o">.</span><span class="n">RED</span><span class="p">,</span>
                 <span class="mi">1</span><span class="p">:</span> <span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="p">,</span>
@@ -898,17 +900,17 @@ window.runMermaid = runMermaid;</script>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">cmd_line_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The url to the GeoIPS documentation for the GeoIPS CLI.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_cmd_line_url&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""The url to the GeoIPS documentation for the GeoIPS CLI."""</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"_cmd_line_url"</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_cmd_line_url</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">gpaths</span><span class="p">[</span><span class="s1">&#39;GEOIPS_DOCS_URL&#39;</span><span class="p">]</span><span class="si">}{</span><span class="sa">r</span><span class="s1">&#39;userguide/command_line.html&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">gpaths</span><span class="p">[</span><span class="s1">'GEOIPS_DOCS_URL'</span><span class="p">]</span><span class="si">}{</span><span class="sa">r</span><span class="s1">'userguide/command_line.html'</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmd_line_url</span>
 
 <div class="viewcode-block" id="GeoipsTree.link"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_tree.GeoipsTree.link">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Hyperlink the provided uri alongside &#39;label&#39; if applicable.</span>
+<span class="w">        </span><span class="sd">"""Hyperlink the provided uri alongside 'label' if applicable.</span>
 
-<span class="sd">        If label is not provided, just return a hyperlink with &#39;url&#39; as it&#39;s text.</span>
+<span class="sd">        If label is not provided, just return a hyperlink with 'url' as it's text.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -920,51 +922,51 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        hyperlink: str</span>
-<span class="sd">            - Text that has been hyperlinked to &#39;uri&#39;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            - Text that has been hyperlinked to 'uri'</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">label</span> <span class="o">=</span> <span class="n">uri</span>
 
-        <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="c1"># OSC 8 ; params ; URI ST &lt;name&gt; OSC 8 ;; ST</span>
-        <span class="n">escape_mask</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\033</span><span class="s2">]8;</span><span class="si">{}</span><span class="s2">;</span><span class="si">{}</span><span class="se">\033\\</span><span class="si">{}</span><span class="se">\033</span><span class="s2">]8;;</span><span class="se">\033\\</span><span class="s2">&quot;</span>
+        <span class="n">escape_mask</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\033</span><span class="s2">]8;</span><span class="si">{}</span><span class="s2">;</span><span class="si">{}</span><span class="se">\033\\</span><span class="si">{}</span><span class="se">\033</span><span class="s2">]8;;</span><span class="se">\033\\</span><span class="s2">"</span>
         <span class="n">hyperlink</span> <span class="o">=</span> <span class="n">escape_mask</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">hyperlink</span></div>
 
 <div class="viewcode-block" id="GeoipsTree.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_tree.GeoipsTree.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments to the tree-subparser for the Tree Command.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add arguments to the tree-subparser for the Tree Command."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;--max-depth&quot;</span><span class="p">,</span>
+            <span class="s2">"--max-depth"</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
             <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;The depth of the command tree to print out.&quot;</span>
-                <span class="s2">&quot;Where depth denotes the level of the command you&#39;d like to display.&quot;</span>
-                <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">I.e. &lt;0&gt; geoips &lt;1&gt; list &lt;2&gt; scripts&quot;</span>
+                <span class="s2">"The depth of the command tree to print out."</span>
+                <span class="s2">"Where depth denotes the level of the command you'd like to display."</span>
+                <span class="s2">"</span><span class="se">\n</span><span class="s2">I.e. &lt;0&gt; geoips &lt;1&gt; list &lt;2&gt; scripts"</span>
             <span class="p">),</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;--color&quot;</span><span class="p">,</span>
+            <span class="s2">"--color"</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Whether or not we want to print the tree in a colored fashion.&quot;</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">"Whether or not we want to print the tree in a colored fashion."</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;--short-name&quot;</span><span class="p">,</span>
+            <span class="s2">"--short-name"</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;Whether or not we want to print the tree as short names or full names.&quot;</span>
-                <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Full names are &#39;geoips -&gt; geoips config -&gt; geoips config install&#39;.&quot;</span>
-                <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Short names are &#39;geoips -&gt; config -&gt; install&#39;.&quot;</span>
+                <span class="s2">"Whether or not we want to print the tree as short names or full names."</span>
+                <span class="s2">"</span><span class="se">\n</span><span class="s2">Full names are 'geoips -&gt; geoips config -&gt; geoips config install'."</span>
+                <span class="s2">"</span><span class="se">\n</span><span class="s2">Short names are 'geoips -&gt; config -&gt; install'."</span>
             <span class="p">),</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="GeoipsTree.print_tree"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_tree.GeoipsTree.print_tree">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">print_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">short_name</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Display GeoIPS CLI commands up to &#39;max_depth&#39; in a tree-like fashion.</span>
+<span class="w">        </span><span class="sd">"""Display GeoIPS CLI commands up to 'max_depth' in a tree-like fashion.</span>
 
-<span class="sd">        This function is recursively called up to &#39;max_depth&#39; to generate that tree of</span>
+<span class="sd">        This function is recursively called up to 'max_depth' to generate that tree of</span>
 <span class="sd">        commands. If wanted, we can color the output of the tree by depth and we can</span>
 <span class="sd">        also control whether or not we want the full command string or just the command</span>
 <span class="sd">        name by depth.</span>
@@ -981,35 +983,35 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            - How deep we would like to expose the command tree</span>
 <span class="sd">        short_name:</span>
 <span class="sd">            - Whether or not we want the full command string or just the command name</span>
-<span class="sd">              at it&#39;s depth.</span>
-<span class="sd">            - Ex: short_name=False -&gt; &#39;geoips config install&#39;</span>
-<span class="sd">            - Ex: short_name=True -&gt; &#39;install&#39;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">indent</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="p">(</span><span class="n">level</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
+<span class="sd">              at it's depth.</span>
+<span class="sd">            - Ex: short_name=False -&gt; 'geoips config install'</span>
+<span class="sd">            - Ex: short_name=True -&gt; 'install'</span>
+<span class="sd">        """</span>
+        <span class="n">indent</span> <span class="o">=</span> <span class="s2">" "</span> <span class="o">*</span> <span class="p">(</span><span class="n">level</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
         <span class="n">split_cmd</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">prog</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_cmd</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="c1"># split_cmd is either [&#39;geoips&#39;] or [&#39;geoips&#39;, &#39;&lt;cmd&gt;&#39;]</span>
-            <span class="n">cmd_name</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">split_cmd</span><span class="p">)</span>
+            <span class="c1"># split_cmd is either ['geoips'] or ['geoips', '&lt;cmd&gt;']</span>
+            <span class="n">cmd_name</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">split_cmd</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># split_cmd takes the form of the following (same structure for all cmds):</span>
-            <span class="c1"># [&#39;To&#39;, &#39;use,&#39;, &#39;type&#39;, &#39;`geoips&#39;, &#39;config&#39;, &#39;&lt;cmd&gt;&#39;, &#39;&lt;sub-cmd&gt;&#39;, &#39;...`.&#39;, &#39;install&#39;] # NOQA</span>
-            <span class="c1"># The case above would result in &#39;geoips config install&#39;</span>
-            <span class="n">cmd_name</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">split_cmd</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">split_cmd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="c1"># ['To', 'use,', 'type', '`geoips', 'config', '&lt;cmd&gt;', '&lt;sub-cmd&gt;', '...`.', 'install'] # NOQA</span>
+            <span class="c1"># The case above would result in 'geoips config install'</span>
+            <span class="n">cmd_name</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">split_cmd</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">split_cmd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])[</span><span class="mi">1</span><span class="p">:]</span>
 
         <span class="k">if</span> <span class="p">(</span>
-            <span class="n">cmd_name</span> <span class="o">==</span> <span class="s2">&quot;geoips describe sectors&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">describe_sectors_outputted</span>
-        <span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">cmd_name</span> <span class="o">==</span> <span class="s2">&quot;geoips list sectors&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_sectors_outputted</span><span class="p">):</span>
-            <span class="c1"># Due to how we&#39;ve structured aliases, these commands need to be manually</span>
-            <span class="c1"># checked that they&#39;ve only ran once. This is caused by &#39;geoips test sector&#39;</span>
-            <span class="c1"># command, where &#39;sector is the actual name of a command so we can&#39;t include</span>
-            <span class="c1"># it in the &#39;cmd_aliases&#39; property of this class.</span>
+            <span class="n">cmd_name</span> <span class="o">==</span> <span class="s2">"geoips describe sectors"</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">describe_sectors_outputted</span>
+        <span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">cmd_name</span> <span class="o">==</span> <span class="s2">"geoips list sectors"</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_sectors_outputted</span><span class="p">):</span>
+            <span class="c1"># Due to how we've structured aliases, these commands need to be manually</span>
+            <span class="c1"># checked that they've only ran once. This is caused by 'geoips test sector'</span>
+            <span class="c1"># command, where 'sector is the actual name of a command so we can't include</span>
+            <span class="c1"># it in the 'cmd_aliases' property of this class.</span>
             <span class="k">return</span>
 
         <span class="k">if</span> <span class="n">short_name</span><span class="p">:</span>
             <span class="c1"># Just grab the exact name of the command.</span>
-            <span class="c1"># Ie. &#39;geoips&#39; or &#39;config&#39; or &#39;install&#39;</span>
-            <span class="n">cmd_txt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">split_cmd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="c1"># Ie. 'geoips' or 'config' or 'install'</span>
+            <span class="n">cmd_txt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">split_cmd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">cmd_txt</span> <span class="o">=</span> <span class="n">cmd_name</span>
 
@@ -1017,29 +1019,29 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># make this easily testable. The introduction of Class Factories for commands</span>
         <span class="c1"># has made this much harder to implement.</span>
 
-        <span class="c1"># url = f&quot;{self.cmd_line_url}#{cmd_name.replace(&#39; &#39;, &#39;-&#39;)}&quot;</span>
+        <span class="c1"># url = f"{self.cmd_line_url}#{cmd_name.replace(' ', '-')}"</span>
         <span class="c1"># hyperlink = self.link(url, cmd_txt)</span>
         <span class="n">hyperlink</span> <span class="o">=</span> <span class="n">cmd_txt</span>
 
-        <span class="k">if</span> <span class="n">color</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;NO_COLOR&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">color</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">"NO_COLOR"</span><span class="p">]:</span>
             <span class="c1"># print the command tree in a colored fashion</span>
             <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">level_to_color</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">Fore</span><span class="o">.</span><span class="n">WHITE</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">indent</span><span class="si">}{</span><span class="n">color</span><span class="si">}{</span><span class="n">hyperlink</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">indent</span><span class="si">}{</span><span class="n">color</span><span class="si">}{</span><span class="n">hyperlink</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Otherwise just print the string in a normal fashion</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">indent</span><span class="si">}{</span><span class="n">hyperlink</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">indent</span><span class="si">}{</span><span class="n">hyperlink</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">cmd_name</span> <span class="o">==</span> <span class="s2">&quot;geoips describe sectors&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cmd_name</span> <span class="o">==</span> <span class="s2">"geoips describe sectors"</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">describe_sectors_outputted</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">elif</span> <span class="n">cmd_name</span> <span class="o">==</span> <span class="s2">&quot;geoips list sectors&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cmd_name</span> <span class="o">==</span> <span class="s2">"geoips list sectors"</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">list_sectors_outputted</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">if</span> <span class="p">(</span>
-            <span class="nb">hasattr</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="s2">&quot;_subparsers&quot;</span><span class="p">)</span>
+            <span class="nb">hasattr</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="s2">"_subparsers"</span><span class="p">)</span>
             <span class="ow">and</span> <span class="n">parser</span><span class="o">.</span><span class="n">_subparsers</span>
             <span class="ow">and</span> <span class="n">level</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">max_depth</span>
         <span class="p">):</span>
-            <span class="c1"># If the parser has subparsers, subparsers is not None, and we&#39;re not</span>
+            <span class="c1"># If the parser has subparsers, subparsers is not None, and we're not</span>
             <span class="c1"># exceeding the max depth specified, then call print_tree again.</span>
             <span class="n">subparsers_action</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">_subparsers</span><span class="o">.</span><span class="n">_group_actions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">choice</span><span class="p">,</span> <span class="n">subparser</span> <span class="ow">in</span> <span class="n">subparsers_action</span><span class="o">.</span><span class="n">choices</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -1053,18 +1055,18 @@ window.runMermaid = runMermaid;</script>
                     <span class="p">)</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the `geoips tree &lt;opt_args&gt;` command.</span>
+<span class="w">        </span><span class="sd">"""Run the `geoips tree &lt;opt_args&gt;` command.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        args: Namespace()</span>
 <span class="sd">            - The argument namespace to parse through</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">print</span><span class="p">()</span>
         <span class="n">depth</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">max_depth</span>
         <span class="k">if</span> <span class="n">depth</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Invalid depth value: </span><span class="si">{</span><span class="n">depth</span><span class="si">}</span><span class="s2">. Must be greater than or equal to 0.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Invalid depth value: </span><span class="si">{</span><span class="n">depth</span><span class="si">}</span><span class="s2">. Must be greater than or equal to 0."</span>
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">print_tree</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">top_level_parser</span><span class="p">,</span>

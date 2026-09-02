@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Integration Tests &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>Integration Tests &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="Examples" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -127,8 +127,8 @@
       
     
     
-    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -586,7 +586,7 @@ exit $((config_retval))
 # the storm start datetime in the filename. Ensure we test full metadata output for
 # processing a numbered storm bdeck file including the storm start datetime in the filename.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source ${GEOIPS_TESTDATA_DIR}/test_data_amsr2/data/AMSR2-OCEAN_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
           --reader_name amsr2_netcdf \
@@ -597,12 +597,12 @@ geoips run single_source ${GEOIPS_TESTDATA_DIR}/test_data_amsr2/data/AMSR2-OCEAN
           --metadata_output_formatter metadata_tc \
           --trackfile_parser bdeck_parser \
           --trackfiles ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/tc_bdecks/bio012020.2020051518.dat \
-          --compare_path &quot;${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/amsr2_ocean.tc.windspeed.imagery_clean&quot; \
-          --product_spec_override &#39;{}&#39; \
-          --output_formatter_kwargs &#39;{}&#39; \
-          --filename_formatter_kwargs &#39;{}&#39; \
-          --metadata_output_formatter_kwargs &#39;{}&#39; \
-          --metadata_filename_formatter_kwargs &#39;{}&#39;
+          --compare_path "${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/amsr2_ocean.tc.windspeed.imagery_clean" \
+          --product_spec_override '{}' \
+          --output_formatter_kwargs '{}' \
+          --filename_formatter_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -618,7 +618,7 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_gpm/data/3B-HHR-E.MS.MRG.3IMERG.20251028-S193000-E195959.1170.V07B.RT-H5 \
           --reader_name imerg_hdf5 \
@@ -627,7 +627,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_gpm/data/3B-HHR-E.MS.MRG
           --output_formatter imagery_clean \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bal132025.dat \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/imerg.tc.Rain.imagery_clean&quot;
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/imerg.tc.Rain.imagery_clean"
 ss_retval=$?
 
 exit $((ss_retval))
@@ -659,7 +659,7 @@ exit $((config_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_amsub/data/NPR-MIRS-IMG_v11r4_ma2_s202104192335000_e202104190118000_c202104200206490.nc \
           --reader_name amsua_mhs_mirs \
@@ -672,12 +672,12 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_amsub/data/NPR-MIRS-IMG_
           --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022021.dat \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/amsua_mhs_mirs.tc.&lt;product&gt;.imagery_annotated&quot; \
-          --product_spec_override &#39;{}&#39; \
-          --output_formatter_kwargs &#39;{}&#39; \
-          --filename_formatter_kwargs &#39;{}&#39; \
-          --metadata_output_formatter_kwargs &#39;{}&#39; \
-          --metadata_filename_formatter_kwargs &#39;{}&#39;
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/amsua_mhs_mirs.tc.&lt;product&gt;.imagery_annotated" \
+          --product_spec_override '{}' \
+          --output_formatter_kwargs '{}' \
+          --filename_formatter_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -693,14 +693,14 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_tpw/data/coarse/comp20210723.000000.nc \
           --reader_name mimic_netcdf \
           --product_name TPW-CIMSS \
           --filename_formatter geoips_fname \
           --output_formatter imagery_annotated \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/mimic_coarse.static.TPW-CIMSS.imagery_annotated&quot; \
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/mimic_coarse.static.TPW-CIMSS.imagery_annotated" \
           --sector_list global_cylindrical
 ss_retval=$?
 
@@ -733,7 +733,7 @@ exit $((config_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 # https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/metopc_knmi_125/ascat_20210421_010000_metopc_12730_eps_o_coa_3203_ovw.l2.nc \
@@ -746,12 +746,12 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/metopc_knmi_12
           --tc_spec_template tc_web_ascat_high_barbs \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022021.dat \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean&quot; \
-          --product_spec_override &#39;{}&#39; \
-          --output_formatter_kwargs &#39;{}&#39; \
-          --filename_formatter_kwargs &#39;{}&#39; \
-          --metadata_output_formatter_kwargs &#39;{}&#39; \
-          --metadata_filename_formatter_kwargs &#39;{}&#39;
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean" \
+          --product_spec_override '{}' \
+          --output_formatter_kwargs '{}' \
+          --filename_formatter_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -767,7 +767,7 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_tpw/data/fine/comp20210419.230000.nc \
           --reader_name mimic_netcdf \
@@ -776,7 +776,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_tpw/data/fine/comp202104
           --metadata_filename_formatter metadata_default_fname \
           --metadata_output_formatter metadata_default \
           --output_formatter imagery_annotated \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/mimic_fine.tc.TPW-PWAT.imagery_annotated&quot; \
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/mimic_fine.tc.TPW-PWAT.imagery_annotated" \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022021.dat
 ss_retval=$?
@@ -794,12 +794,12 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes16_20200918_1950/* \
              --reader_name abi_netcdf \
              --product_name Infrared \
-             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.&lt;product&gt;.imagery_clean&quot; \
+             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.&lt;product&gt;.imagery_clean" \
              --output_formatter imagery_clean \
              --filename_formatter geoips_fname \
              --resampled_read \
@@ -820,7 +820,7 @@ exit $retval
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 # https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/metopc_knmi_250/ascat_20210421_010000_metopc_12730_eps_o_250_3203_ovw.l2.nc \
@@ -832,12 +832,12 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/metopc_knmi_25
           --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022021.dat \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_low_knmi.tc.windbarbs.imagery_windbarbs&quot; \
-          --product_spec_override &#39;{}&#39; \
-          --output_formatter_kwargs &#39;{}&#39; \
-          --filename_formatter_kwargs &#39;{}&#39; \
-          --metadata_output_formatter_kwargs &#39;{}&#39; \
-          --metadata_filename_formatter_kwargs &#39;{}&#39;
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_low_knmi.tc.windbarbs.imagery_windbarbs" \
+          --product_spec_override '{}' \
+          --output_formatter_kwargs '{}' \
+          --filename_formatter_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -853,7 +853,7 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/200500/MYD021KM.A2021004.2005.061.NRT.hdf \
              $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/200500/MYD03.A2021004.2005.061.NRT.hdf \
@@ -864,10 +864,10 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104
              --reader_name modis_hdf4 \
              --product_name Infrared \
              --output_formatter unprojected_image \
-             --output_formatter_kwargs &#39;{&quot;x_size&quot;: &quot;250&quot;}&#39; \
+             --output_formatter_kwargs '{"x_size": "250"}' \
              --filename_formatter geoips_fname \
-             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/modis.&lt;product&gt;.unprojected_image&quot; \
-             --self_register_dataset &#39;1KM&#39; \
+             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/modis.&lt;product&gt;.unprojected_image" \
+             --self_register_dataset '1KM' \
              --self_register_source modis
 retval=$?
 
@@ -884,13 +884,13 @@ exit $retval
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 run_procflow $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes16_20200918_1950/* \
              --procflow single_source \
              --reader_name abi_netcdf \
              --product_name Infrared \
-             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.&lt;product&gt;.netcdf_geoips&quot; \
+             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.&lt;product&gt;.netcdf_geoips" \
              --output_formatter netcdf_geoips \
              --filename_formatter geoips_netcdf_fname \
              --resampled_read \
@@ -911,7 +911,7 @@ exit $retval
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 # https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/20230524_metopc_noaa_class_tc2023wp02mawar/L2OVW25kmASCAT_v1r1_m03_*.nc \
@@ -923,13 +923,13 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/20230524_metop
           --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022023.dat \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs&quot; \
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs" \
           --tc_spec_template tc_web_ascat_low_barbs \
-          --product_spec_override &#39;{}&#39; \
-          --output_formatter_kwargs &#39;{}&#39; \
-          --filename_formatter_kwargs &#39;{}&#39; \
-          --metadata_output_formatter_kwargs &#39;{}&#39; \
-          --metadata_filename_formatter_kwargs &#39;{}&#39;
+          --product_spec_override '{}' \
+          --output_formatter_kwargs '{}' \
+          --filename_formatter_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -945,7 +945,7 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 # https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
 geoips run single_source \
@@ -959,12 +959,12 @@ geoips run single_source \
     --tc_spec_template tc_web \
     --trackfile_parser bdeck_parser \
     --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh192021.dat \
-    --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/oscat_knmi.tc.windbarbs.imagery_windbarbs&quot; \
-    --product_spec_override &#39;{}&#39; \
-    --output_formatter_kwargs &#39;{}&#39; \
-    --filename_formatter_kwargs &#39;{}&#39; \
-    --metadata_output_formatter_kwargs &#39;{}&#39; \
-    --metadata_filename_formatter_kwargs &#39;{}&#39;
+    --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/oscat_knmi.tc.windbarbs.imagery_windbarbs" \
+    --product_spec_override '{}' \
+    --output_formatter_kwargs '{}' \
+    --filename_formatter_kwargs '{}' \
+    --metadata_output_formatter_kwargs '{}' \
+    --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -987,12 +987,12 @@ exit $((ss_retval))
 #   tests/yaml_configs/abi_test_full_zarr_cache_backend.yaml
 #   tests/yaml_configs/abi_test.yaml
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes16_20200918_1950/* \
              --reader_name abi_netcdf \
              --product_name Visible \
-             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.&lt;product&gt;.imagery_clean&quot; \
+             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.&lt;product&gt;.imagery_clean" \
              --output_formatter imagery_clean \
              --filename_formatter geoips_fname \
              --resampled_read \
@@ -1012,7 +1012,7 @@ exit $retval
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 # https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/20230524_metopc_noaa_class_tc2023wp02mawar/L2OVW50kmASCAT_v1r1_m03_*.nc \
@@ -1024,13 +1024,13 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/20230524_metop
           --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022023.dat \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs&quot; \
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs" \
           --tc_spec_template tc_web_ascat_50km_barbs \
-          --product_spec_override &#39;{}&#39; \
-          --output_formatter_kwargs &#39;{}&#39; \
-          --filename_formatter_kwargs &#39;{}&#39; \
-          --metadata_output_formatter_kwargs &#39;{}&#39; \
-          --metadata_filename_formatter_kwargs &#39;{}&#39;
+          --product_spec_override '{}' \
+          --output_formatter_kwargs '{}' \
+          --filename_formatter_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -1046,7 +1046,7 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_saphir/data/MT1SAPSL1A__1.09_000_1_19_I_2021_02_09_00_30_03_2021_02_09_01_11_16_48144_48144_497_33_33_KUX_00.h5 \
           --reader_name saphir_hdf5 \
@@ -1059,12 +1059,12 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_saphir/data/MT1SAPSL1A__
           --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh192021.dat \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/saphir.tc.183-3HNearest.imagery_annotated&quot; \
-          --product_spec_override &#39;{}&#39; \
-          --output_formatter_kwargs &#39;{}&#39; \
-          --filename_formatter_kwargs &#39;{}&#39; \
-          --metadata_output_formatter_kwargs &#39;{}&#39; \
-          --metadata_filename_formatter_kwargs &#39;{}&#39;
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/saphir.tc.183-3HNearest.imagery_annotated" \
+          --product_spec_override '{}' \
+          --output_formatter_kwargs '{}' \
+          --filename_formatter_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -1080,7 +1080,7 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_ahi/data/20200405_0000/HS_H08* \
           --reader_name ahi_hsd \
@@ -1089,7 +1089,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_ahi/data/20200405_0000/H
           --output_formatter geotiff_standard \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh252020.dat \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ahi.tc.&lt;product&gt;.geotiff&quot; \
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ahi.tc.&lt;product&gt;.geotiff" \
           --logging_level debug \
           --resampled_read
 retval=$?
@@ -1107,7 +1107,7 @@ exit $retval
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 # https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/20220911_metopb_byu_uhr_tc2022wp14muifa/MUIFA_20220911_51797_B_A-product.nc \
@@ -1118,12 +1118,12 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/20220911_metop
           --tc_spec_template tc_web \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp142022.dat \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_uhr.tc.nrcs.imagery_clean&quot; \
-          --product_spec_override &#39;{}&#39; \
-          --output_formatter_kwargs &#39;{}&#39; \
-          --filename_formatter_kwargs &#39;{}&#39; \
-          --metadata_output_formatter_kwargs &#39;{}&#39; \
-          --metadata_filename_formatter_kwargs &#39;{}&#39;
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_uhr.tc.nrcs.imagery_clean" \
+          --product_spec_override '{}' \
+          --output_formatter_kwargs '{}' \
+          --filename_formatter_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -1139,7 +1139,7 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_sar/data/STAR_SAR_20181025203206_WP312018_31W_FIX_3km.nc \
           --reader_name sar_winds_netcdf \
@@ -1152,12 +1152,12 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_sar/data/STAR_SAR_201810
           --metadata_output_formatter metadata_tc \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp312018.dat \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/sar.tc.nrcs.imagery_annotated&quot; \
-          --product_spec_override &#39;{}&#39; \
-          --output_formatter_kwargs &#39;{&quot;title_formatter&quot;: &quot;tc_copyright&quot;}&#39; \
-          --filename_formatter_kwargs &#39;{}&#39; \
-          --metadata_output_formatter_kwargs &#39;{}&#39; \
-          --metadata_filename_formatter_kwargs &#39;{}&#39;
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/sar.tc.nrcs.imagery_annotated" \
+          --product_spec_override '{}' \
+          --output_formatter_kwargs '{"title_formatter": "tc_copyright"}' \
+          --filename_formatter_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -1171,19 +1171,19 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source \
     $GEOIPS_TESTDATA_DIR/test_data_ami/data/20231208_0300_daytime/*.nc \
     --reader_name ami_netcdf \
-    --reader_kwargs &#39;{&quot;self_register&quot;: &quot;LOW&quot;}&#39; \
+    --reader_kwargs '{"self_register": "LOW"}' \
     --product_name WV-Upper \
-    --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.WV-Upper.unprojected_image&quot; \
+    --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.WV-Upper.unprojected_image" \
     --output_formatter unprojected_image \
-    --output_formatter_kwargs &#39;{&quot;x_size&quot;: &quot;1000&quot;, &quot;y_size&quot;: &quot;1000&quot;}&#39; \
+    --output_formatter_kwargs '{"x_size": "1000", "y_size": "1000"}' \
     --filename_formatter geoips_fname \
     --logging_level info \
-    --self_register_dataset &#39;Full-Disk&#39; \
+    --self_register_dataset 'Full-Disk' \
     --self_register_source ami
 retval=$?
 
@@ -1200,7 +1200,7 @@ exit $retval
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 # https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/20210421_metopc_byu_uhr_tc2021wp02surigae/210421_0142_12730_SURIGAE_210421_0000.WRave3.nc \
@@ -1213,12 +1213,12 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/20210421_metop
           --tc_spec_template tc_web_ascatuhr_barbs \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022021.dat \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs&quot; \
-          --product_spec_override &#39;{}&#39; \
-          --output_formatter_kwargs &#39;{}&#39; \
-          --filename_formatter_kwargs &#39;{}&#39; \
-          --metadata_output_formatter_kwargs &#39;{}&#39; \
-          --metadata_filename_formatter_kwargs &#39;{}&#39;
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs" \
+          --product_spec_override '{}' \
+          --output_formatter_kwargs '{}' \
+          --filename_formatter_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -1236,10 +1236,10 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20250624/120
              --reader_name seviri_hrit \
              --product_name WV-Upper \
              --output_formatter unprojected_image \
-             --output_formatter_kwargs &#39;{&quot;x_size&quot;: &quot;300&quot;, &quot;y_size&quot;: &quot;300&quot;}&#39; \
-             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/seviri.WV-Upper.unprojected_image&quot; \
+             --output_formatter_kwargs '{"x_size": "300", "y_size": "300"}' \
+             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/seviri.WV-Upper.unprojected_image" \
              --filename_formatter geoips_fname \
-             --self_register_dataset &#39;FULL_DISK&#39; \
+             --self_register_dataset 'FULL_DISK' \
              --self_register_source seviri
 retval=$?
 
@@ -1256,13 +1256,13 @@ exit $retval
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source \
     $GEOIPS_TESTDATA_DIR/test_data_ami/data/20231208_0300_daytime/gk2a_ami_le1b_*.nc \
     --reader_name ami_netcdf \
     --product_name Infrared \
-    --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.static.&lt;product&gt;.imagery_clean&quot; \
+    --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.static.&lt;product&gt;.imagery_clean" \
     --output_formatter imagery_clean \
     --filename_formatter geoips_fname \
     --resampled_read \
@@ -1283,7 +1283,7 @@ exit $retval
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 # https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/20230722_metopb_byu_uhr_tc2023al05don/DON_20230722_56263_B_A-product.nc \
@@ -1294,12 +1294,12 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/20230722_metop
           --tc_spec_template tc_web \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bal052023.dat \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_uhr.tc.windbarbs.imagery_windbarbs&quot; \
-          --product_spec_override &#39;{}&#39; \
-          --output_formatter_kwargs &#39;{}&#39; \
-          --filename_formatter_kwargs &#39;{}&#39; \
-          --metadata_output_formatter_kwargs &#39;{}&#39; \
-          --metadata_filename_formatter_kwargs &#39;{}&#39;
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_uhr.tc.windbarbs.imagery_windbarbs" \
+          --product_spec_override '{}' \
+          --output_formatter_kwargs '{}' \
+          --filename_formatter_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -1319,11 +1319,11 @@ geoips run single_source \
     $GEOIPS_TESTDATA_DIR/test_data_smap/data/RSS_smap_wind_daily_2021_09_26_NRT_v01.0.nc \
     --reader_name smap_remss_winds_netcdf \
     --product_name windspeed \
-    --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/smap.tc.windspeed.imagery_clean&quot; \
+    --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/smap.tc.windspeed.imagery_clean" \
     --output_formatter imagery_clean \
     --filename_formatter tc_clean_fname \
-    --window_start_time &quot;20210926T2000Z&quot; \
-    --window_end_time &quot;20210926T2200Z&quot; \
+    --window_start_time "20210926T2000Z" \
+    --window_end_time "20210926T2200Z" \
     --trackfile_parser bdeck_parser \
     --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp202021.dat
 ss_retval=$?
@@ -1339,13 +1339,13 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source \
     $GEOIPS_TESTDATA_DIR/test_data_ami/data/20231208_0300_daytime/*.nc \
     --reader_name ami_netcdf \
     --product_name Visible \
-    --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.static.&lt;product&gt;.imagery_clean&quot; \
+    --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.static.&lt;product&gt;.imagery_clean" \
     --output_formatter imagery_clean \
     --filename_formatter geoips_fname \
     --resampled_read \
@@ -1365,7 +1365,7 @@ exit $retval
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 # https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/20230912_metopc_byu_uhr_tc2023al13lee/LEE_20230912_25146_C_A-cmod5h-scaled_v2.nc \
@@ -1376,12 +1376,12 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/20230912_metop
           --tc_spec_template tc_web \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bal132023.dat \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_uhr.tc.windspeed.imagery_clean&quot; \
-          --product_spec_override &#39;{}&#39; \
-          --output_formatter_kwargs &#39;{}&#39; \
-          --filename_formatter_kwargs &#39;{}&#39; \
-          --metadata_output_formatter_kwargs &#39;{}&#39; \
-          --metadata_filename_formatter_kwargs &#39;{}&#39;
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_uhr.tc.windspeed.imagery_clean" \
+          --product_spec_override '{}' \
+          --output_formatter_kwargs '{}' \
+          --filename_formatter_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -1397,7 +1397,7 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 
 # For reference, bdeck file with coverage is: $GEOIPS_PACKAGES_DIR/geoips/tests/sectored/bwp202021.dat
@@ -1407,7 +1407,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_smap/data/RSS_smap_wind_
              --product_name unsectored \
              --filename_formatter text_winds_full_fname \
              --output_formatter text_winds \
-             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/smap.unsectored.text_winds&quot;
+             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/smap.unsectored.text_winds"
 ss_retval=$?
 
 exit $((ss_retval))
@@ -1421,7 +1421,7 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source \
     $GEOIPS_TESTDATA_DIR/test_data_multi_scan_times/data/geokompsat-ami/LA/*ir112*.nc \
@@ -1431,7 +1431,7 @@ geoips run single_source \
     --filename_formatter geoips_fname \
     --logging_level info \
     --minimum_coverage 0 \
-    --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.static.mst.&lt;product&gt;.imagery_clean&quot; \
+    --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.static.mst.&lt;product&gt;.imagery_clean" \
     --sector_list geokompsat
 retval=$?
 
@@ -1448,7 +1448,7 @@ exit $retval
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_atms/data/n20_20230525_0336_tc2023wp02Mawar/*.h5 \
           --reader_name atms_hdf5 \
@@ -1457,13 +1457,13 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_atms/data/n20_20230525_0
           --output_formatter netcdf_geoips \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bep112021.dat \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/atms.tc.&lt;product&gt;.netcdf_geoips&quot; \
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/atms.tc.&lt;product&gt;.netcdf_geoips" \
           --tc_spec_template tc_4km_256x256 \
-          --product_spec_override &#39;{}&#39; \
-          --output_formatter_kwargs &#39;{&quot;clobber&quot;: &quot;True&quot;}&#39; \
-          --filename_formatter_kwargs &#39;{}&#39; \
-          --metadata_output_formatter_kwargs &#39;{}&#39; \
-          --metadata_filename_formatter_kwargs &#39;{}&#39;
+          --product_spec_override '{}' \
+          --output_formatter_kwargs '{"clobber": "True"}' \
+          --filename_formatter_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -1479,7 +1479,7 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_smos/data/SM_OPER_MIR_SCNFSW_20200216T120839_20200216T135041_110_001_7.nc \
              --reader_name smos_winds_netcdf \
@@ -1488,7 +1488,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_smos/data/SM_OPER_MIR_SC
              --output_formatter text_winds \
              --trackfile_parser bdeck_parser \
              --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh162020.dat \
-             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/smos.tc.sectored.text_winds&quot;
+             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/smos.tc.sectored.text_winds"
 ss_retval=$?
 
 exit $((ss_retval))
@@ -1504,7 +1504,7 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source \
     $GEOIPS_TESTDATA_DIR/test_data_ami/data/20231208_0300_daytime/*.nc \
@@ -1514,7 +1514,7 @@ geoips run single_source \
     --output_formatter geotiff_standard \
     --trackfile_parser bdeck_parser \
     --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh032024.dat \
-    --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.tc.&lt;product&gt;.geotiff&quot; \
+    --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.tc.&lt;product&gt;.geotiff" \
     --resampled_read
 retval=$?
 
@@ -1529,11 +1529,11 @@ exit $retval
 
 <span class="c1">#!/bin/bash</span>
 
-<span class="c1"># This test is needed for Unit Testing the &#39;geoips test script&#39; command.</span>
-<span class="c1"># Since we don&#39;t actually need to run a full test script, we have created a dummy</span>
-<span class="c1"># script that we only care if it&#39;s exectuted or not.</span>
+<span class="c1"># This test is needed for Unit Testing the 'geoips test script' command.</span>
+<span class="c1"># Since we don't actually need to run a full test script, we have created a dummy</span>
+<span class="c1"># script that we only care if it's exectuted or not.</span>
 
-<span class="n">echo</span> <span class="s2">&quot;I ran a dummy test script.&quot;</span>
+<span class="n">echo</span> <span class="s2">"I ran a dummy test script."</span>
 </pre></div>
 </div>
 </section>
@@ -1546,7 +1546,7 @@ exit $retval
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source \
           $GEOIPS_TESTDATA_DIR/test_data_ssmi/data/US058SORB-DEFspp.sdrmi_f15_d20200519_s080800_e095300_r05633_cfnoc.def \
@@ -1559,12 +1559,12 @@ geoips run single_source \
           --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ssmi.tc.37pct.imagery_clean&quot; \
-          --product_spec_override &#39;{}&#39; \
-          --output_formatter_kwargs &#39;{}&#39; \
-          --filename_formatter_kwargs &#39;{}&#39; \
-          --metadata_output_formatter_kwargs &#39;{}&#39; \
-          --metadata_filename_formatter_kwargs &#39;{}&#39;
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ssmi.tc.37pct.imagery_clean" \
+          --product_spec_override '{}' \
+          --output_formatter_kwargs '{}' \
+          --filename_formatter_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -1581,11 +1581,11 @@ exit $((ss_retval))
 geoips run config_based ${GEOIPS_TESTDATA_DIR}/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
   --output_config ${GEOIPS_PACKAGES_DIR}/geoips/tests/yaml_configs/amsr2_test_no_compare.yaml \
   --reader_kwargs \
-    &#39;{&quot;test_arg&quot;: &quot;Command line config-based amsr2 test arg&quot;}&#39; \
+    '{"test_arg": "Command line config-based amsr2 test arg"}' \
   --fuse_files ${GEOIPS_TESTDATA_DIR}/test_data_amsr2/bg_data/ahi_20200518_0740/* \
   --fuse_reader ahi_hsd \
   --fuse_reader_kwargs \
-    &#39;{&quot;test_arg&quot;: &quot;Command line config-based ahi test arg&quot;}&#39; \
+    '{"test_arg": "Command line config-based ahi test arg"}' \
   --fuse_product Infrared-Gray \
   --fuse_resampled_read True
 
@@ -1609,8 +1609,8 @@ retval_conus=$?
 geoips test sector global; geoips test sector goes_east
 retval_all=$?
 
-echo &quot;CONUS retval: $retval_conus&quot;
-echo &quot;All retval: $retval_all&quot;
+echo "CONUS retval: $retval_conus"
+echo "All retval: $retval_all"
 exit $((retval_conus+retval_all))
 </pre></div>
 </div>
@@ -1624,15 +1624,15 @@ exit $((retval_conus+retval_all))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_ssmis/data/US058SORB-RAWspp.sdris_f16_d20200519_s084400_e102900_r85579_cfnoc.raw \
           --reader_name ssmis_binary \
           --product_name color91 \
           --output_formatter unprojected_image \
           --filename_formatter geoips_fname \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ssmis.color91.unprojected_image&quot; \
-          --self_register_dataset &#39;IMAGER&#39; \
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ssmis.color91.unprojected_image" \
+          --self_register_dataset 'IMAGER' \
           --self_register_source ssmis
 retval=$?
 
@@ -1652,11 +1652,11 @@ geoips run config_based ${GEOIPS_TESTDATA_DIR}/test_data_amsr2/data/AMSR2-MBT_v2
   --trackfile_parser bdeck_parser \
   --trackfiles ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/tc_bdecks/bio012020.dat \
   --reader_kwargs \
-    &#39;{&quot;test_arg&quot;: &quot;Command line config-based amsr2 test arg&quot;}&#39; \
+    '{"test_arg": "Command line config-based amsr2 test arg"}' \
   --fuse_files ${GEOIPS_TESTDATA_DIR}/test_data_amsr2/bg_data/ahi_20200518_0740/* \
   --fuse_reader ahi_hsd \
   --fuse_reader_kwargs \
-    &#39;{&quot;test_arg&quot;: &quot;Command line config-based ahi test arg&quot;}&#39; \
+    '{"test_arg": "Command line config-based ahi test arg"}' \
   --fuse_product Infrared-Gray \
   --fuse_resampled_read True
 
@@ -1675,7 +1675,7 @@ exit $((config_retval))
 # # # https://github.com/NRLMMD-GEOIPS.
 
 # If package_name and repo_path are passed in, pass to list_available_plugins
-if [[ &quot;$1&quot; != &quot;&quot; &amp;&amp; &quot;$2&quot; != &quot;&quot; ]]; then
+if [[ "$1" != "" &amp;&amp; "$2" != "" ]]; then
     list_available_plugins readers --package_name $1 --repo_path $2
     retval_readers=$?
     list_available_plugins --package_name $1 --repo_path $2
@@ -1688,8 +1688,8 @@ else
     list_available_plugins
     retval_all=$?
 fi
-echo &quot;Readers retval: $retval_readers&quot;
-echo &quot;All retval: $retval_all&quot;
+echo "Readers retval: $retval_readers"
+echo "All retval: $retval_all"
 exit $((retval_readers+retval_all))
 </pre></div>
 </div>
@@ -1703,7 +1703,7 @@ exit $((retval_readers+retval_all))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 
 run_procflow $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20240117/172400/VNP02DNB.A2024017.1724.002.2024018012054.nc \
@@ -1726,7 +1726,7 @@ ss_retval=$?
 
 exit $((ss_retval))
 
-            #  --self_register_dataset &#39;DNB&#39; \
+            #  --self_register_dataset 'DNB' \
 #  --self_register_source viirs \
 </pre></div>
 </div>
@@ -1763,12 +1763,12 @@ geoips run single_source \
     --product_name windspeed \
     --output_formatter imagery_clean \
     --filename_formatter tc_clean_fname \
-    --window_start_time &quot;20240125T0600Z&quot; \
-    --window_end_time &quot;20240125T0615Z&quot; \
+    --window_start_time "20240125T0600Z" \
+    --window_end_time "20240125T0615Z" \
     --minimum_coverage 0 \
     --trackfile_parser bdeck_parser \
     --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh062024.dat \
-    --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/cygnss.tc.windspeed.imagery_clean&quot; \
+    --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/cygnss.tc.windspeed.imagery_clean" \
 
 ss_retval=$?
 
@@ -1785,7 +1785,7 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131200/VNP02DNB.A2022042.1312.001.2022042183606.nc \
@@ -1803,10 +1803,10 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/
              --reader_name viirs_netcdf \
              --product_name Night-Vis-IR-GeoIPS1 \
              --output_formatter unprojected_image \
-             --output_formatter_kwargs &#39;{&quot;x_size&quot;: &quot;500&quot;}&#39; \
+             --output_formatter_kwargs '{"x_size": "500"}' \
              --filename_formatter geoips_fname \
-             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/viirsclearnight.&lt;product&gt;.unprojected_image&quot; \
-             --self_register_dataset &#39;DNB&#39; \
+             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/viirsclearnight.&lt;product&gt;.unprojected_image" \
+             --self_register_dataset 'DNB' \
              --self_register_source viirs
 
 ss_retval=$?
@@ -1844,7 +1844,7 @@ exit $((config_retval))
 #!/bin/bash
 
 #######################################################################################################################
-### Exact calls for producing all imagery contained in &quot;available_functionality.rst&quot; documentation
+### Exact calls for producing all imagery contained in "available_functionality.rst" documentation
 ### This script:
 ###     * runs the commands,
 ###     * copies the resulting imagery into the available_functionality image directory
@@ -1858,10 +1858,10 @@ avfunc=$GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality
 globdir=$GEOIPS_OUTDIRS/preprocessed/annotated_imagery/Global-x-x/x-x-x
 
 check_returns() {
-    echo &quot;AFTER COPY $2&quot;
-    echo &quot;retval: $1&quot;
-    if [[ &quot;$1&quot; != &quot;0&quot; ]]; then
-        echo &quot;FAILED non-zero return value, quitting.&quot;
+    echo "AFTER COPY $2"
+    echo "retval: $1"
+    if [[ "$1" != "0" ]]; then
+        echo "FAILED non-zero return value, quitting."
         exit 1
     fi
 }
@@ -1872,7 +1872,7 @@ check_returns() {
 
 $GEOIPS_PACKAGES_DIR/geoips/tests/scripts/seviri.WV-Upper.unprojected_image.sh
 curr_retval=$?
-echo &quot;&quot;
+echo ""
 output_image=$GEOIPS_OUTDIRS/preprocessed/annotated_imagery/x-x-x/x-x-x/WV-Upper/seviri/20200404.080000.msg-1.seviri.WV-Upper.self_register.69p07.nesdisstar.10p0.png
 cp -v $output_image $avfunc
 cp_retval=$?
@@ -1886,7 +1886,7 @@ check_returns $retval $output_image
 
 $GEOIPS_PACKAGES_DIR/geoips/tests/scripts/modis.Infrared.unprojected_image.sh
 curr_retval=$?
-echo &quot;&quot;
+echo ""
 output_image=$GEOIPS_OUTDIRS/preprocessed/annotated_imagery/x-x-x/x-x-x/Infrared/modis/20210104.201500.aqua.modis.Infrared.self_register.100p00.nasa.3p0.png
 cp -v $output_image $avfunc
 cp_retval=$?
@@ -1927,7 +1927,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_hy2/data/hscat_20211202_
              --resampled_read \
              --sector_list global_cylindrical
 curr_retval=$?
-echo &quot;&quot;
+echo ""
 output_image=$globdir/windspeed/hscat/20211202.080644.hy-2b.hscat.windspeed.global.6p83.knmi.20p0.png
 cp -v $output_image $avfunc
 cp_retval=$?
@@ -1952,7 +1952,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes17_20210718
              --resampled_read \
              --sector_list test_goes17_eqc_3km_day_20210718T0150Z
 curr_retval=$?
-echo &quot;&quot;
+echo ""
 output_image=$globdir/Infrared-Gray/abi/20210718.015031.goes-17.abi.Infrared-Gray.global.22p79.noaa.20p0.png
 cp -v $output_image $avfunc
 cp_retval=$?
@@ -1973,7 +1973,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes16_20200918
              --resampled_read \
              --sector_list global_cylindrical
 curr_retval=$?
-echo &quot;&quot;
+echo ""
 output_image=$globdir/Infrared-Gray/abi/20200918.195020.goes-16.abi.Infrared-Gray.global.22p84.noaa.20p0.png
 cp -v $output_image $avfunc
 cp_retval=$?
@@ -2003,7 +2003,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_ahi/data/20200405_0000/H
              --resampled_read \
              --sector_list global_cylindrical
 curr_retval=$?
-echo &quot;&quot;
+echo ""
 output_image=$globdir/Infrared-Gray/ahi/20200405.000000.himawari-8.ahi.Infrared-Gray.global.29p98.jma.20p0.png
 cp -v $output_image $avfunc
 cp_retval=$?
@@ -2024,7 +2024,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_ewsg/data/2020.1211.2312
              --resampled_read \
              --sector_list global_cylindrical
 curr_retval=$?
-echo &quot;&quot;
+echo ""
 output_image=$globdir/Infrared-Gray/gvar/20201211.230905.ews-g.gvar.Infrared-Gray.global.33p25.noaa.20p0.png
 cp -v $output_image $avfunc
 cp_retval=$?
@@ -2054,7 +2054,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.080
              --resampled_read \
              --sector_list global_cylindrical
 curr_retval=$?
-echo &quot;&quot;
+echo ""
 output_image=$globdir/Infrared-Gray/seviri/20200404.080000.msg-1.seviri.Infrared-Gray.global.22p84.nesdisstar.20p0.png
 cp -v $output_image $avfunc
 cp_retval=$?
@@ -2084,7 +2084,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20220209.220
              --resampled_read \
              --sector_list global_cylindrical
 curr_retval=$?
-echo &quot;&quot;
+echo ""
 output_image=$globdir/Infrared-Gray/seviri/20220209.220000.msg-4.seviri.Infrared-Gray.global.22p84.nesdisstar.20p0.png
 cp -v $output_image $avfunc
 cp_retval=$?
@@ -2114,7 +2114,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104
              --resampled_read \
              --sector_list global_cylindrical
 curr_retval=$?
-echo &quot;&quot;
+echo ""
 output_image=$globdir/Infrared-Gray/modis/20210104.201500.aqua.modis.Infrared-Gray.global.2p08.nasa.20p0.png
 cp -v $output_image $avfunc
 cp_retval=$?
@@ -2137,7 +2137,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_modis/data/terra/170500/
              --resampled_read \
              --sector_list global_cylindrical
 curr_retval=$?
-echo &quot;&quot;
+echo ""
 output_image=$globdir/Infrared-Gray/modis/20210104.170500.terra.modis.Infrared-Gray.global.0p63.nasa.20p0.png
 cp -v $output_image $avfunc
 cp_retval=$?
@@ -2161,7 +2161,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209
              --resampled_read \
              --sector_list global_cylindrical
 curr_retval=$?
-echo &quot;&quot;
+echo ""
 output_image=$globdir/Infrared-Gray/viirs/20210209.074210.jpss-1.viirs.Infrared-Gray.global.2p00.NASA.20p0.png
 cp -v $output_image $avfunc
 cp_retval=$?
@@ -2187,7 +2187,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20210205/
              --resampled_read \
              --sector_list global_cylindrical
 curr_retval=$?
-echo &quot;&quot;
+echo ""
 output_image=$globdir/Infrared-Gray/viirs/20210205.080611.npp.viirs.Infrared-Gray.global.0p97.NASA.20p0.png
 cp -v $output_image $avfunc
 cp_retval=$?
@@ -2225,7 +2225,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_gpm/data/1B.GPM.GMI.TB20
              --filename_formatter geoips_fname \
              --sector_list global_cylindrical
 curr_retval=$?
-echo &quot;&quot;
+echo ""
 output_image=$globdir/89H/gmi/20200917.171519.GPM.gmi.89H.global.0p84.NASA.20p0.png
 cp -v $output_image $avfunc
 cp_retval=$?
@@ -2247,7 +2247,7 @@ exit $retval
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 
 run_procflow $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ102DNB.A2021040.0736.002.2021040145245.nc \
@@ -2265,7 +2265,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ10
              --output_formatter cogeotiff_rgba \
              --minimum_coverage 0 \
              --sector_list global_cylindrical \
-             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/viirsday.global.&lt;product&gt;.cogeotiff_rgba&quot;
+             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/viirsday.global.&lt;product&gt;.cogeotiff_rgba"
 ss_retval=$?
 
 exit $((ss_retval))
@@ -2281,7 +2281,7 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 run_procflow $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
           --procflow single_source \
@@ -2291,7 +2291,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s20200
           --output_formatter cogeotiff \
           --sector_list global_20km_longlat \
           --minimum_coverage 0 \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/amsr2.global_20km_longlat.&lt;product&gt;.cogeotiff&quot;
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/amsr2.global_20km_longlat.&lt;product&gt;.cogeotiff"
 ss_retval=$?
 
 exit $((ss_retval))
@@ -2307,7 +2307,7 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_ewsg/data/2020.1211.2312.goes-13.gvar.nc \
           --reader_name ewsg_netcdf \
@@ -2315,7 +2315,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_ewsg/data/2020.1211.2312
           --filename_formatter geoips_fname \
           --output_formatter imagery_clean \
           --sector_list ewsg \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ewsg.static.&lt;product&gt;.imagery_clean&quot;
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ewsg.static.&lt;product&gt;.imagery_clean"
 retval=$?
 
 exit $retval
@@ -2331,7 +2331,7 @@ exit $retval
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ102DNB.A2021040.0736.002.2021040145245.nc \
@@ -2352,12 +2352,12 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209
              --metadata_output_formatter metadata_default \
              --trackfile_parser bdeck_parser \
              --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh192021.dat \
-             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/viirsday.tc.&lt;product&gt;.imagery_annotated&quot; \
-             --product_spec_override &#39;{}&#39; \
-             --output_formatter_kwargs &#39;{}&#39; \
-             --filename_formatter_kwargs &#39;{}&#39; \
-             --metadata_output_formatter_kwargs &#39;{}&#39; \
-             --metadata_filename_formatter_kwargs &#39;{}&#39;
+             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/viirsday.tc.&lt;product&gt;.imagery_annotated" \
+             --product_spec_override '{}' \
+             --output_formatter_kwargs '{}' \
+             --filename_formatter_kwargs '{}' \
+             --metadata_output_formatter_kwargs '{}' \
+             --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -2373,13 +2373,13 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 run_procflow $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
           --procflow single_source \
           --reader_name amsr2_netcdf \
           --reader_kwargs \
-            &#39;{&quot;test_arg&quot;: &quot;AMSR2 single source command line reader test_arg&quot;}&#39; \
+            '{"test_arg": "AMSR2 single source command line reader test_arg"}' \
           --product_name 89H-Physical \
           --filename_formatter tc_fname \
           --output_formatter histogram_json \
@@ -2389,12 +2389,12 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s20200
           --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/amsr2.tc.&lt;product&gt;.imagery_annotated&quot; \
-          --product_spec_override &#39;{&quot;89H-Physical&quot;: {&quot;coverage_checker&quot;: {&quot;plugin&quot;: {&quot;name&quot;: &quot;center_radius&quot;, &quot;arguments&quot;: {&quot;radius_km&quot;: 300}}}}}&#39; \
-          --output_formatter_kwargs &#39;{&quot;min_val&quot;: 100, &quot;max_val&quot;: 350, &quot;num_bins&quot;: 501}&#39; \
-          --filename_formatter_kwargs &#39;{&quot;output_type&quot;: &quot;histogram.nc&quot;}&#39; \
-          --metadata_output_formatter_kwargs &#39;{}&#39; \
-          --metadata_filename_formatter_kwargs &#39;{}&#39;
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/amsr2.tc.&lt;product&gt;.imagery_annotated" \
+          --product_spec_override '{"89H-Physical": {"coverage_checker": {"plugin": {"name": "center_radius", "arguments": {"radius_km": 300}}}}}' \
+          --output_formatter_kwargs '{"min_val": 100, "max_val": 350, "num_bins": 501}' \
+          --filename_formatter_kwargs '{"output_type": "histogram.nc"}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -2410,7 +2410,7 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_gpm/data/1B.GPM.GMI.TB2016.20200917-S171519-E172017.V05A.RT-H5 \
              $GEOIPS_TESTDATA_DIR/test_data_gpm/data/1B.GPM.GMI.TB2016.20200917-S172019-E172517.V05A.RT-H5 \
@@ -2424,12 +2424,12 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_gpm/data/1B.GPM.GMI.TB20
              --no_presectoring \
              --trackfile_parser bdeck_parser \
              --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bal202020.dat \
-             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/gmi.tc.&lt;product&gt;.imagery_clean&quot; \
-             --product_spec_override &#39;{&quot;89pct&quot;: {&quot;coverage_checker&quot;: {&quot;plugin&quot;: {&quot;name&quot;: &quot;center_radius&quot;, &quot;arguments&quot;: {&quot;radius_km&quot;: 300}}}}}&#39; \
-             --output_formatter_kwargs &#39;{}&#39; \
-             --filename_formatter_kwargs &#39;{}&#39; \
-             --metadata_output_formatter_kwargs &#39;{}&#39; \
-             --metadata_filename_formatter_kwargs &#39;{}&#39;
+             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/gmi.tc.&lt;product&gt;.imagery_clean" \
+             --product_spec_override '{"89pct": {"coverage_checker": {"plugin": {"name": "center_radius", "arguments": {"radius_km": 300}}}}}' \
+             --output_formatter_kwargs '{}' \
+             --filename_formatter_kwargs '{}' \
+             --metadata_output_formatter_kwargs '{}' \
+             --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -2445,7 +2445,7 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210525/191200/VJ102DNB.A2021145.1912.002.2021146004551.nc \
@@ -2456,7 +2456,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210525
              $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210525/191200/VJ103MOD.A2021145.1912.002.2021146002749.nc \
              --reader_name viirs_netcdf \
              --product_name Night-Vis-GeoIPS1 \
-             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/viirsmoon.tc.&lt;product&gt;.imagery_clean&quot; \
+             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/viirsmoon.tc.&lt;product&gt;.imagery_clean" \
              --output_formatter imagery_clean \
              --filename_formatter tc_clean_fname \
              --trackfile_parser bdeck_parser \
@@ -2477,12 +2477,12 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
           --reader_name amsr2_netcdf \
           --reader_kwargs \
-            &#39;{&quot;test_arg&quot;: &quot;AMSR2 single source command line reader test_arg&quot;}&#39; \
+            '{"test_arg": "AMSR2 single source command line reader test_arg"}' \
           --product_name 89H-Physical \
           --filename_formatter tc_fname \
           --output_formatter imagery_annotated \
@@ -2492,20 +2492,20 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r
           --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/amsr2.tc.&lt;product&gt;.imagery_annotated&quot; \
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/amsr2.tc.&lt;product&gt;.imagery_annotated" \
           --product_spec_override \
-            &#39;{&quot;89H-Physical&quot;:
-              {&quot;coverage_checker&quot;:
-                {&quot;plugin&quot;:
-                  {&quot;name&quot;: &quot;center_radius&quot;, &quot;arguments&quot;: {&quot;radius_km&quot;: 300}}},
-               &quot;interpolator&quot;:
-                 {&quot;plugin&quot;:
-                   {&quot;name&quot;: &quot;interp_gauss&quot;, &quot;arguments&quot;: {&quot;nproc&quot;: 4}}}
-             }}&#39; \
-          --output_formatter_kwargs &#39;{}&#39; \
-          --filename_formatter_kwargs &#39;{}&#39; \
-          --metadata_output_formatter_kwargs &#39;{}&#39; \
-          --metadata_filename_formatter_kwargs &#39;{}&#39;
+            '{"89H-Physical":
+              {"coverage_checker":
+                {"plugin":
+                  {"name": "center_radius", "arguments": {"radius_km": 300}}},
+               "interpolator":
+                 {"plugin":
+                   {"name": "interp_gauss", "arguments": {"nproc": 4}}}
+             }}' \
+          --output_formatter_kwargs '{}' \
+          --filename_formatter_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
@@ -2521,7 +2521,7 @@ exit $((ss_retval))
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
-# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_hy2/data/hscat_20211202_080644_hy_2b__15571_o_250_2204_ovw_l2.nc \
           --reader_name scat_knmi_winds_netcdf \
@@ -2534,12 +2534,12 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_hy2/data/hscat_20211202_
           --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp272021.dat \
-          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/hy2.tc.&lt;product&gt;.imagery_annotated&quot; \
-          --product_spec_override &#39;{}&#39; \
-          --output_formatter_kwargs &#39;{&quot;title_formatter&quot;: &quot;tc_copyright&quot;, &quot;title_copyright&quot;: &quot;Source data copyright 2021 EUMETSAT&quot;}&#39; \
-          --filename_formatter_kwargs &#39;{}&#39; \
-          --metadata_output_formatter_kwargs &#39;{}&#39; \
-          --metadata_filename_formatter_kwargs &#39;{}&#39;
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/hy2.tc.&lt;product&gt;.imagery_annotated" \
+          --product_spec_override '{}' \
+          --output_formatter_kwargs '{"title_formatter": "tc_copyright", "title_copyright": "Source data copyright 2021 EUMETSAT"}' \
+          --filename_formatter_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))

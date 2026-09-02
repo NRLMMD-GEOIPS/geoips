@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Extend GeoIPS with a New Output Formatter &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>Extend GeoIPS with a New Output Formatter &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="Extend GeoIPS with a New Gridline Annotator" href="gridline_annotator.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -127,8 +127,8 @@
       
     
     
-    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -550,9 +550,9 @@ Class-based <code class="docutils literal notranslate"><span class="pre">call</s
 <p>For example, this is the call signature of the <code class="docutils literal notranslate"><span class="pre">netcdf_geoips</span></code> output formatter, which
 is under the <code class="docutils literal notranslate"><span class="pre">xarray_data</span></code> family.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">NetcdfGeoipsOutputFormatterPlugin</span><span class="p">(</span><span class="n">NetcdfOutputFormatterPlugin</span><span class="p">):</span>
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;output_formatters&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;xarray_data&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;netcdf_geoips&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"output_formatters"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"xarray_data"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"netcdf_geoips"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xarray_obj</span><span class="p">,</span> <span class="n">product_names</span><span class="p">,</span> <span class="n">output_fnames</span><span class="p">):</span>
         <span class="o">...</span>
@@ -561,9 +561,9 @@ is under the <code class="docutils literal notranslate"><span class="pre">xarray
 <p>Whereas the <code class="docutils literal notranslate"><span class="pre">imagery_annotated</span></code> output formatter call signature, under the family
 <code class="docutils literal notranslate"><span class="pre">image_overlay</span></code>, looks like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ImageryAnnotatedOutputFormatterPlugin</span><span class="p">(</span><span class="n">BaseOutputFormatterPlugin</span><span class="p">):</span>
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;output_formatters&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;image_overlay&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;imagery_annotated&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"output_formatters"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"image_overlay"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"imagery_annotated"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -604,7 +604,7 @@ touch __init__.py
 <p>Once you’ve activated <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>, we can move forward with creating our own output
 formatter. Let’s create a file called <code class="docutils literal notranslate"><span class="pre">my_netcdf_output.py</span></code>, which will output our
 CLAVR-x data in a specific netcdf format. Copy and paste the code below into that file.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;My NetCDF output format.&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">"""My NetCDF output format."""</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.output_formatters</span><span class="w"> </span><span class="kn">import</span> <span class="n">NetcdfOutputFormatterPlugin</span>
@@ -613,14 +613,14 @@ CLAVR-x data in a specific netcdf format. Copy and paste the code below into tha
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyNetcdfOutputFormatterPlugin</span><span class="p">(</span><span class="n">NetcdfOutputFormatterPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;My NetCDF output format.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""My NetCDF output format."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;output_formatters&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;xarray_data&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;my_netcdf_output&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"output_formatters"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"xarray_data"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"my_netcdf_output"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xarray_obj</span><span class="p">,</span> <span class="n">product_names</span><span class="p">,</span> <span class="n">output_fnames</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write GeoIPS style NetCDF to disk.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Write GeoIPS style NetCDF to disk."""</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span>
 
         <span class="n">prod_xarray</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
@@ -631,9 +631,9 @@ CLAVR-x data in a specific netcdf format. Copy and paste the code below into tha
         <span class="k">for</span> <span class="n">product_name</span> <span class="ow">in</span> <span class="n">product_names</span><span class="p">:</span>
             <span class="n">prod_xarray</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span>
 
-        <span class="n">prod_xarray</span> <span class="o">=</span> <span class="n">prod_xarray</span><span class="o">.</span><span class="n">assign_attrs</span><span class="p">(</span><span class="n">Starring</span><span class="o">=</span><span class="s2">&quot;Richard Karn&quot;</span><span class="p">,</span>
-                                               <span class="n">Featuring</span><span class="o">=</span><span class="s2">&quot;Johnathan Taylor Thomas&quot;</span><span class="p">,</span>
-                                               <span class="n">ProducedBy</span><span class="o">=</span><span class="s2">&quot;Carmen Finestra&quot;</span><span class="p">)</span>
+        <span class="n">prod_xarray</span> <span class="o">=</span> <span class="n">prod_xarray</span><span class="o">.</span><span class="n">assign_attrs</span><span class="p">(</span><span class="n">Starring</span><span class="o">=</span><span class="s2">"Richard Karn"</span><span class="p">,</span>
+                                               <span class="n">Featuring</span><span class="o">=</span><span class="s2">"Johnathan Taylor Thomas"</span><span class="p">,</span>
+                                               <span class="n">ProducedBy</span><span class="o">=</span><span class="s2">"Carmen Finestra"</span><span class="p">)</span>
 
         <span class="c1"># write_xarray_netcdf is provided by NetcdfOutputFormatterPlugin</span>
         <span class="k">for</span> <span class="n">ncdf_fname</span> <span class="ow">in</span> <span class="n">output_fnames</span><span class="p">:</span>
@@ -655,8 +655,8 @@ so that GeoIPS can recognize it in its namespace and use it when called. To do s
 directories to the top level of your package, and edit <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> to include the
 lines shown below. Note: if you named your package something other than <code class="docutils literal notranslate"><span class="pre">cool_plugins</span></code>,
 replace that with your package name.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">project</span><span class="o">.</span><span class="n">entry</span><span class="o">-</span><span class="n">points</span><span class="o">.</span><span class="s2">&quot;geoips.output_formatters&quot;</span><span class="p">]</span>
-<span class="n">my_netcdf_output</span> <span class="o">=</span> <span class="s2">&quot;cool_plugins.plugins.classes.output_formatters.my_netcdf_output&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">project</span><span class="o">.</span><span class="n">entry</span><span class="o">-</span><span class="n">points</span><span class="o">.</span><span class="s2">"geoips.output_formatters"</span><span class="p">]</span>
+<span class="n">my_netcdf_output</span> <span class="o">=</span> <span class="s2">"cool_plugins.plugins.classes.output_formatters.my_netcdf_output"</span>
 </pre></div>
 </div>
 <p>Once complete, you’ll have to reinstall your package to so that GeoIPS recognizes the new
@@ -683,9 +683,9 @@ to <code class="docutils literal notranslate"><span class="pre">my_netcdf_output
 </div>
 <p>Look through the log output for these lines. If you see them, you’ve successfully
 created a new output formatter!</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="n">Starring</span> <span class="o">=</span> <span class="s2">&quot;Richard Karn&quot;</span> <span class="p">;</span>
-<span class="p">:</span><span class="n">Featuring</span> <span class="o">=</span> <span class="s2">&quot;Jonathan Taylor Thomas&quot;</span> <span class="p">;</span>
-<span class="p">:</span><span class="n">ProducedBy</span> <span class="o">=</span> <span class="s2">&quot;Carmen Finestra&quot;</span> <span class="p">;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="n">Starring</span> <span class="o">=</span> <span class="s2">"Richard Karn"</span> <span class="p">;</span>
+<span class="p">:</span><span class="n">Featuring</span> <span class="o">=</span> <span class="s2">"Jonathan Taylor Thomas"</span> <span class="p">;</span>
+<span class="p">:</span><span class="n">ProducedBy</span> <span class="o">=</span> <span class="s2">"Carmen Finestra"</span> <span class="p">;</span>
 </pre></div>
 </div>
 </section>

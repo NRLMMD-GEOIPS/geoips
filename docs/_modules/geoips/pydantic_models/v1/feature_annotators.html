@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.pydantic_models.v1.feature_annotators &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.pydantic_models.v1.feature_annotators &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -831,7 +833,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Pydantic models used to validate GeoIPS feature annotator plugins.&quot;&quot;&quot;</span>
+<span class="sd">"""Pydantic models used to validate GeoIPS feature annotator plugins."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">model_validator</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
@@ -844,36 +846,36 @@ window.runMermaid = runMermaid;</script>
 <span class="p">)</span>
 
 <span class="n">MATPLOTLIB_COLOR_DOC</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="s2">&quot;An rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX).&quot;</span>
-    <span class="s2">&quot;For more info, see: &quot;</span>
-    <span class="s2">&quot;https://matplotlib.org/stable/users/explain/colors/colors.html&quot;</span>
+    <span class="s2">"An rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX)."</span>
+    <span class="s2">"For more info, see: "</span>
+    <span class="s2">"https://matplotlib.org/stable/users/explain/colors/colors.html"</span>
 <span class="p">)</span>
 
 
 <div class="viewcode-block" id="CartopyFeature"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.feature_annotators.CartopyFeature">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CartopyFeature</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generic model for cartopy features.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Generic model for cartopy features."""</span>
 
     <span class="n">enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Whether or not to enable this feature.&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Whether or not to enable this feature."</span>
     <span class="p">)</span>
     <span class="n">edgecolor</span><span class="p">:</span> <span class="n">ColorType</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MATPLOTLIB_COLOR_DOC</span><span class="si">}</span><span class="s2"> Used for Cartopy feature edges.&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">MATPLOTLIB_COLOR_DOC</span><span class="si">}</span><span class="s2"> Used for Cartopy feature edges."</span>
     <span class="p">)</span>
-    <span class="c1"># NOTE: Once we add land / ocean features, we&#39;ll need to add another field, labeled</span>
+    <span class="c1"># NOTE: Once we add land / ocean features, we'll need to add another field, labeled</span>
     <span class="c1"># facecolor.</span>
     <span class="n">linewidth</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The width in pixels of the specified feature.&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"The width in pixels of the specified feature."</span>
     <span class="p">)</span>
     <span class="c1"># TODO: There are more arguments here for a mpl Line2D artist and cartopy features.</span>
     <span class="c1"># do we want to support all of those? Do we want to fail before or let</span>
     <span class="c1"># matplotlib fail</span>
 
-    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">validate_enabled_fields</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate edgecolor and linewidth based on the value of &#39;enabled&#39;.</span>
+<span class="w">        </span><span class="sd">"""Validate edgecolor and linewidth based on the value of 'enabled'.</span>
 
 <span class="sd">        If enabled is True, then both edgecolor and linewidth must be provided.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">enabled</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">enabled</span>
         <span class="n">edgecolor</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">edgecolor</span>
         <span class="n">linewidth</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">linewidth</span>
@@ -881,45 +883,45 @@ window.runMermaid = runMermaid;</script>
         <span class="k">if</span> <span class="n">enabled</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">edgecolor</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">linewidth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;If &#39;enabled&#39; is True, both &#39;edgecolor&#39; and &#39;linewidth&#39; must be &quot;</span>
-                    <span class="s2">&quot;provided.&quot;</span>
+                    <span class="s2">"If 'enabled' is True, both 'edgecolor' and 'linewidth' must be "</span>
+                    <span class="s2">"provided."</span>
                 <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">values</span></div>
 
 
 <div class="viewcode-block" id="FeatureAnnotatorSpec"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.feature_annotators.FeatureAnnotatorSpec">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">FeatureAnnotatorSpec</span><span class="p">(</span><span class="n">FrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Feature Annotator spec (specification) format.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Feature Annotator spec (specification) format."""</span>
 
-    <span class="c1"># NOTE: Will need to add land and ocean features once they&#39;ve been merged into main.</span>
+    <span class="c1"># NOTE: Will need to add land and ocean features once they've been merged into main.</span>
     <span class="n">coastline</span><span class="p">:</span> <span class="n">CartopyFeature</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;A cartopy coastline feature.&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"A cartopy coastline feature."</span>
     <span class="p">)</span>
     <span class="n">borders</span><span class="p">:</span> <span class="n">CartopyFeature</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;A cartopy borders feature.&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"A cartopy borders feature."</span>
     <span class="p">)</span>
     <span class="n">rivers</span><span class="p">:</span> <span class="n">CartopyFeature</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;A cartopy rivers feature.&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"A cartopy rivers feature."</span>
     <span class="p">)</span>
     <span class="n">states</span><span class="p">:</span> <span class="n">CartopyFeature</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;A cartopy states feature.&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"A cartopy states feature."</span>
     <span class="p">)</span>
     <span class="n">background</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ColorType</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MATPLOTLIB_COLOR_DOC</span><span class="si">}</span><span class="s2"> used for the background of the image.&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">MATPLOTLIB_COLOR_DOC</span><span class="si">}</span><span class="s2"> used for the background of the image."</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="FeatureAnnotatorPluginModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.feature_annotators.FeatureAnnotatorPluginModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">FeatureAnnotatorPluginModel</span><span class="p">(</span><span class="n">PluginModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Feature Annotator plugin format.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Feature Annotator plugin format."""</span>
 
     <span class="n">spec</span><span class="p">:</span> <span class="n">FeatureAnnotatorSpec</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;Specification of how to apply cartopy features to your annotated imagery. &quot;</span>
-            <span class="s2">&quot;Works alongside matplotlib and cartopy to generate these features. &quot;</span>
-            <span class="s2">&quot;For more information, see: &quot;</span>
-            <span class="s2">&quot;https://scitools.org.uk/cartopy/docs/v0.14/matplotlib/feature_interface.html&quot;</span>  <span class="c1"># noqa : E501</span>
+            <span class="s2">"Specification of how to apply cartopy features to your annotated imagery. "</span>
+            <span class="s2">"Works alongside matplotlib and cartopy to generate these features. "</span>
+            <span class="s2">"For more information, see: "</span>
+            <span class="s2">"https://scitools.org.uk/cartopy/docs/v0.14/matplotlib/feature_interface.html"</span>  <span class="c1"># noqa : E501</span>
         <span class="p">),</span>
     <span class="p">)</span></div>
 

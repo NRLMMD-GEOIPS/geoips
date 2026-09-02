@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.filename_formatters.utils.tc_file_naming &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.filename_formatters.utils.tc_file_naming &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Utilities for TC filenaming, for use within geoips filename formatters.&quot;&quot;&quot;</span>
+<span class="sd">"""Utilities for TC filenaming, for use within geoips filename formatters."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">join</span> <span class="k">as</span> <span class="n">pathjoin</span>
@@ -845,7 +847,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="tc_storm_basedir"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.filename_formatters.utils.html#geoips.plugins.classes.filename_formatters.utils.tc_file_naming.tc_storm_basedir">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">tc_storm_basedir</span><span class="p">(</span><span class="n">basedir</span><span class="p">,</span> <span class="n">sector_info</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Produce base storm directory for TC web output.</span>
+<span class="w">    </span><span class="sd">"""Produce base storm directory for TC web output.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -858,18 +860,18 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    path : str</span>
 <span class="sd">        Path to base storm web directory</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Directories are of the format:</span>
     <span class="c1"># basedir/tcYYYY/BASIN/STORMID/</span>
-    <span class="n">tc_date</span> <span class="o">=</span> <span class="s2">&quot;tc</span><span class="si">{0:04d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;storm_year&quot;</span><span class="p">])</span>
-    <span class="n">basin_path</span> <span class="o">=</span> <span class="n">pathjoin</span><span class="p">(</span><span class="n">basedir</span><span class="p">,</span> <span class="n">tc_date</span><span class="p">,</span> <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;storm_basin&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+    <span class="n">tc_date</span> <span class="o">=</span> <span class="s2">"tc</span><span class="si">{0:04d}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_year"</span><span class="p">])</span>
+    <span class="n">basin_path</span> <span class="o">=</span> <span class="n">pathjoin</span><span class="p">(</span><span class="n">basedir</span><span class="p">,</span> <span class="n">tc_date</span><span class="p">,</span> <span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_basin"</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
     <span class="c1"># No longer checking for existing invest subdirectories - assume we are just</span>
     <span class="c1"># writing to the current storm_id (which will include the storm start datetime</span>
-    <span class="c1"># for invests).  Add &#39;.&#39; delimiter back into storm id for path for readability</span>
+    <span class="c1"># for invests).  Add '.' delimiter back into storm id for path for readability</span>
     <span class="c1"># and consistency/backwards compatibility.</span>
-    <span class="n">storm_path_name</span> <span class="o">=</span> <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;storm_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="n">storm_path_name</span> <span class="o">=</span> <span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_id"</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">storm_path_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">8</span><span class="p">:</span>
-        <span class="n">storm_path_name</span> <span class="o">=</span> <span class="n">storm_path_name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">storm_path_name</span><span class="p">[</span><span class="mi">8</span><span class="p">:]</span>
+        <span class="n">storm_path_name</span> <span class="o">=</span> <span class="n">storm_path_name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"."</span> <span class="o">+</span> <span class="n">storm_path_name</span><span class="p">[</span><span class="mi">8</span><span class="p">:]</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">pathjoin</span><span class="p">(</span><span class="n">basin_path</span><span class="p">,</span> <span class="n">storm_path_name</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">path</span></div>
 
@@ -879,26 +881,26 @@ window.runMermaid = runMermaid;</script>
     <span class="n">xarray_obj</span><span class="p">,</span>
     <span class="n">area_def</span><span class="p">,</span>
     <span class="n">product_name</span><span class="p">,</span>
-    <span class="n">extra_field_delimiter</span><span class="o">=</span><span class="s2">&quot;_&quot;</span><span class="p">,</span>
+    <span class="n">extra_field_delimiter</span><span class="o">=</span><span class="s2">"_"</span><span class="p">,</span>
     <span class="n">existing_extra_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">extra_field_provider</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">extra_field_coverage_func</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">extra_field_resolution</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">include_filename_extra_fields</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Finalize extra field using standard geoips arguments.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Finalize extra field using standard geoips arguments."""</span>
     <span class="k">if</span> <span class="n">extra_field_provider</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.filenames.base_paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">PATHS</span> <span class="k">as</span> <span class="n">gpaths</span>
 
-        <span class="n">extra_field_provider</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_COPYRIGHT_ABBREVIATED&quot;</span><span class="p">]</span>
+        <span class="n">extra_field_provider</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">"GEOIPS_COPYRIGHT_ABBREVIATED"</span><span class="p">]</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.dev.product</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_covg_args_from_product</span>
 
     <span class="n">prod_spec_override</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">output_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">prod_spec_override</span> <span class="o">=</span> <span class="n">output_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;product_spec_override&quot;</span><span class="p">)</span>
+        <span class="n">prod_spec_override</span> <span class="o">=</span> <span class="n">output_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"product_spec_override"</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="s2">&quot;source_names&quot;</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">"source_names"</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">source_name</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">source_names</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">prod_plugin</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span>
@@ -906,7 +908,7 @@ window.runMermaid = runMermaid;</script>
                 <span class="p">)</span>
                 <span class="n">covg_args</span> <span class="o">=</span> <span class="n">get_covg_args_from_product</span><span class="p">(</span>
                     <span class="n">prod_plugin</span><span class="p">,</span>
-                    <span class="n">covg_field</span><span class="o">=</span><span class="s2">&quot;filename_coverage_checker&quot;</span><span class="p">,</span>
+                    <span class="n">covg_field</span><span class="o">=</span><span class="s2">"filename_coverage_checker"</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="k">continue</span>
@@ -918,34 +920,34 @@ window.runMermaid = runMermaid;</script>
         <span class="p">)</span>
         <span class="n">covg_args</span> <span class="o">=</span> <span class="n">get_covg_args_from_product</span><span class="p">(</span>
             <span class="n">prod_plugin</span><span class="p">,</span>
-            <span class="n">covg_field</span><span class="o">=</span><span class="s2">&quot;filename_coverage_checker&quot;</span><span class="p">,</span>
+            <span class="n">covg_field</span><span class="o">=</span><span class="s2">"filename_coverage_checker"</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="n">extras</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">if</span> <span class="n">extra_field_provider</span><span class="p">:</span>
-        <span class="n">extras</span> <span class="o">+=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">extra_field_provider</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">extra_field_coverage_func</span> <span class="ow">and</span> <span class="s2">&quot;radius_km&quot;</span> <span class="ow">in</span> <span class="n">covg_args</span><span class="p">:</span>
-        <span class="n">extras</span> <span class="o">+=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;cr</span><span class="si">{</span><span class="n">covg_args</span><span class="p">[</span><span class="s1">&#39;radius_km&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="n">extras</span> <span class="o">+=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">extra_field_provider</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">extra_field_coverage_func</span> <span class="ow">and</span> <span class="s2">"radius_km"</span> <span class="ow">in</span> <span class="n">covg_args</span><span class="p">:</span>
+        <span class="n">extras</span> <span class="o">+=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"cr</span><span class="si">{</span><span class="n">covg_args</span><span class="p">[</span><span class="s1">'radius_km'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span>
     <span class="k">if</span> <span class="p">(</span>
         <span class="n">include_filename_extra_fields</span>
-        <span class="ow">and</span> <span class="s2">&quot;filename_extra_fields&quot;</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span>
+        <span class="ow">and</span> <span class="s2">"filename_extra_fields"</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span>
         <span class="ow">and</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">filename_extra_fields</span>
     <span class="p">):</span>
         <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">filename_extra_fields</span><span class="p">:</span>
-            <span class="n">extras</span> <span class="o">+=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xarray_obj</span><span class="o">.</span><span class="n">filename_extra_fields</span><span class="p">[</span><span class="n">field</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+            <span class="n">extras</span> <span class="o">+=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">xarray_obj</span><span class="o">.</span><span class="n">filename_extra_fields</span><span class="p">[</span><span class="n">field</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span>
 
-    <span class="c1"># This must go first - but no &quot;res&quot; if no other fields</span>
+    <span class="c1"># This must go first - but no "res" if no other fields</span>
     <span class="k">if</span> <span class="n">extra_field_resolution</span><span class="p">:</span>
         <span class="n">resolution</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">pixel_size_x</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">pixel_size_y</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1000.0</span>
-        <span class="n">res_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:0.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">resolution</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">)</span>
+        <span class="n">res_str</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0:0.1f}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">resolution</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"."</span><span class="p">,</span> <span class="s2">"p"</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">extras</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">res_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;res</span><span class="si">{</span><span class="n">res_str</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">res_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"res</span><span class="si">{</span><span class="n">res_str</span><span class="si">}</span><span class="s2">"</span>
         <span class="n">extras</span> <span class="o">=</span> <span class="p">[</span><span class="n">res_str</span><span class="p">]</span> <span class="o">+</span> <span class="n">extras</span>
 
-    <span class="c1"># This doesn&#39;t count towards &quot;other fields&quot; for the res in resolution.</span>
+    <span class="c1"># This doesn't count towards "other fields" for the res in resolution.</span>
     <span class="k">if</span> <span class="n">existing_extra_field</span><span class="p">:</span>
-        <span class="n">extras</span> <span class="o">+=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">existing_extra_field</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="n">extras</span> <span class="o">+=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">existing_extra_field</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span>
 
     <span class="n">extra</span> <span class="o">=</span> <span class="n">extra_field_delimiter</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">extras</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">extra</span></div>

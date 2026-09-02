@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.utils.composite &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.utils.composite &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Utilities for swath compositing in GeoIPS.&quot;&quot;&quot;</span>
+<span class="sd">"""Utilities for swath compositing in GeoIPS."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">isodate</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">timedelta</span>
@@ -843,13 +845,13 @@ window.runMermaid = runMermaid;</script>
     <span class="n">product</span><span class="p">,</span>
     <span class="n">sensor</span><span class="p">,</span>
     <span class="n">platform</span><span class="p">,</span>
-    <span class="n">file_format</span><span class="o">=</span><span class="s2">&quot;netcdf&quot;</span><span class="p">,</span>
+    <span class="n">file_format</span><span class="o">=</span><span class="s2">"netcdf"</span><span class="p">,</span>
     <span class="n">product_db</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">db_query_plugin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">db_schemas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">db_tables</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find pre-processed algorithm files that were saved to disk.</span>
+<span class="w">    </span><span class="sd">"""Find pre-processed algorithm files that were saved to disk.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -867,7 +869,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    platform : str</span>
 <span class="sd">        Name of platform to composite</span>
 <span class="sd">    file_format : str, optional</span>
-<span class="sd">        Pre-processed file format, by default &quot;netcdf&quot;</span>
+<span class="sd">        Pre-processed file format, by default "netcdf"</span>
 <span class="sd">    product_db : bool, optional</span>
 <span class="sd">        Use product database to find any pre-processed file, by default False</span>
 <span class="sd">    db_query_plugin : str, optional</span>
@@ -881,14 +883,14 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    list</span>
 <span class="sd">        List of pre-processed algorithm files</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">product_time_start</span> <span class="o">=</span> <span class="n">product_time</span> <span class="o">-</span> <span class="n">isodate</span><span class="o">.</span><span class="n">parse_duration</span><span class="p">(</span><span class="n">composite_window</span><span class="p">)</span>
     <span class="n">product_time_end</span> <span class="o">=</span> <span class="n">product_time</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">db_schemas</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">db_schemas</span> <span class="o">=</span> <span class="p">[</span><span class="n">db_schemas</span><span class="p">]</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">db_tables</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">db_tables</span> <span class="o">=</span> <span class="p">[</span><span class="n">db_tables</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s2">&quot;netcdf&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s2">"netcdf"</span><span class="p">:</span>
         <span class="n">preproc_files</span> <span class="o">=</span> <span class="n">find_preproc_alg_netcdfs</span><span class="p">(</span>
             <span class="n">product_time_start</span><span class="p">,</span>
             <span class="n">product_time_end</span><span class="p">,</span>
@@ -916,7 +918,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">postgres_schemas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">postgres_tables</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find pre-processed algorithm netCDF files that were saved to disk.</span>
+<span class="w">    </span><span class="sd">"""Find pre-processed algorithm netCDF files that were saved to disk.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -933,7 +935,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    platform : str</span>
 <span class="sd">        Name of platform to composite</span>
 <span class="sd">    file_format : str, optional</span>
-<span class="sd">        Pre-processed file format, by default &quot;netcdf&quot;</span>
+<span class="sd">        Pre-processed file format, by default "netcdf"</span>
 <span class="sd">    product_db : bool, optional</span>
 <span class="sd">        Use product database to find any pre-processed file, by default False</span>
 <span class="sd">    db_query_plugin : str, optional</span>
@@ -947,7 +949,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    list</span>
 <span class="sd">        List of pre-processed netCDF algorithm files</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">product_db</span><span class="p">:</span>
         <span class="n">query_plugin</span> <span class="o">=</span> <span class="n">databases</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">postgres_query_plugin</span><span class="p">)</span>
         <span class="n">search_schema</span> <span class="o">=</span> <span class="p">[]</span>
@@ -964,12 +966,12 @@ window.runMermaid = runMermaid;</script>
             <span class="n">sensor</span><span class="p">,</span>
             <span class="n">platform</span><span class="p">,</span>
             <span class="n">search_schema</span><span class="p">,</span>
-            <span class="n">file_type</span><span class="o">=</span><span class="s2">&quot;nc&quot;</span><span class="p">,</span>
+            <span class="n">file_type</span><span class="o">=</span><span class="s2">"nc"</span><span class="p">,</span>
             <span class="n">postgres_tables</span><span class="o">=</span><span class="n">postgres_tables</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="n">nc_files</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">product</span> <span class="ow">in</span> <span class="n">query_out</span><span class="p">[</span><span class="s2">&quot;products&quot;</span><span class="p">]:</span>
-        <span class="n">nc_file</span> <span class="o">=</span> <span class="n">product</span><span class="p">[</span><span class="s2">&quot;productPath&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">product</span> <span class="ow">in</span> <span class="n">query_out</span><span class="p">[</span><span class="s2">"products"</span><span class="p">]:</span>
+        <span class="n">nc_file</span> <span class="o">=</span> <span class="n">product</span><span class="p">[</span><span class="s2">"productPath"</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">nc_file</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">nc_files</span><span class="p">:</span>
             <span class="n">nc_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nc_file</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">nc_files</span><span class="p">)</span></div>

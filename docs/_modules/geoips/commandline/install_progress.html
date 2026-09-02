@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.commandline.install_progress &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.commandline.install_progress &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,13 +830,13 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Progress display for parallel test-data downloads.</span>
+<span class="sd">"""Progress display for parallel test-data downloads.</span>
 
 <span class="sd">Provides two implementations — rich live display (docker-like) and plain-text</span>
 <span class="sd">logging — behind a shared duck-typed protocol.  The factory</span>
 <span class="sd">:func:`create_progress_display` selects the appropriate implementation based</span>
 <span class="sd">on user preference and TTY detection.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -854,7 +856,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="PlainProgressDisplay"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.PlainProgressDisplay">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PlainProgressDisplay</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Line-by-line progress for CI logs and ``--no-rich`` mode.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Line-by-line progress for CI logs and ``--no-rich`` mode."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">total</span> <span class="o">=</span> <span class="n">total</span>
@@ -862,68 +864,68 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">failed</span> <span class="o">=</span> <span class="mi">0</span>
 
 <div class="viewcode-block" id="PlainProgressDisplay.start"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.PlainProgressDisplay.start">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Begin the display (no-op for plain mode).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Begin the display (no-op for plain mode)."""</span>
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="PlainProgressDisplay.stop"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.PlainProgressDisplay.stop">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;End the display.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""End the display."""</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;[GeoIPS] Done: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">completed</span><span class="si">}</span><span class="s2"> installed, &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">failed</span><span class="si">}</span><span class="s2"> failed (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="si">}</span><span class="s2"> total)&quot;</span>
+            <span class="sa">f</span><span class="s2">"[GeoIPS] Done: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">completed</span><span class="si">}</span><span class="s2"> installed, "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">failed</span><span class="si">}</span><span class="s2"> failed (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="si">}</span><span class="s2"> total)"</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="PlainProgressDisplay.add_cached"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.PlainProgressDisplay.add_cached">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_cached</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Log a dataset as already cached and up to date.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Log a dataset as already cached and up to date."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">completed</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[GeoIPS] </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="se">\u2713</span><span class="s2"> cached (chunk verified)&quot;</span><span class="p">)</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[GeoIPS] </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="se">\u2713</span><span class="s2"> cached (chunk verified)"</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PlainProgressDisplay.log_stale"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.PlainProgressDisplay.log_stale">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">log_stale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">reason</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Log a stale dataset that needs to be re-downloaded.&quot;&quot;&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[GeoIPS] </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: stale </span><span class="se">\u2014</span><span class="s2"> </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+<span class="w">        </span><span class="sd">"""Log a stale dataset that needs to be re-downloaded."""</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[GeoIPS] </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: stale </span><span class="se">\u2014</span><span class="s2"> </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PlainProgressDisplay.add_download"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.PlainProgressDisplay.add_download">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_download</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">total_bytes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Begin tracking a download (byte progress via update_download).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Begin tracking a download (byte progress via update_download)."""</span>
         <span class="k">pass</span>  <span class="c1"># downloads tracked via update_download</span></div>
 
 <div class="viewcode-block" id="PlainProgressDisplay.update_download"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.PlainProgressDisplay.update_download">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">update_download</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bytes_done</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update download progress for a dataset being fetched.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Update download progress for a dataset being fetched."""</span>
         <span class="n">pct</span> <span class="o">=</span> <span class="n">bytes_done</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">//</span> <span class="n">total</span> <span class="k">if</span> <span class="n">total</span> <span class="k">else</span> <span class="mi">0</span>
         <span class="k">if</span> <span class="n">pct</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">bytes_done</span> <span class="o">==</span> <span class="n">total</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;[GeoIPS] </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: Downloading... &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pct</span><span class="si">}</span><span class="s2">% (</span><span class="si">{</span><span class="n">_fmt_bytes</span><span class="p">(</span><span class="n">bytes_done</span><span class="p">)</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">_fmt_bytes</span><span class="p">(</span><span class="n">total</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="sa">f</span><span class="s2">"[GeoIPS] </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: Downloading... "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">pct</span><span class="si">}</span><span class="s2">% (</span><span class="si">{</span><span class="n">_fmt_bytes</span><span class="p">(</span><span class="n">bytes_done</span><span class="p">)</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">_fmt_bytes</span><span class="p">(</span><span class="n">total</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span>
             <span class="p">)</span></div>
 
 <div class="viewcode-block" id="PlainProgressDisplay.mark_download_done"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.PlainProgressDisplay.mark_download_done">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">mark_download_done</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mark a download as finished (no-op in plain mode).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Mark a download as finished (no-op in plain mode)."""</span>
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="PlainProgressDisplay.add_extract"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.PlainProgressDisplay.add_extract">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_extract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">total_files</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Begin tracking an archive extraction.&quot;&quot;&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[GeoIPS] </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: Extracting... 0/</span><span class="si">{</span><span class="n">total_files</span><span class="si">}</span><span class="s2"> files&quot;</span><span class="p">)</span></div>
+<span class="w">        </span><span class="sd">"""Begin tracking an archive extraction."""</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[GeoIPS] </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: Extracting... 0/</span><span class="si">{</span><span class="n">total_files</span><span class="si">}</span><span class="s2"> files"</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PlainProgressDisplay.update_extract"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.PlainProgressDisplay.update_extract">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">update_extract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">files_done</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update extraction progress for a dataset archive.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Update extraction progress for a dataset archive."""</span>
         <span class="k">if</span> <span class="n">files_done</span> <span class="o">%</span> <span class="mi">50</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">files_done</span> <span class="o">==</span> <span class="n">total</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[GeoIPS] </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: Extracting... </span><span class="si">{</span><span class="n">files_done</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s2"> files&quot;</span><span class="p">)</span></div>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[GeoIPS] </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: Extracting... </span><span class="si">{</span><span class="n">files_done</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s2"> files"</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PlainProgressDisplay.mark_complete"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.PlainProgressDisplay.mark_complete">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">mark_complete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mark a dataset as fully downloaded and extracted.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Mark a dataset as fully downloaded and extracted."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">completed</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[GeoIPS] </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="se">\u2713</span><span class="s2"> installed&quot;</span><span class="p">)</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[GeoIPS] </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="se">\u2713</span><span class="s2"> installed"</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PlainProgressDisplay.mark_failed"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.PlainProgressDisplay.mark_failed">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">mark_failed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">reason</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mark a dataset as failed.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Mark a dataset as failed."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">failed</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[GeoIPS] </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="se">\u2717</span><span class="s2"> </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[GeoIPS] </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="se">\u2717</span><span class="s2"> </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="RichProgressDisplay"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.RichProgressDisplay">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RichProgressDisplay</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Docker-like live progress display powered by Rich.</span>
+<span class="w">    </span><span class="sd">"""Docker-like live progress display powered by Rich.</span>
 
 <span class="sd">    Shows a header with totals, active download/extraction bars with</span>
 <span class="sd">    spinners, and a scrollable log of completed / failed entries.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">is_tty</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">total</span> <span class="o">=</span> <span class="n">total</span>
@@ -937,11 +939,11 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">progress</span> <span class="o">=</span> <span class="n">Progress</span><span class="p">(</span>
             <span class="n">SpinnerColumn</span><span class="p">(),</span>
-            <span class="n">TextColumn</span><span class="p">(</span><span class="s2">&quot;[bold blue]</span><span class="si">{task.fields[name]:&lt;22s}</span><span class="s2">[/]&quot;</span><span class="p">),</span>
-            <span class="n">TextColumn</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{task.fields[phase]:&lt;10s}</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="n">TextColumn</span><span class="p">(</span><span class="s2">"[bold blue]</span><span class="si">{task.fields[name]:&lt;22s}</span><span class="s2">[/]"</span><span class="p">),</span>
+            <span class="n">TextColumn</span><span class="p">(</span><span class="s2">"</span><span class="si">{task.fields[phase]:&lt;10s}</span><span class="s2">"</span><span class="p">),</span>
             <span class="n">BarColumn</span><span class="p">(</span><span class="n">bar_width</span><span class="o">=</span><span class="mi">24</span><span class="p">),</span>
             <span class="n">TaskProgressColumn</span><span class="p">(),</span>
-            <span class="n">TextColumn</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{task.fields[stats]}</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="n">TextColumn</span><span class="p">(</span><span class="s2">"</span><span class="si">{task.fields[stats]}</span><span class="s2">"</span><span class="p">),</span>
             <span class="n">TimeRemainingColumn</span><span class="p">(),</span>
             <span class="n">console</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">console</span><span class="p">,</span>
             <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -955,22 +957,22 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">_header_task</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="RichProgressDisplay.start"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.RichProgressDisplay.start">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the live progress display.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Start the live progress display."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">live</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_header_task</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">progress</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_header_text</span><span class="p">(),</span>
             <span class="n">total</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="n">stats</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+            <span class="n">phase</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+            <span class="n">stats</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RichProgressDisplay.stop"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.RichProgressDisplay.stop">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the live display and print final summary.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Stop the live display and print final summary."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">live</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;[GeoIPS] Done: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">completed</span><span class="si">}</span><span class="s2"> installed, &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">failed</span><span class="si">}</span><span class="s2"> failed (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="si">}</span><span class="s2"> total)&quot;</span>
+            <span class="sa">f</span><span class="s2">"[GeoIPS] Done: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">completed</span><span class="si">}</span><span class="s2"> installed, "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">failed</span><span class="si">}</span><span class="s2"> failed (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="si">}</span><span class="s2"> total)"</span>
         <span class="p">)</span></div>
 
     <span class="c1"># ------------------------------------------------------------------</span>
@@ -986,12 +988,12 @@ window.runMermaid = runMermaid;</script>
             <span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;[bold]GeoIPS Test Data[/] </span><span class="se">\u2014</span><span class="s2"> &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2"> downloading </span><span class="se">\u00b7</span><span class="s2"> &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> extracting </span><span class="se">\u00b7</span><span class="s2"> &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2"> done </span><span class="se">\u00b7</span><span class="s2"> &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="s2"> failed &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2"> total)&quot;</span>
+            <span class="sa">f</span><span class="s2">"[bold]GeoIPS Test Data[/] </span><span class="se">\u2014</span><span class="s2"> "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2"> downloading </span><span class="se">\u00b7</span><span class="s2"> "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> extracting </span><span class="se">\u00b7</span><span class="s2"> "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2"> done </span><span class="se">\u00b7</span><span class="s2"> "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="s2"> failed "</span>
+            <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2"> total)"</span>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_refresh_header</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1011,104 +1013,104 @@ window.runMermaid = runMermaid;</script>
     <span class="c1"># ------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="RichProgressDisplay.add_cached"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.RichProgressDisplay.add_cached">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_cached</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Log a dataset as already cached and up to date.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Log a dataset as already cached and up to date."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">completed</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_refresh_header</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">progress</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
             <span class="n">Text</span><span class="o">.</span><span class="n">assemble</span><span class="p">(</span>
-                <span class="p">(</span><span class="s2">&quot;</span><span class="se">\u2713</span><span class="s2"> &quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">  cached (chunk verified)&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="p">(</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> "</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">  cached (chunk verified)"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RichProgressDisplay.log_stale"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.RichProgressDisplay.log_stale">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">log_stale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">reason</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Log a stale dataset that needs to be re-downloaded.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Log a stale dataset that needs to be re-downloaded."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">progress</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
             <span class="n">Text</span><span class="o">.</span><span class="n">assemble</span><span class="p">(</span>
-                <span class="p">(</span><span class="s2">&quot;</span><span class="se">\u27f3</span><span class="s2"> &quot;</span><span class="p">,</span> <span class="s2">&quot;yellow&quot;</span><span class="p">),</span>
-                <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">  stale </span><span class="se">\u2014</span><span class="s2"> </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">"</span><span class="se">\u27f3</span><span class="s2"> "</span><span class="p">,</span> <span class="s2">"yellow"</span><span class="p">),</span>
+                <span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">  stale </span><span class="se">\u2014</span><span class="s2"> </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RichProgressDisplay.add_download"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.RichProgressDisplay.add_download">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_download</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">total_bytes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Begin tracking a download with a progress bar.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Begin tracking a download with a progress bar."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">downloading</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_refresh_header</span><span class="p">()</span>
         <span class="n">tid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">progress</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;[blue]</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">[/]&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"[blue]</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">[/]"</span><span class="p">,</span>
             <span class="n">total</span><span class="o">=</span><span class="n">total_bytes</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-            <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;Download&quot;</span><span class="p">,</span>
-            <span class="n">stats</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;0 / </span><span class="si">{</span><span class="n">_fmt_bytes</span><span class="p">(</span><span class="n">total_bytes</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">phase</span><span class="o">=</span><span class="s2">"Download"</span><span class="p">,</span>
+            <span class="n">stats</span><span class="o">=</span><span class="sa">f</span><span class="s2">"0 / </span><span class="si">{</span><span class="n">_fmt_bytes</span><span class="p">(</span><span class="n">total_bytes</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tasks</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">tid</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">progress</span><span class="o">.</span><span class="n">start_task</span><span class="p">(</span><span class="n">tid</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RichProgressDisplay.update_download"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.RichProgressDisplay.update_download">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">update_download</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bytes_done</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the download progress bar for a dataset.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Update the download progress bar for a dataset."""</span>
         <span class="n">tid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tasks</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">tid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
                 <span class="n">tid</span><span class="p">,</span>
                 <span class="n">completed</span><span class="o">=</span><span class="n">bytes_done</span><span class="p">,</span>
-                <span class="n">stats</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_fmt_bytes</span><span class="p">(</span><span class="n">bytes_done</span><span class="p">)</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">_fmt_bytes</span><span class="p">(</span><span class="n">total</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">stats</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_fmt_bytes</span><span class="p">(</span><span class="n">bytes_done</span><span class="p">)</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">_fmt_bytes</span><span class="p">(</span><span class="n">total</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
             <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RichProgressDisplay.mark_download_done"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.RichProgressDisplay.mark_download_done">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">mark_download_done</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mark a download as finished; remove the progress bar.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Mark a download as finished; remove the progress bar."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">downloading</span> <span class="o">-=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_refresh_header</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_remove_task</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RichProgressDisplay.add_extract"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.RichProgressDisplay.add_extract">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_extract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">total_files</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Begin tracking an extraction with a progress bar.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Begin tracking an extraction with a progress bar."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">extracting</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_refresh_header</span><span class="p">()</span>
         <span class="n">tid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">progress</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;[green]</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">[/]&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"[green]</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">[/]"</span><span class="p">,</span>
             <span class="n">total</span><span class="o">=</span><span class="n">total_files</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-            <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;Extract&quot;</span><span class="p">,</span>
-            <span class="n">stats</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;0 / </span><span class="si">{</span><span class="n">total_files</span><span class="si">}</span><span class="s2"> files&quot;</span><span class="p">,</span>
+            <span class="n">phase</span><span class="o">=</span><span class="s2">"Extract"</span><span class="p">,</span>
+            <span class="n">stats</span><span class="o">=</span><span class="sa">f</span><span class="s2">"0 / </span><span class="si">{</span><span class="n">total_files</span><span class="si">}</span><span class="s2"> files"</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tasks</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">tid</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">progress</span><span class="o">.</span><span class="n">start_task</span><span class="p">(</span><span class="n">tid</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RichProgressDisplay.update_extract"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.RichProgressDisplay.update_extract">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">update_extract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">files_done</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the extraction progress bar for a dataset.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Update the extraction progress bar for a dataset."""</span>
         <span class="n">tid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tasks</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">tid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
                 <span class="n">tid</span><span class="p">,</span>
                 <span class="n">completed</span><span class="o">=</span><span class="n">files_done</span><span class="p">,</span>
-                <span class="n">stats</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">files_done</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s2"> files&quot;</span><span class="p">,</span>
+                <span class="n">stats</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">files_done</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s2"> files"</span><span class="p">,</span>
             <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RichProgressDisplay.mark_complete"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.RichProgressDisplay.mark_complete">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">mark_complete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mark a dataset as fully downloaded and extracted.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Mark a dataset as fully downloaded and extracted."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">extracting</span> <span class="o">-=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">completed</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_refresh_header</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_remove_task</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">progress</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-            <span class="n">Text</span><span class="o">.</span><span class="n">assemble</span><span class="p">((</span><span class="s2">&quot;</span><span class="se">\u2713</span><span class="s2"> &quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">  installed&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+            <span class="n">Text</span><span class="o">.</span><span class="n">assemble</span><span class="p">((</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> "</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">  installed"</span><span class="p">,</span> <span class="s2">""</span><span class="p">))</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RichProgressDisplay.mark_failed"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.install_progress.RichProgressDisplay.mark_failed">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">mark_failed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">reason</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mark a dataset as failed; clean up any active progress bars.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Mark a dataset as failed; clean up any active progress bars."""</span>
         <span class="n">tid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tasks</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">tid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">progress</span><span class="o">.</span><span class="n">tasks</span><span class="p">[</span><span class="n">tid</span><span class="p">]</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;phase&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">phase</span> <span class="o">==</span> <span class="s2">&quot;Download&quot;</span><span class="p">:</span>
+            <span class="n">phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">progress</span><span class="o">.</span><span class="n">tasks</span><span class="p">[</span><span class="n">tid</span><span class="p">]</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"phase"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">phase</span> <span class="o">==</span> <span class="s2">"Download"</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">downloading</span> <span class="o">-=</span> <span class="mi">1</span>
-            <span class="k">elif</span> <span class="n">phase</span> <span class="o">==</span> <span class="s2">&quot;Extract&quot;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">phase</span> <span class="o">==</span> <span class="s2">"Extract"</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">extracting</span> <span class="o">-=</span> <span class="mi">1</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_remove_task</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">failed</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_refresh_header</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">progress</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
             <span class="n">Text</span><span class="o">.</span><span class="n">assemble</span><span class="p">(</span>
-                <span class="p">(</span><span class="s2">&quot;</span><span class="se">\u2717</span><span class="s2"> &quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">),</span>
-                <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">"</span><span class="se">\u2717</span><span class="s2"> "</span><span class="p">,</span> <span class="s2">"red"</span><span class="p">),</span>
+                <span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span>
             <span class="p">)</span>
         <span class="p">)</span></div></div>
 
@@ -1118,7 +1120,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">use_rich</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">is_tty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a progress display appropriate for the current environment.</span>
+<span class="w">    </span><span class="sd">"""Return a progress display appropriate for the current environment.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1132,7 +1134,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    RichProgressDisplay or PlainProgressDisplay</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">is_tty</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">is_tty</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">isatty</span><span class="p">()</span>
 
@@ -1142,14 +1144,14 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_fmt_bytes</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Human-readable byte count.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Human-readable byte count."""</span>
     <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">1_000_000_000</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000_000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> GB&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">n</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000_000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> GB"</span>
     <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">1_000_000</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> MB&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">n</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> MB"</span>
     <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">1_000</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> KB&quot;</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> B&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">n</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> KB"</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> B"</span>
 </pre></div>
 
                 </article>

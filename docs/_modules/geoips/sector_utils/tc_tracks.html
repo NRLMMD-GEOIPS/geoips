@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.sector_utils.tc_tracks &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.sector_utils.tc_tracks &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Modules to access TC tracks, based on locations found in the deck files.&quot;&quot;&quot;</span>
+<span class="sd">"""Modules to access TC tracks, based on locations found in the deck files."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -842,11 +844,11 @@ window.runMermaid = runMermaid;</script>
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="c1"># If we ever revert back to numbered storm from named storm, we may need to include this</span>
-<span class="c1"># list in &quot;get_final_storm_name&quot; rather than just INVEST</span>
-<span class="c1"># UNNAMED_STORM_NAMES = [&#39;invest&#39;, &#39;one&#39;, &#39;two&#39;, &#39;three&#39;, &#39;four&#39;, &#39;five&#39;, &#39;six&#39;,</span>
-<span class="c1">#                        &#39;seven&#39;, &#39;eight&#39;, &#39;nine&#39;, &#39;ten&#39;, &#39;eleven&#39;, &#39;twelve&#39;,</span>
-<span class="c1">#                        &#39;thirteen&#39;, &#39;fourteen&#39;, &#39;fifteen&#39;, &#39;sixteen&#39;, &#39;seventeen&#39;,</span>
-<span class="c1">#                        &#39;eighteen&#39;, &#39;nineteen&#39;, &#39;twenty&#39;, &#39;twenty-one&#39;]</span>
+<span class="c1"># list in "get_final_storm_name" rather than just INVEST</span>
+<span class="c1"># UNNAMED_STORM_NAMES = ['invest', 'one', 'two', 'three', 'four', 'five', 'six',</span>
+<span class="c1">#                        'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve',</span>
+<span class="c1">#                        'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen',</span>
+<span class="c1">#                        'eighteen', 'nineteen', 'twenty', 'twenty-one']</span>
 
 
 <div class="viewcode-block" id="create_tc_sector_info_dict"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks.create_tc_sector_info_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">create_tc_sector_info_dict</span><span class="p">(</span>
@@ -864,7 +866,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">pressure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">vmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create storm info dictionary from items.</span>
+<span class="w">    </span><span class="sd">"""Create storm info dictionary from items.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -898,42 +900,42 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    fields : dict</span>
 <span class="sd">        Dictionary of sector information, as passed into function.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">fields</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;clat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clat</span>
-    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;clon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clon</span>
-    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;synoptic_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">synoptic_time</span>
-    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;storm_year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_year</span>
-    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;storm_basin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_basin</span>
-    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;storm_num&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">storm_num</span><span class="p">)</span>
-    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;storm_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
-    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;aid_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
-    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;final_storm_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
-    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;source_sector_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"clat"</span><span class="p">]</span> <span class="o">=</span> <span class="n">clat</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"clon"</span><span class="p">]</span> <span class="o">=</span> <span class="n">clon</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"synoptic_time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">synoptic_time</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"storm_year"</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_year</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"storm_basin"</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_basin</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"storm_num"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">storm_num</span><span class="p">)</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"storm_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"unknown"</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"aid_type"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"unknown"</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"final_storm_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"unknown"</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"source_sector_file"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"unknown"</span>
     <span class="k">if</span> <span class="n">aid_type</span><span class="p">:</span>
-        <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;aid_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">aid_type</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"aid_type"</span><span class="p">]</span> <span class="o">=</span> <span class="n">aid_type</span>
     <span class="k">if</span> <span class="n">storm_name</span><span class="p">:</span>
-        <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;storm_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_name</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"storm_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_name</span>
     <span class="k">if</span> <span class="n">final_storm_name</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;USING passed final_storm_name </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">final_storm_name</span><span class="p">)</span>
-        <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;final_storm_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_storm_name</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"USING passed final_storm_name </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">final_storm_name</span><span class="p">)</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"final_storm_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_storm_name</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;USING storm_name as final_storm_name </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">storm_name</span><span class="p">)</span>
-        <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;final_storm_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_name</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"USING storm_name as final_storm_name </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">storm_name</span><span class="p">)</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"final_storm_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_name</span>
     <span class="k">if</span> <span class="n">source_sector_file</span><span class="p">:</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.geoips_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">replace_geoips_paths</span>
 
-        <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;source_sector_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">replace_geoips_paths</span><span class="p">(</span><span class="n">source_sector_file</span><span class="p">)</span>
-    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pressure</span>
-    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;deck_line&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">deck_line</span>
-    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;vmax&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vmax</span>
-    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;source_filename&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;source_sector_file&quot;</span><span class="p">]</span>
-    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;parser_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"source_sector_file"</span><span class="p">]</span> <span class="o">=</span> <span class="n">replace_geoips_paths</span><span class="p">(</span><span class="n">source_sector_file</span><span class="p">)</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"pressure"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pressure</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"deck_line"</span><span class="p">]</span> <span class="o">=</span> <span class="n">deck_line</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"vmax"</span><span class="p">]</span> <span class="o">=</span> <span class="n">vmax</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"source_filename"</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"source_sector_file"</span><span class="p">]</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"parser_name"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">return</span> <span class="n">fields</span></div>
 
 
 <div class="viewcode-block" id="get_tc_area_id"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks.get_tc_area_id">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_tc_area_id</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">tcyear</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get TC area_id from fields, to be used as pyresample AreaDefinition area_id.</span>
+<span class="w">    </span><span class="sd">"""Get TC area_id from fields, to be used as pyresample AreaDefinition area_id.</span>
 
 <span class="sd">    Will be of form:</span>
 
@@ -946,63 +948,63 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">    Note we use `-` as a delimiter since by convention we reserve `.` and `_`</span>
 <span class="sd">    throughout GeoIPS for filename delimiters.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">area_id</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">-</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-        <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;storm_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
-        <span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;synoptic_time&quot;</span><span class="p">],</span> <span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H&quot;</span><span class="p">),</span>
+<span class="sd">    """</span>
+    <span class="n">area_id</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2">-</span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"storm_id"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
+        <span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="s2">"synoptic_time"</span><span class="p">],</span> <span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">%H"</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">area_id</span></div>
 
 
 <div class="viewcode-block" id="get_tc_long_description"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks.get_tc_long_description">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_tc_long_description</span><span class="p">(</span><span class="n">area_id</span><span class="p">,</span> <span class="n">fields</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return long_description of TC sector.</span>
+<span class="w">    </span><span class="sd">"""Return long_description of TC sector.</span>
 
 <span class="sd">    This is commonly used as the long name/description on the</span>
 <span class="sd">    pyresample AreaDefinition.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="s2">&quot;interpolated_time&quot;</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
-        <span class="n">long_description</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2"> interpolated_time </span><span class="si">{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">area_id</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;final_storm_name&quot;</span><span class="p">],</span> <span class="nb">str</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;interpolated_time&quot;</span><span class="p">])</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="s2">"interpolated_time"</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+        <span class="n">long_description</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2"> interpolated_time </span><span class="si">{2}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">area_id</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"final_storm_name"</span><span class="p">],</span> <span class="nb">str</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="s2">"interpolated_time"</span><span class="p">])</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">long_description</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2"> synoptic_time </span><span class="si">{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">area_id</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;final_storm_name&quot;</span><span class="p">],</span> <span class="nb">str</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;synoptic_time&quot;</span><span class="p">])</span>
+        <span class="n">long_description</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2"> synoptic_time </span><span class="si">{2}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">area_id</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"final_storm_name"</span><span class="p">],</span> <span class="nb">str</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="s2">"synoptic_time"</span><span class="p">])</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">long_description</span></div>
 
 
 <div class="viewcode-block" id="set_volc_area_def"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks.set_volc_area_def">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">set_volc_area_def</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">storm_name</span><span class="p">,</span> <span class="n">sector_spec_template</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set volcano area definitions from fields.&quot;&quot;&quot;</span>
-    <span class="n">clat</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;clat&quot;</span><span class="p">]</span>
-    <span class="n">clon</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;clon&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">"""Set volcano area definitions from fields."""</span>
+    <span class="n">clat</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"clat"</span><span class="p">]</span>
+    <span class="n">clon</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"clon"</span><span class="p">]</span>
     <span class="c1"># TBD: reformat these to be part of a parser?</span>
     <span class="n">area_id</span> <span class="o">=</span> <span class="n">storm_name</span>
-    <span class="n">long_description</span> <span class="o">=</span> <span class="s2">&quot;volcano </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">storm_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="n">long_description</span> <span class="o">=</span> <span class="s2">"volcano </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">storm_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
 
     <span class="n">tc_template_plugin</span> <span class="o">=</span> <span class="n">sectors</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">sector_spec_template</span><span class="p">)</span>
-    <span class="c1"># template_func_name = tc_template_plugin[&quot;spec&quot;][&quot;sector_spec_generator&quot;][&quot;name&quot;]</span>
-    <span class="n">template_args</span> <span class="o">=</span> <span class="n">tc_template_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;sector_spec_generator&quot;</span><span class="p">][</span><span class="s2">&quot;arguments&quot;</span><span class="p">]</span>
+    <span class="c1"># template_func_name = tc_template_plugin["spec"]["sector_spec_generator"]["name"]</span>
+    <span class="n">template_args</span> <span class="o">=</span> <span class="n">tc_template_plugin</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">][</span><span class="s2">"sector_spec_generator"</span><span class="p">][</span><span class="s2">"arguments"</span><span class="p">]</span>
 
-    <span class="c1"># Only one sector spec generator to choose from: &#39;center_coordinates&#39;</span>
-    <span class="n">template_func</span> <span class="o">=</span> <span class="n">sector_spec_generators</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">&quot;center_coordinates&quot;</span><span class="p">)</span>
-    <span class="n">template_args</span><span class="p">[</span><span class="s2">&quot;area_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_id</span>
-    <span class="n">template_args</span><span class="p">[</span><span class="s2">&quot;long_description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">long_description</span>
-    <span class="n">template_args</span><span class="p">[</span><span class="s2">&quot;clat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clat</span>
-    <span class="n">template_args</span><span class="p">[</span><span class="s2">&quot;clon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clon</span>
+    <span class="c1"># Only one sector spec generator to choose from: 'center_coordinates'</span>
+    <span class="n">template_func</span> <span class="o">=</span> <span class="n">sector_spec_generators</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">"center_coordinates"</span><span class="p">)</span>
+    <span class="n">template_args</span><span class="p">[</span><span class="s2">"area_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_id</span>
+    <span class="n">template_args</span><span class="p">[</span><span class="s2">"long_description"</span><span class="p">]</span> <span class="o">=</span> <span class="n">long_description</span>
+    <span class="n">template_args</span><span class="p">[</span><span class="s2">"clat"</span><span class="p">]</span> <span class="o">=</span> <span class="n">clat</span>
+    <span class="n">template_args</span><span class="p">[</span><span class="s2">"clon"</span><span class="p">]</span> <span class="o">=</span> <span class="n">clon</span>
     <span class="n">area_def</span> <span class="o">=</span> <span class="n">template_func</span><span class="p">(</span><span class="o">**</span><span class="n">template_args</span><span class="p">)</span>
 
-    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_start_datetime</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
-    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_end_datetime</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
-    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_type</span> <span class="o">=</span> <span class="s2">&quot;volc&quot;</span>
+    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_start_datetime</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span>
+    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_end_datetime</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span>
+    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_type</span> <span class="o">=</span> <span class="s2">"volc"</span>
     <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="c1"># area_def.description is Python3 compatible,</span>
     <span class="c1"># and area_def.name is Python2 compatible</span>
     <span class="n">area_def</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">long_description</span>
 
-    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;storm_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_name</span>
-    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;final_storm_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_name</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished volcano area def&quot;</span><span class="p">)</span>
+    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_name</span>
+    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"final_storm_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_name</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Finished volcano area def"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">area_def</span></div>
 
 
@@ -1013,10 +1015,10 @@ window.runMermaid = runMermaid;</script>
     <span class="n">source_sector_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">clat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">clon</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">tc_spec_template</span><span class="o">=</span><span class="s2">&quot;tc_web&quot;</span><span class="p">,</span>
+    <span class="n">tc_spec_template</span><span class="o">=</span><span class="s2">"tc_web"</span><span class="p">,</span>
     <span class="n">aid_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the TC area definition, using specified arguments.</span>
+<span class="w">    </span><span class="sd">"""Set the TC area definition, using specified arguments.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1030,10 +1032,10 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    source_sector_file : str, default=None</span>
 <span class="sd">        attach source_sector_file to area_definition if known</span>
 <span class="sd">    clat : float, default=None</span>
-<span class="sd">        specify clat/clon separately from that found in &#39;fields&#39;</span>
+<span class="sd">        specify clat/clon separately from that found in 'fields'</span>
 <span class="sd">    clon : float, default=None</span>
-<span class="sd">        specify clat/clon separately from that found in &#39;fields&#39;</span>
-<span class="sd">    tc_spec_template: str, default=&quot;tc_web&quot;</span>
+<span class="sd">        specify clat/clon separately from that found in 'fields'</span>
+<span class="sd">    tc_spec_template: str, default="tc_web"</span>
 <span class="sd">        Path to template YAML file to use when setting up area definition.</span>
 <span class="sd">    aid_type : str, default=None</span>
 <span class="sd">        type of TC aid (BEST, MBAM, etc)</span>
@@ -1042,87 +1044,87 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    pyresample.AreaDefinition</span>
 <span class="sd">        pyresample AreaDefinition object with specified parameters.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">tc_spec_template</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">tc_spec_template</span> <span class="o">=</span> <span class="s2">&quot;tc_web&quot;</span>
+        <span class="n">tc_spec_template</span> <span class="o">=</span> <span class="s2">"tc_web"</span>
 
     <span class="n">tc_template_plugin</span> <span class="o">=</span> <span class="n">sectors</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">tc_spec_template</span><span class="p">)</span>
 
     <span class="c1"># I think this is probably what we will want.</span>
-    <span class="n">template_func_name</span> <span class="o">=</span> <span class="n">tc_template_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;sector_spec_generator&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
-    <span class="n">template_args</span> <span class="o">=</span> <span class="n">tc_template_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;sector_spec_generator&quot;</span><span class="p">][</span><span class="s2">&quot;arguments&quot;</span><span class="p">]</span>
+    <span class="n">template_func_name</span> <span class="o">=</span> <span class="n">tc_template_plugin</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">][</span><span class="s2">"sector_spec_generator"</span><span class="p">][</span><span class="s2">"name"</span><span class="p">]</span>
+    <span class="n">template_args</span> <span class="o">=</span> <span class="n">tc_template_plugin</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">][</span><span class="s2">"sector_spec_generator"</span><span class="p">][</span><span class="s2">"arguments"</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">finalstormname</span> <span class="ow">and</span> <span class="s2">&quot;final_storm_name&quot;</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
-        <span class="n">finalstormname</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;final_storm_name&quot;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">source_sector_file</span> <span class="ow">and</span> <span class="s2">&quot;source_sector_file&quot;</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
-        <span class="n">source_sector_file</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;source_sector_file&quot;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">source_sector_file</span> <span class="ow">and</span> <span class="s2">&quot;source_filename&quot;</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
-        <span class="n">source_sector_file</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;source_filename&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">finalstormname</span> <span class="ow">and</span> <span class="s2">"final_storm_name"</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+        <span class="n">finalstormname</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"final_storm_name"</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">source_sector_file</span> <span class="ow">and</span> <span class="s2">"source_sector_file"</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+        <span class="n">source_sector_file</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"source_sector_file"</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">source_sector_file</span> <span class="ow">and</span> <span class="s2">"source_filename"</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+        <span class="n">source_sector_file</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"source_filename"</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">tcyear</span><span class="p">:</span>
-        <span class="n">tcyear</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;storm_year&quot;</span><span class="p">]</span>
+        <span class="n">tcyear</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"storm_year"</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">clat</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">clat</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;clat&quot;</span><span class="p">]</span>
+        <span class="n">clat</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"clat"</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">clon</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">clon</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;clon&quot;</span><span class="p">]</span>
+        <span class="n">clon</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"clon"</span><span class="p">]</span>
 
     <span class="n">area_id</span> <span class="o">=</span> <span class="n">get_tc_area_id</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">tcyear</span><span class="p">)</span>
     <span class="n">long_description</span> <span class="o">=</span> <span class="n">get_tc_long_description</span><span class="p">(</span><span class="n">area_id</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span>
 
-    <span class="c1"># These are things like &#39;center_coordinates&#39;</span>
+    <span class="c1"># These are things like 'center_coordinates'</span>
     <span class="n">template_func</span> <span class="o">=</span> <span class="n">sector_spec_generators</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">template_func_name</span><span class="p">)</span>
     <span class="c1"># Probably generalize this at some point. For now I know those are the</span>
     <span class="c1"># ones that are &lt;template&gt;</span>
-    <span class="n">template_args</span><span class="p">[</span><span class="s2">&quot;area_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_id</span>
-    <span class="n">template_args</span><span class="p">[</span><span class="s2">&quot;long_description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">long_description</span>
-    <span class="n">template_args</span><span class="p">[</span><span class="s2">&quot;clat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clat</span>
-    <span class="n">template_args</span><span class="p">[</span><span class="s2">&quot;clon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clon</span>
+    <span class="n">template_args</span><span class="p">[</span><span class="s2">"area_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_id</span>
+    <span class="n">template_args</span><span class="p">[</span><span class="s2">"long_description"</span><span class="p">]</span> <span class="o">=</span> <span class="n">long_description</span>
+    <span class="n">template_args</span><span class="p">[</span><span class="s2">"clat"</span><span class="p">]</span> <span class="o">=</span> <span class="n">clat</span>
+    <span class="n">template_args</span><span class="p">[</span><span class="s2">"clon"</span><span class="p">]</span> <span class="o">=</span> <span class="n">clon</span>
     <span class="n">area_def</span> <span class="o">=</span> <span class="n">template_func</span><span class="p">(</span><span class="o">**</span><span class="n">template_args</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="s2">&quot;interpolated_time&quot;</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
-        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_start_datetime</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;interpolated_time&quot;</span><span class="p">]</span>
-        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_end_datetime</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;interpolated_time&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">"interpolated_time"</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_start_datetime</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"interpolated_time"</span><span class="p">]</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_end_datetime</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"interpolated_time"</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_start_datetime</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;synoptic_time&quot;</span><span class="p">]</span>
-        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_end_datetime</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;synoptic_time&quot;</span><span class="p">]</span>
-    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_type</span> <span class="o">=</span> <span class="s2">&quot;tc&quot;</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_start_datetime</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"synoptic_time"</span><span class="p">]</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_end_datetime</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"synoptic_time"</span><span class="p">]</span>
+    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_type</span> <span class="o">=</span> <span class="s2">"tc"</span>
     <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="c1"># area_def.description is Python3 compatible,</span>
     <span class="c1"># and area_def.description is Python2 compatible</span>
     <span class="n">area_def</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">long_description</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">"description"</span><span class="p">):</span>
         <span class="n">area_def</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">long_description</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.geoips_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">replace_geoips_paths</span>
 
-    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;source_sector_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">replace_geoips_paths</span><span class="p">(</span>
+    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"source_sector_file"</span><span class="p">]</span> <span class="o">=</span> <span class="n">replace_geoips_paths</span><span class="p">(</span>
         <span class="n">source_sector_file</span>
     <span class="p">)</span>
-    <span class="c1"># area_def.sector_info[&#39;sourcetemplate&#39;] = dynamic_templatefname</span>
-    <span class="c1"># area_def.sector_info[&#39;sourcedynamicxmlpath&#39;] = dynamic_xmlpath</span>
-    <span class="c1"># FNMOC sectorfile doesn&#39;t have pressure</span>
+    <span class="c1"># area_def.sector_info['sourcetemplate'] = dynamic_templatefname</span>
+    <span class="c1"># area_def.sector_info['sourcedynamicxmlpath'] = dynamic_xmlpath</span>
+    <span class="c1"># FNMOC sectorfile doesn't have pressure</span>
     <span class="k">for</span> <span class="n">fieldname</span> <span class="ow">in</span> <span class="n">fields</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span>
-    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;storm_year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tcyear</span>
+    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_year"</span><span class="p">]</span> <span class="o">=</span> <span class="n">tcyear</span>
 
     <span class="c1"># If storm_name is undefined in the current deck line, set it to finalstormname</span>
-    <span class="k">if</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;storm_name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="n">finalstormname</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_name"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">""</span> <span class="ow">and</span> <span class="n">finalstormname</span><span class="p">:</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="s1">&#39;USING finalstormname &quot;</span><span class="si">%s</span><span class="s1">&quot; rather than deck storm name &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span><span class="p">,</span>
+            <span class="s1">'USING finalstormname "</span><span class="si">%s</span><span class="s1">" rather than deck storm name "</span><span class="si">%s</span><span class="s1">"'</span><span class="p">,</span>
             <span class="n">finalstormname</span><span class="p">,</span>
-            <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;storm_name&quot;</span><span class="p">],</span>
+            <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_name"</span><span class="p">],</span>
         <span class="p">)</span>
-        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;storm_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">finalstormname</span>
-        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;final_storm_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">finalstormname</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">finalstormname</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"final_storm_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">finalstormname</span>
 
-    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;      Current TC sector: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;deck_line&quot;</span><span class="p">])</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"      Current TC sector: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"deck_line"</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">area_def</span></div>
 
 
 <div class="viewcode-block" id="trackfile_to_area_defs"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks.trackfile_to_area_defs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">trackfile_to_area_defs</span><span class="p">(</span>
-    <span class="n">trackfile_name</span><span class="p">,</span> <span class="n">trackfile_parser</span><span class="o">=</span><span class="s2">&quot;bdeck_parser&quot;</span><span class="p">,</span> <span class="n">tc_spec_template</span><span class="o">=</span><span class="kc">None</span>
+    <span class="n">trackfile_name</span><span class="p">,</span> <span class="n">trackfile_parser</span><span class="o">=</span><span class="s2">"bdeck_parser"</span><span class="p">,</span> <span class="n">tc_spec_template</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get TC area definitions for the specified text trackfile.</span>
+<span class="w">    </span><span class="sd">"""Get TC area definitions for the specified text trackfile.</span>
 
 <span class="sd">    Limit to optionally specified trackfile_sectorlist</span>
 
@@ -1137,9 +1139,9 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    list</span>
 <span class="sd">        List of pyresample AreaDefinition objects</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">trackfile_parser</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">trackfile_parser</span> <span class="o">=</span> <span class="s2">&quot;bdeck_parser&quot;</span>
+        <span class="n">trackfile_parser</span> <span class="o">=</span> <span class="s2">"bdeck_parser"</span>
 
     <span class="n">parser</span> <span class="o">=</span> <span class="n">sector_metadata_generators</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">trackfile_parser</span><span class="p">)</span>
 
@@ -1148,14 +1150,14 @@ window.runMermaid = runMermaid;</script>
     <span class="c1"># print(all_fields,final_storm_name,tc_year,trackfile_parser,tc_spec_template)</span>
 
     <span class="n">area_defs</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">if</span> <span class="s2">&quot;volc&quot;</span> <span class="ow">in</span> <span class="n">final_storm_name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;STARTING setting VOLCANO area_defs&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">"volc"</span> <span class="ow">in</span> <span class="n">final_storm_name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"STARTING setting VOLCANO area_defs"</span><span class="p">)</span>
         <span class="c1"># raise</span>
         <span class="k">for</span> <span class="n">fields</span> <span class="ow">in</span> <span class="n">all_fields</span><span class="p">:</span>
 
             <span class="n">area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">set_volc_area_def</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">final_storm_name</span><span class="p">,</span> <span class="n">tc_spec_template</span><span class="p">)]</span>
         <span class="k">return</span> <span class="n">area_defs</span><span class="p">,</span> <span class="n">allowed_aid_types</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;STARTING setting TC area_defs&quot;</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"STARTING setting TC area_defs"</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">fields</span> <span class="ow">in</span> <span class="n">all_fields</span><span class="p">:</span>
         <span class="c1"># area_defs += [set_tc_sector(fields, dynamic_templatefname, finalstormname,</span>
@@ -1169,18 +1171,18 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">tc_spec_template</span><span class="o">=</span><span class="n">tc_spec_template</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">]</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;FINISHED setting TC area_defs&quot;</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"FINISHED setting TC area_defs"</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">area_defs</span><span class="p">,</span> <span class="n">allowed_aid_types</span></div>
 
 
 <div class="viewcode-block" id="interpolate_storm_location"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks.interpolate_storm_location">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">interpolate_storm_location</span><span class="p">(</span><span class="n">interp_dt</span><span class="p">,</span> <span class="n">longitudes</span><span class="p">,</span> <span class="n">latitudes</span><span class="p">,</span> <span class="n">synoptic_times</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interpolate the storm location at a specific time.</span>
+<span class="w">    </span><span class="sd">"""Interpolate the storm location at a specific time.</span>
 
 <span class="sd">    Based on a list of known locations and times</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-        <span class="s2">&quot;interp_dt: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">latitudes:</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s2">longitudes:</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s2">synoptic_times:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">"interp_dt: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">latitudes:</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s2">longitudes:</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s2">synoptic_times:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
         <span class="n">interp_dt</span><span class="p">,</span>
         <span class="n">latitudes</span><span class="p">,</span>
         <span class="n">longitudes</span><span class="p">,</span>

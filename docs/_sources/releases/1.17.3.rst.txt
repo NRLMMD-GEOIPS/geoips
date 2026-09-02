@@ -1,8 +1,12 @@
-Version 1.17.3 (2026-07-23)
+Version 1.17.3 (2026-09-02)
 ***************************
 
- * *Bug fix*: Put the delimiter back in the tc invest file name paths
- * *Bug fix*: Bug fix in setting ahi_hsd metadata
+ * *Bug fix*: Move dynamic geolocation and ancildat_autogen caches to shortterm location
+ * *Bug fix*: Minor bug fixes to overpass_predictor and tc_tracks_database
+ * *Bug fix*: Link to persistent_data_dirs ancildat and test_data paths, remove astropy dependency
+ * *Bug fix*: Add gdal to nrl_install.rst
+ * *Bug fix*: Properly filter ingested tles using a satellite prediction list
+ * *Bug fix*: Do not include requirements in pip requirements files for archival purposes
  * *Bug fix*: Add archer_fdeck to metadata_default.py output formatter
  * *Bug fix*: Update metadata_tc output formatter to include area_id and area_description fields
  * *Bug fix*: Update aws tc165/180/325-1, amsr2 ocean, and sar tests to include metadata output for invest and numbered
@@ -25,51 +29,124 @@ Version 1.17.3 (2026-07-23)
  * *Bug fix*: Remove support for file_path_modifications
  * *Bug fix*: Fix build_docs errors
  * *Bug fix*: Allow 28 field bdeck lines in bdeck_parser.
- * *Bug fix*: Link to persistent_data_dirs ancildat and test_data paths, remove astropy dependency
- * *Bug fix*: Add gdal to nrl_install.rst
- * *Bug fix*: Do not include requirements in pip requirements files for archival purposes
- * *Bug fix*: Move dynamic geolocation and ancildat_autogen caches to shortterm location
- * *Bug fix*: Minor bug fixes to overpass_predictor and tc_tracks_database
+ * *Bug fix*: Bug fix in setting ahi_hsd metadata
  * *Bug fix*: Removed astropy usage in readers.
- * *Bug fix*: Properly filter ingested tles using a satellite prediction list
+ * *Bug fix*: Put the delimiter back in the tc invest file name paths
+ * *Documentation*: Add release note for version 1.17.3
+ * *Documentation*: Update upcoming and tagged versions
  * *Testing*: Meteosat 10 & 12 terminator tiny test sectors
  * *Testing*: Update tiny sector test scripts to copy both global dataset images, and tiny sector images to
    example_test_imagery_output
  * *Testing*: Update tiny sector test script to produce annotated tiny sector image outputs on request
- * *Documentation*: Add release note for version 1.17.3
- * *Documentation*: Update upcoming and tagged versions
 
 Bug fix
 =======
 
-Put the delimiter back in the tc invest file name paths
--------------------------------------------------------
+Move dynamic geolocation and ancildat_autogen caches to shortterm location
+--------------------------------------------------------------------------
 
-When updating the TC file naming conventions to use storm_id rather than
-manually compiling the path, it resulted in removing the delimiter from the
-TC invest file paths. This update restores the delimiter to ensure proper
-formatting of TC invest file names for consistency, clarity, and backwards
-compatibility.
+Originally dynamic geolocation was stored with the longterm cache, which is
+explicitly forbidden from ever being scrubbed.  Since dynamic geolocation
+data can be regenerated as needed, it makes more sense to store it in the
+shortterm cache, which can be scrubbed as needed to free up space.
+
+Note shortterm cache is still persistent between runs, so dynamic geolocation
+data will still be reused as needed, just not indefinitely.
+
+This involved renaming GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_DYNAMIC
+to GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_DYNAMIC in
+base_paths.py, and updating the reference to it in geostationary_geolocation.py
+util.  Additionally the default path for the shortterm dynamic geolocation cache
+was updated in base_paths.py to point to the shortterm subdirectory in cache/geoips.
+
+Additionally ancildat_autogen cache location was moved from the top level
+cache/geoips/ancildat_autogen directory to cache/geoips/shortterm/ancildat_autogen
+to better reflect its intended usage.  This involved updating the
+GEOIPS_ANCILDAT_AUTOGEN path in config_geoips to point to the new location.
+
+Note the shortterm cache may contain data with vastly different retention periods,
+so scrubbing must be handled appropriately to avoid deleting data that is still needed.
 
 ::
 
-     modified: geoips/plugins/modules/filename_formatters/utils/tc_file_naming.py
-     modified:
-     tests/outputs/aws.tc.TB165.imagery_clean/20250428_114913_WP992025_mwr_aws_TB165_15kts_43p06_1p0-clean.png.yaml
-     modified:
-     tests/outputs/aws.tc.TB180.imagery_clean/20250428_114913_WP992025_mwr_aws_TB180_15kts_43p06_1p0-clean.png.yaml
-     modified:
-     tests/outputs/aws.tc.TB325-1.imagery_clean/20250428_114913_WP992025_mwr_aws_TB325-1_15kts_48p36_1p0-clean.png.yaml
+     modified: geoips/filenames/base_paths.py
+     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+     modified: setup/config_geoips
 
-Bug fix in setting ahi_hsd metadata
------------------------------------
+Minor bug fixes to overpass_predictor and tc_tracks_database
+------------------------------------------------------------
 
-Need to slice first dimension of array returned from numpy.frombuffer when storing
-the 'scan_shift_amount' and 'ob_time_line_number'
+* Use area_def.sector_info["storm_id"] instead of area_def.area_id in the overpass
+  predictor, which does not include the storm_start_datetime.
+* Support parsing database timstamps that include a ".%f" field.
 
 ::
 
-     modified: geoips/plugins/modules/readers/ahi_hsd.py
+     modified: geoips/sector_utils/overpass_predictor.py
+     modified: geoips/sector_utils/tc_tracks_database.py
+
+Link to persistent_data_dirs ancildat and test_data paths, remove astropy dependency
+------------------------------------------------------------------------------------
+
+Make astropy imports optional in atms_hdf5 and scat_noaa_winds_netcdf readers. Readers
+will not be functional until astropy is replaced, but will allow us to install geoips
+under a clean build.
+
+::
+
+     modified: docs/source/getting-started/installing/nrl_install.rst
+     modified: geoips/plugins/modules/readers/atms_hdf5.py
+     modified: geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
+     modified: pyproject.toml
+
+Add gdal to nrl_install.rst
+---------------------------
+
+* Add gdal to nrl_install.rst.
+* Note reo-cogeo may be required, but we've had mixed results so far.
+
+::
+
+     modified: docs/source/getting-started/installing/nrl_install.rst
+
+Properly filter ingested tles using a satellite prediction list
+---------------------------------------------------------------
+
+The check_tle_name_to_passed_names function under geoips.sector_utils.overpass_predictor
+checks if a given satellite TLE is in the list of satellites that we want to predict
+an overpass. If the check is true the TLEs are loaded into memory for use downstream.
+The logic in the function was too simple and simply checked if a TLE name contained a
+matching string from the list of satellites we want to predict. This resulted in false
+positives. For example,
+check_tle_name_to_passed_names(tle_name="COSMOS 2586", satellite_names_list=["SMOS"])
+would return True, since "COSMOS 2586" contained the string "SMOS". The logic has been
+updated to ensure full string matching, so the above example now returns False.
+
+For every TLE and satellite name, we split the strings by " (", and remove
+the right parenthesis (if present). This allows us to check two satellite names
+if provided in the TLE file. For example, take OCEANSAT-3, which has the following
+name in the file downloaded from celestrak: "EOS-6 (OCEANSAT-3)". Splitting the
+names allows us to check if "EOS-6" OR "OCEANSAT-3" are in the satellite_names_list.
+
+::
+
+     modified: geoips/sector_utils/overpass_predictor.py
+
+Do not include requirements in pip requirements files for archival purposes
+---------------------------------------------------------------------------
+
+Clean up environment file directory. Ensure old pip requirements files are not
+identified as valid current requirements files - we only want to keep them for
+archival purposes, and not actually use them.
+
+Also, always copy to requirements_envtag.txt in create_environment_files so
+we are tracking the most recent versions of everything for various installation
+methods.
+
+::
+
+     modified: environments/all files
+     modified: setup/check_system_requirements.sh
 
 Add archer_fdeck to metadata_default.py output formatter
 --------------------------------------------------------
@@ -344,88 +421,15 @@ unknown if not defined in line
 
      modified: geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
 
-Link to persistent_data_dirs ancildat and test_data paths, remove astropy dependency
-------------------------------------------------------------------------------------
+Bug fix in setting ahi_hsd metadata
+-----------------------------------
 
-Make astropy imports optional in atms_hdf5 and scat_noaa_winds_netcdf readers. Readers
-will not be functional until astropy is replaced, but will allow us to install geoips
-under a clean build.
-
-::
-
-     modified: docs/source/getting-started/installing/nrl_install.rst
-     modified: geoips/plugins/modules/readers/atms_hdf5.py
-     modified: geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
-     modified: pyproject.toml
-
-Add gdal to nrl_install.rst
----------------------------
-
-* Add gdal to nrl_install.rst.
-* Note reo-cogeo may be required, but we've had mixed results so far.
+Need to slice first dimension of array returned from numpy.frombuffer when storing
+the 'scan_shift_amount' and 'ob_time_line_number'
 
 ::
 
-     modified: docs/source/getting-started/installing/nrl_install.rst
-
-Do not include requirements in pip requirements files for archival purposes
----------------------------------------------------------------------------
-
-Clean up environment file directory. Ensure old pip requirements files are not
-identified as valid current requirements files - we only want to keep them for
-archival purposes, and not actually use them.
-
-Also, always copy to requirements_envtag.txt in create_environment_files so
-we are tracking the most recent versions of everything for various installation
-methods.
-
-::
-
-     modified: environments/all files
-     modified: setup/check_system_requirements.sh
-
-Move dynamic geolocation and ancildat_autogen caches to shortterm location
---------------------------------------------------------------------------
-
-Originally dynamic geolocation was stored with the longterm cache, which is
-explicitly forbidden from ever being scrubbed.  Since dynamic geolocation
-data can be regenerated as needed, it makes more sense to store it in the
-shortterm cache, which can be scrubbed as needed to free up space.
-
-Note shortterm cache is still persistent between runs, so dynamic geolocation
-data will still be reused as needed, just not indefinitely.
-
-This involved renaming GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_DYNAMIC
-to GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_DYNAMIC in
-base_paths.py, and updating the reference to it in geostationary_geolocation.py
-util.  Additionally the default path for the shortterm dynamic geolocation cache
-was updated in base_paths.py to point to the shortterm subdirectory in cache/geoips.
-
-Additionally ancildat_autogen cache location was moved from the top level
-cache/geoips/ancildat_autogen directory to cache/geoips/shortterm/ancildat_autogen
-to better reflect its intended usage.  This involved updating the
-GEOIPS_ANCILDAT_AUTOGEN path in config_geoips to point to the new location.
-
-Note the shortterm cache may contain data with vastly different retention periods,
-so scrubbing must be handled appropriately to avoid deleting data that is still needed.
-
-::
-
-     modified: geoips/filenames/base_paths.py
-     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
-     modified: setup/config_geoips
-
-Minor bug fixes to overpass_predictor and tc_tracks_database
-------------------------------------------------------------
-
-* Use area_def.sector_info["storm_id"] instead of area_def.area_id in the overpass
-  predictor, which does not include the storm_start_datetime.
-* Support parsing database timstamps that include a ".%f" field.
-
-::
-
-     modified: geoips/sector_utils/overpass_predictor.py
-     modified: geoips/sector_utils/tc_tracks_database.py
+     modified: geoips/plugins/modules/readers/ahi_hsd.py
 
 Removed astropy usage in readers.
 ---------------------------------
@@ -451,28 +455,55 @@ UTC, now readers adjust manually. Astropy also relied on pulling external ancill
      modified: geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
      modified: pyproject.toml
 
-Properly filter ingested tles using a satellite prediction list
----------------------------------------------------------------
+Put the delimiter back in the tc invest file name paths
+-------------------------------------------------------
 
-The check_tle_name_to_passed_names function under geoips.sector_utils.overpass_predictor
-checks if a given satellite TLE is in the list of satellites that we want to predict
-an overpass. If the check is true the TLEs are loaded into memory for use downstream.
-The logic in the function was too simple and simply checked if a TLE name contained a
-matching string from the list of satellites we want to predict. This resulted in false
-positives. For example,
-check_tle_name_to_passed_names(tle_name="COSMOS 2586", satellite_names_list=["SMOS"])
-would return True, since "COSMOS 2586" contained the string "SMOS". The logic has been
-updated to ensure full string matching, so the above example now returns False.
-
-For every TLE and satellite name, we split the strings by " (", and remove
-the right parenthesis (if present). This allows us to check two satellite names
-if provided in the TLE file. For example, take OCEANSAT-3, which has the following
-name in the file downloaded from celestrak: "EOS-6 (OCEANSAT-3)". Splitting the
-names allows us to check if "EOS-6" OR "OCEANSAT-3" are in the satellite_names_list.
+When updating the TC file naming conventions to use storm_id rather than
+manually compiling the path, it resulted in removing the delimiter from the
+TC invest file paths. This update restores the delimiter to ensure proper
+formatting of TC invest file names for consistency, clarity, and backwards
+compatibility.
 
 ::
 
-     modified: geoips/sector_utils/overpass_predictor.py
+     modified: geoips/plugins/modules/filename_formatters/utils/tc_file_naming.py
+     modified:
+     tests/outputs/aws.tc.TB165.imagery_clean/20250428_114913_WP992025_mwr_aws_TB165_15kts_43p06_1p0-clean.png.yaml
+     modified:
+     tests/outputs/aws.tc.TB180.imagery_clean/20250428_114913_WP992025_mwr_aws_TB180_15kts_43p06_1p0-clean.png.yaml
+     modified:
+     tests/outputs/aws.tc.TB325-1.imagery_clean/20250428_114913_WP992025_mwr_aws_TB325-1_15kts_48p36_1p0-clean.png.yaml
+
+Documentation
+=============
+
+Add release note for version 1.17.3
+-----------------------------------
+
+Release note on release branch to force tag/release, package/publish,
+and deploy docs.
+
+Additionally add any updated files from geoips_ci/sync
+
+geoips#1029 - 1.17.3 updates
+
+::
+
+     added: docs/source/releases/latest/1.17.3-release-note.yaml
+     modified: geoips_ci/sync updated files
+
+Update upcoming and tagged versions
+-----------------------------------
+
+* Tagged version: 1.17.3
+* Upcoming version: 1.18.1
+
+geoips#1029 - 1.17.3 updates
+
+::
+
+     modified: .github/versions/tagged_version
+     modified: .github/versions/upcoming_version
 
 Testing
 =======
@@ -540,34 +571,3 @@ geoips#1004
 
      modified: geoips/plugins/modules/filename_formatters/geoips_fname.py
      modified: tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh
-
-Documentation
-=============
-
-Add release note for version 1.17.3
------------------------------------
-
-Release note on release branch to force tag/release, package/publish,
-and deploy docs.
-
-Additionally add any updated files from geoips_ci/sync
-
-geoips#1029 - 1.17.3 updates
-
-::
-
-     added: docs/source/releases/latest/1.17.3-release-note.yaml
-     modified: geoips_ci/sync updated files
-
-Update upcoming and tagged versions
------------------------------------
-
-* Tagged version: 1.17.3
-* Upcoming version: 1.18.1
-
-geoips#1029 - 1.17.3 updates
-
-::
-
-     modified: .github/versions/tagged_version
-     modified: .github/versions/upcoming_version

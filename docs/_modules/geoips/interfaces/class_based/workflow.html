@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.interfaces.class_based.workflow &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.interfaces.class_based.workflow &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;DataTree-spec Workflow composite executor.</span>
+<span class="sd">"""DataTree-spec Workflow composite executor.</span>
 
 <span class="sd">The ``Workflow`` class is a non-registered runtime executor that loads a validated</span>
 <span class="sd">:class:`~geoips.pydantic_models.v1.workflows.WorkflowSpecModel` resolves plugins, builds</span>
@@ -841,7 +843,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">per branch; ``join`` steps re-collect those branches.  Conditional execution</span>
 <span class="sd">(``when``) is accepted by the schema but not yet implemented and raises</span>
 <span class="sd">``NotImplementedError`` at runtime.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -875,28 +877,28 @@ window.runMermaid = runMermaid;</script>
 
 <span class="c1"># LOG = logging.getLogger(__name__)</span>
 
-<span class="n">LOG</span> <span class="o">=</span> <span class="n">setup_logging</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s2">&quot;info&quot;</span><span class="p">)</span>
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">setup_logging</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s2">"info"</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_dep_head</span><span class="p">(</span><span class="n">dep</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the top-level step id of a (possibly dotted) ``depends_on`` ref.</span>
+<span class="w">    </span><span class="sd">"""Return the top-level step id of a (possibly dotted) ``depends_on`` ref.</span>
 
-<span class="sd">    A dotted reference such as ``&quot;subwf.algo&quot;`` or ``&quot;split.scope.algo&quot;``</span>
-<span class="sd">    depends, at the top-level DAG, on its container step (``&quot;subwf&quot;`` /</span>
-<span class="sd">    ``&quot;split&quot;``). Plain references are returned unchanged.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">dep</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="sd">    A dotted reference such as ``"subwf.algo"`` or ``"split.scope.algo"``</span>
+<span class="sd">    depends, at the top-level DAG, on its container step (``"subwf"`` /</span>
+<span class="sd">    ``"split"``). Plain references are returned unchanged.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">dep</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_ref_node</span><span class="p">(</span><span class="n">tree</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the node at a (possibly dotted) ``depends_on`` ref, or None.</span>
+<span class="w">    </span><span class="sd">"""Return the node at a (possibly dotted) ``depends_on`` ref, or None.</span>
 
-<span class="sd">    Dotted references are translated to node paths (``&quot;subwf.algo&quot;`` -&gt;</span>
-<span class="sd">    ``&quot;subwf/algo&quot;``). ``DataTree.get`` only performs single-level lookups, so</span>
+<span class="sd">    Dotted references are translated to node paths (``"subwf.algo"`` -&gt;</span>
+<span class="sd">    ``"subwf/algo"``). ``DataTree.get`` only performs single-level lookups, so</span>
 <span class="sd">    path indexing (``tree[path]``) is used and ``KeyError`` is caught to signal</span>
 <span class="sd">    an unresolved reference.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="n">ref</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">ref</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"."</span><span class="p">,</span> <span class="s2">"/"</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">tree</span><span class="p">[</span><span class="n">path</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
@@ -904,16 +906,16 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_summarize_arguments</span><span class="p">(</span><span class="n">arguments</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a concise, log-friendly summary of plugin call arguments.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return a concise, log-friendly summary of plugin call arguments."""</span>
     <span class="n">simple_types</span> <span class="o">=</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
     <span class="n">summary</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">arguments</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">simple_types</span><span class="p">):</span>
             <span class="n">summary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">set</span><span class="p">)):</span>
-            <span class="n">summary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span>
+            <span class="n">summary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="si">}</span><span class="s2">]"</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">summary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;dict[</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span>
+            <span class="n">summary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"dict[</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="si">}</span><span class="s2">]"</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">summary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
     <span class="k">return</span> <span class="n">summary</span>
@@ -921,7 +923,7 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="StepProvenance"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.StepProvenance">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">StepProvenance</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Per-step provenance bundle stamped into a step node&#39;s ``attrs``.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Per-step provenance bundle stamped into a step node's ``attrs``."""</span>
 
     <span class="n">plugin_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">plugin_kind</span><span class="p">:</span> <span class="nb">str</span>
@@ -929,37 +931,37 @@ window.runMermaid = runMermaid;</script>
     <span class="n">end_time</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">arguments_hash</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">output_token</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">gc_status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;kept&quot;</span>
+    <span class="n">gc_status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"kept"</span>
 
 <div class="viewcode-block" id="StepProvenance.from_attrs"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.StepProvenance.from_attrs">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_attrs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">attrs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;StepProvenance&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reconstruct from a node&#39;s ``ds.attrs`` dict.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_attrs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">attrs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"StepProvenance"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Reconstruct from a node's ``ds.attrs`` dict."""</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
-            <span class="n">plugin_name</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plugin_name&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">),</span>
-            <span class="n">plugin_kind</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plugin_kind&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">),</span>
-            <span class="n">start_time</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;start_time&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
-            <span class="n">end_time</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;end_time&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
-            <span class="n">arguments_hash</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;arguments_hash&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
-            <span class="n">output_token</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_token&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
-            <span class="n">gc_status</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;gc_status&quot;</span><span class="p">,</span> <span class="s2">&quot;kept&quot;</span><span class="p">),</span>
+            <span class="n">plugin_name</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"plugin_name"</span><span class="p">,</span> <span class="s2">"unknown"</span><span class="p">),</span>
+            <span class="n">plugin_kind</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"plugin_kind"</span><span class="p">,</span> <span class="s2">"unknown"</span><span class="p">),</span>
+            <span class="n">start_time</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"start_time"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span>
+            <span class="n">end_time</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"end_time"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span>
+            <span class="n">arguments_hash</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"arguments_hash"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span>
+            <span class="n">output_token</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"output_token"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span>
+            <span class="n">gc_status</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"gc_status"</span><span class="p">,</span> <span class="s2">"kept"</span><span class="p">),</span>
         <span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="RetentionPolicy"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.RetentionPolicy">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RetentionPolicy</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decides whether a step&#39;s data variables may be garbage-collected.</span>
+<span class="w">    </span><span class="sd">"""Decides whether a step's data variables may be garbage-collected.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    spec : :class:`~geoips.pydantic_models.v1.workflows.WorkflowSpecModel`</span>
 <span class="sd">        The workflow specification.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">WorkflowSpecModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span> <span class="o">=</span> <span class="n">spec</span>
 
 <div class="viewcode-block" id="RetentionPolicy.can_gc"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.RetentionPolicy.can_gc">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">can_gc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">executed</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if the step&#39;s ``data_vars`` can be dropped.&quot;&quot;&quot;</span></div>
+<span class="w">        </span><span class="sd">"""Return True if the step's ``data_vars`` can be dropped."""</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_is_kept</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="n">step_id</span><span class="p">]</span><span class="o">.</span><span class="n">keep</span> <span class="ow">is</span> <span class="kc">True</span>
@@ -973,33 +975,33 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="KeepAllPolicy"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.KeepAllPolicy">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">KeepAllPolicy</span><span class="p">(</span><span class="n">RetentionPolicy</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Never GC any step data.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Never GC any step data."""</span>
 
 <div class="viewcode-block" id="KeepAllPolicy.can_gc"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.KeepAllPolicy.can_gc">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">can_gc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">executed</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if the step&#39;s data_vars can be dropped.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return True if the step's data_vars can be dropped."""</span>
         <span class="k">return</span> <span class="kc">False</span></div></div>
 
 
 <div class="viewcode-block" id="KeepReferencedPolicy"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.KeepReferencedPolicy">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">KeepReferencedPolicy</span><span class="p">(</span><span class="n">RetentionPolicy</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;GC when no remaining downstream step references this step.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""GC when no remaining downstream step references this step."""</span>
 
 <div class="viewcode-block" id="KeepReferencedPolicy.can_gc"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.KeepReferencedPolicy.can_gc">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">can_gc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">executed</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if the step&#39;s data_vars can be dropped.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return True if the step's data_vars can be dropped."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_kept</span><span class="p">(</span><span class="n">step_id</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_pending_consumers</span><span class="p">(</span><span class="n">step_id</span><span class="p">,</span> <span class="n">executed</span><span class="p">)</span></div></div>
 
 
 <span class="n">_POLICIES</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">[</span><span class="n">RetentionPolicy</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;keep_all&quot;</span><span class="p">:</span> <span class="n">KeepAllPolicy</span><span class="p">,</span>
-    <span class="s2">&quot;keep_referenced&quot;</span><span class="p">:</span> <span class="n">KeepReferencedPolicy</span><span class="p">,</span>
+    <span class="s2">"keep_all"</span><span class="p">:</span> <span class="n">KeepAllPolicy</span><span class="p">,</span>
+    <span class="s2">"keep_referenced"</span><span class="p">:</span> <span class="n">KeepReferencedPolicy</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="n">GENERATED_WORKFLOW</span> <span class="o">=</span> <span class="s2">&quot;GENERATED_WORKFLOW&quot;</span>
+<span class="n">GENERATED_WORKFLOW</span> <span class="o">=</span> <span class="s2">"GENERATED_WORKFLOW"</span>
 
 
 <div class="viewcode-block" id="Workflow"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.Workflow">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Workflow</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Non-registered runtime executor for a validated workflow spec.</span>
+<span class="w">    </span><span class="sd">"""Non-registered runtime executor for a validated workflow spec.</span>
 
 <span class="sd">    This is an *orchestrator* that co-ordinates registered plugins — it does</span>
 <span class="sd">    not inherit from ``BaseClassPlugin`` and is not itself registerable.</span>
@@ -1011,7 +1013,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        A pydantic-validated workflow specification.</span>
 <span class="sd">    workflow_name : str</span>
 <span class="sd">        The workflow name (used as the root DataTree node name).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1027,14 +1029,14 @@ window.runMermaid = runMermaid;</script>
         <span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_entry_steps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the step ids that receive externally-injected data.</span>
+<span class="w">        </span><span class="sd">"""Return the step ids that receive externally-injected data.</span>
 
 <span class="sd">        An *entry step* is any step whose ``depends_on`` contains the magic</span>
 <span class="sd">        ``_input`` token. When no step declares ``_input``, the first step (by</span>
 <span class="sd">        insertion order) is the implicit entry step — a backward-compatible</span>
-<span class="sd">        fallback matching the pre-``_input`` behavior where a sub-workflow&#39;s</span>
+<span class="sd">        fallback matching the pre-``_input`` behavior where a sub-workflow's</span>
 <span class="sd">        first step consumed the seeded input tree.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">explicit</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">sid</span>
             <span class="k">for</span> <span class="n">sid</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
@@ -1046,11 +1048,11 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="p">{</span><span class="n">step_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span> <span class="k">if</span> <span class="n">step_ids</span> <span class="k">else</span> <span class="nb">set</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_topological_order</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return step ids in a valid execution order.</span>
+<span class="w">        </span><span class="sd">"""Return step ids in a valid execution order.</span>
 
-<span class="sd">        Uses Kahn&#39;s algorithm.  Cyclicity is enforced at pydantic validation</span>
+<span class="sd">        Uses Kahn's algorithm.  Cyclicity is enforced at pydantic validation</span>
 <span class="sd">        time by ``_validate_dependencies``; this function assumes a DAG.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">step_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="c1"># Collapse dotted references to their top-level head so ordering is by</span>
         <span class="c1"># container step; use a set per step so multiple references into the</span>
@@ -1081,7 +1083,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">injected</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">],</span>
         <span class="n">is_entry</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Collect a step&#39;s input data into a single ``multi_input`` DataTree.</span>
+<span class="w">        </span><span class="sd">"""Collect a step's input data into a single ``multi_input`` DataTree.</span>
 
 <span class="sd">        Two sources are merged:</span>
 
@@ -1089,26 +1091,26 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">          magic ``_input`` token) is resolved to its node in *tree* and added</span>
 <span class="sd">          under its (sanitized) reference.</span>
 <span class="sd">        * **Injected data** — when *is_entry* is True, the *injected* children</span>
-<span class="sd">          (the parent&#39;s upstream tree for a sub-workflow/branch, or ``{}`` at</span>
+<span class="sd">          (the parent's upstream tree for a sub-workflow/branch, or ``{}`` at</span>
 <span class="sd">          top level) are merged in. A real dependency of the same key is never</span>
 <span class="sd">          clobbered.</span>
 
 <span class="sd">        The result is always an ``xr.DataTree`` named ``multi_input`` (possibly</span>
 <span class="sd">        empty, e.g. a top-level entry step, which is passed through as the</span>
-<span class="sd">        &quot;empty dataset&quot;).</span>
+<span class="sd">        "empty dataset").</span>
 
-<span class="sd">        Dotted references (e.g. ``&quot;subwf.algo&quot;``) are resolved as node paths</span>
-<span class="sd">        (``tree.get(&quot;subwf/algo&quot;)``); the ``.`` is replaced with ``__`` for the</span>
+<span class="sd">        Dotted references (e.g. ``"subwf.algo"``) are resolved as node paths</span>
+<span class="sd">        (``tree.get("subwf/algo")``); the ``.`` is replaced with ``__`` for the</span>
 <span class="sd">        child key because ``/`` is illegal in a DataTree node name. Plain</span>
 <span class="sd">        references are unaffected (no dot to translate).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;multi_input&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"multi_input"</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">dep_id</span> <span class="ow">in</span> <span class="n">depends_on</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">dep_id</span> <span class="o">==</span> <span class="n">INPUT_REF</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">dep_node</span> <span class="o">=</span> <span class="n">_resolve_ref_node</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">dep_id</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">dep_node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">result</span><span class="p">[</span><span class="n">dep_id</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;__&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">dep_node</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">dep_id</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"."</span><span class="p">,</span> <span class="s2">"__"</span><span class="p">)]</span> <span class="o">=</span> <span class="n">dep_node</span>
         <span class="k">if</span> <span class="n">is_entry</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">child_name</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">injected</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">child_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
@@ -1121,7 +1123,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">step_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">step_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Attach a step&#39;s output as a child node in the DataTree.</span>
+<span class="w">        </span><span class="sd">"""Attach a step's output as a child node in the DataTree.</span>
 
 <span class="sd">        The step output is normalized to a ``DataTreeDitto`` so every node in</span>
 <span class="sd">        the workflow tree is the same type. The node name is *not* forced on</span>
@@ -1134,12 +1136,12 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        tree : xr.DataTree</span>
-<span class="sd">            The workflow&#39;s root DataTree.</span>
+<span class="sd">            The workflow's root DataTree.</span>
 <span class="sd">        step_id : str</span>
 <span class="sd">            Step identifier used as the child node name.</span>
 <span class="sd">        step_data : Any</span>
 <span class="sd">            The return value of calling the plugin, ``plugin(...)``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step_data</span><span class="p">,</span> <span class="n">DataTreeDitto</span><span class="p">):</span>
             <span class="n">node</span> <span class="o">=</span> <span class="n">step_data</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step_data</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">):</span>
@@ -1147,10 +1149,10 @@ window.runMermaid = runMermaid;</script>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">node</span> <span class="o">=</span> <span class="n">DataTreeDitto</span><span class="p">(</span><span class="n">step_data</span><span class="p">)</span>
 
-        <span class="n">existing_name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">existing_name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">existing_name</span> <span class="ow">and</span> <span class="n">existing_name</span> <span class="o">!=</span> <span class="n">step_id</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="s2">&quot;Renaming DataTree node &#39;</span><span class="si">%s</span><span class="s2">&#39; to step id &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span><span class="p">,</span>
+                <span class="s2">"Renaming DataTree node '</span><span class="si">%s</span><span class="s2">' to step id '</span><span class="si">%s</span><span class="s2">'."</span><span class="p">,</span>
                 <span class="n">existing_name</span><span class="p">,</span>
                 <span class="n">step_id</span><span class="p">,</span>
             <span class="p">)</span>
@@ -1158,25 +1160,25 @@ window.runMermaid = runMermaid;</script>
         <span class="n">tree</span><span class="p">[</span><span class="n">step_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_record_provenance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">,</span> <span class="n">prov</span><span class="p">:</span> <span class="n">StepProvenance</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stamp provenance fields into the step node&#39;s ``attrs``.</span>
+<span class="w">        </span><span class="sd">"""Stamp provenance fields into the step node's ``attrs``.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        node : xr.DataTree</span>
-<span class="sd">            The step&#39;s output DataTree node (in-place).</span>
+<span class="sd">            The step's output DataTree node (in-place).</span>
 <span class="sd">        prov : StepProvenance</span>
 <span class="sd">            Provenance bundle to record.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">ds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">node</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">dataclasses</span><span class="o">.</span><span class="n">asdict</span><span class="p">(</span><span class="n">prov</span><span class="p">))</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_gc_step_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">,</span> <span class="n">step_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Drop ``data_vars`` from a step node and re-stamp provenance.</span>
+<span class="w">        </span><span class="sd">"""Drop ``data_vars`` from a step node and re-stamp provenance.</span>
 
 <span class="sd">        Reads the existing provenance from attrs, creates a fresh</span>
-<span class="sd">        ``StepProvenance`` with ``gc_status=&quot;data_dropped&quot;``, then</span>
+<span class="sd">        ``StepProvenance`` with ``gc_status="data_dropped"``, then</span>
 <span class="sd">        drops data variables and re-writes provenance attrs.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">node</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">step_id</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">node</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">node</span><span class="o">.</span><span class="n">ds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
@@ -1185,36 +1187,36 @@ window.runMermaid = runMermaid;</script>
         <span class="k">for</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">):</span>
             <span class="k">del</span> <span class="n">node</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span>
 
-        <span class="c1"># Reconstruct provenance from existing attrs; mark as GC&#39;d</span>
+        <span class="c1"># Reconstruct provenance from existing attrs; mark as GC'd</span>
         <span class="n">prov</span> <span class="o">=</span> <span class="n">StepProvenance</span><span class="o">.</span><span class="n">from_attrs</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
-        <span class="n">prov</span> <span class="o">=</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">prov</span><span class="p">,</span> <span class="n">gc_status</span><span class="o">=</span><span class="s2">&quot;data_dropped&quot;</span><span class="p">)</span>
+        <span class="n">prov</span> <span class="o">=</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">prov</span><span class="p">,</span> <span class="n">gc_status</span><span class="o">=</span><span class="s2">"data_dropped"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_record_provenance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">prov</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_apply_retention</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">,</span> <span class="n">executed</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run garbage collection over the completed step set.</span>
+<span class="w">        </span><span class="sd">"""Run garbage collection over the completed step set.</span>
 
 <span class="sd">        For each executed step, check the retention policy and drop</span>
 <span class="sd">        ``data_vars`` if the policy permits it.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">executed</span><span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retention</span><span class="o">.</span><span class="n">can_gc</span><span class="p">(</span><span class="n">sid</span><span class="p">,</span> <span class="n">executed</span><span class="o">=</span><span class="n">executed</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_gc_step_data</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">sid</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_area_defs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve ``globals.sector_list`` sector names to AreaDefinition objects.</span>
+<span class="w">        </span><span class="sd">"""Resolve ``globals.sector_list`` sector names to AreaDefinition objects.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        list of pyresample.AreaDefinition</span>
 <span class="sd">            Empty list if ``sector_list`` is absent or resolution fails.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">_globals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">globals</span>
         <span class="k">if</span> <span class="n">_globals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">sector_list</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_globals</span><span class="p">,</span> <span class="s2">&quot;sector_list&quot;</span><span class="p">):</span>
-            <span class="n">sector_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">_globals</span><span class="p">,</span> <span class="s2">&quot;sector_list&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span>
-        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_globals</span><span class="p">,</span> <span class="s2">&quot;get&quot;</span><span class="p">):</span>  <span class="c1"># plain dict fallback</span>
-            <span class="n">sector_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">_globals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sector_list&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_globals</span><span class="p">,</span> <span class="s2">"sector_list"</span><span class="p">):</span>
+            <span class="n">sector_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">_globals</span><span class="p">,</span> <span class="s2">"sector_list"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_globals</span><span class="p">,</span> <span class="s2">"get"</span><span class="p">):</span>  <span class="c1"># plain dict fallback</span>
+            <span class="n">sector_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">_globals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"sector_list"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">sector_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">sector_list</span><span class="p">:</span>
@@ -1222,57 +1224,57 @@ window.runMermaid = runMermaid;</script>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">area_defs</span> <span class="o">=</span> <span class="n">get_sectors_from_yamls</span><span class="p">(</span><span class="n">sector_list</span><span class="p">)</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
-                <span class="s2">&quot;Resolved </span><span class="si">%d</span><span class="s2"> area_def(s) from sector_list </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">"Resolved </span><span class="si">%d</span><span class="s2"> area_def(s) from sector_list </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                 <span class="nb">len</span><span class="p">(</span><span class="n">area_defs</span><span class="p">),</span>
                 <span class="n">sector_list</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="n">area_defs</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Could not resolve sector_list </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sector_list</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Could not resolve sector_list </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">sector_list</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">[]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_set_root_attrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">,</span> <span class="n">start_time</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stamp minimum-viable root provenance on the workflow DataTree.</span>
+<span class="w">        </span><span class="sd">"""Stamp minimum-viable root provenance on the workflow DataTree.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        tree : xr.DataTree</span>
-<span class="sd">            The workflow&#39;s root DataTree.</span>
+<span class="sd">            The workflow's root DataTree.</span>
 <span class="sd">        start_time : str</span>
 <span class="sd">            ISO-8601 UTC timestamp captured immediately before the step loop.</span>
-<span class="sd">            Recorded as the workflow&#39;s ``start_time`` (the matching</span>
+<span class="sd">            Recorded as the workflow's ``start_time`` (the matching</span>
 <span class="sd">            ``end_time`` is stamped by ``call`` after the loop). Uses the</span>
 <span class="sd">            same attr keys as ``StepProvenance`` so every node — steps and</span>
 <span class="sd">            (sub-)workflow roots alike — carries start/end times.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;workflow_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wf_name</span>
-        <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;retention_policy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">retention</span> <span class="ow">or</span> <span class="s2">&quot;keep_referenced&quot;</span>
-        <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;geoips_version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">geoips</span><span class="p">,</span> <span class="s2">&quot;__version__&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">)</span>
-        <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;api_version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;geoips/v1&quot;</span>
-        <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_time</span>
+<span class="sd">        """</span>
+        <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"workflow_name"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wf_name</span>
+        <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"retention_policy"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">retention</span> <span class="ow">or</span> <span class="s2">"keep_referenced"</span>
+        <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"geoips_version"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">geoips</span><span class="p">,</span> <span class="s2">"__version__"</span><span class="p">,</span> <span class="s2">"unknown"</span><span class="p">)</span>
+        <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"api_version"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"geoips/v1"</span>
+        <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_time</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_global_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return workflow globals as invocation kwargs.</span>
+<span class="w">        </span><span class="sd">"""Return workflow globals as invocation kwargs.</span>
 
 <span class="sd">        ``None`` values are omitted so placeholder globals do not override plugin</span>
 <span class="sd">        defaults or conduit-provided runtime values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">globals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{}</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">globals</span><span class="p">,</span> <span class="s2">&quot;model_dump&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">globals</span><span class="p">,</span> <span class="s2">"model_dump"</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">globals</span><span class="p">,</span> <span class="s2">&quot;items&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">globals</span><span class="p">,</span> <span class="s2">"items"</span><span class="p">):</span>
             <span class="k">return</span> <span class="p">{</span>
                 <span class="n">key</span><span class="p">:</span> <span class="n">val</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="p">}</span>
         <span class="k">return</span> <span class="p">{}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_step_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step_def</span><span class="p">:</span> <span class="n">WorkflowStepDefinitionModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Merge workflow globals with step-specific arguments.</span>
+<span class="w">        </span><span class="sd">"""Merge workflow globals with step-specific arguments.</span>
 
 <span class="sd">        Step-specific arguments take precedence over workflow globals. Unsupported</span>
 <span class="sd">        kwargs are still filtered by the class-based plugin invocation layer.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_global_arguments</span><span class="p">(),</span>
             <span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">step_def</span><span class="o">.</span><span class="n">arguments</span> <span class="ow">or</span> <span class="p">{}),</span>
@@ -1285,7 +1287,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">filenames</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute the workflow steps in topological order.</span>
+<span class="w">        </span><span class="sd">"""Execute the workflow steps in topological order.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1300,10 +1302,10 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        xr.DataTree</span>
 <span class="sd">            The fully-populated workflow DataTree.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Externally-injected data: the parent&#39;s upstream tree for a</span>
+<span class="sd">        """</span>
+        <span class="c1"># Externally-injected data: the parent's upstream tree for a</span>
         <span class="c1"># sub-workflow / split branch, or ``{}`` for a top-level run. It is</span>
-        <span class="c1"># snapshotted here (before any step runs) and routed to this workflow&#39;s</span>
+        <span class="c1"># snapshotted here (before any step runs) and routed to this workflow's</span>
         <span class="c1"># entry step(s) via ``_collect_upstream_data``. The root ``tree`` is</span>
         <span class="c1"># always fresh so injected data flows only through entry steps rather</span>
         <span class="c1"># than living alongside step outputs at the root.</span>
@@ -1322,13 +1324,13 @@ window.runMermaid = runMermaid;</script>
 
             <span class="k">if</span> <span class="n">step_def</span><span class="o">.</span><span class="n">when</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;conditional execution (&#39;when&#39;) is not yet implemented &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;(encountered at step &#39;</span><span class="si">{</span><span class="n">sid</span><span class="si">}</span><span class="s2">&#39;)&quot;</span>
+                    <span class="sa">f</span><span class="s2">"conditional execution ('when') is not yet implemented "</span>
+                    <span class="sa">f</span><span class="s2">"(encountered at step '</span><span class="si">{</span><span class="n">sid</span><span class="si">}</span><span class="s2">')"</span>
                 <span class="p">)</span>
 
             <span class="n">step_arguments</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_step_arguments</span><span class="p">(</span><span class="n">step_def</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;split&quot;</span><span class="p">,</span> <span class="s2">&quot;join&quot;</span><span class="p">,</span> <span class="s2">&quot;workflow&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"split"</span><span class="p">,</span> <span class="s2">"join"</span><span class="p">,</span> <span class="s2">"workflow"</span><span class="p">)</span>
                 <span class="k">else</span> <span class="nb">dict</span><span class="p">(</span><span class="n">step_def</span><span class="o">.</span><span class="n">arguments</span> <span class="ow">or</span> <span class="p">{})</span>
             <span class="p">)</span>
             <span class="n">arg_hash</span> <span class="o">=</span> <span class="n">compute_arguments_hash</span><span class="p">(</span><span class="n">step_arguments</span><span class="p">)</span>
@@ -1339,13 +1341,13 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">tree</span><span class="p">,</span> <span class="n">step_def</span><span class="o">.</span><span class="n">depends_on</span> <span class="ow">or</span> <span class="p">[],</span> <span class="n">injected</span><span class="p">,</span> <span class="n">is_entry</span>
             <span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;split&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">"split"</span><span class="p">:</span>
                 <span class="n">step_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_split</span><span class="p">(</span>
                     <span class="n">upstream</span><span class="p">,</span> <span class="n">step_def</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">filenames</span><span class="o">=</span><span class="n">filenames</span>
                 <span class="p">)</span>
-            <span class="k">elif</span> <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;join&quot;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">"join"</span><span class="p">:</span>
                 <span class="n">step_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_join</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">step_def</span><span class="p">,</span> <span class="n">sid</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;workflow&quot;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">"workflow"</span><span class="p">:</span>
                 <span class="n">sub_spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_workflow_spec</span><span class="p">(</span><span class="n">step_def</span><span class="p">)</span>
                 <span class="n">step_result</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">sub_spec</span><span class="p">,</span> <span class="n">workflow_name</span><span class="o">=</span><span class="n">sid</span><span class="p">)</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
                     <span class="n">workflow_tree</span><span class="o">=</span><span class="n">upstream</span><span class="p">,</span> <span class="n">filenames</span><span class="o">=</span><span class="n">filenames</span>
@@ -1365,7 +1367,7 @@ window.runMermaid = runMermaid;</script>
             <span class="c1"># A step may depend on more than one upstream step (e.g. an</span>
             <span class="c1"># output_formatter that consumes an algorithm, colormapper, and</span>
             <span class="c1"># sector), so collect one output token per dependency. These feed</span>
-            <span class="c1"># into this step&#39;s own token, making it content-addressable on the</span>
+            <span class="c1"># into this step's own token, making it content-addressable on the</span>
             <span class="c1"># full set of inputs that produced it.</span>
             <span class="n">upstream_tokens</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">step_def</span><span class="o">.</span><span class="n">depends_on</span> <span class="ow">or</span> <span class="p">():</span>
@@ -1373,7 +1375,7 @@ window.runMermaid = runMermaid;</script>
                     <span class="k">continue</span>
                 <span class="n">dep_node</span> <span class="o">=</span> <span class="n">_resolve_ref_node</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">dep</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">dep_node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">dep_node</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
-                    <span class="n">token</span> <span class="o">=</span> <span class="n">dep_node</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_token&quot;</span><span class="p">)</span>
+                    <span class="n">token</span> <span class="o">=</span> <span class="n">dep_node</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"output_token"</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">token</span><span class="p">:</span>
                         <span class="n">upstream_tokens</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span>
 
@@ -1402,36 +1404,36 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># Stamp the root workflow end time once all steps have completed. Nested</span>
         <span class="c1"># sub-workflows and split branches run their own ``call`` and therefore</span>
         <span class="c1"># get their own start/end times on their respective root nodes.</span>
-        <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+        <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">tree</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_invoke_plugin_step</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">step_def</span><span class="p">,</span> <span class="n">upstream</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">is_entry</span><span class="p">,</span> <span class="n">filenames</span><span class="p">,</span> <span class="n">arguments</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve and call a single plugin step (not split/join/workflow).</span>
+<span class="w">        </span><span class="sd">"""Resolve and call a single plugin step (not split/join/workflow).</span>
 
 <span class="sd">        All steps are called uniformly with ``data`` as a keyword</span>
 <span class="sd">        argument.  The only exception is ``reader`` steps, which</span>
 <span class="sd">        additionally receive ``filenames`` before ``data``; legacy readers</span>
 <span class="sd">        strip the ``data`` tree in their ``_pre_call`` and operate on</span>
 <span class="sd">        ``filenames`` alone.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">plg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_plugin</span><span class="p">(</span><span class="n">step_def</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span> <span class="n">step_def</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
         <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
-            <span class="s2">&quot;Running step &#39;</span><span class="si">%s</span><span class="s2">&#39;: </span><span class="si">%s</span><span class="s2"> plugin &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
+            <span class="s2">"Running step '</span><span class="si">%s</span><span class="s2">': </span><span class="si">%s</span><span class="s2"> plugin '</span><span class="si">%s</span><span class="s2">'"</span><span class="p">,</span>
             <span class="n">sid</span><span class="p">,</span>
             <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span>
             <span class="n">step_def</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;Calling step &#39;</span><span class="si">%s</span><span class="s2">&#39; with arguments: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">"Calling step '</span><span class="si">%s</span><span class="s2">' with arguments: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
             <span class="n">sid</span><span class="p">,</span>
             <span class="n">_summarize_arguments</span><span class="p">(</span><span class="n">arguments</span><span class="p">),</span>
         <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;reader&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">"reader"</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">plg</span><span class="p">(</span>
                 <span class="n">filenames</span><span class="o">=</span><span class="n">filenames</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">upstream</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">arguments</span>
             <span class="p">)</span>
@@ -1439,7 +1441,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">result</span> <span class="o">=</span> <span class="n">plg</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">upstream</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">arguments</span><span class="p">)</span>
 
         <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
-            <span class="s2">&quot;Completed step &#39;</span><span class="si">%s</span><span class="s2">&#39;: </span><span class="si">%s</span><span class="s2"> plugin &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
+            <span class="s2">"Completed step '</span><span class="si">%s</span><span class="s2">': </span><span class="si">%s</span><span class="s2"> plugin '</span><span class="si">%s</span><span class="s2">'"</span><span class="p">,</span>
             <span class="n">sid</span><span class="p">,</span>
             <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span>
             <span class="n">step_def</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
@@ -1452,14 +1454,14 @@ window.runMermaid = runMermaid;</script>
     <span class="c1"># ------------------------------------------------------------------</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_run_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">upstream</span><span class="p">,</span> <span class="n">step_def</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">filenames</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run a ``split`` step&#39;s inline body sub-workflow once per branch.</span>
+<span class="w">        </span><span class="sd">"""Run a ``split`` step's inline body sub-workflow once per branch.</span>
 
-<span class="sd">        Branches come from the step&#39;s ``arguments``:</span>
+<span class="sd">        Branches come from the step's ``arguments``:</span>
 
 <span class="sd">        * ``scopes: [k1, k2, ...]`` — explicit branch keys (no sector context).</span>
 <span class="sd">        * ``over: sector_list`` — one branch per static sector resolved from</span>
-<span class="sd">          ``globals.sector_list``; each branch&#39;s ``AreaDefinition`` is seeded</span>
-<span class="sd">          into the branch input tree as a ``sector`` node so the body&#39;s steps</span>
+<span class="sd">          ``globals.sector_list``; each branch's ``AreaDefinition`` is seeded</span>
+<span class="sd">          into the branch input tree as a ``sector`` node so the body's steps</span>
 <span class="sd">          receive it as ``area_def`` via the standard conduit mechanism.</span>
 
 <span class="sd">        Each branch result is nested under ``/&lt;sid&gt;/&lt;scope&gt;``.</span>
@@ -1469,7 +1471,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        upstream : xr.DataTree</span>
 <span class="sd">            Collected upstream data for the split step.</span>
 <span class="sd">        step_def : WorkflowStepDefinitionModel</span>
-<span class="sd">            The ``kind=&quot;split&quot;`` step definition (carries the inline body spec).</span>
+<span class="sd">            The ``kind="split"`` step definition (carries the inline body spec).</span>
 <span class="sd">        sid : str</span>
 <span class="sd">            The split step id (root node name for the branch subtree).</span>
 <span class="sd">        filenames : list[str] or None</span>
@@ -1479,10 +1481,10 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        xr.DataTree</span>
 <span class="sd">            A node named *sid* with one child per branch scope.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">body_spec</span> <span class="o">=</span> <span class="n">step_def</span><span class="o">.</span><span class="n">spec</span>
         <span class="k">if</span> <span class="n">body_spec</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PluginResolutionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;split step &#39;</span><span class="si">{</span><span class="n">sid</span><span class="si">}</span><span class="s2">&#39; has no inline body spec&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">PluginResolutionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"split step '</span><span class="si">{</span><span class="n">sid</span><span class="si">}</span><span class="s2">' has no inline body spec"</span><span class="p">)</span>
 
         <span class="n">branches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_branches</span><span class="p">(</span><span class="n">step_def</span><span class="p">,</span> <span class="n">sid</span><span class="p">)</span>
         <span class="n">split_node</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">sid</span><span class="p">)</span>
@@ -1492,66 +1494,66 @@ window.runMermaid = runMermaid;</script>
             <span class="n">branch_result</span> <span class="o">=</span> <span class="n">branch_wf</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">workflow_tree</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span> <span class="n">filenames</span><span class="o">=</span><span class="n">filenames</span><span class="p">)</span>
             <span class="n">split_node</span><span class="p">[</span><span class="n">scope</span><span class="p">]</span> <span class="o">=</span> <span class="n">branch_result</span>
 
-        <span class="n">split_node</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;split_scopes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">scope</span> <span class="k">for</span> <span class="n">scope</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">branches</span><span class="p">]</span>
+        <span class="n">split_node</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"split_scopes"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">scope</span> <span class="k">for</span> <span class="n">scope</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">branches</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">split_node</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_branches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step_def</span><span class="p">,</span> <span class="n">sid</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return ``[(scope_name, AreaDefinition | None), ...]`` for a split step.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return ``[(scope_name, AreaDefinition | None), ...]`` for a split step."""</span>
         <span class="n">args</span> <span class="o">=</span> <span class="n">step_def</span><span class="o">.</span><span class="n">arguments</span> <span class="ow">or</span> <span class="p">{}</span>
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;scopes&quot;</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">[(</span><span class="nb">str</span><span class="p">(</span><span class="n">scope</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">scope</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;scopes&quot;</span><span class="p">]]</span>
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;over&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;sector_list&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"scopes"</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="nb">str</span><span class="p">(</span><span class="n">scope</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">scope</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s2">"scopes"</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"over"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"sector_list"</span><span class="p">:</span>
             <span class="n">branches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_sector_branches</span><span class="p">()</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">branches</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">PluginResolutionError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;split step &#39;</span><span class="si">{</span><span class="n">sid</span><span class="si">}</span><span class="s2">&#39; uses &#39;over: sector_list&#39; but no sectors &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;could be resolved from globals.sector_list&quot;</span>
+                    <span class="sa">f</span><span class="s2">"split step '</span><span class="si">{</span><span class="n">sid</span><span class="si">}</span><span class="s2">' uses 'over: sector_list' but no sectors "</span>
+                    <span class="sa">f</span><span class="s2">"could be resolved from globals.sector_list"</span>
                 <span class="p">)</span>
             <span class="k">return</span> <span class="n">branches</span>
         <span class="k">raise</span> <span class="n">PluginResolutionError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;split step &#39;</span><span class="si">{</span><span class="n">sid</span><span class="si">}</span><span class="s2">&#39; must define arguments with either &#39;scopes&#39; &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;(explicit branch keys) or &#39;over: sector_list&#39;&quot;</span>
+            <span class="sa">f</span><span class="s2">"split step '</span><span class="si">{</span><span class="n">sid</span><span class="si">}</span><span class="s2">' must define arguments with either 'scopes' "</span>
+            <span class="sa">f</span><span class="s2">"(explicit branch keys) or 'over: sector_list'"</span>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_sector_branches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return ``[(scope_name, AreaDefinition)]`` from ``globals.sector_list``.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return ``[(scope_name, AreaDefinition)]`` from ``globals.sector_list``."""</span>
         <span class="n">branches</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">area_def</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_area_defs</span><span class="p">():</span>
             <span class="n">name</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="nb">getattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;area_id&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-                <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-                <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;sector_</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">branches</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="nb">getattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">"area_id"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="ow">or</span> <span class="sa">f</span><span class="s2">"sector_</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">branches</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
             <span class="n">branches</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">area_def</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">branches</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_seed_branch_tree</span><span class="p">(</span><span class="n">upstream</span><span class="p">,</span> <span class="n">area_def</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build a branch input tree: upstream data + an optional sector node.</span>
+<span class="w">        </span><span class="sd">"""Build a branch input tree: upstream data + an optional sector node.</span>
 
-<span class="sd">        The branch body&#39;s entry step — the step whose ``depends_on`` contains</span>
+<span class="sd">        The branch body's entry step — the step whose ``depends_on`` contains</span>
 <span class="sd">        ``_input``, or the first step if none declares it — receives this tree</span>
 <span class="sd">        (see ``_collect_upstream_data``), so seeding a ``sector`` node here</span>
-<span class="sd">        makes the per-branch ``area_def`` available to the body&#39;s steps through</span>
+<span class="sd">        makes the per-branch ``area_def`` available to the body's steps through</span>
 <span class="sd">        the normal conduit extraction.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">seed</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;branch_input&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">seed</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"branch_input"</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">upstream</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">child_name</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">(</span><span class="n">upstream</span><span class="o">.</span><span class="n">children</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">seed</span><span class="p">[</span><span class="n">child_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">child</span>
         <span class="k">if</span> <span class="n">area_def</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">sector_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
-                <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;area_definition&quot;</span><span class="p">:</span> <span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;plugin_kind&quot;</span><span class="p">:</span> <span class="s2">&quot;sector&quot;</span><span class="p">}</span>
+                <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">"area_definition"</span><span class="p">:</span> <span class="n">area_def</span><span class="p">,</span> <span class="s2">"plugin_kind"</span><span class="p">:</span> <span class="s2">"sector"</span><span class="p">}</span>
             <span class="p">)</span>
-            <span class="n">seed</span><span class="p">[</span><span class="s2">&quot;_sector&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">DataTreeDitto</span><span class="p">(</span><span class="n">sector_ds</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;_sector&quot;</span><span class="p">)</span>
+            <span class="n">seed</span><span class="p">[</span><span class="s2">"_sector"</span><span class="p">]</span> <span class="o">=</span> <span class="n">DataTreeDitto</span><span class="p">(</span><span class="n">sector_ds</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"_sector"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">seed</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_run_join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">,</span> <span class="n">step_def</span><span class="p">,</span> <span class="n">sid</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Collect a split&#39;s per-branch outputs into a single node.</span>
+<span class="w">        </span><span class="sd">"""Collect a split's per-branch outputs into a single node.</span>
 
 <span class="sd">        Re-nests each branch subtree under ``/&lt;sid&gt;/&lt;scope&gt;`` and records the</span>
 <span class="sd">        joined scopes in ``joined_scopes``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">join_node</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">sid</span><span class="p">)</span>
         <span class="n">joined_scopes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -1563,48 +1565,48 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">joined_scopes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span>
                 <span class="n">join_node</span><span class="p">[</span><span class="n">scope</span><span class="p">]</span> <span class="o">=</span> <span class="n">branch</span>
 
-        <span class="n">join_node</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;joined_scopes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">joined_scopes</span>
+        <span class="n">join_node</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"joined_scopes"</span><span class="p">]</span> <span class="o">=</span> <span class="n">joined_scopes</span>
         <span class="k">return</span> <span class="n">join_node</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_workflow_spec</span><span class="p">(</span>
         <span class="n">step_def</span><span class="p">:</span> <span class="n">WorkflowStepDefinitionModel</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WorkflowSpecModel</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve the sub-workflow spec from an expanded workflow step.</span>
+<span class="w">        </span><span class="sd">"""Resolve the sub-workflow spec from an expanded workflow step.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        step_def : WorkflowStepDefinitionModel</span>
-<span class="sd">            A step definition with ``kind=&quot;workflow&quot;``.</span>
+<span class="sd">            A step definition with ``kind="workflow"``.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        :class:`~geoips.pydantic_models.v1.workflows.WorkflowSpecModel`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">step_def</span><span class="o">.</span><span class="n">spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">step_def</span><span class="o">.</span><span class="n">spec</span>
 
         <span class="n">plg</span> <span class="o">=</span> <span class="n">Workflow</span><span class="o">.</span><span class="n">_resolve_plugin</span><span class="p">(</span><span class="n">step_def</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span> <span class="n">step_def</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plg</span><span class="p">,</span> <span class="n">YamlPluginCallable</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">WorkflowSpecModel</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">plg</span><span class="o">.</span><span class="n">spec</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plg</span><span class="p">,</span> <span class="s2">&quot;spec&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plg</span><span class="p">,</span> <span class="s2">"spec"</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">plg</span><span class="o">.</span><span class="n">spec</span>
 
         <span class="k">raise</span> <span class="n">PluginResolutionError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Could not extract workflow spec for step &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">step_def</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; (kind=</span><span class="si">{</span><span class="n">step_def</span><span class="o">.</span><span class="n">kind</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="sa">f</span><span class="s2">"Could not extract workflow spec for step "</span>
+            <span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="n">step_def</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">' (kind=</span><span class="si">{</span><span class="n">step_def</span><span class="o">.</span><span class="n">kind</span><span class="si">}</span><span class="s2">)"</span>
         <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_plugin</span><span class="p">(</span><span class="n">kind</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve a registered plugin by (kind, name).</span>
+<span class="w">        </span><span class="sd">"""Resolve a registered plugin by (kind, name).</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        kind : str</span>
-<span class="sd">            Plugin kind (e.g. ``&quot;reader&quot;``).</span>
+<span class="sd">            Plugin kind (e.g. ``"reader"``).</span>
 <span class="sd">        name : str</span>
-<span class="sd">            Plugin name (e.g. ``&quot;abi_netcdf&quot;``).</span>
+<span class="sd">            Plugin name (e.g. ``"abi_netcdf"``).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1615,7 +1617,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        ------</span>
 <span class="sd">        PluginResolutionError</span>
 <span class="sd">            If the interface or plugin cannot be resolved.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># ``geoips.interfaces`` is imported locally on purpose: this module</span>
         <span class="c1"># lives *inside* the ``geoips.interfaces`` package, and importing the</span>
         <span class="c1"># heavy parent package at module load time risks a circular import.</span>
@@ -1625,23 +1627,23 @@ window.runMermaid = runMermaid;</script>
         <span class="n">iface</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">interfaces</span><span class="p">,</span> <span class="n">interface_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">iface</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">PluginResolutionError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Kind &#39;</span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2">&#39; -&gt; interface &#39;</span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">&#39;: &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;no such interface found&quot;</span>
+                <span class="sa">f</span><span class="s2">"Kind '</span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2">' -&gt; interface '</span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">': "</span>
+                <span class="sa">f</span><span class="s2">"no such interface found"</span>
             <span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">iface</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">interface_name</span> <span class="o">==</span> <span class="s2">&quot;workflows&quot;</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="c1"># occurs for workflow &#39;plugins&#39; generated at runtimes for product /</span>
+            <span class="k">if</span> <span class="n">interface_name</span> <span class="o">==</span> <span class="s2">"workflows"</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># occurs for workflow 'plugins' generated at runtimes for product /</span>
                 <span class="c1"># product default plugins.</span>
                 <span class="k">return</span> <span class="n">GENERATED_WORKFLOW</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">PluginResolutionError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Kind &#39;</span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2">&#39; -&gt; interface &#39;</span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">&#39;: &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;cannot resolve plugin &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Kind '</span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2">' -&gt; interface '</span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">': "</span>
+                    <span class="sa">f</span><span class="s2">"cannot resolve plugin '</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">': </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s2">"call"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)):</span>
             <span class="k">return</span> <span class="n">YamlPluginCallable</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span></div>
 </pre></div>

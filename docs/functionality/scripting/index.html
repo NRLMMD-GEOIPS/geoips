@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Scripting with GeoIPS plugins &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>Scripting with GeoIPS plugins &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="OBP-native best practices" href="../order-based-processing/best-practices.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -127,8 +127,8 @@
       
     
     
-    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -568,7 +568,7 @@ level helpers may move.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">geoips.scripting</span><span class="w"> </span><span class="kn">import</span> <span class="n">RetentionPolicy</span><span class="p">,</span> <span class="n">initialize_script_tree</span>
 
 <span class="n">tree</span> <span class="o">=</span> <span class="n">initialize_script_tree</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;abi_infrared_test&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"abi_infrared_test"</span><span class="p">,</span>
     <span class="n">retention_policy</span><span class="o">=</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="n">metadata_only</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
@@ -584,19 +584,19 @@ script calls do <strong>not</strong> need <code class="docutils literal notransl
 <code class="docutils literal notranslate"><span class="pre">data</span></code> and naming each result with <code class="docutils literal notranslate"><span class="pre">step_id</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">readers</span><span class="p">,</span> <span class="n">interpolators</span><span class="p">,</span> <span class="n">algorithms</span>
 
-<span class="n">reader</span> <span class="o">=</span> <span class="n">readers</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">&quot;abi_netcdf&quot;</span><span class="p">)</span>
-<span class="n">tree</span> <span class="o">=</span> <span class="n">reader</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tree</span><span class="p">,</span> <span class="n">filenames</span><span class="o">=</span><span class="n">fnames</span><span class="p">,</span> <span class="n">step_id</span><span class="o">=</span><span class="s2">&quot;read_data&quot;</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;B14BT&quot;</span><span class="p">])</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">readers</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">"abi_netcdf"</span><span class="p">)</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="n">reader</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tree</span><span class="p">,</span> <span class="n">filenames</span><span class="o">=</span><span class="n">fnames</span><span class="p">,</span> <span class="n">step_id</span><span class="o">=</span><span class="s2">"read_data"</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s2">"B14BT"</span><span class="p">])</span>
 
-<span class="n">interpolator</span> <span class="o">=</span> <span class="n">interpolators</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">&quot;interp_nearest&quot;</span><span class="p">)</span>
-<span class="n">tree</span> <span class="o">=</span> <span class="n">interpolator</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tree</span><span class="p">,</span> <span class="n">step_id</span><span class="o">=</span><span class="s2">&quot;interpolate_data&quot;</span><span class="p">,</span> <span class="n">varlist</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;B14BT&quot;</span><span class="p">])</span>
+<span class="n">interpolator</span> <span class="o">=</span> <span class="n">interpolators</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">"interp_nearest"</span><span class="p">)</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="n">interpolator</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tree</span><span class="p">,</span> <span class="n">step_id</span><span class="o">=</span><span class="s2">"interpolate_data"</span><span class="p">,</span> <span class="n">varlist</span><span class="o">=</span><span class="p">[</span><span class="s2">"B14BT"</span><span class="p">])</span>
 
-<span class="n">algorithm</span> <span class="o">=</span> <span class="n">algorithms</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">&quot;single_channel&quot;</span><span class="p">)</span>
+<span class="n">algorithm</span> <span class="o">=</span> <span class="n">algorithms</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">"single_channel"</span><span class="p">)</span>
 <span class="n">tree</span> <span class="o">=</span> <span class="n">algorithm</span><span class="p">(</span>
     <span class="n">data</span><span class="o">=</span><span class="n">tree</span><span class="p">,</span>
-    <span class="n">step_id</span><span class="o">=</span><span class="s2">&quot;apply_algorithm&quot;</span><span class="p">,</span>
+    <span class="n">step_id</span><span class="o">=</span><span class="s2">"apply_algorithm"</span><span class="p">,</span>
     <span class="n">output_data_range</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">90.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">],</span>
-    <span class="n">input_units</span><span class="o">=</span><span class="s2">&quot;Kelvin&quot;</span><span class="p">,</span>
-    <span class="n">output_units</span><span class="o">=</span><span class="s2">&quot;celsius&quot;</span><span class="p">,</span>
+    <span class="n">input_units</span><span class="o">=</span><span class="s2">"Kelvin"</span><span class="p">,</span>
+    <span class="n">output_units</span><span class="o">=</span><span class="s2">"celsius"</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -605,9 +605,9 @@ invocation. Attach their results explicitly:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">sectors</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.scripting</span><span class="w"> </span><span class="kn">import</span> <span class="n">attach_plugin_result</span>
 
-<span class="n">sector</span> <span class="o">=</span> <span class="n">sectors</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">&quot;conus&quot;</span><span class="p">)</span>
+<span class="n">sector</span> <span class="o">=</span> <span class="n">sectors</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">"conus"</span><span class="p">)</span>
 <span class="n">tree</span> <span class="o">=</span> <span class="n">attach_plugin_result</span><span class="p">(</span>
-    <span class="n">tree</span><span class="p">,</span> <span class="n">sector</span><span class="p">(),</span> <span class="n">step_id</span><span class="o">=</span><span class="s2">&quot;load_sector&quot;</span><span class="p">,</span> <span class="n">plugin_kind</span><span class="o">=</span><span class="s2">&quot;sector&quot;</span><span class="p">,</span> <span class="n">plugin_name</span><span class="o">=</span><span class="s2">&quot;conus&quot;</span>
+    <span class="n">tree</span><span class="p">,</span> <span class="n">sector</span><span class="p">(),</span> <span class="n">step_id</span><span class="o">=</span><span class="s2">"load_sector"</span><span class="p">,</span> <span class="n">plugin_kind</span><span class="o">=</span><span class="s2">"sector"</span><span class="p">,</span> <span class="n">plugin_name</span><span class="o">=</span><span class="s2">"conus"</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -619,8 +619,8 @@ it and reinsert it as a new manual step with <code class="docutils literal notra
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">geoips.scripting</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_data_step</span><span class="p">,</span> <span class="n">get_current_data</span>
 
 <span class="n">xobj</span> <span class="o">=</span> <span class="n">get_current_data</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
-<span class="n">xobj</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">xobj</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">80</span><span class="p">)</span>
-<span class="n">tree</span> <span class="o">=</span> <span class="n">add_data_step</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">xobj</span><span class="p">,</span> <span class="n">step_id</span><span class="o">=</span><span class="s2">&quot;mask_cold_pixels&quot;</span><span class="p">)</span>
+<span class="n">xobj</span><span class="p">[</span><span class="s2">"data"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj</span><span class="p">[</span><span class="s2">"data"</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">xobj</span><span class="p">[</span><span class="s2">"data"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">80</span><span class="p">)</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="n">add_data_step</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">xobj</span><span class="p">,</span> <span class="n">step_id</span><span class="o">=</span><span class="s2">"mask_cold_pixels"</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -629,7 +629,7 @@ it and reinsert it as a new manual step with <code class="docutils literal notra
 <p>After an output formatter step, collect the written products:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">geoips.scripting</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_output_products</span>
 
-<span class="n">output_products</span> <span class="o">=</span> <span class="n">get_output_products</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">step_id</span><span class="o">=</span><span class="s2">&quot;write_image&quot;</span><span class="p">)</span>
+<span class="n">output_products</span> <span class="o">=</span> <span class="n">get_output_products</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">step_id</span><span class="o">=</span><span class="s2">"write_image"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">output_products</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -656,14 +656,14 @@ variables, coordinates, and metadata attributes.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.scripting</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_data_step</span><span class="p">,</span> <span class="n">initialize_script_tree</span><span class="p">,</span> <span class="n">RetentionPolicy</span>
 
-<span class="n">tree</span> <span class="o">=</span> <span class="n">initialize_script_tree</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;byo&quot;</span><span class="p">,</span> <span class="n">retention_policy</span><span class="o">=</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="n">metadata_only</span><span class="p">)</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="n">initialize_script_tree</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"byo"</span><span class="p">,</span> <span class="n">retention_policy</span><span class="o">=</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="n">metadata_only</span><span class="p">)</span>
 <span class="n">xobj</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
-    <span class="n">data_vars</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;my_variable&quot;</span><span class="p">:</span> <span class="p">((</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span> <span class="n">data_values</span><span class="p">)},</span>
-    <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="p">((</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span> <span class="n">lat</span><span class="p">),</span> <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="p">((</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span> <span class="n">lon</span><span class="p">)},</span>
-    <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;source_name&quot;</span><span class="p">:</span> <span class="s2">&quot;my_source&quot;</span><span class="p">,</span> <span class="s2">&quot;platform_name&quot;</span><span class="p">:</span> <span class="s2">&quot;my_platform&quot;</span><span class="p">,</span>
-           <span class="s2">&quot;start_datetime&quot;</span><span class="p">:</span> <span class="n">start</span><span class="p">,</span> <span class="s2">&quot;end_datetime&quot;</span><span class="p">:</span> <span class="n">end</span><span class="p">},</span>
+    <span class="n">data_vars</span><span class="o">=</span><span class="p">{</span><span class="s2">"my_variable"</span><span class="p">:</span> <span class="p">((</span><span class="s2">"y"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">),</span> <span class="n">data_values</span><span class="p">)},</span>
+    <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">"latitude"</span><span class="p">:</span> <span class="p">((</span><span class="s2">"y"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">),</span> <span class="n">lat</span><span class="p">),</span> <span class="s2">"longitude"</span><span class="p">:</span> <span class="p">((</span><span class="s2">"y"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">),</span> <span class="n">lon</span><span class="p">)},</span>
+    <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">"source_name"</span><span class="p">:</span> <span class="s2">"my_source"</span><span class="p">,</span> <span class="s2">"platform_name"</span><span class="p">:</span> <span class="s2">"my_platform"</span><span class="p">,</span>
+           <span class="s2">"start_datetime"</span><span class="p">:</span> <span class="n">start</span><span class="p">,</span> <span class="s2">"end_datetime"</span><span class="p">:</span> <span class="n">end</span><span class="p">},</span>
 <span class="p">)</span>
-<span class="n">tree</span> <span class="o">=</span> <span class="n">add_data_step</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">xobj</span><span class="p">,</span> <span class="n">step_id</span><span class="o">=</span><span class="s2">&quot;load_external_data&quot;</span><span class="p">)</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="n">add_data_step</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">xobj</span><span class="p">,</span> <span class="n">step_id</span><span class="o">=</span><span class="s2">"load_external_data"</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

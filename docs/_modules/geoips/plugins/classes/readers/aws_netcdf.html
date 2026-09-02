@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.readers.aws_netcdf &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.readers.aws_netcdf &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Arctic Weather Satellite (aws) MWR Level 1B NetCDF reader.</span>
+<span class="sd">"""Arctic Weather Satellite (aws) MWR Level 1B NetCDF reader.</span>
 
 <span class="sd">Channel information is from the ESA webpage:</span>
 <span class="sd">https://www.esa.int/Applications/Observing_the_Earth/Meteorological_missions/</span>
@@ -873,7 +875,7 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">Also, variables (L1B_quality_flag and degraded_channels) are space holders for QC</span>
 <span class="sd">purposes. They are not used for now, but will be applied later.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseReaderPlugin</span>
 
@@ -889,31 +891,31 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="AwsNetcdfReaderPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.aws_netcdf.AwsNetcdfReaderPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">AwsNetcdfReaderPlugin</span><span class="p">(</span><span class="n">BaseReaderPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;AWS Netcdf reader plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""AWS Netcdf reader plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;aws_netcdf&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"readers"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"aws_netcdf"</span>
 
     <span class="c1"># AWS sensor info</span>
     <span class="c1"># setup variables</span>
-    <span class="n">ROIs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Band1&quot;</span><span class="p">:</span> <span class="mi">45000</span><span class="p">,</span> <span class="s2">&quot;Band2&quot;</span><span class="p">:</span> <span class="mi">25000</span><span class="p">,</span> <span class="s2">&quot;Band3&quot;</span><span class="p">:</span> <span class="mi">20000</span><span class="p">,</span> <span class="s2">&quot;Band4&quot;</span><span class="p">:</span> <span class="mi">20000</span><span class="p">}</span>
-    <span class="n">group_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;/data/navigation&quot;</span><span class="p">,</span> <span class="s2">&quot;/data/calibration&quot;</span><span class="p">,</span> <span class="s2">&quot;/quality&quot;</span><span class="p">]</span>
+    <span class="n">ROIs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Band1"</span><span class="p">:</span> <span class="mi">45000</span><span class="p">,</span> <span class="s2">"Band2"</span><span class="p">:</span> <span class="mi">25000</span><span class="p">,</span> <span class="s2">"Band3"</span><span class="p">:</span> <span class="mi">20000</span><span class="p">,</span> <span class="s2">"Band4"</span><span class="p">:</span> <span class="mi">20000</span><span class="p">}</span>
+    <span class="n">group_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"/data/navigation"</span><span class="p">,</span> <span class="s2">"/data/calibration"</span><span class="p">,</span> <span class="s2">"/quality"</span><span class="p">]</span>
     <span class="n">list_vars</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;aws_lat&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;aws_lon&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;aws_solar_zenith_angle&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;aws_solar_azimuth_angle&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;aws_satellite_zenith_angle&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;aws_satellite_azimuth_angle&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;L1B_quality_flag&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;degraded_channels&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">,</span>
+        <span class="s2">"aws_lat"</span><span class="p">,</span>
+        <span class="s2">"aws_lon"</span><span class="p">,</span>
+        <span class="s2">"aws_solar_zenith_angle"</span><span class="p">,</span>
+        <span class="s2">"aws_solar_azimuth_angle"</span><span class="p">,</span>
+        <span class="s2">"aws_satellite_zenith_angle"</span><span class="p">,</span>
+        <span class="s2">"aws_satellite_azimuth_angle"</span><span class="p">,</span>
+        <span class="s2">"L1B_quality_flag"</span><span class="p">,</span>
+        <span class="s2">"degraded_channels"</span><span class="p">,</span>
+        <span class="s2">"aws_toa_brightness_temperature"</span><span class="p">,</span>
     <span class="p">]</span>
-    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mwr&quot;</span><span class="p">]</span>
+    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"mwr"</span><span class="p">]</span>
 
 <div class="viewcode-block" id="AwsNetcdfReaderPlugin.merge_xarrays"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.aws_netcdf.AwsNetcdfReaderPlugin.merge_xarrays">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">merge_xarrays</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src_xobj</span><span class="p">,</span> <span class="n">dst_xobj</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Merge one xarray into another.</span>
+<span class="w">        </span><span class="sd">"""Merge one xarray into another.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -926,7 +928,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        xarray.Dataset</span>
 <span class="sd">            Merged xarray dataset</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">tmp_xobj</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">dvar</span> <span class="ow">in</span> <span class="n">src_xobj</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">dset</span> <span class="o">=</span> <span class="n">src_xobj</span><span class="p">[</span><span class="n">dvar</span><span class="p">]</span>
@@ -949,7 +951,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">merged_xobj</span></div>
 
 <div class="viewcode-block" id="AwsNetcdfReaderPlugin.get_geoips_platform_name"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.aws_netcdf.AwsNetcdfReaderPlugin.get_geoips_platform_name">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_geoips_platform_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meta_platform_name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Map source file platform name to standard GeoIPS names.</span>
+<span class="w">        </span><span class="sd">"""Map source file platform name to standard GeoIPS names.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -960,8 +962,8 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        str</span>
 <span class="sd">            Standard GeoIPS platform name</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">geoips_pform_name</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;AWS1&quot;</span><span class="p">:</span> <span class="s2">&quot;aws&quot;</span><span class="p">}</span>
+<span class="sd">        """</span>
+        <span class="n">geoips_pform_name</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"AWS1"</span><span class="p">:</span> <span class="s2">"aws"</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">geoips_pform_name</span><span class="p">[</span><span class="n">meta_platform_name</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="AwsNetcdfReaderPlugin.call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.aws_netcdf.AwsNetcdfReaderPlugin.call">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
@@ -972,7 +974,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read aws L1 netCDF data.</span>
+<span class="w">        </span><span class="sd">"""Read aws L1 netCDF data.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1004,53 +1006,53 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        data : grouped file</span>
 <span class="sd">            stored in groups (status, data, quality) and sub-groups</span>
 <span class="sd">            open_groups to open and decode a file for required fields</span>
-<span class="sd">            global attributes in home group &#39;/&#39;</span>
-<span class="sd">            &#39;/&#39;  is an important character to access data</span>
+<span class="sd">            global attributes in home group '/'</span>
+<span class="sd">            '/'  is an important character to access data</span>
 <span class="sd">            process only one orbit file</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">xobj_group</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>  <span class="c1"># loop input files (only one for now)</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Opening: </span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Opening: </span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="c1"># First grab metadata</span>
             <span class="n">ds</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">open_groups</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
             <span class="n">available_groups</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
 
-            <span class="n">meta</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;/&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+            <span class="n">meta</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="s2">"/"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">if</span> <span class="s2">&quot;.&quot;</span> <span class="ow">in</span> <span class="n">meta</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sensing_start_time_utc&quot;</span><span class="p">]:</span>
-                    <span class="n">tformat</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span>
+                <span class="k">if</span> <span class="s2">"."</span> <span class="ow">in</span> <span class="n">meta</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"sensing_start_time_utc"</span><span class="p">]:</span>
+                    <span class="n">tformat</span> <span class="o">=</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">"</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">tformat</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span>
+                    <span class="n">tformat</span> <span class="o">=</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S"</span>
                 <span class="n">start_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-                    <span class="n">meta</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sensing_start_time_utc&quot;</span><span class="p">],</span> <span class="n">tformat</span>
+                    <span class="n">meta</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"sensing_start_time_utc"</span><span class="p">],</span> <span class="n">tformat</span>
                 <span class="p">)</span>
                 <span class="n">end_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-                    <span class="n">meta</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sensing_end_time_utc&quot;</span><span class="p">],</span> <span class="n">tformat</span>
+                    <span class="n">meta</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"sensing_end_time_utc"</span><span class="p">],</span> <span class="n">tformat</span>
                 <span class="p">)</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;error in orbit data start and end time&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">meta</span><span class="p">,</span> <span class="s2">&quot;Spacecraft&quot;</span><span class="p">):</span>
-                <span class="n">pform</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;Spacecraft&quot;</span><span class="p">]</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"error in orbit data start and end time"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">meta</span><span class="p">,</span> <span class="s2">"Spacecraft"</span><span class="p">):</span>
+                <span class="n">pform</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"Spacecraft"</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Cannot identify platform name&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Cannot identify platform name"</span><span class="p">)</span>
             <span class="n">geoips_attrs</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;area_definition&quot;</span><span class="p">:</span> <span class="n">area_def</span><span class="p">,</span>
-                <span class="s2">&quot;start_datetime&quot;</span><span class="p">:</span> <span class="n">start_datetime</span><span class="p">,</span>
-                <span class="s2">&quot;end_datetime&quot;</span><span class="p">:</span> <span class="n">end_datetime</span><span class="p">,</span>
-                <span class="s2">&quot;vertical_data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;surface&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;source_name&quot;</span><span class="p">:</span> <span class="s2">&quot;mwr&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;platform_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_geoips_platform_name</span><span class="p">(</span><span class="n">pform</span><span class="p">),</span>
-                <span class="s2">&quot;data_provider&quot;</span><span class="p">:</span> <span class="s2">&quot;noaa&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">:</span> <span class="mi">20000</span><span class="p">,</span>
+                <span class="s2">"area_definition"</span><span class="p">:</span> <span class="n">area_def</span><span class="p">,</span>
+                <span class="s2">"start_datetime"</span><span class="p">:</span> <span class="n">start_datetime</span><span class="p">,</span>
+                <span class="s2">"end_datetime"</span><span class="p">:</span> <span class="n">end_datetime</span><span class="p">,</span>
+                <span class="s2">"vertical_data_type"</span><span class="p">:</span> <span class="s2">"surface"</span><span class="p">,</span>
+                <span class="s2">"source_name"</span><span class="p">:</span> <span class="s2">"mwr"</span><span class="p">,</span>
+                <span class="s2">"platform_name"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_geoips_platform_name</span><span class="p">(</span><span class="n">pform</span><span class="p">),</span>
+                <span class="s2">"data_provider"</span><span class="p">:</span> <span class="s2">"noaa"</span><span class="p">,</span>
+                <span class="s2">"interpolation_radius_of_influence"</span><span class="p">:</span> <span class="mi">20000</span><span class="p">,</span>
             <span class="p">}</span>
             <span class="n">meta</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">attrs</span><span class="p">,</span> <span class="o">**</span><span class="n">geoips_attrs</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">metadata_only</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="s2">&quot;metadata_only is True, reading only first&quot;</span>
-                    <span class="o">+</span> <span class="s2">&quot;file for metadata information and returning&quot;</span>
+                    <span class="s2">"metadata_only is True, reading only first"</span>
+                    <span class="o">+</span> <span class="s2">"file for metadata information and returning"</span>
                 <span class="p">)</span>
-                <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">meta</span><span class="p">}</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s2">"METADATA"</span><span class="p">:</span> <span class="n">meta</span><span class="p">}</span>
             <span class="c1"># load data for list_vars from these groups</span>
             <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">group_names</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">available_groups</span><span class="p">:</span>
@@ -1076,106 +1078,106 @@ window.runMermaid = runMermaid;</script>
         <span class="n">xobj_band3</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
         <span class="n">xobj_band4</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
 
-        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">&quot;chan1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">&quot;chan2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">&quot;chan3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
-        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">&quot;chan4&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">]</span>
-        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">&quot;chan5&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">4</span><span class="p">]</span>
-        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">&quot;chan6&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">5</span><span class="p">]</span>
-        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">&quot;chan7&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">6</span><span class="p">]</span>
-        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">&quot;chan8&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">7</span><span class="p">]</span>
-        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">&quot;chan9&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">8</span><span class="p">]</span>
-        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">&quot;chan10&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">9</span><span class="p">]</span>
-        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">&quot;chan11&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">10</span><span class="p">]</span>
-        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">&quot;chan12&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">11</span><span class="p">]</span>
-        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">&quot;chan13&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">12</span><span class="p">]</span>
-        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">&quot;chan14&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">13</span><span class="p">]</span>
-        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">&quot;chan15&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">14</span><span class="p">]</span>
-        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">&quot;chan16&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">15</span><span class="p">]</span>
-        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">&quot;chan17&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">16</span><span class="p">]</span>
-        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">&quot;chan18&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">17</span><span class="p">]</span>
-        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">&quot;chan19&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_toa_brightness_temperature&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">18</span><span class="p">]</span>
+        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">"chan1"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">"chan2"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">"chan3"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">"chan4"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">]</span>
+        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">"chan5"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">4</span><span class="p">]</span>
+        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">"chan6"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">5</span><span class="p">]</span>
+        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">"chan7"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">6</span><span class="p">]</span>
+        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">"chan8"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">7</span><span class="p">]</span>
+        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">"chan9"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">8</span><span class="p">]</span>
+        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">"chan10"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">9</span><span class="p">]</span>
+        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">"chan11"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">10</span><span class="p">]</span>
+        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">"chan12"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">11</span><span class="p">]</span>
+        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">"chan13"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">12</span><span class="p">]</span>
+        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">"chan14"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">13</span><span class="p">]</span>
+        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">"chan15"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">14</span><span class="p">]</span>
+        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">"chan16"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">15</span><span class="p">]</span>
+        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">"chan17"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">16</span><span class="p">]</span>
+        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">"chan18"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">17</span><span class="p">]</span>
+        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">"chan19"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_toa_brightness_temperature"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">18</span><span class="p">]</span>
 
-        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_lat&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_lat&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_lon&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_solar_zenith_angle&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">&quot;solar_azimuth_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_solar_azimuth_angle&quot;</span><span class="p">][</span>
+        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_lat"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_lat"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_lon"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">"solar_zenith_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_solar_zenith_angle"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">"solar_azimuth_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_solar_azimuth_angle"</span><span class="p">][</span>
             <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span>
         <span class="p">]</span>
-        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_satellite_zenith_angle&quot;</span><span class="p">][</span>
+        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">"satellite_zenith_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_satellite_zenith_angle"</span><span class="p">][</span>
             <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span>
         <span class="p">]</span>
-        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">&quot;satellite_azimuth_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span>
-            <span class="s2">&quot;aws_satellite_azimuth_angle&quot;</span>
+        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">"satellite_azimuth_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span>
+            <span class="s2">"aws_satellite_azimuth_angle"</span>
         <span class="p">][:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">&quot;quality_flag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;L1B_quality_flag&quot;</span><span class="p">]</span>
-        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">&quot;degraded_channels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;degraded_channels&quot;</span><span class="p">]</span>
+        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">"quality_flag"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"L1B_quality_flag"</span><span class="p">]</span>
+        <span class="n">xobj_band1</span><span class="p">[</span><span class="s2">"degraded_channels"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"degraded_channels"</span><span class="p">]</span>
 
-        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_lat&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_lat&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_lon&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_solar_zenith_angle&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">&quot;solar_azimuth_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_solar_azimuth_angle&quot;</span><span class="p">][</span>
+        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_lat"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_lat"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_lon"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">"solar_zenith_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_solar_zenith_angle"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">"solar_azimuth_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_solar_azimuth_angle"</span><span class="p">][</span>
             <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span>
         <span class="p">]</span>
-        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_satellite_zenith_angle&quot;</span><span class="p">][</span>
+        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">"satellite_zenith_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_satellite_zenith_angle"</span><span class="p">][</span>
             <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span>
         <span class="p">]</span>
-        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">&quot;satellite_azimuth_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span>
-            <span class="s2">&quot;aws_satellite_azimuth_angle&quot;</span>
+        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">"satellite_azimuth_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span>
+            <span class="s2">"aws_satellite_azimuth_angle"</span>
         <span class="p">][:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">&quot;quality_flag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;L1B_quality_flag&quot;</span><span class="p">]</span>
-        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">&quot;degraded_channels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;degraded_channels&quot;</span><span class="p">]</span>
+        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">"quality_flag"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"L1B_quality_flag"</span><span class="p">]</span>
+        <span class="n">xobj_band2</span><span class="p">[</span><span class="s2">"degraded_channels"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"degraded_channels"</span><span class="p">]</span>
 
-        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_lat&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
-        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_lat&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
-        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_lon&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
-        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_solar_zenith_angle&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
-        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">&quot;solar_azimuth_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_solar_azimuth_angle&quot;</span><span class="p">][</span>
+        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_lat"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_lat"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_lon"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">"solar_zenith_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_solar_zenith_angle"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">"solar_azimuth_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_solar_azimuth_angle"</span><span class="p">][</span>
             <span class="p">:,</span> <span class="p">:,</span> <span class="mi">2</span>
         <span class="p">]</span>
-        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_satellite_zenith_angle&quot;</span><span class="p">][</span>
+        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">"satellite_zenith_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_satellite_zenith_angle"</span><span class="p">][</span>
             <span class="p">:,</span> <span class="p">:,</span> <span class="mi">2</span>
         <span class="p">]</span>
-        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">&quot;satellite_azimuth_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span>
-            <span class="s2">&quot;aws_satellite_azimuth_angle&quot;</span>
+        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">"satellite_azimuth_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span>
+            <span class="s2">"aws_satellite_azimuth_angle"</span>
         <span class="p">][:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
-        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">&quot;quality_flag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;L1B_quality_flag&quot;</span><span class="p">]</span>
-        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">&quot;degraded_channels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;degraded_channels&quot;</span><span class="p">]</span>
+        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">"quality_flag"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"L1B_quality_flag"</span><span class="p">]</span>
+        <span class="n">xobj_band3</span><span class="p">[</span><span class="s2">"degraded_channels"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"degraded_channels"</span><span class="p">]</span>
 
-        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_lat&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">]</span>
-        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_lat&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">]</span>
-        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_lon&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">]</span>
-        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_solar_zenith_angle&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">]</span>
-        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">&quot;solar_azimuth_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_solar_azimuth_angle&quot;</span><span class="p">][</span>
+        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_lat"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">]</span>
+        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_lat"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">]</span>
+        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_lon"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">]</span>
+        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">"solar_zenith_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_solar_zenith_angle"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">]</span>
+        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">"solar_azimuth_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_solar_azimuth_angle"</span><span class="p">][</span>
             <span class="p">:,</span> <span class="p">:,</span> <span class="mi">3</span>
         <span class="p">]</span>
-        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;aws_satellite_zenith_angle&quot;</span><span class="p">][</span>
+        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">"satellite_zenith_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"aws_satellite_zenith_angle"</span><span class="p">][</span>
             <span class="p">:,</span> <span class="p">:,</span> <span class="mi">3</span>
         <span class="p">]</span>
-        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">&quot;satellite_azimuth_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span>
-            <span class="s2">&quot;aws_satellite_azimuth_angle&quot;</span>
+        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">"satellite_azimuth_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span>
+            <span class="s2">"aws_satellite_azimuth_angle"</span>
         <span class="p">][:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">]</span>
-        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">&quot;quality_flag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;L1B_quality_flag&quot;</span><span class="p">]</span>
-        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">&quot;degraded_channels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">&quot;degraded_channels&quot;</span><span class="p">]</span>
+        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">"quality_flag"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"L1B_quality_flag"</span><span class="p">]</span>
+        <span class="n">xobj_band4</span><span class="p">[</span><span class="s2">"degraded_channels"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj_group</span><span class="p">[</span><span class="s2">"degraded_channels"</span><span class="p">]</span>
 
         <span class="c1"># add attributes to each band (will make adjustments on roi etc later)</span>
-        <span class="n">geoips_attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ROIs</span><span class="p">[</span><span class="s2">&quot;Band1&quot;</span><span class="p">]</span>
+        <span class="n">geoips_attrs</span><span class="p">[</span><span class="s2">"interpolation_radius_of_influence"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ROIs</span><span class="p">[</span><span class="s2">"Band1"</span><span class="p">]</span>
         <span class="n">xobj_band1</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">geoips_attrs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">geoips_attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ROIs</span><span class="p">[</span><span class="s2">&quot;Band2&quot;</span><span class="p">]</span>
+        <span class="n">geoips_attrs</span><span class="p">[</span><span class="s2">"interpolation_radius_of_influence"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ROIs</span><span class="p">[</span><span class="s2">"Band2"</span><span class="p">]</span>
         <span class="n">xobj_band2</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">geoips_attrs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">geoips_attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ROIs</span><span class="p">[</span><span class="s2">&quot;Band3&quot;</span><span class="p">]</span>
+        <span class="n">geoips_attrs</span><span class="p">[</span><span class="s2">"interpolation_radius_of_influence"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ROIs</span><span class="p">[</span><span class="s2">"Band3"</span><span class="p">]</span>
         <span class="n">xobj_band3</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">geoips_attrs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">geoips_attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ROIs</span><span class="p">[</span><span class="s2">&quot;Band4&quot;</span><span class="p">]</span>
+        <span class="n">geoips_attrs</span><span class="p">[</span><span class="s2">"interpolation_radius_of_influence"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ROIs</span><span class="p">[</span><span class="s2">"Band4"</span><span class="p">]</span>
         <span class="n">xobj_band4</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">geoips_attrs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">&quot;AWS_Band1&quot;</span><span class="p">:</span> <span class="n">xobj_band1</span><span class="p">,</span>
-            <span class="s2">&quot;AWS_Band2&quot;</span><span class="p">:</span> <span class="n">xobj_band2</span><span class="p">,</span>
-            <span class="s2">&quot;AWS_Band3&quot;</span><span class="p">:</span> <span class="n">xobj_band3</span><span class="p">,</span>
-            <span class="s2">&quot;AWS_Band4&quot;</span><span class="p">:</span> <span class="n">xobj_band4</span><span class="p">,</span>
-            <span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">meta</span><span class="p">,</span>
+            <span class="s2">"AWS_Band1"</span><span class="p">:</span> <span class="n">xobj_band1</span><span class="p">,</span>
+            <span class="s2">"AWS_Band2"</span><span class="p">:</span> <span class="n">xobj_band2</span><span class="p">,</span>
+            <span class="s2">"AWS_Band3"</span><span class="p">:</span> <span class="n">xobj_band3</span><span class="p">,</span>
+            <span class="s2">"AWS_Band4"</span><span class="p">:</span> <span class="n">xobj_band4</span><span class="p">,</span>
+            <span class="s2">"METADATA"</span><span class="p">:</span> <span class="n">meta</span><span class="p">,</span>
         <span class="p">}</span></div></div>
 
 

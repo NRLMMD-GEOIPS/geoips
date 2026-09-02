@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.interfaces.class_based.output_formatters &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.interfaces.class_based.output_formatters &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Output formatters interface class.&quot;&quot;&quot;</span>
+<span class="sd">"""Output formatters interface class."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">functools</span>
@@ -851,22 +853,22 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_is_area_definition</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if *obj* looks like a pyresample Geometry (duck-typed).</span>
+<span class="w">    </span><span class="sd">"""Return True if *obj* looks like a pyresample Geometry (duck-typed).</span>
 
 <span class="sd">    Avoids a mandatory ``pyresample`` import while still reliably detecting</span>
 <span class="sd">    ``AreaDefinition`` / ``SwathDefinition`` objects at call time.  Only those</span>
 <span class="sd">    classes expose the ``area_extent`` attribute.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;area_extent&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">"area_extent"</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">)</span>
 
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">DATA_PARAM_NAMES</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;xarray_obj&quot;</span><span class="p">,</span> <span class="s2">&quot;xarray_dict&quot;</span><span class="p">)</span>
+<span class="n">DATA_PARAM_NAMES</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"xarray_obj"</span><span class="p">,</span> <span class="s2">"xarray_dict"</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_call_with_original_order</span><span class="p">(</span><span class="n">call_method</span><span class="p">,</span> <span class="n">original_params</span><span class="p">,</span> <span class="n">self_obj</span><span class="p">,</span> <span class="n">bound_args</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Call a legacy implementation using its original parameter order.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Call a legacy implementation using its original parameter order."""</span>
     <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">self_obj</span><span class="p">]</span>
     <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">original_params</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
@@ -885,7 +887,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_normalize_output_formatter_call_signature</span><span class="p">(</span><span class="n">call_method</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a data-first wrapper for legacy area-first output formatters.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return a data-first wrapper for legacy area-first output formatters."""</span>
     <span class="n">original_sig</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">call_method</span><span class="p">)</span>
     <span class="n">original_params</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">original_sig</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
     <span class="n">param_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">original_params</span><span class="p">]</span>
@@ -893,15 +895,15 @@ window.runMermaid = runMermaid;</script>
     <span class="n">data_param_name</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
         <span class="p">(</span><span class="n">pname</span> <span class="k">for</span> <span class="n">pname</span> <span class="ow">in</span> <span class="n">DATA_PARAM_NAMES</span> <span class="k">if</span> <span class="n">pname</span> <span class="ow">in</span> <span class="n">param_names</span><span class="p">),</span> <span class="kc">None</span>
     <span class="p">)</span>
-    <span class="k">if</span> <span class="n">data_param_name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="s2">&quot;area_def&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">param_names</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">data_param_name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="s2">"area_def"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">param_names</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">call_method</span><span class="p">,</span> <span class="kc">False</span>
 
     <span class="n">data_idx</span> <span class="o">=</span> <span class="n">param_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">data_param_name</span><span class="p">)</span>
-    <span class="n">area_idx</span> <span class="o">=</span> <span class="n">param_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;area_def&quot;</span><span class="p">)</span>
+    <span class="n">area_idx</span> <span class="o">=</span> <span class="n">param_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">"area_def"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">data_idx</span> <span class="o">&lt;</span> <span class="n">area_idx</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">call_method</span><span class="p">,</span> <span class="kc">False</span>
 
-    <span class="n">insert_idx</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">param_names</span> <span class="ow">and</span> <span class="n">param_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;self&quot;</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="n">insert_idx</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">param_names</span> <span class="ow">and</span> <span class="n">param_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"self"</span> <span class="k">else</span> <span class="mi">0</span>
     <span class="n">data_param</span> <span class="o">=</span> <span class="n">original_params</span><span class="p">[</span><span class="n">data_idx</span><span class="p">]</span>
     <span class="n">normalized_params</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">param</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">original_params</span><span class="p">)</span> <span class="k">if</span> <span class="n">idx</span> <span class="o">!=</span> <span class="n">data_idx</span>
@@ -921,33 +923,33 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="BaseOutputFormatterPlugin"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_formatters.BaseOutputFormatterPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BaseOutputFormatterPlugin</span><span class="p">(</span><span class="n">BaseClassPlugin</span><span class="p">,</span> <span class="n">abstract</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for GeoIPS output_formatter plugins.</span>
+<span class="w">    </span><span class="sd">"""Base class for GeoIPS output_formatter plugins.</span>
 
 <span class="sd">    Plugins with ``data_tree=False`` have their inputs / outputs</span>
 <span class="sd">    automatically converted according to the family-specific rules</span>
 <span class="sd">    defined in ``OUTPUT_FORMATTER_FAMILY_CONVERSIONS``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">data_tree</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">_family_conversion_map</span> <span class="o">=</span> <span class="n">OUTPUT_FORMATTER_FAMILY_CONVERSIONS</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__init_subclass__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">abstract</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a concrete output formatter subclass.</span>
+<span class="w">        </span><span class="sd">"""Register a concrete output formatter subclass.</span>
 
 <span class="sd">        In addition to the standard ``BaseClassPlugin`` validation this</span>
 <span class="sd">        emits a ``DeprecationWarning`` when ``area_def`` appears before</span>
-<span class="sd">        the data argument (``xarray_obj`` / ``xarray_dict``) in ``call``&#39;s</span>
+<span class="sd">        the data argument (``xarray_obj`` / ``xarray_dict``) in ``call``'s</span>
 <span class="sd">        signature — the recommended order from GeoIPS 2.0 onward is data</span>
 <span class="sd">        first, then ``area_def``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">legacy_area_first</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">abstract</span> <span class="ow">and</span> <span class="s2">&quot;call&quot;</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">abstract</span> <span class="ow">and</span> <span class="s2">"call"</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">call</span><span class="p">,</span> <span class="n">legacy_area_first</span> <span class="o">=</span> <span class="n">_normalize_output_formatter_call_signature</span><span class="p">(</span>
-                <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;call&quot;</span><span class="p">]</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">"call"</span><span class="p">]</span>
             <span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init_subclass__</span><span class="p">(</span><span class="n">abstract</span><span class="o">=</span><span class="n">abstract</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">abstract</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">&quot;family&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">&quot;call&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">abstract</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">"family"</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">"call"</span><span class="p">):</span>
             <span class="k">return</span>
         <span class="k">if</span> <span class="n">legacy_area_first</span><span class="p">:</span>
             <span class="n">data_param</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
@@ -956,33 +958,33 @@ window.runMermaid = runMermaid;</script>
                 <span class="k">if</span> <span class="n">pname</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">call</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span>
             <span class="p">)</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Output formatter </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> (family </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">family</span><span class="si">!r}</span><span class="s2">) &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;has a legacy &#39;area_def&#39; before &#39;</span><span class="si">{</span><span class="n">data_param</span><span class="si">}</span><span class="s2">&#39; implementation &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;signature. GeoIPS will expose and invoke it as data-first &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">data_param</span><span class="si">}</span><span class="s2">) first, then area_def. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;The preferred migration is to make this plugin &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;DataTree-native (set ``data_tree = True`` and &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;remove ``family``).&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">"Output formatter </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> (family </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">family</span><span class="si">!r}</span><span class="s2">) "</span>
+                <span class="sa">f</span><span class="s2">"has a legacy 'area_def' before '</span><span class="si">{</span><span class="n">data_param</span><span class="si">}</span><span class="s2">' implementation "</span>
+                <span class="sa">f</span><span class="s2">"signature. GeoIPS will expose and invoke it as data-first "</span>
+                <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="n">data_param</span><span class="si">}</span><span class="s2">) first, then area_def. "</span>
+                <span class="sa">f</span><span class="s2">"The preferred migration is to make this plugin "</span>
+                <span class="sa">f</span><span class="s2">"DataTree-native (set ``data_tree = True`` and "</span>
+                <span class="sa">f</span><span class="s2">"remove ``family``)."</span><span class="p">,</span>
                 <span class="ne">DeprecationWarning</span><span class="p">,</span>
                 <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
             <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_normalize_call_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalize legacy formatter calls to data-first argument order.</span>
+<span class="w">        </span><span class="sd">"""Normalize legacy formatter calls to data-first argument order.</span>
 
 <span class="sd">        Legacy procflows may call output formatters as either</span>
 <span class="sd">        ``formatter(area_def, xarray_obj, ...)`` or</span>
 <span class="sd">        ``formatter(area_def, xarray_obj=xarray_obj, ...)``.  Normalize both</span>
 <span class="sd">        forms to the data-first convention exposed by ``call``:</span>
 <span class="sd">        ``formatter(xarray_obj, area_def, ...)``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">_is_area_definition</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_warned_geom_first_call&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"_warned_geom_first_call"</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Output formatter </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> (family </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">family</span><span class="si">!r}</span><span class="s2">) &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;received a pyresample Geometry as the first positional &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;argument. The recommended order is data first, area_def &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;second.&quot;</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s2">"Output formatter </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> (family </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">family</span><span class="si">!r}</span><span class="s2">) "</span>
+                    <span class="sa">f</span><span class="s2">"received a pyresample Geometry as the first positional "</span>
+                    <span class="sa">f</span><span class="s2">"argument. The recommended order is data first, area_def "</span>
+                    <span class="sa">f</span><span class="s2">"second."</span><span class="p">,</span>
                     <span class="ne">DeprecationWarning</span><span class="p">,</span>
                     <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">)</span>
@@ -1002,17 +1004,17 @@ window.runMermaid = runMermaid;</script>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_pre_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check argument order and reorder if necessary, then delegate.</span>
+<span class="w">        </span><span class="sd">"""Check argument order and reorder if necessary, then delegate.</span>
 
 <span class="sd">        Under OBP, bridges the singular ``product_name`` global to the</span>
 <span class="sd">        ``product_names`` list expected by output formatter ``call()`` methods.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="n">_obp_initiated</span>
-            <span class="ow">and</span> <span class="s2">&quot;product_names&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span>
-            <span class="ow">and</span> <span class="s2">&quot;product_name&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span>
+            <span class="ow">and</span> <span class="s2">"product_names"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span>
+            <span class="ow">and</span> <span class="s2">"product_name"</span> <span class="ow">in</span> <span class="n">kwargs</span>
         <span class="p">):</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;product_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;product_name&quot;</span><span class="p">]]</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"product_names"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">"product_name"</span><span class="p">]]</span>
             <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_pre_call</span><span class="p">(</span>
                 <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="n">_obp_initiated</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
             <span class="p">)</span>
@@ -1020,7 +1022,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_pre_call</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="n">_obp_initiated</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_post_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Attach semantic output-file attrs to OBP output formatter results.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Attach semantic output-file attrs to OBP output formatter results."""</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">_obp_initiated</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_post_call</span><span class="p">(</span>
                 <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="n">_obp_initiated</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
@@ -1028,8 +1030,8 @@ window.runMermaid = runMermaid;</script>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">BoundaryIOError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Output formatter plugin &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; did not produce any &quot;</span>
-                <span class="s2">&quot;output products.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Output formatter plugin '</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">' did not produce any "</span>
+                <span class="s2">"output products."</span>
             <span class="p">)</span>
 
         <span class="n">output_products</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -1046,12 +1048,12 @@ window.runMermaid = runMermaid;</script>
             <span class="k">else</span> <span class="kc">None</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">attrs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">attrs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;output_products&quot;</span><span class="p">,</span> <span class="n">output_products</span><span class="p">)</span>
+            <span class="n">attrs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"output_products"</span><span class="p">,</span> <span class="n">output_products</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">data</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_normalize_obp_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Rename ``output_filenames`` → ``output_fnames`` for legacy formatters.</span>
+<span class="w">        </span><span class="sd">"""Rename ``output_filenames`` → ``output_fnames`` for legacy formatters.</span>
 
 <span class="sd">        Legacy (family-bearing) output formatter plugins expect</span>
 <span class="sd">        ``output_fnames`` in their ``call`` signature, but the OBP</span>
@@ -1061,15 +1063,15 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">        Datatree-native output formatters (no ``family``) pass through</span>
 <span class="sd">        unchanged.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s2">&quot;family&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;output_filenames&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;output_fnames&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;output_filenames&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s2">"family"</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">"output_filenames"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"output_fnames"</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"output_filenames"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">kwargs</span>
 
 <div class="viewcode-block" id="BaseOutputFormatterPlugin.update_sector_info_with_default_metadata"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_formatters.BaseOutputFormatterPlugin.update_sector_info_with_default_metadata">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">update_sector_info_with_default_metadata</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">area_def</span><span class="p">,</span> <span class="n">xarray_obj</span><span class="p">,</span> <span class="n">product_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metadata_filename</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update sector info found in &quot;area_def&quot; with standard metadata output.</span>
+<span class="w">        </span><span class="sd">"""Update sector info found in "area_def" with standard metadata output.</span>
 
 <span class="sd">        This function is used by metadata_tc output formatter as well for updating the</span>
 <span class="sd">        sector_info with these additional default metadata fields. We should not filter</span>
@@ -1091,37 +1093,37 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">             * bounding box</span>
 <span class="sd">             * product filename with wildcards</span>
 <span class="sd">             * basename of original source filenames</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">sector_info</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;sector_type&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;sector_type&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sector_info</span><span class="p">:</span>
-            <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;sector_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_type</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">"sector_type"</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">"sector_type"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sector_info</span><span class="p">:</span>
+            <span class="n">sector_info</span><span class="p">[</span><span class="s2">"sector_type"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_type</span>
 
-        <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;bounding_box&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;bounding_box&quot;</span><span class="p">][</span><span class="s2">&quot;minlat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;bounding_box&quot;</span><span class="p">][</span><span class="s2">&quot;maxlat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-        <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;bounding_box&quot;</span><span class="p">][</span><span class="s2">&quot;minlon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;bounding_box&quot;</span><span class="p">][</span><span class="s2">&quot;maxlon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-        <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;bounding_box&quot;</span><span class="p">][</span><span class="s2">&quot;pixel_width_m&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">pixel_size_x</span>
-        <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;bounding_box&quot;</span><span class="p">][</span><span class="s2">&quot;pixel_height_m&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">pixel_size_y</span>
-        <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;bounding_box&quot;</span><span class="p">][</span><span class="s2">&quot;image_width&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">width</span>
-        <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;bounding_box&quot;</span><span class="p">][</span><span class="s2">&quot;image_height&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">height</span>
-        <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;bounding_box&quot;</span><span class="p">][</span><span class="s2">&quot;proj4_string&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">proj_str</span>
+        <span class="n">sector_info</span><span class="p">[</span><span class="s2">"bounding_box"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">sector_info</span><span class="p">[</span><span class="s2">"bounding_box"</span><span class="p">][</span><span class="s2">"minlat"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">sector_info</span><span class="p">[</span><span class="s2">"bounding_box"</span><span class="p">][</span><span class="s2">"maxlat"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">sector_info</span><span class="p">[</span><span class="s2">"bounding_box"</span><span class="p">][</span><span class="s2">"minlon"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">sector_info</span><span class="p">[</span><span class="s2">"bounding_box"</span><span class="p">][</span><span class="s2">"maxlon"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">sector_info</span><span class="p">[</span><span class="s2">"bounding_box"</span><span class="p">][</span><span class="s2">"pixel_width_m"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">pixel_size_x</span>
+        <span class="n">sector_info</span><span class="p">[</span><span class="s2">"bounding_box"</span><span class="p">][</span><span class="s2">"pixel_height_m"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">pixel_size_y</span>
+        <span class="n">sector_info</span><span class="p">[</span><span class="s2">"bounding_box"</span><span class="p">][</span><span class="s2">"image_width"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">width</span>
+        <span class="n">sector_info</span><span class="p">[</span><span class="s2">"bounding_box"</span><span class="p">][</span><span class="s2">"image_height"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">height</span>
+        <span class="n">sector_info</span><span class="p">[</span><span class="s2">"bounding_box"</span><span class="p">][</span><span class="s2">"proj4_string"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">proj_str</span>
 
         <span class="k">if</span> <span class="n">product_filename</span><span class="p">:</span>
-            <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;product_filename&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">replace_geoips_paths</span><span class="p">(</span><span class="n">product_filename</span><span class="p">)</span>
+            <span class="n">sector_info</span><span class="p">[</span><span class="s2">"product_filename"</span><span class="p">]</span> <span class="o">=</span> <span class="n">replace_geoips_paths</span><span class="p">(</span><span class="n">product_filename</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">metadata_filename</span><span class="p">:</span>
-            <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;metadata_filename&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">replace_geoips_paths</span><span class="p">(</span><span class="n">metadata_filename</span><span class="p">)</span>
+            <span class="n">sector_info</span><span class="p">[</span><span class="s2">"metadata_filename"</span><span class="p">]</span> <span class="o">=</span> <span class="n">replace_geoips_paths</span><span class="p">(</span><span class="n">metadata_filename</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="s2">&quot;source_file_names&quot;</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">source_file_names</span>
-        <span class="c1"># Backwards compatibility, so the default metadata doesn&#39;t change.</span>
+        <span class="k">if</span> <span class="s2">"source_file_names"</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">sector_info</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">source_file_names</span>
+        <span class="c1"># Backwards compatibility, so the default metadata doesn't change.</span>
 
         <span class="k">return</span> <span class="n">sector_info</span></div></div>
 
 
 <div class="viewcode-block" id="WindbarbOutputFormatterPlugin"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_formatters.WindbarbOutputFormatterPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WindbarbOutputFormatterPlugin</span><span class="p">(</span><span class="n">BaseOutputFormatterPlugin</span><span class="p">,</span> <span class="n">abstract</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for windbarb-based output formatter plugins.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Base class for windbarb-based output formatter plugins."""</span>
 
 <div class="viewcode-block" id="WindbarbOutputFormatterPlugin.output_clean_windbarbs"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_formatters.WindbarbOutputFormatterPlugin.output_clean_windbarbs">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">output_clean_windbarbs</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1133,9 +1135,9 @@ window.runMermaid = runMermaid;</script>
         <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">main_ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">mapobj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">barb_color_variable</span><span class="o">=</span><span class="s2">&quot;speed&quot;</span><span class="p">,</span>
+        <span class="n">barb_color_variable</span><span class="o">=</span><span class="s2">"speed"</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot and save &quot;clean&quot; windbarb imagery.</span>
+<span class="w">        </span><span class="sd">"""Plot and save "clean" windbarb imagery.</span>
 
 <span class="sd">        No background imagery, coastlines, gridlines, titles, etc.</span>
 
@@ -1143,13 +1145,13 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        list of str</span>
 <span class="sd">            Full paths to all resulting output files.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.image_utils.mpl_utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
             <span class="n">create_figure_and_main_ax_and_mapobj</span><span class="p">,</span>
             <span class="n">save_image</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting clean_fname&quot;</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Starting clean_fname"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">main_ax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">mapobj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Create matplotlib figure and main axis, where the main image will be</span>
             <span class="c1"># plotted</span>
@@ -1176,7 +1178,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">success_outputs</span></div>
 
 <div class="viewcode-block" id="WindbarbOutputFormatterPlugin.assign_height_levels"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_formatters.WindbarbOutputFormatterPlugin.assign_height_levels">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">assign_height_levels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">windbarb_data_dict</span><span class="p">,</span> <span class="n">pressure_range_dict</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assing derived motion winds to specified height levels.</span>
+<span class="w">        </span><span class="sd">"""Assing derived motion winds to specified height levels.</span>
 
 <span class="sd">        Using the pressure associated with each retrieved wind observation, assign to</span>
 <span class="sd">        a specified level (e.g. Low/Mid/High) based on predefined pressure ranges. Each</span>
@@ -1188,30 +1190,30 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            Dictionary holding DMW data - must include a pressure key</span>
 <span class="sd">        pressure_range_dict : dict</span>
 <span class="sd">            Dictionary specifying pressure range for each defined level.</span>
-<span class="sd">            e.g. {&quot;Low&quot;: [701, 1013.25], &quot;Mid&quot;: [401, 700], &quot;High&quot;: [0, 400]}</span>
+<span class="sd">            e.g. {"Low": [701, 1013.25], "Mid": [401, 700], "High": [0, 400]}</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        tuple</span>
 <span class="sd">            Array of assigned level numbers, and list of associated labels that can be</span>
 <span class="sd">            used to set the ticks on a colorbar</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">pressure</span> <span class="o">=</span> <span class="n">windbarb_data_dict</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span>
+<span class="sd">        """</span>
+        <span class="n">pressure</span> <span class="o">=</span> <span class="n">windbarb_data_dict</span><span class="p">[</span><span class="s2">"pressure"</span><span class="p">]</span>
         <span class="n">n_valid</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">pressure</span><span class="p">)</span>
         <span class="n">height_num</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">pressure</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-        <span class="n">level_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Unassigned&quot;</span><span class="p">]</span>
+        <span class="n">level_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Unassigned"</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">pressure_range</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pressure_range_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
             <span class="n">max_pres</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">pressure_range</span><span class="p">)</span>
             <span class="n">min_pres</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">pressure_range</span><span class="p">)</span>
             <span class="n">pressure_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">pressure</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;=</span> <span class="n">min_pres</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pressure</span><span class="o">.</span><span class="n">data</span> <span class="o">&lt;=</span> <span class="n">max_pres</span><span class="p">)</span>
             <span class="n">height_num</span><span class="p">[</span><span class="n">pressure_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">level_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="se">\n</span><span class="s2">(</span><span class="si">{</span><span class="n">max_pres</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">min_pres</span><span class="si">}</span><span class="s2"> hPa)&quot;</span><span class="p">)</span>
+            <span class="n">level_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="se">\n</span><span class="s2">(</span><span class="si">{</span><span class="n">max_pres</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">min_pres</span><span class="si">}</span><span class="s2"> hPa)"</span><span class="p">)</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;Number of wind retrievals for </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">"Number of wind retrievals for </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                 <span class="n">level</span><span class="p">,</span>
                 <span class="n">numpy</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">pressure_mask</span><span class="p">),</span>
             <span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Assigned </span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2"> retrievals&quot;</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">height_num</span><span class="p">),</span> <span class="n">n_valid</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Assigned </span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2"> retrievals"</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">height_num</span><span class="p">),</span> <span class="n">n_valid</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">height_num</span><span class="p">,</span> <span class="n">level_labels</span></div>
 
 <div class="viewcode-block" id="WindbarbOutputFormatterPlugin.plot_barbs"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_formatters.WindbarbOutputFormatterPlugin.plot_barbs">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">plot_barbs</span><span class="p">(</span>
@@ -1220,51 +1222,51 @@ window.runMermaid = runMermaid;</script>
         <span class="n">mapobj</span><span class="p">,</span>
         <span class="n">mpl_colors_info</span><span class="p">,</span>
         <span class="n">formatted_data_dict</span><span class="p">,</span>
-        <span class="n">barb_color_variable</span><span class="o">=</span><span class="s2">&quot;speed&quot;</span><span class="p">,</span>
+        <span class="n">barb_color_variable</span><span class="o">=</span><span class="s2">"speed"</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot windbarbs on matplotlib figure.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Plot windbarbs on matplotlib figure."""</span>
         <span class="c1"># main_ax.extent = area_def.area_extent_ll</span>
         <span class="n">main_ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span><span class="n">mapobj</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">mapobj</span><span class="p">)</span>
         <span class="c1"># main_ax.extent = mapobj.bounds</span>
         <span class="c1"># NOTE this does not work if transform=mapobj.</span>
         <span class="c1"># Something about transforming to PlateCarree projection, then</span>
-        <span class="c1"># reprojecting to mapobj.  I don&#39;t fully understand it, but this</span>
+        <span class="c1"># reprojecting to mapobj.  I don't fully understand it, but this</span>
         <span class="c1"># works beautifully, and transform=mapobj puts all the vectors</span>
         <span class="c1"># in the center of the image.</span>
         <span class="n">main_ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
-            <span class="n">x</span><span class="o">=</span><span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">&quot;rain_inds&quot;</span><span class="p">]],</span>
-            <span class="n">y</span><span class="o">=</span><span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">&quot;rain_inds&quot;</span><span class="p">]],</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">"lon"</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">"rain_inds"</span><span class="p">]],</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">"lat"</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">"rain_inds"</span><span class="p">]],</span>
             <span class="n">transform</span><span class="o">=</span><span class="n">crs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
-            <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">,</span>
-            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
-            <span class="n">s</span><span class="o">=</span><span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">&quot;rain_size&quot;</span><span class="p">],</span>
+            <span class="n">marker</span><span class="o">=</span><span class="s2">"D"</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span>
+            <span class="n">s</span><span class="o">=</span><span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">"rain_size"</span><span class="p">],</span>
             <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">main_ax</span><span class="o">.</span><span class="n">barbs</span><span class="p">(</span>
-            <span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-            <span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-            <span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">&quot;u&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-            <span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">&quot;v&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">"lon"</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">"lat"</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">"u"</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">"v"</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
             <span class="n">formatted_data_dict</span><span class="p">[</span><span class="n">barb_color_variable</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
             <span class="n">transform</span><span class="o">=</span><span class="n">crs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
-            <span class="n">pivot</span><span class="o">=</span><span class="s2">&quot;tip&quot;</span><span class="p">,</span>
+            <span class="n">pivot</span><span class="o">=</span><span class="s2">"tip"</span><span class="p">,</span>
             <span class="n">rounding</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">cmap</span><span class="o">=</span><span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;cmap&quot;</span><span class="p">],</span>
-            <span class="n">flip_barb</span><span class="o">=</span><span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">&quot;flip_barb&quot;</span><span class="p">],</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">"cmap"</span><span class="p">],</span>
+            <span class="n">flip_barb</span><span class="o">=</span><span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">"flip_barb"</span><span class="p">],</span>
             <span class="c1"># barb_increments=dict(half=10, full=20, flag=50),</span>
-            <span class="n">sizes</span><span class="o">=</span><span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">&quot;sizes_dict&quot;</span><span class="p">],</span>
-            <span class="n">length</span><span class="o">=</span><span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">&quot;barb_length&quot;</span><span class="p">],</span>
-            <span class="n">linewidth</span><span class="o">=</span><span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">&quot;line_width&quot;</span><span class="p">],</span>
-            <span class="n">norm</span><span class="o">=</span><span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;norm&quot;</span><span class="p">],</span>
+            <span class="n">sizes</span><span class="o">=</span><span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">"sizes_dict"</span><span class="p">],</span>
+            <span class="n">length</span><span class="o">=</span><span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">"barb_length"</span><span class="p">],</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">"line_width"</span><span class="p">],</span>
+            <span class="n">norm</span><span class="o">=</span><span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">"norm"</span><span class="p">],</span>
             <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="WindbarbOutputFormatterPlugin.format_windbarb_data"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_formatters.WindbarbOutputFormatterPlugin.format_windbarb_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">format_windbarb_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xarray_obj</span><span class="p">,</span> <span class="n">product_name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Format windbarb data before plotting.&quot;&quot;&quot;</span>
-        <span class="c1"># lat=xarray_obj[&#39;latitude&#39;].to_masked_array()</span>
-        <span class="c1"># lon2=xarray_obj[&#39;longitude&#39;].to_masked_array()</span>
-        <span class="c1"># direction=xarray_obj[&#39;wind_dir_deg_met&#39;].to_masked_array()</span>
-        <span class="c1"># speed=xarray_obj[&#39;wind_speed_kts&#39;].to_masked_array()</span>
+<span class="w">        </span><span class="sd">"""Format windbarb data before plotting."""</span>
+        <span class="c1"># lat=xarray_obj['latitude'].to_masked_array()</span>
+        <span class="c1"># lon2=xarray_obj['longitude'].to_masked_array()</span>
+        <span class="c1"># direction=xarray_obj['wind_dir_deg_met'].to_masked_array()</span>
+        <span class="c1"># speed=xarray_obj['wind_speed_kts'].to_masked_array()</span>
 
         <span class="c1"># u=speed * numpy.sin((direction+180)*3.1415926/180.0)</span>
         <span class="c1"># v=speed * numpy.cos((direction+180)*3.1415926/180.0)</span>
@@ -1273,7 +1275,7 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># v=speed * numpy.cos(direction*3.1415926/180.0)</span>
 
         <span class="n">data_cols</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="s2">&quot;windbarb_data_columns&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;speed&quot;</span><span class="p">,</span> <span class="s2">&quot;direction&quot;</span><span class="p">,</span> <span class="s2">&quot;rain_flag&quot;</span><span class="p">]</span>
+            <span class="s2">"windbarb_data_columns"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"speed"</span><span class="p">,</span> <span class="s2">"direction"</span><span class="p">,</span> <span class="s2">"rain_flag"</span><span class="p">]</span>
         <span class="p">)</span>
 
         <span class="n">num_product_arrays</span> <span class="o">=</span> <span class="mi">1</span>
@@ -1297,13 +1299,13 @@ window.runMermaid = runMermaid;</script>
             <span class="n">speed</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
             <span class="n">direction</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
             <span class="n">rain_flag</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
-            <span class="k">if</span> <span class="s2">&quot;pressure&quot;</span> <span class="ow">in</span> <span class="n">data_cols</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"pressure"</span> <span class="ow">in</span> <span class="n">data_cols</span><span class="p">:</span>
                 <span class="n">pressure</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">speed</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="mi">0</span><span class="p">]</span>
             <span class="n">direction</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="mi">1</span><span class="p">]</span>
             <span class="n">rain_flag</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="mi">2</span><span class="p">]</span>
-            <span class="k">if</span> <span class="s2">&quot;pressure&quot;</span> <span class="ow">in</span> <span class="n">data_cols</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"pressure"</span> <span class="ow">in</span> <span class="n">data_cols</span><span class="p">:</span>
                 <span class="n">pressure</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="mi">3</span><span class="p">]</span>
         <span class="c1"># These should probably be specified in the product dictionary.</span>
         <span class="c1"># It will vary per-sensor / data type, these basically only currently work with</span>
@@ -1314,28 +1316,28 @@ window.runMermaid = runMermaid;</script>
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">products</span>
 
         <span class="n">source_prod_spec</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">xarray_obj</span><span class="o">.</span><span class="n">source_name</span><span class="p">,</span> <span class="n">product_name</span><span class="p">)</span>
-        <span class="n">prod_plugin</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;product_plugin&quot;</span><span class="p">,</span> <span class="n">source_prod_spec</span><span class="p">)</span>
+        <span class="n">prod_plugin</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"product_plugin"</span><span class="p">,</span> <span class="n">source_prod_spec</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">barb_args</span> <span class="o">=</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;windbarb_plotter&quot;</span><span class="p">][</span><span class="s2">&quot;plugin&quot;</span><span class="p">][</span><span class="s2">&quot;arguments&quot;</span><span class="p">]</span>
+            <span class="n">barb_args</span> <span class="o">=</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">][</span><span class="s2">"windbarb_plotter"</span><span class="p">][</span><span class="s2">"plugin"</span><span class="p">][</span><span class="s2">"arguments"</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="n">barb_args</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">if</span> <span class="n">barb_args</span><span class="p">:</span>
             <span class="c1"># Thinning the data points to better display the windbards</span>
-            <span class="n">thinning</span> <span class="o">=</span> <span class="n">barb_args</span><span class="p">[</span><span class="s2">&quot;thinning&quot;</span><span class="p">]</span>
-            <span class="n">barblength</span> <span class="o">=</span> <span class="n">barb_args</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">]</span>
-            <span class="n">linewidth</span> <span class="o">=</span> <span class="n">barb_args</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">]</span>
-            <span class="n">sizes_dict</span> <span class="o">=</span> <span class="n">barb_args</span><span class="p">[</span><span class="s2">&quot;sizes_dict&quot;</span><span class="p">]</span>
-            <span class="n">rain_size</span> <span class="o">=</span> <span class="n">barb_args</span><span class="p">[</span><span class="s2">&quot;rain_size&quot;</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="n">product_name</span> <span class="o">==</span> <span class="s2">&quot;windbarbs&quot;</span><span class="p">:</span>
+            <span class="n">thinning</span> <span class="o">=</span> <span class="n">barb_args</span><span class="p">[</span><span class="s2">"thinning"</span><span class="p">]</span>
+            <span class="n">barblength</span> <span class="o">=</span> <span class="n">barb_args</span><span class="p">[</span><span class="s2">"length"</span><span class="p">]</span>
+            <span class="n">linewidth</span> <span class="o">=</span> <span class="n">barb_args</span><span class="p">[</span><span class="s2">"width"</span><span class="p">]</span>
+            <span class="n">sizes_dict</span> <span class="o">=</span> <span class="n">barb_args</span><span class="p">[</span><span class="s2">"sizes_dict"</span><span class="p">]</span>
+            <span class="n">rain_size</span> <span class="o">=</span> <span class="n">barb_args</span><span class="p">[</span><span class="s2">"rain_size"</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">product_name</span> <span class="o">==</span> <span class="s2">"windbarbs"</span><span class="p">:</span>
             <span class="c1"># Thinning the data points to better display the windbards</span>
             <span class="n">thinning</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># skip data points</span>
             <span class="n">barblength</span> <span class="o">=</span> <span class="mf">5.0</span>
             <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">1.5</span>
             <span class="n">sizes_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
             <span class="n">rain_size</span> <span class="o">=</span> <span class="mi">10</span>
-        <span class="k">elif</span> <span class="n">product_name</span> <span class="o">==</span> <span class="s2">&quot;wind-ambiguities&quot;</span> <span class="ow">or</span> <span class="s2">&quot;wind-ambiguities&quot;</span> <span class="ow">in</span> <span class="n">product_name</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">product_name</span> <span class="o">==</span> <span class="s2">"wind-ambiguities"</span> <span class="ow">or</span> <span class="s2">"wind-ambiguities"</span> <span class="ow">in</span> <span class="n">product_name</span><span class="p">:</span>
             <span class="c1"># Thinning the data points to better display the windbards</span>
             <span class="n">thinning</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># skip data points</span>
             <span class="n">barblength</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># Length of individual barbs</span>
@@ -1348,10 +1350,10 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">emptybarb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown product </span><span class="si">{</span><span class="n">product_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown product </span><span class="si">{</span><span class="n">product_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-        <span class="n">lat</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>
-        <span class="n">lon2</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>
+        <span class="n">lat</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>
+        <span class="n">lon2</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>
         <span class="n">u</span> <span class="o">=</span> <span class="n">speed</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="n">direction</span> <span class="o">+</span> <span class="mi">180</span><span class="p">)</span> <span class="o">*</span> <span class="mf">3.1415926</span> <span class="o">/</span> <span class="mf">180.0</span><span class="p">)</span>
         <span class="n">v</span> <span class="o">=</span> <span class="n">speed</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">cos</span><span class="p">((</span><span class="n">direction</span> <span class="o">+</span> <span class="mi">180</span><span class="p">)</span> <span class="o">*</span> <span class="mf">3.1415926</span> <span class="o">/</span> <span class="mf">180.0</span><span class="p">)</span>
 
@@ -1367,7 +1369,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">v2</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">thin_slice</span><span class="p">)]</span>
         <span class="n">speed2</span> <span class="o">=</span> <span class="n">speed</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">thin_slice</span><span class="p">)]</span>
         <span class="n">rain_flag2</span> <span class="o">=</span> <span class="n">rain_flag</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">thin_slice</span><span class="p">)]</span>
-        <span class="k">if</span> <span class="s2">&quot;pressure&quot;</span> <span class="ow">in</span> <span class="n">data_cols</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">"pressure"</span> <span class="ow">in</span> <span class="n">data_cols</span><span class="p">:</span>
             <span class="n">pressure2</span> <span class="o">=</span> <span class="n">pressure</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">thin_slice</span><span class="p">)]</span>
 
         <span class="k">if</span> <span class="n">lat2</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -1379,36 +1381,36 @@ window.runMermaid = runMermaid;</script>
         <span class="n">good_inds</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">speed2</span><span class="p">)</span>
         <span class="n">return_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lon2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">speed2</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>
-            <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lon2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]</span>
+            <span class="n">return_dict</span><span class="p">[</span><span class="s2">"lon"</span><span class="p">]</span> <span class="o">=</span> <span class="n">lon2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lon2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">]</span>
+            <span class="n">return_dict</span><span class="p">[</span><span class="s2">"lon"</span><span class="p">]</span> <span class="o">=</span> <span class="n">lon2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lat2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">speed2</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>
-            <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lat2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]</span>
+            <span class="n">return_dict</span><span class="p">[</span><span class="s2">"lat"</span><span class="p">]</span> <span class="o">=</span> <span class="n">lat2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lat2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">]</span>
+            <span class="n">return_dict</span><span class="p">[</span><span class="s2">"lat"</span><span class="p">]</span> <span class="o">=</span> <span class="n">lat2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">flip_barb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">flip_barb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">flip_barb</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">speed2</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>
-                <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;flip_barb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">flip_barb</span><span class="p">[</span><span class="n">good_inds</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]</span>
+                <span class="n">return_dict</span><span class="p">[</span><span class="s2">"flip_barb"</span><span class="p">]</span> <span class="o">=</span> <span class="n">flip_barb</span><span class="p">[</span><span class="n">good_inds</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;flip_barb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">flip_barb</span><span class="p">[</span><span class="n">good_inds</span><span class="p">]</span>
+                <span class="n">return_dict</span><span class="p">[</span><span class="s2">"flip_barb"</span><span class="p">]</span> <span class="o">=</span> <span class="n">flip_barb</span><span class="p">[</span><span class="n">good_inds</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;flip_barb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">flip_barb</span>
-        <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;u&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">u2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">]</span>
-        <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;v&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">v2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">]</span>
-        <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;speed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">speed2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">]</span>
-        <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;rain_inds&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">rain_flag2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">])</span>
-        <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;barb_length&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">barblength</span>
-        <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;line_width&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">linewidth</span>
-        <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;sizes_dict&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sizes_dict</span>
-        <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;rain_size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rain_size</span>
-        <span class="k">if</span> <span class="s2">&quot;pressure&quot;</span> <span class="ow">in</span> <span class="n">data_cols</span><span class="p">:</span>
-            <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pressure2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">]</span>
+            <span class="n">return_dict</span><span class="p">[</span><span class="s2">"flip_barb"</span><span class="p">]</span> <span class="o">=</span> <span class="n">flip_barb</span>
+        <span class="n">return_dict</span><span class="p">[</span><span class="s2">"u"</span><span class="p">]</span> <span class="o">=</span> <span class="n">u2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">]</span>
+        <span class="n">return_dict</span><span class="p">[</span><span class="s2">"v"</span><span class="p">]</span> <span class="o">=</span> <span class="n">v2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">]</span>
+        <span class="n">return_dict</span><span class="p">[</span><span class="s2">"speed"</span><span class="p">]</span> <span class="o">=</span> <span class="n">speed2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">]</span>
+        <span class="n">return_dict</span><span class="p">[</span><span class="s2">"rain_inds"</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">rain_flag2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">])</span>
+        <span class="n">return_dict</span><span class="p">[</span><span class="s2">"barb_length"</span><span class="p">]</span> <span class="o">=</span> <span class="n">barblength</span>
+        <span class="n">return_dict</span><span class="p">[</span><span class="s2">"line_width"</span><span class="p">]</span> <span class="o">=</span> <span class="n">linewidth</span>
+        <span class="n">return_dict</span><span class="p">[</span><span class="s2">"sizes_dict"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sizes_dict</span>
+        <span class="n">return_dict</span><span class="p">[</span><span class="s2">"rain_size"</span><span class="p">]</span> <span class="o">=</span> <span class="n">rain_size</span>
+        <span class="k">if</span> <span class="s2">"pressure"</span> <span class="ow">in</span> <span class="n">data_cols</span><span class="p">:</span>
+            <span class="n">return_dict</span><span class="p">[</span><span class="s2">"pressure"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pressure2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">return_dict</span></div></div>
 
 
 <div class="viewcode-block" id="NetcdfOutputFormatterPlugin"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_formatters.NetcdfOutputFormatterPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">NetcdfOutputFormatterPlugin</span><span class="p">(</span><span class="n">BaseOutputFormatterPlugin</span><span class="p">,</span> <span class="n">abstract</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for netcdf-based output formatter plugins.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Base class for netcdf-based output formatter plugins."""</span>
 
 <div class="viewcode-block" id="NetcdfOutputFormatterPlugin.write_xarray_netcdf"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_formatters.NetcdfOutputFormatterPlugin.write_xarray_netcdf">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">write_xarray_netcdf</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1418,36 +1420,36 @@ window.runMermaid = runMermaid;</script>
         <span class="n">use_compression</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">compression_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write out xarray_obj to netcdf file named ncdf_fname.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Write out xarray_obj to netcdf file named ncdf_fname."""</span>
         <span class="n">make_dirs</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">ncdf_fname</span><span class="p">))</span>
 
         <span class="n">orig_attrs</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">orig_var_attrs</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="c1"># Specially handled attributes.</span>
-        <span class="n">area_def_str</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span>
+        <span class="n">area_def_str</span> <span class="o">=</span> <span class="s2">"none"</span>
         <span class="c1"># GEOIPS 1 COMPATIBILITY</span>
-        <span class="k">if</span> <span class="s2">&quot;area_def&quot;</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="s2">"area_def"</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="c1"># Must pop off the actual area_defintion - does not write to xarray properly</span>
-            <span class="n">area_def</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;area_def&quot;</span><span class="p">)</span>
+            <span class="n">area_def</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"area_def"</span><span class="p">)</span>
             <span class="n">area_def_str</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">area_def</span><span class="p">)</span>
-            <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;area_def_str&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def_str</span>
+            <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"area_def_str"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def_str</span>
         <span class="c1"># If actual area_definition object, write it out to xarray as str</span>
-        <span class="k">elif</span> <span class="s2">&quot;area_definition&quot;</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">elif</span> <span class="s2">"area_definition"</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="c1"># If area_definition_str was explicitly defined on the area_definition</span>
             <span class="c1"># object, use that</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">xarray_obj</span><span class="o">.</span><span class="n">area_definition</span><span class="p">,</span> <span class="s2">&quot;area_definition_str&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">xarray_obj</span><span class="o">.</span><span class="n">area_definition</span><span class="p">,</span> <span class="s2">"area_definition_str"</span><span class="p">):</span>
                 <span class="c1"># Must pop off the actual area_defintion - does not write to xarray</span>
                 <span class="c1"># properly</span>
                 <span class="n">area_def_str</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">area_definition</span><span class="o">.</span><span class="n">area_definition_str</span>
-                <span class="n">area_def</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;area_definition&quot;</span><span class="p">)</span>
-                <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;area_definition_str&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def_str</span>
+                <span class="n">area_def</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"area_definition"</span><span class="p">)</span>
+                <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"area_definition_str"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def_str</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># Must pop off the actual area_defintion - does not write to xarray</span>
                 <span class="c1"># properly</span>
-                <span class="n">area_def</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;area_definition&quot;</span><span class="p">)</span>
+                <span class="n">area_def</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"area_definition"</span><span class="p">)</span>
                 <span class="n">area_def_str</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">area_def</span><span class="p">)</span>
-                <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;area_definition_str&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def_str</span>
+                <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"area_definition_str"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def_str</span>
 
         <span class="c1"># Standard attribute cleaning for proper serialization for xarray.to_netcdf.</span>
         <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -1458,42 +1460,42 @@ window.runMermaid = runMermaid;</script>
                 <span class="bp">self</span><span class="o">.</span><span class="n">clean_attr_for_netcdf</span><span class="p">(</span><span class="n">xarray_obj</span><span class="p">[</span><span class="n">varname</span><span class="p">],</span> <span class="n">attr</span><span class="p">)</span>
 
         <span class="c1"># Strings to print to the log statement, not used in any other way.</span>
-        <span class="c1"># If an attribute is not defined, print &#39;none&#39;.</span>
-        <span class="n">roi_str</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span>
-        <span class="k">if</span> <span class="s2">&quot;interpolation_radius_of_influence&quot;</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="c1"># If an attribute is not defined, print 'none'.</span>
+        <span class="n">roi_str</span> <span class="o">=</span> <span class="s2">"none"</span>
+        <span class="k">if</span> <span class="s2">"interpolation_radius_of_influence"</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">roi_str</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">interpolation_radius_of_influence</span>
 
-        <span class="n">sdt_str</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span>
-        <span class="k">if</span> <span class="s2">&quot;start_datetime&quot;</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">sdt_str</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span>
+        <span class="n">sdt_str</span> <span class="o">=</span> <span class="s2">"none"</span>
+        <span class="k">if</span> <span class="s2">"start_datetime"</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">sdt_str</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span>
 
-        <span class="n">edt_str</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span>
-        <span class="k">if</span> <span class="s2">&quot;end_datetime&quot;</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">edt_str</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span>
+        <span class="n">edt_str</span> <span class="o">=</span> <span class="s2">"none"</span>
+        <span class="k">if</span> <span class="s2">"end_datetime"</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">edt_str</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span>
 
-        <span class="n">dp_str</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span>
-        <span class="k">if</span> <span class="s2">&quot;data_provider&quot;</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">dp_str</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span>
+        <span class="n">dp_str</span> <span class="o">=</span> <span class="s2">"none"</span>
+        <span class="k">if</span> <span class="s2">"data_provider"</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">dp_str</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"data_provider"</span><span class="p">]</span>
 
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;Writing xarray obj to file </span><span class="si">%s</span><span class="s2">, source </span><span class="si">%s</span><span class="s2">, platform </span><span class="si">%s</span><span class="s2">, start_dt </span><span class="si">%s</span><span class="s2">, &quot;</span><span class="p">,</span>
-            <span class="s2">&quot;end_dt </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">"Writing xarray obj to file </span><span class="si">%s</span><span class="s2">, source </span><span class="si">%s</span><span class="s2">, platform </span><span class="si">%s</span><span class="s2">, start_dt </span><span class="si">%s</span><span class="s2">, "</span><span class="p">,</span>
+            <span class="s2">"end_dt </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
             <span class="n">ncdf_fname</span><span class="p">,</span>
             <span class="n">xarray_obj</span><span class="o">.</span><span class="n">source_name</span><span class="p">,</span>
             <span class="n">xarray_obj</span><span class="o">.</span><span class="n">platform_name</span><span class="p">,</span>
             <span class="n">sdt_str</span><span class="p">,</span>
             <span class="n">edt_str</span><span class="p">,</span>
-            <span class="s2">&quot;provider&quot;</span><span class="p">,</span>
+            <span class="s2">"provider"</span><span class="p">,</span>
             <span class="n">dp_str</span><span class="p">,</span>
-            <span class="s2">&quot;roi&quot;</span><span class="p">,</span>
+            <span class="s2">"roi"</span><span class="p">,</span>
             <span class="n">roi_str</span><span class="p">,</span>
-            <span class="s2">&quot;area_def&quot;</span><span class="p">,</span>
+            <span class="s2">"area_def"</span><span class="p">,</span>
             <span class="n">area_def_str</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">use_compression</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">compression_kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">compression_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;zlib&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;complevel&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
+                <span class="n">compression_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"zlib"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"complevel"</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
             <span class="n">encoding</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">compression_kwargs</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">xarray_obj</span><span class="p">)}</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">encoding</span> <span class="o">=</span> <span class="p">{}</span>
@@ -1502,7 +1504,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">if</span> <span class="n">clobber</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">ncdf_fname</span><span class="p">):</span>
             <span class="n">xarray_obj</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="n">ncdf_fname</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;SKIPPING not outputing file </span><span class="si">%s</span><span class="s2">, exists&quot;</span><span class="p">,</span> <span class="n">ncdf_fname</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"SKIPPING not outputing file </span><span class="si">%s</span><span class="s2">, exists"</span><span class="p">,</span> <span class="n">ncdf_fname</span><span class="p">)</span>
 
         <span class="c1"># Put the original attributes back at both the dataset level and the variable</span>
         <span class="c1"># level. We do not want the serializable attributes on the original dataset.</span>
@@ -1513,10 +1515,10 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="p">[</span><span class="n">ncdf_fname</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="NetcdfOutputFormatterPlugin.clean_attr_for_netcdf"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_formatters.NetcdfOutputFormatterPlugin.clean_attr_for_netcdf">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">clean_attr_for_netcdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xobj</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check xarray attributes.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Check xarray attributes."""</span>
         <span class="c1"># datetime</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">],</span> <span class="n">datetime</span><span class="p">):</span>
-            <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%c</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"</span><span class="si">%c</span><span class="s2">"</span><span class="p">)</span>
         <span class="c1"># None cast as string.</span>
         <span class="k">elif</span> <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">])</span>
@@ -1538,7 +1540,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="s2">&quot;SKIPPING attr </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">, unsupported type </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">"SKIPPING attr </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">, unsupported type </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                 <span class="n">attr</span><span class="p">,</span>
                 <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">],</span>
                 <span class="nb">type</span><span class="p">(</span><span class="n">attr</span><span class="p">),</span>
@@ -1547,82 +1549,82 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="OutputFormattersInterface"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_formatters.OutputFormattersInterface">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">OutputFormattersInterface</span><span class="p">(</span><span class="n">BaseClassInterface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data format for the resulting output product (e.g. netCDF, png).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Data format for the resulting output product (e.g. netCDF, png)."""</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;output_formatters&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"output_formatters"</span>
     <span class="n">plugin_class</span> <span class="o">=</span> <span class="n">BaseOutputFormatterPlugin</span>
 
     <span class="n">required_args</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;xarray_obj&quot;</span><span class="p">,</span> <span class="s2">&quot;area_def&quot;</span><span class="p">,</span> <span class="s2">&quot;product_name&quot;</span><span class="p">,</span> <span class="s2">&quot;output_fnames&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;unprojected&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;xarray_obj&quot;</span><span class="p">,</span> <span class="s2">&quot;product_name&quot;</span><span class="p">,</span> <span class="s2">&quot;output_fnames&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;image_overlay&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;xarray_obj&quot;</span><span class="p">,</span> <span class="s2">&quot;area_def&quot;</span><span class="p">,</span> <span class="s2">&quot;product_name&quot;</span><span class="p">,</span> <span class="s2">&quot;output_fnames&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;image_multi&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;xarray_obj&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;area_def&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;product_names&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;output_fnames&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;mpl_colors_info&quot;</span><span class="p">,</span>
+        <span class="s2">"image"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"xarray_obj"</span><span class="p">,</span> <span class="s2">"area_def"</span><span class="p">,</span> <span class="s2">"product_name"</span><span class="p">,</span> <span class="s2">"output_fnames"</span><span class="p">],</span>
+        <span class="s2">"unprojected"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"xarray_obj"</span><span class="p">,</span> <span class="s2">"product_name"</span><span class="p">,</span> <span class="s2">"output_fnames"</span><span class="p">],</span>
+        <span class="s2">"image_overlay"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"xarray_obj"</span><span class="p">,</span> <span class="s2">"area_def"</span><span class="p">,</span> <span class="s2">"product_name"</span><span class="p">,</span> <span class="s2">"output_fnames"</span><span class="p">],</span>
+        <span class="s2">"image_multi"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">"xarray_obj"</span><span class="p">,</span>
+            <span class="s2">"area_def"</span><span class="p">,</span>
+            <span class="s2">"product_names"</span><span class="p">,</span>
+            <span class="s2">"output_fnames"</span><span class="p">,</span>
+            <span class="s2">"mpl_colors_info"</span><span class="p">,</span>
         <span class="p">],</span>
-        <span class="s2">&quot;xrdict_area_varlist_to_outlist&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;xarray_dict&quot;</span><span class="p">,</span> <span class="s2">&quot;area_def&quot;</span><span class="p">,</span> <span class="s2">&quot;varlist&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;xrdict_area_product_outfnames_to_outlist&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;xarray_dict&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;area_def&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;product_name&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;output_fnames&quot;</span><span class="p">,</span>
+        <span class="s2">"xrdict_area_varlist_to_outlist"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"xarray_dict"</span><span class="p">,</span> <span class="s2">"area_def"</span><span class="p">,</span> <span class="s2">"varlist"</span><span class="p">],</span>
+        <span class="s2">"xrdict_area_product_outfnames_to_outlist"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">"xarray_dict"</span><span class="p">,</span>
+            <span class="s2">"area_def"</span><span class="p">,</span>
+            <span class="s2">"product_name"</span><span class="p">,</span>
+            <span class="s2">"output_fnames"</span><span class="p">,</span>
         <span class="p">],</span>
-        <span class="s2">&quot;xrdict_area_product_to_outlist&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;xarray_dict&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;area_def&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;product_name&quot;</span><span class="p">,</span>
+        <span class="s2">"xrdict_area_product_to_outlist"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">"xarray_dict"</span><span class="p">,</span>
+            <span class="s2">"area_def"</span><span class="p">,</span>
+            <span class="s2">"product_name"</span><span class="p">,</span>
         <span class="p">],</span>
-        <span class="s2">&quot;xrdict_to_outlist&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;xarray_dict&quot;</span><span class="p">,</span>
+        <span class="s2">"xrdict_to_outlist"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">"xarray_dict"</span><span class="p">,</span>
         <span class="p">],</span>
-        <span class="s2">&quot;xrdict_varlist_outfnames_to_outlist&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;xarray_dict&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;varlist&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;output_fnames&quot;</span><span class="p">,</span>
+        <span class="s2">"xrdict_varlist_outfnames_to_outlist"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">"xarray_dict"</span><span class="p">,</span>
+            <span class="s2">"varlist"</span><span class="p">,</span>
+            <span class="s2">"output_fnames"</span><span class="p">,</span>
         <span class="p">],</span>
-        <span class="s2">&quot;xarray_data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;xarray_obj&quot;</span><span class="p">,</span> <span class="s2">&quot;product_names&quot;</span><span class="p">,</span> <span class="s2">&quot;output_fnames&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;standard_metadata&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;xarray_obj&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;area_def&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;metadata_yaml_filename&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;product_filename&quot;</span><span class="p">,</span>
+        <span class="s2">"xarray_data"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"xarray_obj"</span><span class="p">,</span> <span class="s2">"product_names"</span><span class="p">,</span> <span class="s2">"output_fnames"</span><span class="p">],</span>
+        <span class="s2">"standard_metadata"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">"xarray_obj"</span><span class="p">,</span>
+            <span class="s2">"area_def"</span><span class="p">,</span>
+            <span class="s2">"metadata_yaml_filename"</span><span class="p">,</span>
+            <span class="s2">"product_filename"</span><span class="p">,</span>
         <span class="p">],</span>
     <span class="p">}</span>
     <span class="n">required_kwargs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;product_name_title&quot;</span><span class="p">,</span> <span class="s2">&quot;mpl_colors_info&quot;</span><span class="p">,</span> <span class="s2">&quot;existing_image&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;unprojected&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;product_name_title&quot;</span><span class="p">,</span> <span class="s2">&quot;mpl_colors_info&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;image_overlay&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;product_name_title&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;clean_fname&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;mpl_colors_info&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;clean_fname&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;feature_annotator&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;gridline_annotator&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;clean_fname&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;product_datatype_title&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;clean_fname&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;bg_data&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;bg_mpl_colors_info&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;clean_fname&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;bg_xarray&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;bg_product_name_title&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;bg_datatype_title&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;clean_fname&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;remove_duplicate_minrange&quot;</span><span class="p">,</span>
+        <span class="s2">"image"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"product_name_title"</span><span class="p">,</span> <span class="s2">"mpl_colors_info"</span><span class="p">,</span> <span class="s2">"existing_image"</span><span class="p">],</span>
+        <span class="s2">"unprojected"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"product_name_title"</span><span class="p">,</span> <span class="s2">"mpl_colors_info"</span><span class="p">],</span>
+        <span class="s2">"image_overlay"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">"product_name_title"</span><span class="p">,</span>
+            <span class="s2">"clean_fname"</span><span class="p">,</span>
+            <span class="s2">"mpl_colors_info"</span><span class="p">,</span>
+            <span class="s2">"clean_fname"</span><span class="p">,</span>
+            <span class="s2">"feature_annotator"</span><span class="p">,</span>
+            <span class="s2">"gridline_annotator"</span><span class="p">,</span>
+            <span class="s2">"clean_fname"</span><span class="p">,</span>
+            <span class="s2">"product_datatype_title"</span><span class="p">,</span>
+            <span class="s2">"clean_fname"</span><span class="p">,</span>
+            <span class="s2">"bg_data"</span><span class="p">,</span>
+            <span class="s2">"bg_mpl_colors_info"</span><span class="p">,</span>
+            <span class="s2">"clean_fname"</span><span class="p">,</span>
+            <span class="s2">"bg_xarray"</span><span class="p">,</span>
+            <span class="s2">"bg_product_name_title"</span><span class="p">,</span>
+            <span class="s2">"bg_datatype_title"</span><span class="p">,</span>
+            <span class="s2">"clean_fname"</span><span class="p">,</span>
+            <span class="s2">"remove_duplicate_minrange"</span><span class="p">,</span>
         <span class="p">],</span>
-        <span class="s2">&quot;image_multi&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;product_name_titles&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;xarray_dict_data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;append&quot;</span><span class="p">,</span> <span class="s2">&quot;overwrite&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;xarray_dict_to_image&quot;</span><span class="p">:</span> <span class="p">[],</span>
-        <span class="s2">&quot;xarray_data&quot;</span><span class="p">:</span> <span class="p">[],</span>
-        <span class="s2">&quot;standard_metadata&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;metadata_dir&quot;</span><span class="p">,</span> <span class="s2">&quot;basedir&quot;</span><span class="p">,</span> <span class="s2">&quot;output_dict&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;xrdict_varlist_outfnames_to_outlist&quot;</span><span class="p">:</span> <span class="p">[],</span>
-        <span class="s2">&quot;xrdict_area_varlist_to_outlist&quot;</span><span class="p">:</span> <span class="p">[],</span>
-        <span class="s2">&quot;xrdict_area_product_outfnames_to_outlist&quot;</span><span class="p">:</span> <span class="p">[],</span>
-        <span class="s2">&quot;xrdict_area_product_to_outlist&quot;</span><span class="p">:</span> <span class="p">[],</span>
-        <span class="s2">&quot;xrdict_to_outlist&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">"image_multi"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"product_name_titles"</span><span class="p">],</span>
+        <span class="s2">"xarray_dict_data"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"append"</span><span class="p">,</span> <span class="s2">"overwrite"</span><span class="p">],</span>
+        <span class="s2">"xarray_dict_to_image"</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">"xarray_data"</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">"standard_metadata"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"metadata_dir"</span><span class="p">,</span> <span class="s2">"basedir"</span><span class="p">,</span> <span class="s2">"output_dict"</span><span class="p">],</span>
+        <span class="s2">"xrdict_varlist_outfnames_to_outlist"</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">"xrdict_area_varlist_to_outlist"</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">"xrdict_area_product_outfnames_to_outlist"</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">"xrdict_area_product_to_outlist"</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">"xrdict_to_outlist"</span><span class="p">:</span> <span class="p">[],</span>
     <span class="p">}</span></div>
 
 

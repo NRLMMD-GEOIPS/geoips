@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.utils.coverage_checkers &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.utils.coverage_checkers &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -825,11 +827,11 @@ window.runMermaid = runMermaid;</script>
                 <article class="bd-article">
                   
   <h1>Source code for geoips.utils.coverage_checkers</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Utility module for coverage_checker plugins.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Utility module for coverage_checker plugins."""</span>
 
 
 <div class="viewcode-block" id="create_radius"><a class="viewcode-back" href="../../../geoips_api/geoips.utils.coverage_checkers.html#geoips.utils.coverage_checkers.create_radius">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">create_radius</span><span class="p">(</span><span class="n">temp_arr</span><span class="p">,</span> <span class="n">radius_pixels</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">x_center</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y_center</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a radius around given x,y coordinates in the 2d array.</span>
+<span class="w">    </span><span class="sd">"""Create a radius around given x,y coordinates in the 2d array.</span>
 
 <span class="sd">    Given the radius and the x,y coordinates it creates a circle around those</span>
 <span class="sd">    points using the skimage.draw library</span>
@@ -850,7 +852,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    numpy.ndarray</span>
 <span class="sd">        2D array with circle created at the (x, y) coordinate with the given radius</span>
 <span class="sd">        All circles are marked as 1.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Buried as all __init__ are executed at runtime, hopefully will lower start time</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">skimage.draw</span><span class="w"> </span><span class="kn">import</span> <span class="n">disk</span>

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.geoips_utils &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.geoips_utils &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;General high level utilities for geoips processing.&quot;&quot;&quot;</span>
+<span class="sd">"""General high level utilities for geoips processing."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
@@ -861,22 +863,22 @@ window.runMermaid = runMermaid;</script>
     <span class="n">use_print</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">prefix</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print the command output from subprocess.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Print the command output from subprocess."""</span>
     <span class="k">if</span> <span class="n">stdout</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">stdout_newline_replace_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">use_print</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">stdout</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;; &quot;</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">stdout</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"; "</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">use_logging</span><span class="p">:</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">stdout</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;; &quot;</span><span class="p">))</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">stdout</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"; "</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">use_print</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="n">stdout</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">use_logging</span><span class="p">:</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">stdout</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">output_log_fname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_log_fname</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_log_fname</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">prefix</span><span class="p">:</span>
-                    <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">STDOUT:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\n</span><span class="s2">STDOUT:</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
                 <span class="n">fobj</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">stdout</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">stderr</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">use_print</span><span class="p">:</span>
@@ -884,9 +886,9 @@ window.runMermaid = runMermaid;</script>
         <span class="k">if</span> <span class="n">use_logging</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">stderr</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">output_log_fname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_log_fname</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_log_fname</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">prefix</span><span class="p">:</span>
-                    <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">STDERR:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">STDERR:</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
                 <span class="n">fobj</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">stderr</span><span class="p">)</span>
     <span class="k">return</span> <span class="mi">0</span></div>
 
@@ -900,23 +902,23 @@ window.runMermaid = runMermaid;</script>
     <span class="n">pipe</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">cwd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Call command using subprocess.run, and log to specified log file if requested.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Call command using subprocess.run, and log to specified log file if requested."""</span>
     <span class="k">if</span> <span class="n">output_log_fname</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">output_log_fname</span><span class="p">)):</span>
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">output_log_fname</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">use_logging</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    Calling: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">))</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    Calling: '</span><span class="si">%s</span><span class="s2">'"</span><span class="p">,</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">use_print</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    Calling: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"    Calling: '</span><span class="si">%s</span><span class="s2">'"</span><span class="p">,</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">output_log_fname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">use_logging</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    Log filename: </span><span class="si">{</span><span class="n">output_log_fname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"    Log filename: </span><span class="si">{</span><span class="n">output_log_fname</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">use_print</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    Log filename: </span><span class="si">{</span><span class="n">output_log_fname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"    Log filename: </span><span class="si">{</span><span class="n">output_log_fname</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">pipe</span><span class="p">:</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="n">ret</span><span class="o">.</span><span class="n">returncode</span>
-        <span class="n">stdout</span> <span class="o">=</span> <span class="n">log_friendly_subprocess_stdouterr</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="s2">&quot;stdout&quot;</span><span class="p">)</span>
-        <span class="n">stderr</span> <span class="o">=</span> <span class="n">log_friendly_subprocess_stdouterr</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="s2">&quot;stderr&quot;</span><span class="p">)</span>
+        <span class="n">stdout</span> <span class="o">=</span> <span class="n">log_friendly_subprocess_stdouterr</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="s2">"stdout"</span><span class="p">)</span>
+        <span class="n">stderr</span> <span class="o">=</span> <span class="n">log_friendly_subprocess_stdouterr</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="s2">"stderr"</span><span class="p">)</span>
         <span class="n">print_cmd_output</span><span class="p">(</span>
             <span class="n">stdout</span><span class="p">,</span>
             <span class="n">stderr</span><span class="p">,</span>
@@ -945,7 +947,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">use_print</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">cwd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Call command using Popen, and log to specified log file if requested.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Call command using Popen, and log to specified log file if requested."""</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
         <span class="n">cmd</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="n">cwd</span>
     <span class="p">)</span>
@@ -990,7 +992,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">stdout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">remaining_stdout</span><span class="p">)</span>
     <span class="n">stderr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">remaining_stderr</span><span class="p">)</span>
 
-    <span class="c1"># LOG.info(&quot;Printing remaining output&quot;)</span>
+    <span class="c1"># LOG.info("Printing remaining output")</span>
     <span class="n">print_cmd_output</span><span class="p">(</span>
         <span class="n">remaining_stdout</span><span class="p">,</span>
         <span class="n">remaining_stderr</span><span class="p">,</span>
@@ -1008,23 +1010,23 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="remove_empty_lines"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.remove_empty_lines">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">remove_empty_lines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">std_type</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove empty lines from stdout and stderr.&quot;&quot;&quot;</span>
-    <span class="n">clean_lines</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;&gt; </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lines</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">"""Remove empty lines from stdout and stderr."""</span>
+    <span class="n">clean_lines</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"&gt; </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lines</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="s2">""</span><span class="p">]</span>
 
     <span class="c1"># If std_type was passed in, pre-pend the output with std_type</span>
     <span class="k">if</span> <span class="n">std_type</span><span class="p">:</span>
-        <span class="n">ret_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">std_type</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">clean_lines</span><span class="p">)</span>
+        <span class="n">ret_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">std_type</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">clean_lines</span><span class="p">)</span>
     <span class="c1"># If there is no output, return empty string</span>
     <span class="k">elif</span> <span class="ow">not</span> <span class="n">clean_lines</span><span class="p">:</span>
-        <span class="n">ret_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">ret_str</span> <span class="o">=</span> <span class="s2">""</span>
     <span class="c1"># Otherwise, just print the output itself</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">ret_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">clean_lines</span><span class="p">)</span>
+        <span class="n">ret_str</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">clean_lines</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ret_str</span></div>
 
 
 <div class="viewcode-block" id="log_friendly_subprocess_stdouterr"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.log_friendly_subprocess_stdouterr">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">log_friendly_subprocess_stdouterr</span><span class="p">(</span><span class="n">subprocess_output</span><span class="p">,</span> <span class="n">std_type</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a log friendly string for either stdout or stderr.</span>
+<span class="w">    </span><span class="sd">"""Make a log friendly string for either stdout or stderr.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1037,122 +1039,122 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    str</span>
 <span class="sd">        Log friendly string of stdout/stderr</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">std_type</span> <span class="o">==</span> <span class="s2">&quot;stdout&quot;</span><span class="p">:</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">std_type</span> <span class="o">==</span> <span class="s2">"stdout"</span><span class="p">:</span>
         <span class="n">std</span> <span class="o">=</span> <span class="n">subprocess_output</span><span class="o">.</span><span class="n">stdout</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">std</span> <span class="o">=</span> <span class="n">subprocess_output</span><span class="o">.</span><span class="n">stderr</span>
-    <span class="n">decoded</span> <span class="o">=</span> <span class="n">std</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="n">decoded</span> <span class="o">=</span> <span class="n">std</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">remove_empty_lines</span><span class="p">(</span><span class="n">decoded</span><span class="p">,</span> <span class="n">std_type</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="get_interface_module"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.get_interface_module">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_interface_module</span><span class="p">(</span><span class="n">namespace</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve the interface module from a given namespace.</span>
+<span class="w">    </span><span class="sd">"""Retrieve the interface module from a given namespace.</span>
 
 <span class="sd">    Since this function uses the first portion of a namespace, I.e.</span>
 <span class="sd">    (geoips.plugin_packages --&gt; geoips), only interfaces implemented in that exact</span>
 <span class="sd">    package will be recognized in that namespace. This means that if developers or users</span>
-<span class="sd">    implement new interfaces in the &#39;geoips.plugin_packages&#39; namespace, they still won&#39;t</span>
+<span class="sd">    implement new interfaces in the 'geoips.plugin_packages' namespace, they still won't</span>
 <span class="sd">    be recognized or available for use in GeoIPS.</span>
 
 <span class="sd">    To get new interfaces to work, you must implement them in a separate namespace that</span>
 <span class="sd">    is named the same as the plugin package that implemented them. I.e.</span>
 <span class="sd">    (splunk.plugin_packages --&gt; splunk). Any other package that falls under that</span>
-<span class="sd">    namespace can make use of these interfaces, as well as GeoIPS&#39; interfaces.</span>
+<span class="sd">    namespace can make use of these interfaces, as well as GeoIPS' interfaces.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    namespace: str</span>
 <span class="sd">        - The namespace containg the requested interface module. I.e.</span>
-<span class="sd">          &#39;geoips.plugin_packages&#39;.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">package_name</span> <span class="o">=</span> <span class="n">namespace</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="sd">          'geoips.plugin_packages'.</span>
+<span class="sd">    """</span>
+    <span class="n">package_name</span> <span class="o">=</span> <span class="n">namespace</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">import_module</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span><span class="o">.</span><span class="n">interfaces</span></div>
 
 
 <div class="viewcode-block" id="remove_unsupported_kwargs"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.remove_unsupported_kwargs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">remove_unsupported_kwargs</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">requested_kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove unsupported keyword arguments.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Remove unsupported keyword arguments."""</span>
     <span class="n">module_args</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">module</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="n">unsupported</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">requested_kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">module_args</span><span class="p">))</span>
-    <span class="k">if</span> <span class="s2">&quot;kwargs&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">module_args</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">"kwargs"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">module_args</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">unsupported</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;REMOVING UNSUPPORTED </span><span class="si">%s</span><span class="s2"> key </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"REMOVING UNSUPPORTED </span><span class="si">%s</span><span class="s2"> key </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
             <span class="n">requested_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">requested_kwargs</span></div>
 
 
 <div class="viewcode-block" id="find_ascii_palette"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.find_ascii_palette">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">find_ascii_palette</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find ASCII palette named &quot;name&quot;.</span>
+<span class="w">    </span><span class="sd">"""Find ASCII palette named "name".</span>
 
 <span class="sd">    Search the plugins/txt/ascii_palettes directory for ASCII palettes to use</span>
 <span class="sd">    as colormaps.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">all_plugins</span> <span class="o">=</span> <span class="n">find_all_txt_plugins</span><span class="p">(</span><span class="s2">&quot;txt/ascii_palettes&quot;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">all_plugins</span> <span class="o">=</span> <span class="n">find_all_txt_plugins</span><span class="p">(</span><span class="s2">"txt/ascii_palettes"</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">all_plugins</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">plugin</span><span class="p">))[</span><span class="mi">0</span><span class="p">]:</span>
             <span class="k">return</span> <span class="n">plugin</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Non-existent txt plugin: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Non-existent txt plugin: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="find_all_txt_plugins"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.find_all_txt_plugins">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">find_all_txt_plugins</span><span class="p">(</span><span class="n">subdir</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find all txt plugins in registered plugin packages.</span>
+<div class="viewcode-block" id="find_all_txt_plugins"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.find_all_txt_plugins">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">find_all_txt_plugins</span><span class="p">(</span><span class="n">subdir</span><span class="o">=</span><span class="s2">""</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Find all txt plugins in registered plugin packages.</span>
 
 <span class="sd">    Search the ``plugins`` directory of each registered plugin package for files ending</span>
 <span class="sd">    in ``.txt``. Return list of files</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Load all entry points for plugin packages</span>
-    <span class="n">plugin_packages</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">)</span>
+    <span class="n">plugin_packages</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">"geoips.plugin_packages"</span><span class="p">)</span>
 
     <span class="c1"># Loop over the plugin packages and load all of their yaml plugins</span>
     <span class="n">txt_files</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">pkg</span> <span class="ow">in</span> <span class="n">plugin_packages</span><span class="p">:</span>
-        <span class="n">pkg_plugin_path</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;plugins&quot;</span> <span class="o">/</span> <span class="n">subdir</span>
-        <span class="n">txt_files</span> <span class="o">+=</span> <span class="n">pkg_plugin_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.txt&quot;</span><span class="p">)</span>
+        <span class="n">pkg_plugin_path</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">"plugins"</span> <span class="o">/</span> <span class="n">subdir</span>
+        <span class="n">txt_files</span> <span class="o">+=</span> <span class="n">pkg_plugin_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">"*.txt"</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">txt_files</span></div>
 
 
 <div class="viewcode-block" id="load_all_yaml_plugins"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.load_all_yaml_plugins">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">load_all_yaml_plugins</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find all YAML plugins in registered plugin packages.</span>
+<span class="w">    </span><span class="sd">"""Find all YAML plugins in registered plugin packages.</span>
 
 <span class="sd">    Search the ``plugins`` directory of each registered plugin package for files ending</span>
 <span class="sd">    in ``.yaml``. Read each plugin file</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Load all entry points for plugin packages</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 
-    <span class="n">plugin_packages</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">)</span>
+    <span class="n">plugin_packages</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">"geoips.plugin_packages"</span><span class="p">)</span>
     <span class="n">yaml_plugins</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">pkg</span> <span class="ow">in</span> <span class="n">plugin_packages</span><span class="p">:</span>
-        <span class="n">pkg_plug_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins&quot;</span><span class="p">)</span>
+        <span class="n">pkg_plug_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">"registered_plugins"</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">pkg_plug_path</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">PluginRegistryError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Plugin registry </span><span class="si">{</span><span class="n">pkg_plug_path</span><span class="si">}</span><span class="s2"> did not exist, &quot;</span>
-                <span class="s2">&quot;please run &#39;create_plugin_registries&#39;&quot;</span>
+                <span class="sa">f</span><span class="s2">"Plugin registry </span><span class="si">{</span><span class="n">pkg_plug_path</span><span class="si">}</span><span class="s2"> did not exist, "</span>
+                <span class="s2">"please run 'create_plugin_registries'"</span>
             <span class="p">)</span>
         <span class="c1"># This will include all plugins, including schemas, yaml_based,</span>
         <span class="c1"># and module_based plugins.</span>
-        <span class="n">registered_plugins</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">pkg_plug_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">))</span>
-        <span class="c1"># Only pull the &quot;yaml_based&quot; plugins here.</span>
+        <span class="n">registered_plugins</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">pkg_plug_path</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">))</span>
+        <span class="c1"># Only pull the "yaml_based" plugins here.</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">registered_plugins</span><span class="p">[</span><span class="s2">&quot;yaml_based&quot;</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">registered_plugins</span><span class="p">[</span><span class="s2">"yaml_based"</span><span class="p">]:</span>
                 <span class="k">if</span> <span class="n">interface</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">yaml_plugins</span><span class="p">:</span>
-                    <span class="n">yaml_plugins</span><span class="p">[</span><span class="n">interface</span><span class="p">]</span> <span class="o">=</span> <span class="n">registered_plugins</span><span class="p">[</span><span class="s2">&quot;yaml_based&quot;</span><span class="p">][</span>
+                    <span class="n">yaml_plugins</span><span class="p">[</span><span class="n">interface</span><span class="p">]</span> <span class="o">=</span> <span class="n">registered_plugins</span><span class="p">[</span><span class="s2">"yaml_based"</span><span class="p">][</span>
                         <span class="n">interface</span>
                     <span class="p">]</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">merge_nested_dicts</span><span class="p">(</span>
                         <span class="n">yaml_plugins</span><span class="p">[</span><span class="n">interface</span><span class="p">],</span>
-                        <span class="n">registered_plugins</span><span class="p">[</span><span class="s2">&quot;yaml_based&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">],</span>
+                        <span class="n">registered_plugins</span><span class="p">[</span><span class="s2">"yaml_based"</span><span class="p">][</span><span class="n">interface</span><span class="p">],</span>
                     <span class="p">)</span>
         <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PluginRegistryError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed reading </span><span class="si">{</span><span class="n">pkg_plug_path</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">PluginRegistryError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed reading </span><span class="si">{</span><span class="n">pkg_plug_path</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">yaml_plugins</span></div>
 
 
 <div class="viewcode-block" id="copy_standard_metadata"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.copy_standard_metadata">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">copy_standard_metadata</span><span class="p">(</span><span class="n">orig_xarray</span><span class="p">,</span> <span class="n">dest_xarray</span><span class="p">,</span> <span class="n">extra_attrs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Copy standard metadata from orig_xarray to dest_xarray.</span>
+<span class="w">    </span><span class="sd">"""Copy standard metadata from orig_xarray to dest_xarray.</span>
 
 <span class="sd">    The values automatically copied within this method should match the required</span>
 <span class="sd">    and optional metadata specified in the GeoIPS xarray_standards documentation.</span>
@@ -1172,24 +1174,24 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    xarray.Dataset</span>
 <span class="sd">        dest_xarray with standard metadata copied in place from orig_xarray.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">attrs</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;source_name&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;platform_name&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;data_provider&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;start_datetime&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;end_datetime&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;data_attribution&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;source_file_names&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;source_file_attributes&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;source_file_datetimes&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;area_definition&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;registered_dataset&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;minimum_coverage&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;sample_distance_km&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;longitude_of_projection_origin&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;granule_minutes&quot;</span><span class="p">,</span>
+        <span class="s2">"source_name"</span><span class="p">,</span>
+        <span class="s2">"platform_name"</span><span class="p">,</span>
+        <span class="s2">"data_provider"</span><span class="p">,</span>
+        <span class="s2">"start_datetime"</span><span class="p">,</span>
+        <span class="s2">"end_datetime"</span><span class="p">,</span>
+        <span class="s2">"interpolation_radius_of_influence"</span><span class="p">,</span>
+        <span class="s2">"data_attribution"</span><span class="p">,</span>
+        <span class="s2">"source_file_names"</span><span class="p">,</span>
+        <span class="s2">"source_file_attributes"</span><span class="p">,</span>
+        <span class="s2">"source_file_datetimes"</span><span class="p">,</span>
+        <span class="s2">"area_definition"</span><span class="p">,</span>
+        <span class="s2">"registered_dataset"</span><span class="p">,</span>
+        <span class="s2">"minimum_coverage"</span><span class="p">,</span>
+        <span class="s2">"sample_distance_km"</span><span class="p">,</span>
+        <span class="s2">"longitude_of_projection_origin"</span><span class="p">,</span>
+        <span class="s2">"granule_minutes"</span><span class="p">,</span>
     <span class="p">]</span>
     <span class="k">if</span> <span class="n">extra_attrs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">attrs</span> <span class="o">+=</span> <span class="n">extra_attrs</span>
@@ -1206,62 +1208,62 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="deprecation"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.deprecation">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">deprecation</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print a deprecation warning during runtime.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Print a deprecation warning during runtime."""</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;DeprecationWarning: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"DeprecationWarning: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="output_process_times"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.output_process_times">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">output_process_times</span><span class="p">(</span><span class="n">process_datetimes</span><span class="p">,</span> <span class="n">num_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">job_str</span><span class="o">=</span><span class="s2">&quot;GeoIPS 2&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate and print the process times from the process_datetimes dictionary.</span>
+<div class="viewcode-block" id="output_process_times"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.output_process_times">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">output_process_times</span><span class="p">(</span><span class="n">process_datetimes</span><span class="p">,</span> <span class="n">num_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">job_str</span><span class="o">=</span><span class="s2">"GeoIPS 2"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Calculate and print the process times from the process_datetimes dictionary.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    process_datetimes : dict</span>
 <span class="sd">        dictionary formatted as follows:</span>
 
-<span class="sd">        * ``process_datetimes[&#39;overall_start&#39;]`` - overall start datetime of</span>
+<span class="sd">        * ``process_datetimes['overall_start']`` - overall start datetime of</span>
 <span class="sd">          the entire script</span>
-<span class="sd">        * ``process_datetimes[&#39;overall_end&#39;]`` - overall end datetime of the</span>
+<span class="sd">        * ``process_datetimes['overall_end']`` - overall end datetime of the</span>
 <span class="sd">          entire script</span>
-<span class="sd">        * ``process_datetimes[process_name][&#39;start&#39;]`` - start time of an</span>
+<span class="sd">        * ``process_datetimes[process_name]['start']`` - start time of an</span>
 <span class="sd">          individual process</span>
-<span class="sd">        * ``process_datetimes[process_name][&#39;end&#39;]`` - end time of an</span>
+<span class="sd">        * ``process_datetimes[process_name]['end']`` - end time of an</span>
 <span class="sd">          individual process</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="s2">&quot;overall_end&quot;</span> <span class="ow">in</span> <span class="n">process_datetimes</span> <span class="ow">and</span> <span class="s2">&quot;overall_start&quot;</span> <span class="ow">in</span> <span class="n">process_datetimes</span><span class="p">:</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="s2">"overall_end"</span> <span class="ow">in</span> <span class="n">process_datetimes</span> <span class="ow">and</span> <span class="s2">"overall_start"</span> <span class="ow">in</span> <span class="n">process_datetimes</span><span class="p">:</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;Total Time </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2"> Num jobs: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="n">process_datetimes</span><span class="p">[</span><span class="s2">&quot;overall_end&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">process_datetimes</span><span class="p">[</span><span class="s2">&quot;overall_start&quot;</span><span class="p">],</span>
+            <span class="s2">"Total Time </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2"> Num jobs: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+            <span class="n">process_datetimes</span><span class="p">[</span><span class="s2">"overall_end"</span><span class="p">]</span> <span class="o">-</span> <span class="n">process_datetimes</span><span class="p">[</span><span class="s2">"overall_start"</span><span class="p">],</span>
             <span class="n">num_jobs</span><span class="p">,</span>
             <span class="n">job_str</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">for</span> <span class="n">process_name</span> <span class="ow">in</span> <span class="n">process_datetimes</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">process_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;overall_start&quot;</span><span class="p">,</span> <span class="s2">&quot;overall_end&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">process_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"overall_start"</span><span class="p">,</span> <span class="s2">"overall_end"</span><span class="p">]:</span>
             <span class="k">continue</span>
-        <span class="k">if</span> <span class="s2">&quot;end&quot;</span> <span class="ow">in</span> <span class="n">process_datetimes</span><span class="p">[</span><span class="n">process_name</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="s2">"end"</span> <span class="ow">in</span> <span class="n">process_datetimes</span><span class="p">[</span><span class="n">process_name</span><span class="p">]:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;    SUCCESS Process Time </span><span class="si">%s</span><span class="s2">: </span><span class="si">%-20s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">"    SUCCESS Process Time </span><span class="si">%s</span><span class="s2">: </span><span class="si">%-20s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                 <span class="n">job_str</span><span class="p">,</span>
                 <span class="n">process_name</span><span class="p">,</span>
-                <span class="n">process_datetimes</span><span class="p">[</span><span class="n">process_name</span><span class="p">][</span><span class="s2">&quot;end&quot;</span><span class="p">]</span>
-                <span class="o">-</span> <span class="n">process_datetimes</span><span class="p">[</span><span class="n">process_name</span><span class="p">][</span><span class="s2">&quot;start&quot;</span><span class="p">],</span>
+                <span class="n">process_datetimes</span><span class="p">[</span><span class="n">process_name</span><span class="p">][</span><span class="s2">"end"</span><span class="p">]</span>
+                <span class="o">-</span> <span class="n">process_datetimes</span><span class="p">[</span><span class="n">process_name</span><span class="p">][</span><span class="s2">"start"</span><span class="p">],</span>
             <span class="p">)</span>
-        <span class="k">elif</span> <span class="s2">&quot;fail&quot;</span> <span class="ow">in</span> <span class="n">process_datetimes</span><span class="p">[</span><span class="n">process_name</span><span class="p">]:</span>
+        <span class="k">elif</span> <span class="s2">"fail"</span> <span class="ow">in</span> <span class="n">process_datetimes</span><span class="p">[</span><span class="n">process_name</span><span class="p">]:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;    FAILED  Process Time </span><span class="si">%s</span><span class="s2">: </span><span class="si">%-20s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">"    FAILED  Process Time </span><span class="si">%s</span><span class="s2">: </span><span class="si">%-20s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                 <span class="n">job_str</span><span class="p">,</span>
                 <span class="n">process_name</span><span class="p">,</span>
-                <span class="n">process_datetimes</span><span class="p">[</span><span class="n">process_name</span><span class="p">][</span><span class="s2">&quot;fail&quot;</span><span class="p">]</span>
-                <span class="o">-</span> <span class="n">process_datetimes</span><span class="p">[</span><span class="n">process_name</span><span class="p">][</span><span class="s2">&quot;start&quot;</span><span class="p">],</span>
+                <span class="n">process_datetimes</span><span class="p">[</span><span class="n">process_name</span><span class="p">][</span><span class="s2">"fail"</span><span class="p">]</span>
+                <span class="o">-</span> <span class="n">process_datetimes</span><span class="p">[</span><span class="n">process_name</span><span class="p">][</span><span class="s2">"start"</span><span class="p">],</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    MISSING Process Time </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">job_str</span><span class="p">,</span> <span class="n">process_name</span><span class="p">)</span></div>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    MISSING Process Time </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">job_str</span><span class="p">,</span> <span class="n">process_name</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="order_paths_from_least_to_most_specific"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.order_paths_from_least_to_most_specific">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">order_paths_from_least_to_most_specific</span><span class="p">(</span><span class="n">paths</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Orders a list of filesystem paths from least to most specific.</span>
 
 <span class="sd">    This function takes a list of filesystem paths and returns a new list of paths</span>
@@ -1281,20 +1283,20 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; paths = [</span>
-<span class="sd">    ...     &#39;/home/user/docs/&#39;,</span>
-<span class="sd">    ...     &#39;/home/user/images/&#39;,</span>
-<span class="sd">    ...     &#39;/home/user/&#39;,</span>
-<span class="sd">    ...     &#39;/home/user/images/photo.jpg&#39;</span>
-<span class="sd">    ...     &#39;/home/user/docs/report.txt&#39;,</span>
+<span class="sd">    ...     '/home/user/docs/',</span>
+<span class="sd">    ...     '/home/user/images/',</span>
+<span class="sd">    ...     '/home/user/',</span>
+<span class="sd">    ...     '/home/user/images/photo.jpg'</span>
+<span class="sd">    ...     '/home/user/docs/report.txt',</span>
 <span class="sd">    ... ]</span>
 <span class="sd">    &gt;&gt;&gt; order_paths_from_least_to_most_specific(paths)</span>
-<span class="sd">    [PosixPath(&#39;/home/user/&#39;),</span>
-<span class="sd">     PosixPath(&#39;/home/user/docs/&#39;),</span>
-<span class="sd">     PosixPath(&#39;/home/user/images/&#39;),</span>
-<span class="sd">     PosixPath(&#39;/home/user/docs/report.txt&#39;),</span>
-<span class="sd">     PosixPath(&#39;/home/user/images/photo.jpg&#39;)]</span>
+<span class="sd">    [PosixPath('/home/user/'),</span>
+<span class="sd">     PosixPath('/home/user/docs/'),</span>
+<span class="sd">     PosixPath('/home/user/images/'),</span>
+<span class="sd">     PosixPath('/home/user/docs/report.txt'),</span>
+<span class="sd">     PosixPath('/home/user/images/photo.jpg')]</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">paths</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
     <span class="n">ordered_paths</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1312,7 +1314,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="replace_geoips_paths_in_list"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.replace_geoips_paths_in_list">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">replace_geoips_paths_in_list</span><span class="p">(</span><span class="n">replace_list</span><span class="p">,</span> <span class="n">curly_braces</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Replace GeoIPS paths with geoips settings in elements of a list.</span>
 
 <span class="sd">    This function iterates over each element in the provided `replace_list`,</span>
@@ -1336,14 +1338,14 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; replace_geoips_paths_in_list([&#39;/home/geoips/data/project&#39;,</span>
-<span class="sd">    ... &#39;no_replacement_here&#39;])</span>
-<span class="sd">    [&#39;$GEOIPS_DATA_DIR/project&#39;, &#39;no_replacement_here&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; replace_geoips_paths_in_list(['/home/geoips/data/project',</span>
+<span class="sd">    ... 'no_replacement_here'])</span>
+<span class="sd">    ['$GEOIPS_DATA_DIR/project', 'no_replacement_here']</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    replace_geoips_paths : Function used to replace GeoIPS paths in individual elements.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">new_list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="c1"># Go through each element in the list</span>
     <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">replace_list</span><span class="p">:</span>
@@ -1362,11 +1364,11 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="replace_geoips_paths_in_dict"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.replace_geoips_paths_in_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">replace_geoips_paths_in_dict</span><span class="p">(</span><span class="n">replace_dict</span><span class="p">,</span> <span class="n">curly_braces</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Replace geoips paths in every path-based element within a dictionary.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Replace geoips paths in every path-based element within a dictionary."""</span>
     <span class="n">dump_dict</span> <span class="o">=</span> <span class="n">replace_dict</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">replace_dict</span><span class="p">:</span>
-        <span class="c1"># If this is a string, and it contains &quot;/&quot;, replace the geoips paths.</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">replace_dict</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;/&quot;</span> <span class="ow">in</span> <span class="n">replace_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
+        <span class="c1"># If this is a string, and it contains "/", replace the geoips paths.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">replace_dict</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">"/"</span> <span class="ow">in</span> <span class="n">replace_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
             <span class="n">dump_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">replace_geoips_paths</span><span class="p">(</span><span class="n">replace_dict</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
         <span class="c1"># If this is a list, go through each element and replace geoips paths if</span>
         <span class="c1"># applicable.</span>
@@ -1381,7 +1383,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">path</span><span class="p">,</span>
     <span class="n">curly_braces</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Replace specified sub-paths in path with related environment variable names.</span>
+<span class="w">    </span><span class="sd">"""Replace specified sub-paths in path with related environment variable names.</span>
 
 <span class="sd">    This function replaces paths in the provided path with their corresponding</span>
 <span class="sd">    environment variable names. This is useful for generating output paths</span>
@@ -1389,9 +1391,9 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">    For example, it can replace:</span>
 
-<span class="sd">    - ``&#39;/home/user/geoproc/geoips_packages&#39;`` with ``&#39;$GEOIPS_PACKAGES_DIR&#39;``</span>
-<span class="sd">    - ``&#39;/home/user/geoproc/geoips_outdirs&#39;`` with ``&#39;$GEOIPS_OUTDIRS&#39;``</span>
-<span class="sd">    - ``&#39;/home/user/geoproc&#39;`` with ``&#39;$GEOIPS_BASEDIR&#39;``</span>
+<span class="sd">    - ``'/home/user/geoproc/geoips_packages'`` with ``'$GEOIPS_PACKAGES_DIR'``</span>
+<span class="sd">    - ``'/home/user/geoproc/geoips_outdirs'`` with ``'$GEOIPS_OUTDIRS'``</span>
+<span class="sd">    - ``'/home/user/geoproc'`` with ``'$GEOIPS_BASEDIR'``</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1399,8 +1401,8 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        The path in which to replace base paths.</span>
 <span class="sd">    curly_braces : bool, default=False</span>
 <span class="sd">        If `True`, includes curly braces in the environment variables</span>
-<span class="sd">        (e.g., ``&#39;${GEOIPS_BASEDIR}&#39;``),</span>
-<span class="sd">        otherwise excludes them (e.g., ``&#39;$GEOIPS_BASEDIR&#39;``).</span>
+<span class="sd">        (e.g., ``'${GEOIPS_BASEDIR}'``),</span>
+<span class="sd">        otherwise excludes them (e.g., ``'$GEOIPS_BASEDIR'``).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1415,10 +1417,10 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; path = &#39;/home/user/geoproc/geoips_packages/module/file.py&#39;</span>
+<span class="sd">    &gt;&gt;&gt; path = '/home/user/geoproc/geoips_packages/module/file.py'</span>
 <span class="sd">    &gt;&gt;&gt; replace_geoips_paths(path)</span>
-<span class="sd">    &#39;$GEOIPS_PACKAGES_DIR/module/file.py&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    '$GEOIPS_PACKAGES_DIR/module/file.py'</span>
+<span class="sd">    """</span>
     <span class="c1"># Allow multiple sets of base_path replacements</span>
 
     <span class="c1"># These are the environment variables that are specified in base_paths.py.</span>
@@ -1432,16 +1434,16 @@ window.runMermaid = runMermaid;</script>
     <span class="c1"># GEOIPS_REPLACE_OUTPUT_PATHS</span>
     <span class="c1"># Append $ to each env var</span>
     <span class="n">replace_paths</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">gpath</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">gpath</span> <span class="ow">in</span> <span class="n">geoips_paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_REPLACE_OUTPUT_PATHS&quot;</span><span class="p">]</span>
+        <span class="sa">f</span><span class="s2">"$</span><span class="si">{</span><span class="n">gpath</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">gpath</span> <span class="ow">in</span> <span class="n">geoips_paths</span><span class="p">[</span><span class="s2">"GEOIPS_REPLACE_OUTPUT_PATHS"</span><span class="p">]</span>
     <span class="p">]</span>
     <span class="c1"># Now replace non-output-path based environment vars.</span>
     <span class="c1"># This must match the ordering in the list in tests/utils/check_output_file_list.sh</span>
     <span class="n">replace_paths</span> <span class="o">+=</span> <span class="p">[</span>
-        <span class="s2">&quot;$GEOIPS_OUTDIRS&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;$GEOIPS_PACKAGES_DIR&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;$GEOIPS_TESTDATA_DIR&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;$GEOIPS_DEPENDENCIES_DIR&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;$GEOIPS_BASEDIR&quot;</span><span class="p">,</span>
+        <span class="s2">"$GEOIPS_OUTDIRS"</span><span class="p">,</span>
+        <span class="s2">"$GEOIPS_PACKAGES_DIR"</span><span class="p">,</span>
+        <span class="s2">"$GEOIPS_TESTDATA_DIR"</span><span class="p">,</span>
+        <span class="s2">"$GEOIPS_DEPENDENCIES_DIR"</span><span class="p">,</span>
+        <span class="s2">"$GEOIPS_BASEDIR"</span><span class="p">,</span>
     <span class="p">]</span>
 
     <span class="n">paths_to_be_replaced</span> <span class="o">=</span> <span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">p</span><span class="p">))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">replace_paths</span><span class="p">]</span>
@@ -1457,32 +1459,32 @@ window.runMermaid = runMermaid;</script>
     <span class="c1"># Replace full paths with environment variables</span>
     <span class="k">for</span> <span class="n">env_var</span><span class="p">,</span> <span class="n">replace_path</span> <span class="ow">in</span> <span class="n">ordered_path_envvar_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">replace_path</span> <span class="ow">in</span> <span class="n">path</span><span class="o">.</span><span class="n">parents</span><span class="p">:</span>
-            <span class="n">env_var</span> <span class="o">=</span> <span class="n">env_var</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;$&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">env_var</span> <span class="o">=</span> <span class="n">env_var</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"$"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
             <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">replace_path</span><span class="p">),</span>
-                <span class="sa">f</span><span class="s2">&quot;$</span><span class="se">{{</span><span class="si">{</span><span class="n">env_var</span><span class="si">}</span><span class="se">}}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">curly_braces</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">env_var</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">"$</span><span class="se">{{</span><span class="si">{</span><span class="n">env_var</span><span class="si">}</span><span class="se">}}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">curly_braces</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"$</span><span class="si">{</span><span class="n">env_var</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
             <span class="p">)</span>
     <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="get_required_geoips_xarray_attrs"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.get_required_geoips_xarray_attrs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_required_geoips_xarray_attrs</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface deprecated v2.0.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Interface deprecated v2.0."""</span>
     <span class="n">required_xarray_attrs</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;source_name&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;platform_name&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;data_provider&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;start_datetime&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;end_datetime&quot;</span><span class="p">,</span>
+        <span class="s2">"source_name"</span><span class="p">,</span>
+        <span class="s2">"platform_name"</span><span class="p">,</span>
+        <span class="s2">"data_provider"</span><span class="p">,</span>
+        <span class="s2">"start_datetime"</span><span class="p">,</span>
+        <span class="s2">"end_datetime"</span><span class="p">,</span>
     <span class="p">]</span>
     <span class="k">return</span> <span class="n">required_xarray_attrs</span></div>
 
 
 <div class="viewcode-block" id="merge_nested_dicts"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.merge_nested_dicts">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">merge_nested_dicts</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">in_place</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform an in-place merge of src into dest.</span>
+<span class="w">    </span><span class="sd">"""Perform an in-place merge of src into dest.</span>
 
 <span class="sd">    Performs an in-place merge of src into dest while preserving any values that already</span>
 <span class="sd">    exist in dest.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">in_place</span><span class="p">:</span>
         <span class="n">final_dest</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">dest</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -1523,15 +1525,15 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="expose_geoips_commands"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.expose_geoips_commands">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">expose_geoips_commands</span><span class="p">(</span><span class="n">pkg_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">_test_log</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">column_width</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Expose a list of commands that operate in the GeoIPS environment.</span>
+<span class="w">    </span><span class="sd">"""Expose a list of commands that operate in the GeoIPS environment.</span>
 
-<span class="sd">    Where, these commands are defined under &#39;pyproject.toml:[tool.poetry.scripts]&#39;,</span>
-<span class="sd">    or &#39;pyproject.toml:[project.entry-points.console_scripts]&#39;</span>
+<span class="sd">    Where, these commands are defined under 'pyproject.toml:[tool.poetry.scripts]',</span>
+<span class="sd">    or 'pyproject.toml:[project.entry-points.console_scripts]'</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    pkg_name: str (default = None)</span>
-<span class="sd">        - The name of the GeoIPS Plugin Package whose command&#39;s will be exposed.</span>
+<span class="sd">        - The name of the GeoIPS Plugin Package whose command's will be exposed.</span>
 <span class="sd">        - If None, assume this was called via the commandline and retrieve package_name</span>
 <span class="sd">          via that manner. Otherwise use the supplied package_name.</span>
 <span class="sd">    _test_log: logging.Logger (default = None)</span>
@@ -1540,18 +1542,18 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    column_width: int (default = None)</span>
 <span class="sd">        - If provided, use explicit column width for table.  By default, use</span>
 <span class="sd">          get_terminal_size().columns // 2</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">pkg_name</span><span class="p">,</span> <span class="n">log</span> <span class="o">=</span> <span class="n">_get_pkg_name_and_logger</span><span class="p">(</span><span class="n">pkg_name</span><span class="p">,</span> <span class="n">_test_log</span><span class="p">)</span>
     <span class="c1"># Get a list of console_script entrypoints specific to the provided package</span>
     <span class="n">eps</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
         <span class="nb">filter</span><span class="p">(</span>
             <span class="k">lambda</span> <span class="n">ep</span><span class="p">:</span> <span class="n">pkg_name</span> <span class="ow">in</span> <span class="n">ep</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-            <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">()</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;console_scripts&quot;</span><span class="p">),</span>
+            <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">()</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">"console_scripts"</span><span class="p">),</span>
         <span class="p">)</span>
     <span class="p">)</span>
-    <span class="n">log</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Available </span><span class="si">{</span><span class="n">pkg_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2"> Commands&quot;</span><span class="p">))</span>
-    <span class="n">log</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Available </span><span class="si">{</span><span class="n">pkg_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2"> Commands&quot;</span><span class="p">)</span>
-    <span class="n">log</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Available </span><span class="si">{</span><span class="n">pkg_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2"> Commands&quot;</span><span class="p">))</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">"-"</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Available </span><span class="si">{</span><span class="n">pkg_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2"> Commands"</span><span class="p">))</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Available </span><span class="si">{</span><span class="n">pkg_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2"> Commands"</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">"-"</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Available </span><span class="si">{</span><span class="n">pkg_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2"> Commands"</span><span class="p">))</span>
     <span class="c1"># Default to terminal size divided by 2</span>
     <span class="n">maxcolwidths</span> <span class="o">=</span> <span class="n">get_terminal_size</span><span class="p">()</span><span class="o">.</span><span class="n">columns</span> <span class="o">//</span> <span class="mi">2</span>
     <span class="c1"># If specified, use passed in column_width (used for testing to ensure console</span>
@@ -1564,35 +1566,35 @@ window.runMermaid = runMermaid;</script>
         <span class="n">log</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
             <span class="n">tabulate</span><span class="p">(</span>
                 <span class="n">table_data</span><span class="p">,</span>
-                <span class="n">headers</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Command Name&quot;</span><span class="p">,</span> <span class="s2">&quot;Command Path&quot;</span><span class="p">],</span>
-                <span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;rounded_grid&quot;</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="p">[</span><span class="s2">"Command Name"</span><span class="p">,</span> <span class="s2">"Command Path"</span><span class="p">],</span>
+                <span class="n">tablefmt</span><span class="o">=</span><span class="s2">"rounded_grid"</span><span class="p">,</span>
                 <span class="n">maxcolwidths</span><span class="o">=</span><span class="n">maxcolwidths</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
         <span class="c1"># Otherwise let the user know that there were not commands found for this</span>
         <span class="c1"># package.</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No &#39;</span><span class="si">{</span><span class="n">pkg_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2">&#39; Commands were found.&quot;</span><span class="p">)</span></div>
+        <span class="n">log</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No '</span><span class="si">{</span><span class="n">pkg_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2">' Commands were found."</span><span class="p">)</span></div>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_pkg_name_and_logger</span><span class="p">(</span><span class="n">pkg_name</span><span class="p">,</span> <span class="n">provided_log</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the corresponding package name and logger for exposing package commands.</span>
+<span class="w">    </span><span class="sd">"""Return the corresponding package name and logger for exposing package commands.</span>
 
 <span class="sd">    If pkg_name is None, retrieve pkg_name from the commandline arguments</span>
-<span class="sd">    (either -p &lt;package_name&gt; or default &#39;geoips&#39;). If log is None, set log to the LOG</span>
+<span class="sd">    (either -p &lt;package_name&gt; or default 'geoips'). If log is None, set log to the LOG</span>
 <span class="sd">    attribute found in this module.</span>
 
-<span class="sd">    If either variable isn&#39;t None, use what&#39;s provided instead. This is used for</span>
+<span class="sd">    If either variable isn't None, use what's provided instead. This is used for</span>
 <span class="sd">    unit testing primarily.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    pkg_name: str</span>
-<span class="sd">        - The name of the GeoIPS Plugin Package whose command&#39;s will be exposed.</span>
+<span class="sd">        - The name of the GeoIPS Plugin Package whose command's will be exposed.</span>
 <span class="sd">        - If None, assume this was called via the commandline and retrieve package_name</span>
 <span class="sd">          via that manner. Otherwise use the supplied package_name.</span>
-<span class="sd">        - If supplied, pkg_name must be one of pip installed &#39;geoips.plugin_packages&#39;.</span>
-<span class="sd">          ie. &#39;recenter_tc&#39;, &#39;geoips_clavrx&#39;, &#39;data_fusion&#39;, &lt;your_custom_pkg&gt;, ...</span>
+<span class="sd">        - If supplied, pkg_name must be one of pip installed 'geoips.plugin_packages'.</span>
+<span class="sd">          ie. 'recenter_tc', 'geoips_clavrx', 'data_fusion', &lt;your_custom_pkg&gt;, ...</span>
 <span class="sd">    provided_log: logging.Logger</span>
 <span class="sd">        - If None, retrieve the LOG attribute from this module, otherwise use the</span>
 <span class="sd">          provided logger so we can check the output of this function for unit tests.</span>
@@ -1602,9 +1604,9 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    pkg_name, log: str, logging.Logger</span>
 <span class="sd">        - The name of the package to retrieve commands from and the logger used to</span>
 <span class="sd">          output it.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">plugin_packages</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="nb">str</span><span class="p">(</span><span class="n">ep</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">)</span>
+        <span class="nb">str</span><span class="p">(</span><span class="n">ep</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">"geoips.plugin_packages"</span><span class="p">)</span>
     <span class="p">]</span>
     <span class="k">if</span> <span class="n">provided_log</span><span class="p">:</span>
         <span class="n">log</span> <span class="o">=</span> <span class="n">provided_log</span>
@@ -1612,14 +1614,14 @@ window.runMermaid = runMermaid;</script>
         <span class="n">log</span> <span class="o">=</span> <span class="n">LOG</span>
     <span class="k">if</span> <span class="n">pkg_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># This function was called via the command line or None was passed.</span>
-        <span class="n">argparser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="s2">&quot;expose command&quot;</span><span class="p">)</span>
+        <span class="n">argparser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="s2">"expose command"</span><span class="p">)</span>
         <span class="n">argparser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;--package_name&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
+            <span class="s2">"--package_name"</span><span class="p">,</span>
+            <span class="s2">"-p"</span><span class="p">,</span>
             <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
-            <span class="n">default</span><span class="o">=</span><span class="s2">&quot;geoips&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="s2">"geoips"</span><span class="p">,</span>
             <span class="n">choices</span><span class="o">=</span><span class="n">plugin_packages</span><span class="p">,</span>
-            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;GeoIPS Plugin package to expose.&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">"GeoIPS Plugin package to expose."</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">ARGS</span> <span class="o">=</span> <span class="n">argparser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
         <span class="n">pkg_name</span> <span class="o">=</span> <span class="n">ARGS</span><span class="o">.</span><span class="n">package_name</span>
@@ -1627,60 +1629,60 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># This function was called via python</span>
         <span class="k">if</span> <span class="n">pkg_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plugin_packages</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">PluginPackageNotFoundError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;No such package named &#39;</span><span class="si">{</span><span class="n">pkg_name</span><span class="si">}</span><span class="s2">&#39; found. Make sure that package is &quot;</span>
-                <span class="s2">&quot;installed with a package manager such as pip.&quot;</span>
+                <span class="sa">f</span><span class="s2">"No such package named '</span><span class="si">{</span><span class="n">pkg_name</span><span class="si">}</span><span class="s2">' found. Make sure that package is "</span>
+                <span class="s2">"installed with a package manager such as pip."</span>
             <span class="p">)</span>
     <span class="k">return</span> <span class="n">pkg_name</span><span class="p">,</span> <span class="n">log</span>
 
 
 <div class="viewcode-block" id="is_editable"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.is_editable">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_editable</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return whether or not &#39;package_name&#39; has been installed in editable mode.</span>
+<span class="w">    </span><span class="sd">"""Return whether or not 'package_name' has been installed in editable mode.</span>
 
-<span class="sd">    Where editable mode is a local package installed via &#39;pip install -e &lt;path_to_pkg&gt;</span>
-<span class="sd">    and non-editable mode is a local package installed via &#39;pip install &lt;pact_to_pkg&gt;.</span>
+<span class="sd">    Where editable mode is a local package installed via 'pip install -e &lt;path_to_pkg&gt;</span>
+<span class="sd">    and non-editable mode is a local package installed via 'pip install &lt;pact_to_pkg&gt;.</span>
 
-<span class="sd">    If the package under package_name doesn&#39;t exist, raise a ValueError reporting that.</span>
+<span class="sd">    If the package under package_name doesn't exist, raise a ValueError reporting that.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    package_name: str</span>
-<span class="sd">        - The name of the pip installed local package. (ie. &quot;geoips&quot;, &quot;recenter_tc&quot;, ..)</span>
+<span class="sd">        - The name of the pip installed local package. (ie. "geoips", "recenter_tc", ..)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    editable: bool</span>
 <span class="sd">        - The truth value as to whether or not the package was installed in editable</span>
 <span class="sd">          mode.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">plugin_package_names</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">ep</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">)</span>
+        <span class="n">ep</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">"geoips.plugin_packages"</span><span class="p">)</span>
     <span class="p">]</span>
     <span class="k">if</span> <span class="n">package_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plugin_package_names</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Package &#39;</span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">&#39; is not an installed package. Please install it &quot;</span>
-            <span class="s2">&quot;before running this command; ie via &#39;pip install &lt;path_to_package_name&gt;&#39; &quot;</span>
-            <span class="s2">&quot;optionally with the &#39;-e&#39; flag. You can also use another package manager.&quot;</span>
+            <span class="sa">f</span><span class="s2">"Package '</span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">' is not an installed package. Please install it "</span>
+            <span class="s2">"before running this command; ie via 'pip install &lt;path_to_package_name&gt;' "</span>
+            <span class="s2">"optionally with the '-e' flag. You can also use another package manager."</span>
         <span class="p">)</span>
-    <span class="n">dist_info</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">distribution</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="s2">&quot;direct_url.json&quot;</span><span class="p">)</span>
+    <span class="n">dist_info</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">distribution</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="s2">"direct_url.json"</span><span class="p">)</span>
     <span class="c1"># If dist_info is None, package was not installed from source and it was installed</span>
     <span class="c1"># from a pre-built wheel. Therefore it is not in editable mode.</span>
     <span class="k">if</span> <span class="n">dist_info</span><span class="p">:</span>
         <span class="c1"># If dist_info is not None, that means we retrieved metadata about the installed</span>
-        <span class="c1"># package. Check to see if it&#39;s in editable mode or not.</span>
+        <span class="c1"># package. Check to see if it's in editable mode or not.</span>
         <span class="n">json_dist</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">dist_info</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span>
-            <span class="s2">&quot;dir_info&quot;</span> <span class="ow">in</span> <span class="n">json_dist</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-            <span class="ow">and</span> <span class="s2">&quot;editable&quot;</span> <span class="ow">in</span> <span class="n">json_dist</span><span class="p">[</span><span class="s2">&quot;dir_info&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-            <span class="ow">and</span> <span class="n">json_dist</span><span class="p">[</span><span class="s2">&quot;dir_info&quot;</span><span class="p">][</span><span class="s2">&quot;editable&quot;</span><span class="p">]</span>
+            <span class="s2">"dir_info"</span> <span class="ow">in</span> <span class="n">json_dist</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="ow">and</span> <span class="s2">"editable"</span> <span class="ow">in</span> <span class="n">json_dist</span><span class="p">[</span><span class="s2">"dir_info"</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="ow">and</span> <span class="n">json_dist</span><span class="p">[</span><span class="s2">"dir_info"</span><span class="p">][</span><span class="s2">"editable"</span><span class="p">]</span>
         <span class="p">):</span>
-            <span class="c1"># If the &#39;editable&#39; key exists and is True</span>
+            <span class="c1"># If the 'editable' key exists and is True</span>
             <span class="k">return</span> <span class="kc">True</span>
     <span class="c1"># Package is installed in non-editable mode</span>
     <span class="k">return</span> <span class="kc">False</span></div>
 
 
 <div class="viewcode-block" id="get_numpy_seeded_random_generator"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.get_numpy_seeded_random_generator">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_numpy_seeded_random_generator</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Get a NumPy random generator seeded with a fixed value.</span>
 
 <span class="sd">    Returns</span>
@@ -1690,11 +1692,11 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    This function returns a seeded random generator using NumPy&#39;s `default_rng`</span>
+<span class="sd">    This function returns a seeded random generator using NumPy's `default_rng`</span>
 <span class="sd">    function with a fixed seed of 42. Using a fixed seed ensures that the</span>
 <span class="sd">    random numbers generated by this generator will be reproducible across different</span>
 <span class="sd">    runs. 42 was chosen because it is the answer to the universe and all things;</span>
-<span class="sd">    that is to say: it&#39;s selection is inconsequential and any other number</span>
+<span class="sd">    that is to say: it's selection is inconsequential and any other number</span>
 <span class="sd">    could have been chosen.</span>
 
 <span class="sd">    Examples</span>
@@ -1703,7 +1705,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    &gt;&gt;&gt; predictable_random.integers(0, 10, size=5)</span>
 <span class="sd">    array([6, 3, 7, 4, 6])  # Example output, will be the same every time</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span></div>
 </pre></div>
 

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>🖍️ Coding Standards Reference Doc &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>🖍️ Coding Standards Reference Doc &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="Contributor Covenant Code of Conduct" href="code-of-conduct.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,8 +127,8 @@
       
     
     
-    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -602,7 +602,7 @@ names or the function name</strong>”</p>
 <summary class="sd-summary-title sd-card-header">
 <span class="sd-summary-text">Example</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Calculator</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A simple calculator class for performing basic arithmetic operations.</span>
+<span class="w">    </span><span class="sd">"""A simple calculator class for performing basic arithmetic operations.</span>
 
 <span class="sd">    This class provides methods to add, subtract, multiply, and divide</span>
 <span class="sd">    two numeric values. It also includes a `safe_divide` method to handle</span>
@@ -635,7 +635,7 @@ names or the function name</strong>”</p>
 <span class="sd">    ----------------</span>
 <span class="sd">    output_format : str, optional</span>
 <span class="sd">        Format for the output of arithmetic operations. It must be one of</span>
-<span class="sd">        `{&#39;decimal&#39;, &#39;fraction&#39;}`. Default is &#39;decimal&#39;.</span>
+<span class="sd">        `{'decimal', 'fraction'}`. Default is 'decimal'.</span>
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
@@ -675,7 +675,7 @@ names or the function name</strong>”</p>
 <span class="sd">    &gt;&gt;&gt; calc.safe_divide(10, 0)</span>
 <span class="sd">    inf</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 </pre></div>
 </div>
 </div>
@@ -699,7 +699,7 @@ names or the function name</strong>”</p>
 <summary class="sd-summary-title sd-card-header">
 <span class="sd-summary-text">Example</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">matrix_multiply</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;Multiply two matrices.</span>
+<span class="w">  </span><span class="sd">"""Multiply two matrices.</span>
 
 <span class="sd">  Computes the matrix product of two arrays `a` and `b`. If an output array</span>
 <span class="sd">  is provided, the result is stored in `out`. This function follows the</span>
@@ -752,7 +752,7 @@ names or the function name</strong>”</p>
 
 <span class="sd">  References</span>
 <span class="sd">  ----------</span>
-<span class="sd">  .. [1] Strang, G., &quot;Introduction to Linear Algebra, 5th Edition,&quot; Wellesley-Cambridge Press, 2016.</span>
+<span class="sd">  .. [1] Strang, G., "Introduction to Linear Algebra, 5th Edition," Wellesley-Cambridge Press, 2016.</span>
 
 <span class="sd">  Examples</span>
 <span class="sd">  --------</span>
@@ -775,7 +775,7 @@ names or the function name</strong>”</p>
 <span class="sd">  array([[19., 22.],</span>
 <span class="sd">        [43., 50.]])</span>
 
-<span class="sd">  &quot;&quot;&quot;</span>
+<span class="sd">  """</span>
   <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
   <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -809,7 +809,7 @@ names or the function name</strong>”</p>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
 <summary class="sd-summary-title sd-card-header">
 <span class="sd-summary-text">Example</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;A simple mathematics module for common operations.</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">"""A simple mathematics module for common operations.</span>
 
 <span class="sd">This module provides basic mathematical operations such as addition, subtraction,</span>
 <span class="sd">multiplication, and division. It is designed to serve as a utility for quick calculations</span>
@@ -864,7 +864,7 @@ names or the function name</strong>”</p>
 <span class="sd">12</span>
 <span class="sd">&gt;&gt;&gt; divide(9, 3)</span>
 <span class="sd">3.0</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 </pre></div>
 </div>
 </div>

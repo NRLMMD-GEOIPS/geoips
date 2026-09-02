@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>geoips package &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips package &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="API" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,8 +127,8 @@
       
     
     
-    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -2005,18 +2005,18 @@ ordered from the least specific (higher-level directories) to the most specific
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">paths</span> <span class="o">=</span> <span class="p">[</span>
-<span class="gp">... </span>    <span class="s1">&#39;/home/user/docs/&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="s1">&#39;/home/user/images/&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="s1">&#39;/home/user/&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="s1">&#39;/home/user/images/photo.jpg&#39;</span>
-<span class="gp">... </span>    <span class="s1">&#39;/home/user/docs/report.txt&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">'/home/user/docs/'</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">'/home/user/images/'</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">'/home/user/'</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">'/home/user/images/photo.jpg'</span>
+<span class="gp">... </span>    <span class="s1">'/home/user/docs/report.txt'</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">order_paths_from_least_to_most_specific</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
-<span class="go">[PosixPath(&#39;/home/user/&#39;),</span>
-<span class="go"> PosixPath(&#39;/home/user/docs/&#39;),</span>
-<span class="go"> PosixPath(&#39;/home/user/images/&#39;),</span>
-<span class="go"> PosixPath(&#39;/home/user/docs/report.txt&#39;),</span>
-<span class="go"> PosixPath(&#39;/home/user/images/photo.jpg&#39;)]</span>
+<span class="go">[PosixPath('/home/user/'),</span>
+<span class="go"> PosixPath('/home/user/docs/'),</span>
+<span class="go"> PosixPath('/home/user/images/'),</span>
+<span class="go"> PosixPath('/home/user/docs/report.txt'),</span>
+<span class="go"> PosixPath('/home/user/images/photo.jpg')]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -2095,9 +2095,9 @@ otherwise excludes them (e.g., <code class="docutils literal notranslate"><span 
 (from most specific to least specific) and replaces the first matching base
 path in the given <cite>path</cite> with the corresponding environment variable name.</p>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/home/user/geoproc/geoips_packages/module/file.py&#39;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="s1">'/home/user/geoproc/geoips_packages/module/file.py'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">replace_geoips_paths</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-<span class="go">&#39;$GEOIPS_PACKAGES_DIR/module/file.py&#39;</span>
+<span class="go">'$GEOIPS_PACKAGES_DIR/module/file.py'</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -2133,9 +2133,9 @@ Elements that could not be processed are included unchanged.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">replace_geoips_paths_in_list</span><span class="p">([</span><span class="s1">&#39;/home/geoips/data/project&#39;</span><span class="p">,</span>
-<span class="gp">... </span><span class="s1">&#39;no_replacement_here&#39;</span><span class="p">])</span>
-<span class="go">[&#39;$GEOIPS_DATA_DIR/project&#39;, &#39;no_replacement_here&#39;]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">replace_geoips_paths_in_list</span><span class="p">([</span><span class="s1">'/home/geoips/data/project'</span><span class="p">,</span>
+<span class="gp">... </span><span class="s1">'no_replacement_here'</span><span class="p">])</span>
+<span class="go">['$GEOIPS_DATA_DIR/project', 'no_replacement_here']</span>
 </pre></div>
 </div>
 <div class="admonition seealso">
@@ -2300,7 +2300,7 @@ all steps with <code class="docutils literal notranslate"><span class="pre">attr
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">geoips.scripting</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_output_products</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">output_products</span> <span class="o">=</span> <span class="n">get_output_products</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">output_products</span>
-<span class="go">[&quot;/path/to/output.png&quot;]</span>
+<span class="go">["/path/to/output.png"]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -2337,13 +2337,13 @@ on individual steps.</p></li>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">geoips.scripting</span><span class="w"> </span><span class="kn">import</span> <span class="n">RetentionPolicy</span><span class="p">,</span> <span class="n">initialize_script_tree</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">initialize_script_tree</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;abi_infrared_test&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">"abi_infrared_test"</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">retention_policy</span><span class="o">=</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="n">metadata_only</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">reader_plugin</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">data</span><span class="o">=</span><span class="n">tree</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">filenames</span><span class="o">=</span><span class="n">fnames</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">step_id</span><span class="o">=</span><span class="s2">&quot;read_data&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">step_id</span><span class="o">=</span><span class="s2">"read_data"</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>

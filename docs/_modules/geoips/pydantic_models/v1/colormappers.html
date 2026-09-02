@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.pydantic_models.v1.colormappers &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.pydantic_models.v1.colormappers &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -831,7 +833,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Pydantic models used to validate GeoIPS OBP v1 colormapper plugins.&quot;&quot;&quot;</span>
+<span class="sd">"""Pydantic models used to validate GeoIPS OBP v1 colormapper plugins."""</span>
 
 <span class="c1"># Python Standard Libraries</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
@@ -845,78 +847,78 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="ColormapperArgumentsModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.colormappers.ColormapperArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ColormapperArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Colormapper step argument definition.</span>
+<span class="w">    </span><span class="sd">"""Colormapper step argument definition.</span>
 
 <span class="sd">    Pydantic model defining and validating Colormapper step arguments.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">cbar_full_width</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;&quot;Extend the colorbar across the full width of the image&quot;&#39;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">'"Extend the colorbar across the full width of the image"'</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">cbar_label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="n">PLUGIN_PROVIDED</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;Positional parameter passed to cbar.set_label&quot;</span>
-            <span class="s2">&quot; If specified, use cbar_label string as colorbar label.&quot;</span>
+            <span class="s2">"Positional parameter passed to cbar.set_label"</span>
+            <span class="s2">" If specified, use cbar_label string as colorbar label."</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">cbar_spacing</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;proportional&quot;</span><span class="p">,</span>
+        <span class="s2">"proportional"</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s1">&#39;&quot;spacing&quot; argument to pass to fig.colorbar;&#39;</span>
-            <span class="s1">&#39; can also specify directly within &quot;colorbar_kwargs&quot;&#39;</span>
+            <span class="s1">'"spacing" argument to pass to fig.colorbar;'</span>
+            <span class="s1">' can also specify directly within "colorbar_kwargs"'</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">cbar_ticks</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;Positional parameter passed to cbar.set_ticks&quot;</span>
-            <span class="s2">&quot; Specify explicit list of ticks to include for colorbar.&quot;</span>
-            <span class="s2">&quot;None indicates ticks at int(min) and int(max) values&quot;</span>
+            <span class="s2">"Positional parameter passed to cbar.set_ticks"</span>
+            <span class="s2">" Specify explicit list of ticks to include for colorbar."</span>
+            <span class="s2">"None indicates ticks at int(min) and int(max) values"</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">cbar_tick_labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;&#39;labels&#39; argument to pass to cbar.set_ticks.&quot;</span>
-            <span class="s2">&quot; can also specify directly within &#39;set_ticks_kwarg&#39;&quot;</span>
+            <span class="s2">"'labels' argument to pass to cbar.set_ticks."</span>
+            <span class="s2">" can also specify directly within 'set_ticks_kwarg'"</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">cmap_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="n">PLUGIN_PROVIDED</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;Specify the name of the resulting matplotlib colormap. If no ascii_path&quot;</span>
-            <span class="s2">&quot; specified, will use builtin matplotlib colormap of name cmap_name.&quot;</span>
+            <span class="s2">"Specify the name of the resulting matplotlib colormap. If no ascii_path"</span>
+            <span class="s2">" specified, will use builtin matplotlib colormap of name cmap_name."</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">cmap_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
     <span class="n">cmap_source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">PLUGIN_PROVIDED</span><span class="p">)</span>
 
     <span class="n">colorbar_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;keyword arguments to pass through directly to &#39;fig.colorbar&#39;&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"keyword arguments to pass through directly to 'fig.colorbar'"</span>
     <span class="p">)</span>
     <span class="n">create_colorbar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Specify whether the image should contain a colorbar or not.&quot;</span>
+        <span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Specify whether the image should contain a colorbar or not."</span>
     <span class="p">)</span>
     <span class="n">data_range</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="n">PLUGIN_PROVIDED</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;Min and max value for colormap&quot;</span>
-            <span class="s2">&quot;matplotlib.colors.Normalize(vmin=min_val, vmax=max_val)&quot;</span>
+            <span class="s2">"Min and max value for colormap"</span>
+            <span class="s2">"matplotlib.colors.Normalize(vmin=min_val, vmax=max_val)"</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">pressure_range_legend</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;List of strings that are used for setting the cbar tick labels&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"List of strings that are used for setting the cbar tick labels"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">set_ticks_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;keyword arguments to pass through directly to &quot;cbar.set_ticks&quot;&#39;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">'keyword arguments to pass through directly to "cbar.set_ticks"'</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">set_label_kwarg</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;keyword arguments to pass through directly to &quot;cbar.set_label&quot;&#39;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">'keyword arguments to pass through directly to "cbar.set_label"'</span><span class="p">,</span>
     <span class="p">)</span></div>
 </pre></div>
 

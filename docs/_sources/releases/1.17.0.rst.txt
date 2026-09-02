@@ -1,4 +1,4 @@
-Version 1.17.0 (2026-07-23)
+Version 1.17.0 (2026-09-02)
 ***************************
 
  * *Release process*: Add 1.17.0 release note

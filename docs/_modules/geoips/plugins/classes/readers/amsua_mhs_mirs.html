@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.readers.amsua_mhs_mirs &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.readers.amsua_mhs_mirs &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -830,7 +832,7 @@ window.runMermaid = runMermaid;</script>
 
 <span class="c1"># cspell:ignore satid, nscan, npix, pydatetime</span>
 
-<span class="sd">&quot;&quot;&quot;Read AMSU-A and MHS MIRS NetCDF data files.</span>
+<span class="sd">"""Read AMSU-A and MHS MIRS NetCDF data files.</span>
 
 <span class="sd">This reader is desgined for importing the Advanced Microwave Sounding Unit</span>
 <span class="sd">(AMSU)-A and Microwave Humidity Sounder (HMS) files made available from NOAA MIRS.</span>
@@ -989,7 +991,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    SFR:  snowfall rate (unit?)</span>
 <span class="sd">    LZ_angle:  local zinath angle (deg)</span>
 <span class="sd">    SZ_angle:  solar zinath angle (deg)</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseReaderPlugin</span>
 
@@ -1009,57 +1011,57 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="AmsuaMhsMirReaderPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.amsua_mhs_mirs.AmsuaMhsMirReaderPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">AmsuaMhsMirReaderPlugin</span><span class="p">(</span><span class="n">BaseReaderPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Amsua MHS MIR reader plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Amsua MHS MIR reader plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;amsua_mhs_mirs&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"readers"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"amsua_mhs_mirs"</span>
 
     <span class="c1"># Selected variables for TC products (add more if needed)</span>
     <span class="n">VARLIST</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;BT&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Latitude&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Longitude&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Freq&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;RR&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;TPW&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;CLW&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;RWP&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;LWP&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;SWP&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;IWP&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;GWP&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Snow&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;SWE&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;SIce&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;SIce_MY&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;SIce_FY&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;TSkin&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;SurfP&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Emis&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Sfc_type&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;SFR&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;CldTop&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;CldBase&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;CldThick&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;WindSp&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;WindDir&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;WindU&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;WindV&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;LZ_angle&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;RAzi_angle&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;SZ_angle&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ScanTime_UTC&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ScanTime_second&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Orb_mode&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ScanTime_year&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ScanTime_doy&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ScanTime_month&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ScanTime_dom&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ScanTime_hour&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ScanTime_minute&quot;</span><span class="p">,</span>
+        <span class="s2">"BT"</span><span class="p">,</span>
+        <span class="s2">"Latitude"</span><span class="p">,</span>
+        <span class="s2">"Longitude"</span><span class="p">,</span>
+        <span class="s2">"Freq"</span><span class="p">,</span>
+        <span class="s2">"RR"</span><span class="p">,</span>
+        <span class="s2">"TPW"</span><span class="p">,</span>
+        <span class="s2">"CLW"</span><span class="p">,</span>
+        <span class="s2">"RWP"</span><span class="p">,</span>
+        <span class="s2">"LWP"</span><span class="p">,</span>
+        <span class="s2">"SWP"</span><span class="p">,</span>
+        <span class="s2">"IWP"</span><span class="p">,</span>
+        <span class="s2">"GWP"</span><span class="p">,</span>
+        <span class="s2">"Snow"</span><span class="p">,</span>
+        <span class="s2">"SWE"</span><span class="p">,</span>
+        <span class="s2">"SIce"</span><span class="p">,</span>
+        <span class="s2">"SIce_MY"</span><span class="p">,</span>
+        <span class="s2">"SIce_FY"</span><span class="p">,</span>
+        <span class="s2">"TSkin"</span><span class="p">,</span>
+        <span class="s2">"SurfP"</span><span class="p">,</span>
+        <span class="s2">"Emis"</span><span class="p">,</span>
+        <span class="s2">"Sfc_type"</span><span class="p">,</span>
+        <span class="s2">"SFR"</span><span class="p">,</span>
+        <span class="s2">"CldTop"</span><span class="p">,</span>
+        <span class="s2">"CldBase"</span><span class="p">,</span>
+        <span class="s2">"CldThick"</span><span class="p">,</span>
+        <span class="s2">"WindSp"</span><span class="p">,</span>
+        <span class="s2">"WindDir"</span><span class="p">,</span>
+        <span class="s2">"WindU"</span><span class="p">,</span>
+        <span class="s2">"WindV"</span><span class="p">,</span>
+        <span class="s2">"LZ_angle"</span><span class="p">,</span>
+        <span class="s2">"RAzi_angle"</span><span class="p">,</span>
+        <span class="s2">"SZ_angle"</span><span class="p">,</span>
+        <span class="s2">"ScanTime_UTC"</span><span class="p">,</span>
+        <span class="s2">"ScanTime_second"</span><span class="p">,</span>
+        <span class="s2">"Orb_mode"</span><span class="p">,</span>
+        <span class="s2">"ScanTime_year"</span><span class="p">,</span>
+        <span class="s2">"ScanTime_doy"</span><span class="p">,</span>
+        <span class="s2">"ScanTime_month"</span><span class="p">,</span>
+        <span class="s2">"ScanTime_dom"</span><span class="p">,</span>
+        <span class="s2">"ScanTime_hour"</span><span class="p">,</span>
+        <span class="s2">"ScanTime_minute"</span><span class="p">,</span>
     <span class="p">]</span>
-    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;amsu-a_mhs&quot;</span><span class="p">]</span>
+    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"amsu-a_mhs"</span><span class="p">]</span>
 
     <span class="c1"># Basic information on AMSU-B product file</span>
     <span class="c1"># index: 1     2    3    4      5      6    7</span>
@@ -1070,8 +1072,8 @@ window.runMermaid = runMermaid;</script>
     <span class="c1"># index: 15  16  17    18      19     20</span>
     <span class="c1"># freq: 89.,89.,157.,183.311,183.311,190.311</span>
 
-    <span class="n">AMSUA_CHANS</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;AMSUA_CHAN</span><span class="si">{</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">)]</span>
-    <span class="n">MHS_CHANS</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Chan</span><span class="si">{</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">_AT&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+    <span class="n">AMSUA_CHANS</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"AMSUA_CHAN</span><span class="si">{</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">)]</span>
+    <span class="n">MHS_CHANS</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"Chan</span><span class="si">{</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">_AT"</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
 
     <span class="n">CHAN_INDEX_MAP</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">AMSUA_CHANS</span> <span class="o">+</span> <span class="n">MHS_CHANS</span><span class="p">)}</span>
 
@@ -1083,7 +1085,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read AMSU/MHS MIRS data products.</span>
+<span class="w">        </span><span class="sd">"""Read AMSU/MHS MIRS data products.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1115,25 +1117,25 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        :ref:`xarray_standards`</span>
 <span class="sd">            Additional information regarding required attributes and variables</span>
 <span class="sd">            for GeoIPS-formatted xarray Datasets.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">ingested_xarrays</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading file </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Reading file </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
 
             <span class="c1">#     check for right input AMSU-B/MHS data file</span>
-            <span class="n">data_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">data_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"_"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="n">data_name</span> <span class="o">!=</span> <span class="s2">&quot;nc&quot;</span><span class="p">:</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Warning: wrong AMSU-B/MHS data type:  data_type=&quot;</span><span class="p">,</span> <span class="n">data_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">data_name</span> <span class="o">!=</span> <span class="s2">"nc"</span><span class="p">:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Warning: wrong AMSU-B/MHS data type:  data_type="</span><span class="p">,</span> <span class="n">data_name</span><span class="p">)</span>
                 <span class="k">raise</span>
 
-            <span class="k">if</span> <span class="s2">&quot;NPR-MIRS-IMG&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;found a NOAA MIRS AMSU-B/MHS file&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">"NPR-MIRS-IMG"</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"found a NOAA MIRS AMSU-B/MHS file"</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;not a NOAA MIRS AMSU-B/MHS file: skip it&quot;</span><span class="p">)</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"not a NOAA MIRS AMSU-B/MHS file: skip it"</span><span class="p">)</span>
                 <span class="k">raise</span>
 
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;    ------  Notes  ------</span>
+<span class="w">            </span><span class="sd">"""    ------  Notes  ------</span>
 <span class="sd">        Read AMSU-B hdf files for 5 chan antenna temperature (AT) and associated EDRs</span>
 <span class="sd">            Then, transform these ATs and fields into xarray framework for GEOIPS</span>
 <span class="sd">            ( AT will be corrected into brightness temperature (TB) later)</span>
@@ -1144,16 +1146,16 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            xarray.Dataset with required Variables and Attributes:</span>
 <span class="sd">                Variables:</span>
 <span class="sd">                            AMSUB vars:</span>
-<span class="sd">                            &#39;latitude&#39;, &#39;longitude&#39;, &#39;Ch1&#39;, &#39;Ch2&#39;, &#39;Ch3&#39;, &#39;Ch4&#39;,&#39;Ch4&#39;,</span>
-<span class="sd">                            &#39;RR&#39;, &#39;Snow&#39;,&#39;SWE&#39;,&#39;IWP&#39;,&#39;SFR&#39; &#39;sfcType&#39;, &#39;time_scan&#39;</span>
+<span class="sd">                            'latitude', 'longitude', 'Ch1', 'Ch2', 'Ch3', 'Ch4','Ch4',</span>
+<span class="sd">                            'RR', 'Snow','SWE','IWP','SFR' 'sfcType', 'time_scan'</span>
 <span class="sd">                Attributes:</span>
-<span class="sd">                            &#39;source_name&#39;, &#39;platform_name&#39;, &#39;data_provider&#39;,</span>
-<span class="sd">                            &#39;interpolation_radius_of_influence&#39;, &#39;start_datetime&#39;,</span>
-<span class="sd">                            &#39;end_datetime&#39;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">                            'source_name', 'platform_name', 'data_provider',</span>
+<span class="sd">                            'interpolation_radius_of_influence', 'start_datetime',</span>
+<span class="sd">                            'end_datetime'</span>
+<span class="sd">        """</span>
 
             <span class="c1"># import all data contents</span>
-            <span class="n">fileobj</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+            <span class="n">fileobj</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"r"</span><span class="p">)</span>
 
             <span class="n">var_all</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -1161,47 +1163,47 @@ window.runMermaid = runMermaid;</script>
             <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">VARLIST</span><span class="p">:</span>
                 <span class="n">var_all</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
 
-            <span class="c1"># values adjustment with scale_factor if there is a &quot;scale_factor&#39;</span>
+            <span class="c1"># values adjustment with scale_factor if there is a "scale_factor'</span>
 
             <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">VARLIST</span><span class="p">:</span>
                 <span class="n">var_attrs</span> <span class="o">=</span> <span class="n">var_all</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>  <span class="c1"># get attribute info</span>
                 <span class="k">for</span> <span class="n">attrs</span> <span class="ow">in</span> <span class="n">var_attrs</span><span class="p">:</span>  <span class="c1"># loop attribute tuples</span>
-                    <span class="k">if</span> <span class="s2">&quot;scale_factor&quot;</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="s2">"scale_factor"</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
                         <span class="n">factor</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
                         <span class="n">var_all</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">var_all</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">*</span> <span class="n">factor</span>
 
-            <span class="c1"># start_time=os.path.basename(fname).split(&#39;_&#39;)[3][1:13]</span>
-            <span class="c1"># end_time=os.path.basename(fname).split(&#39;_&#39;)[4][1:13]</span>
+            <span class="c1"># start_time=os.path.basename(fname).split('_')[3][1:13]</span>
+            <span class="c1"># end_time=os.path.basename(fname).split('_')[4][1:13]</span>
             <span class="c1"># Collect start_time and end_time of input file (one orbit) from</span>
             <span class="c1"># attributes - filename wrong!</span>
             <span class="n">start_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-                <span class="n">fileobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_coverage_start&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">),</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ&quot;</span>
+                <span class="n">fileobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"time_coverage_start"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">),</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ"</span>
             <span class="p">)</span>
             <span class="n">end_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-                <span class="n">fileobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_coverage_end&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">),</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ&quot;</span>
+                <span class="n">fileobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"time_coverage_end"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">),</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ"</span>
             <span class="p">)</span>
 
             <span class="c1">#  -------- Apply the GEOIPS framework in XARRAY data frame ----------</span>
 
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Making full dataframe&quot;</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Making full dataframe"</span><span class="p">)</span>
 
             <span class="c1"># setup the time in datetime64 format</span>
-            <span class="n">npix</span> <span class="o">=</span> <span class="n">var_all</span><span class="p">[</span><span class="s2">&quot;RR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># pixels per scan</span>
-            <span class="n">nscan</span> <span class="o">=</span> <span class="n">var_all</span><span class="p">[</span><span class="s2">&quot;RR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># total scans of this file</span>
+            <span class="n">npix</span> <span class="o">=</span> <span class="n">var_all</span><span class="p">[</span><span class="s2">"RR"</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># pixels per scan</span>
+            <span class="n">nscan</span> <span class="o">=</span> <span class="n">var_all</span><span class="p">[</span><span class="s2">"RR"</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># total scans of this file</span>
 
             <span class="n">time_scan</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nscan</span><span class="p">,</span> <span class="n">npix</span><span class="p">))</span>
             <span class="c1"># take time of each scan</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nscan</span><span class="p">):</span>
-                <span class="n">yr</span> <span class="o">=</span> <span class="n">var_all</span><span class="p">[</span><span class="s2">&quot;ScanTime_year&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
-                <span class="n">dy</span> <span class="o">=</span> <span class="n">var_all</span><span class="p">[</span><span class="s2">&quot;ScanTime_doy&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
-                <span class="n">hr</span> <span class="o">=</span> <span class="n">var_all</span><span class="p">[</span><span class="s2">&quot;ScanTime_hour&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
-                <span class="n">mn</span> <span class="o">=</span> <span class="n">var_all</span><span class="p">[</span><span class="s2">&quot;ScanTime_minute&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">yr</span> <span class="o">=</span> <span class="n">var_all</span><span class="p">[</span><span class="s2">"ScanTime_year"</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">dy</span> <span class="o">=</span> <span class="n">var_all</span><span class="p">[</span><span class="s2">"ScanTime_doy"</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">hr</span> <span class="o">=</span> <span class="n">var_all</span><span class="p">[</span><span class="s2">"ScanTime_hour"</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">mn</span> <span class="o">=</span> <span class="n">var_all</span><span class="p">[</span><span class="s2">"ScanTime_minute"</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">time_scan</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%04d%03d%02d%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">yr</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">hr</span><span class="p">,</span> <span class="n">mn</span><span class="p">)</span>
+                    <span class="n">time_scan</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%04d%03d%02d%02d</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">yr</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">hr</span><span class="p">,</span> <span class="n">mn</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                        <span class="s2">&quot;Could not parse time for scan line </span><span class="si">%s</span><span class="s2">: YEAR=</span><span class="si">%s</span><span class="s2">, DOY=</span><span class="si">%s</span><span class="s2">, &quot;</span>
-                        <span class="s2">&quot;HOUR=</span><span class="si">%s</span><span class="s2">, MINUTE=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="s2">"Could not parse time for scan line </span><span class="si">%s</span><span class="s2">: YEAR=</span><span class="si">%s</span><span class="s2">, DOY=</span><span class="si">%s</span><span class="s2">, "</span>
+                        <span class="s2">"HOUR=</span><span class="si">%s</span><span class="s2">, MINUTE=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                         <span class="n">i</span><span class="p">,</span>
                         <span class="n">yr</span><span class="p">,</span>
                         <span class="n">dy</span><span class="p">,</span>
@@ -1211,9 +1213,9 @@ window.runMermaid = runMermaid;</script>
                     <span class="k">continue</span>
             <span class="c1">#          ------  setup xarray variables   ------</span>
 
-            <span class="c1"># namelist_amsub  = [&#39;latitude&#39;, &#39;longitude&#39;, &#39;Chan1_AT&#39;, &#39;Chan2_AT&#39;,</span>
-            <span class="c1">#                    &#39;Chan3_AT&#39; ,&#39;Chan4_AT&#39;,&#39;Chan5_AT&#39;, &#39;RR&#39;,&#39;Snow&#39;,&#39;IWP&#39;,</span>
-            <span class="c1">#                    &#39;SWE&#39;,&#39;SFR&#39;,&#39;Sfc_type&#39;,&#39;time&#39;]</span>
+            <span class="c1"># namelist_amsub  = ['latitude', 'longitude', 'Chan1_AT', 'Chan2_AT',</span>
+            <span class="c1">#                    'Chan3_AT' ,'Chan4_AT','Chan5_AT', 'RR','Snow','IWP',</span>
+            <span class="c1">#                    'SWE','SFR','Sfc_type','time']</span>
 
             <span class="n">xarray_metadata</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
 
@@ -1221,43 +1223,43 @@ window.runMermaid = runMermaid;</script>
 
             <span class="c1"># satID and start_end time from input filename (ma3 --&gt; METOP-c?) - TBD:</span>
             <span class="c1"># depending on data file )</span>
-            <span class="n">sat_id</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">sat_id</span> <span class="o">==</span> <span class="s2">&quot;n19&quot;</span><span class="p">:</span>
-                <span class="n">satid</span> <span class="o">=</span> <span class="s2">&quot;noaa-19&quot;</span>
-                <span class="n">crtm_name</span> <span class="o">=</span> <span class="s2">&quot;mhs_n19&quot;</span>
-            <span class="k">elif</span> <span class="n">sat_id</span> <span class="o">==</span> <span class="s2">&quot;n18&quot;</span><span class="p">:</span>
-                <span class="n">satid</span> <span class="o">=</span> <span class="s2">&quot;noaa-18&quot;</span>
-                <span class="n">crtm_name</span> <span class="o">=</span> <span class="s2">&quot;mhs_n18&quot;</span>
-            <span class="k">elif</span> <span class="n">sat_id</span> <span class="o">==</span> <span class="s2">&quot;n20&quot;</span><span class="p">:</span>
-                <span class="n">satid</span> <span class="o">=</span> <span class="s2">&quot;noaa-20&quot;</span>
-                <span class="n">crtm_name</span> <span class="o">=</span> <span class="s2">&quot;mhs_n20&quot;</span>
-            <span class="k">elif</span> <span class="n">sat_id</span> <span class="o">==</span> <span class="s2">&quot;ma1&quot;</span><span class="p">:</span>
-                <span class="n">satid</span> <span class="o">=</span> <span class="s2">&quot;metop-b&quot;</span>
-                <span class="n">crtm_name</span> <span class="o">=</span> <span class="s2">&quot;mhs_metob-b&quot;</span>
-            <span class="k">elif</span> <span class="n">sat_id</span> <span class="o">==</span> <span class="s2">&quot;ma2&quot;</span><span class="p">:</span>
-                <span class="n">satid</span> <span class="o">=</span> <span class="s2">&quot;metop-a&quot;</span>
-                <span class="n">crtm_name</span> <span class="o">=</span> <span class="s2">&quot;mhs_metop-a&quot;</span>
-            <span class="k">elif</span> <span class="n">sat_id</span> <span class="o">==</span> <span class="s2">&quot;ma3&quot;</span><span class="p">:</span>
-                <span class="n">satid</span> <span class="o">=</span> <span class="s2">&quot;metop-c&quot;</span>
-                <span class="n">crtm_name</span> <span class="o">=</span> <span class="s2">&quot;mhs_metop-c&quot;</span>
+            <span class="n">sat_id</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"_"</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">sat_id</span> <span class="o">==</span> <span class="s2">"n19"</span><span class="p">:</span>
+                <span class="n">satid</span> <span class="o">=</span> <span class="s2">"noaa-19"</span>
+                <span class="n">crtm_name</span> <span class="o">=</span> <span class="s2">"mhs_n19"</span>
+            <span class="k">elif</span> <span class="n">sat_id</span> <span class="o">==</span> <span class="s2">"n18"</span><span class="p">:</span>
+                <span class="n">satid</span> <span class="o">=</span> <span class="s2">"noaa-18"</span>
+                <span class="n">crtm_name</span> <span class="o">=</span> <span class="s2">"mhs_n18"</span>
+            <span class="k">elif</span> <span class="n">sat_id</span> <span class="o">==</span> <span class="s2">"n20"</span><span class="p">:</span>
+                <span class="n">satid</span> <span class="o">=</span> <span class="s2">"noaa-20"</span>
+                <span class="n">crtm_name</span> <span class="o">=</span> <span class="s2">"mhs_n20"</span>
+            <span class="k">elif</span> <span class="n">sat_id</span> <span class="o">==</span> <span class="s2">"ma1"</span><span class="p">:</span>
+                <span class="n">satid</span> <span class="o">=</span> <span class="s2">"metop-b"</span>
+                <span class="n">crtm_name</span> <span class="o">=</span> <span class="s2">"mhs_metob-b"</span>
+            <span class="k">elif</span> <span class="n">sat_id</span> <span class="o">==</span> <span class="s2">"ma2"</span><span class="p">:</span>
+                <span class="n">satid</span> <span class="o">=</span> <span class="s2">"metop-a"</span>
+                <span class="n">crtm_name</span> <span class="o">=</span> <span class="s2">"mhs_metop-a"</span>
+            <span class="k">elif</span> <span class="n">sat_id</span> <span class="o">==</span> <span class="s2">"ma3"</span><span class="p">:</span>
+                <span class="n">satid</span> <span class="o">=</span> <span class="s2">"metop-c"</span>
+                <span class="n">crtm_name</span> <span class="o">=</span> <span class="s2">"mhs_metop-c"</span>
 
             <span class="c1"># add attributes to xarray</span>
-            <span class="n">xarray_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_datetime</span>
-            <span class="n">xarray_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">end_datetime</span>
-            <span class="n">xarray_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;amsu-a_mhs&quot;</span>
-            <span class="n">xarray_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">satid</span>
-            <span class="n">xarray_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;crtm_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crtm_name</span>
-            <span class="n">xarray_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;NOAA-nesdis&quot;</span>
+            <span class="n">xarray_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_datetime</span>
+            <span class="n">xarray_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">end_datetime</span>
+            <span class="n">xarray_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"amsu-a_mhs"</span>
+            <span class="n">xarray_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"platform_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">satid</span>
+            <span class="n">xarray_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"crtm_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">crtm_name</span>
+            <span class="n">xarray_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"data_provider"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"NOAA-nesdis"</span>
 
-            <span class="c1"># MTIFs need to be &quot;prettier&quot; for PMW products, so 2km resolution for</span>
+            <span class="c1"># MTIFs need to be "prettier" for PMW products, so 2km resolution for</span>
             <span class="c1"># final image.</span>
-            <span class="c1"># xarray_amsub.attrs[&#39;sample_distance_km&#39;] = 15</span>
-            <span class="n">xarray_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sample_distance_km&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
-            <span class="n">xarray_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">30000</span>
+            <span class="c1"># xarray_amsub.attrs['sample_distance_km'] = 15</span>
+            <span class="n">xarray_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"sample_distance_km"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="n">xarray_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"interpolation_radius_of_influence"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">30000</span>
 
             <span class="k">if</span> <span class="n">metadata_only</span><span class="p">:</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;metadata_only requested, returning without reading data&quot;</span><span class="p">)</span>
-                <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">xarray_metadata</span><span class="p">}</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"metadata_only requested, returning without reading data"</span><span class="p">)</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s2">"METADATA"</span><span class="p">:</span> <span class="n">xarray_metadata</span><span class="p">}</span>
 
                 <span class="c1"># Select 5 AMSU-B/MHS Channels</span>
             <span class="n">xarray_amsua</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
@@ -1269,86 +1271,86 @@ window.runMermaid = runMermaid;</script>
                     <span class="n">chan_num</span> <span class="o">=</span> <span class="n">chan_ind</span> <span class="o">+</span> <span class="mi">1</span>
                     <span class="k">if</span> <span class="n">chan</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">AMSUA_CHANS</span><span class="p">:</span>
                         <span class="n">xarray_amsua</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-                            <span class="n">var_all</span><span class="p">[</span><span class="s2">&quot;BT&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">chan_ind</span><span class="p">],</span>
-                            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;channel_number&quot;</span><span class="p">:</span> <span class="n">chan_num</span><span class="p">},</span>
+                            <span class="n">var_all</span><span class="p">[</span><span class="s2">"BT"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">chan_ind</span><span class="p">],</span>
+                            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">"channel_number"</span><span class="p">:</span> <span class="n">chan_num</span><span class="p">},</span>
                         <span class="p">)</span>
-                        <span class="n">xarray_amsua</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name_override&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;amsu-a&quot;</span>
+                        <span class="n">xarray_amsua</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name_override"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"amsu-a"</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">xarray_mhs</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-                            <span class="n">var_all</span><span class="p">[</span><span class="s2">&quot;BT&quot;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">chan_ind</span><span class="p">],</span>
-                            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;channel_number&quot;</span><span class="p">:</span> <span class="n">chan_num</span><span class="p">},</span>
+                            <span class="n">var_all</span><span class="p">[</span><span class="s2">"BT"</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">chan_ind</span><span class="p">],</span>
+                            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">"channel_number"</span><span class="p">:</span> <span class="n">chan_num</span><span class="p">},</span>
                         <span class="p">)</span>
-                        <span class="n">xarray_mhs</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name_override&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;mhs&quot;</span>
+                        <span class="n">xarray_mhs</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name_override"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"mhs"</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">xarray_amsua_mhs</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">var_all</span><span class="p">[</span><span class="n">chan</span><span class="p">][()])</span>
-                    <span class="n">xarray_amsua_mhs</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name_override&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;amsu-a_mhs&quot;</span>
+                    <span class="n">xarray_amsua_mhs</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name_override"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"amsu-a_mhs"</span>
 
             <span class="c1"># Add time and geolocation variables</span>
             <span class="n">beam_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;Field_of_view&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
-                <span class="n">var_all</span><span class="p">[</span><span class="s2">&quot;LZ_angle&quot;</span><span class="p">][()]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">fileobj</span><span class="p">[</span><span class="s2">"Field_of_view"</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="n">var_all</span><span class="p">[</span><span class="s2">"LZ_angle"</span><span class="p">][()]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">scan_angle</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">((</span><span class="n">beam_pos</span> <span class="o">-</span> <span class="mf">45.5</span><span class="p">)</span> <span class="o">*</span> <span class="mf">10.0</span> <span class="o">/</span> <span class="mf">9.0</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">ingest_xr</span> <span class="ow">in</span> <span class="p">[</span><span class="n">xarray_amsua</span><span class="p">,</span> <span class="n">xarray_mhs</span><span class="p">,</span> <span class="n">xarray_amsua_mhs</span><span class="p">]:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">ingest_xr</span><span class="p">:</span>
                     <span class="k">continue</span>
-                <span class="n">source_name_override</span> <span class="o">=</span> <span class="n">ingest_xr</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name_override&quot;</span><span class="p">]</span>
+                <span class="n">source_name_override</span> <span class="o">=</span> <span class="n">ingest_xr</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name_override"</span><span class="p">]</span>
                 <span class="n">ingest_xr</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">xarray_metadata</span><span class="o">.</span><span class="n">attrs</span>
-                <span class="n">ingest_xr</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">source_name_override</span>
-                <span class="n">ingest_xr</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                <span class="n">ingest_xr</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">source_name_override</span>
+                <span class="n">ingest_xr</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
                     <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">time_scan</span><span class="p">)</span>
                     <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-                    <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%j%H%M&quot;</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"%Y%j%H%M"</span><span class="p">)</span>
                 <span class="p">)</span>
-                <span class="n">ingest_xr</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">var_all</span><span class="p">[</span><span class="s2">&quot;Latitude&quot;</span><span class="p">][()])</span>
-                <span class="n">ingest_xr</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">var_all</span><span class="p">[</span><span class="s2">&quot;Longitude&quot;</span><span class="p">][()])</span>
-                <span class="n">ingest_xr</span><span class="p">[</span><span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-                    <span class="n">var_all</span><span class="p">[</span><span class="s2">&quot;LZ_angle&quot;</span><span class="p">][()]</span>
+                <span class="n">ingest_xr</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">var_all</span><span class="p">[</span><span class="s2">"Latitude"</span><span class="p">][()])</span>
+                <span class="n">ingest_xr</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">var_all</span><span class="p">[</span><span class="s2">"Longitude"</span><span class="p">][()])</span>
+                <span class="n">ingest_xr</span><span class="p">[</span><span class="s2">"satellite_zenith_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                    <span class="n">var_all</span><span class="p">[</span><span class="s2">"LZ_angle"</span><span class="p">][()]</span>
                 <span class="p">)</span>
-                <span class="n">ingest_xr</span><span class="p">[</span><span class="s2">&quot;SZ_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">var_all</span><span class="p">[</span><span class="s2">&quot;SZ_angle&quot;</span><span class="p">][()])</span>
-                <span class="n">ingest_xr</span><span class="p">[</span><span class="s2">&quot;RAzi_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">var_all</span><span class="p">[</span><span class="s2">&quot;RAzi_angle&quot;</span><span class="p">][()])</span>
-                <span class="n">ingest_xr</span><span class="p">[</span><span class="s2">&quot;sensor_scan_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scan_angle</span>
+                <span class="n">ingest_xr</span><span class="p">[</span><span class="s2">"SZ_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">var_all</span><span class="p">[</span><span class="s2">"SZ_angle"</span><span class="p">][()])</span>
+                <span class="n">ingest_xr</span><span class="p">[</span><span class="s2">"RAzi_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">var_all</span><span class="p">[</span><span class="s2">"RAzi_angle"</span><span class="p">][()])</span>
+                <span class="n">ingest_xr</span><span class="p">[</span><span class="s2">"sensor_scan_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">scan_angle</span>
                 <span class="c1"># These variables were previously always read in... leaving them</span>
                 <span class="c1"># commented out as an reminder for what is in the file....</span>
-                <span class="c1"># ingest_xr[&quot;Snow&quot;] = xr.DataArray(var_all[&quot;Snow&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;IWP&quot;] = xr.DataArray(var_all[&quot;IWP&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;SWE&quot;] = xr.DataArray(var_all[&quot;SWE&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;SFR&quot;] = xr.DataArray(var_all[&quot;SFR&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;sfcType&quot;] = xr.DataArray(var_all[&quot;Sfc_type&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;TPW&quot;] = xr.DataArray(var_all[&quot;TPW&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;CLW&quot;] = xr.DataArray(var_all[&quot;CLW&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;RWP&quot;] = xr.DataArray(var_all[&quot;RWP&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;GWP&quot;] = xr.DataArray(var_all[&quot;GWP&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;SIce&quot;] = xr.DataArray(var_all[&quot;SIce&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;SIce_MY&quot;] = xr.DataArray(var_all[&quot;SIce_MY&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;SIce_FY&quot;] = xr.DataArray(var_all[&quot;SIce_FY&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;TSkin&quot;] = xr.DataArray(var_all[&quot;TSkin&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;SurfP&quot;] = xr.DataArray(var_all[&quot;SurfP&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;CldTop&quot;] = xr.DataArray(var_all[&quot;CldTop&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;CldBase&quot;] = xr.DataArray(var_all[&quot;CldBase&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;CldThick&quot;] = xr.DataArray(var_all[&quot;CldThick&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;WindSp&quot;] = xr.DataArray(var_all[&quot;WindSp&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;WindDir&quot;] = xr.DataArray(var_all[&quot;WindDir&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;WindU&quot;] = xr.DataArray(var_all[&quot;WindU&quot;][()])</span>
-                <span class="c1"># ingest_xr[&quot;WindV&quot;] = xr.DataArray(var_all[&quot;WindV&quot;][()])</span>
+                <span class="c1"># ingest_xr["Snow"] = xr.DataArray(var_all["Snow"][()])</span>
+                <span class="c1"># ingest_xr["IWP"] = xr.DataArray(var_all["IWP"][()])</span>
+                <span class="c1"># ingest_xr["SWE"] = xr.DataArray(var_all["SWE"][()])</span>
+                <span class="c1"># ingest_xr["SFR"] = xr.DataArray(var_all["SFR"][()])</span>
+                <span class="c1"># ingest_xr["sfcType"] = xr.DataArray(var_all["Sfc_type"][()])</span>
+                <span class="c1"># ingest_xr["TPW"] = xr.DataArray(var_all["TPW"][()])</span>
+                <span class="c1"># ingest_xr["CLW"] = xr.DataArray(var_all["CLW"][()])</span>
+                <span class="c1"># ingest_xr["RWP"] = xr.DataArray(var_all["RWP"][()])</span>
+                <span class="c1"># ingest_xr["GWP"] = xr.DataArray(var_all["GWP"][()])</span>
+                <span class="c1"># ingest_xr["SIce"] = xr.DataArray(var_all["SIce"][()])</span>
+                <span class="c1"># ingest_xr["SIce_MY"] = xr.DataArray(var_all["SIce_MY"][()])</span>
+                <span class="c1"># ingest_xr["SIce_FY"] = xr.DataArray(var_all["SIce_FY"][()])</span>
+                <span class="c1"># ingest_xr["TSkin"] = xr.DataArray(var_all["TSkin"][()])</span>
+                <span class="c1"># ingest_xr["SurfP"] = xr.DataArray(var_all["SurfP"][()])</span>
+                <span class="c1"># ingest_xr["CldTop"] = xr.DataArray(var_all["CldTop"][()])</span>
+                <span class="c1"># ingest_xr["CldBase"] = xr.DataArray(var_all["CldBase"][()])</span>
+                <span class="c1"># ingest_xr["CldThick"] = xr.DataArray(var_all["CldThick"][()])</span>
+                <span class="c1"># ingest_xr["WindSp"] = xr.DataArray(var_all["WindSp"][()])</span>
+                <span class="c1"># ingest_xr["WindDir"] = xr.DataArray(var_all["WindDir"][()])</span>
+                <span class="c1"># ingest_xr["WindU"] = xr.DataArray(var_all["WindU"][()])</span>
+                <span class="c1"># ingest_xr["WindV"] = xr.DataArray(var_all["WindV"][()])</span>
 
             <span class="n">fileobj</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">xarray_amsua</span><span class="p">:</span>
-                <span class="n">ingested_xarrays</span><span class="p">[</span><span class="s2">&quot;AMSUA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xarray_amsua</span><span class="p">)</span>
+                <span class="n">ingested_xarrays</span><span class="p">[</span><span class="s2">"AMSUA"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xarray_amsua</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">xarray_mhs</span><span class="p">:</span>
-                <span class="n">ingested_xarrays</span><span class="p">[</span><span class="s2">&quot;MHS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xarray_mhs</span><span class="p">)</span>
+                <span class="n">ingested_xarrays</span><span class="p">[</span><span class="s2">"MHS"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xarray_mhs</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">xarray_amsua_mhs</span><span class="p">:</span>
-                <span class="n">ingested_xarrays</span><span class="p">[</span><span class="s2">&quot;AMSUA-MHS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xarray_amsua_mhs</span><span class="p">)</span>
+                <span class="n">ingested_xarrays</span><span class="p">[</span><span class="s2">"AMSUA-MHS"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xarray_amsua_mhs</span><span class="p">)</span>
 
-        <span class="n">xarray_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">xarray_metadata</span><span class="p">}</span>
+        <span class="n">xarray_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"METADATA"</span><span class="p">:</span> <span class="n">xarray_metadata</span><span class="p">}</span>
         <span class="k">for</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">xarray_list</span> <span class="ow">in</span> <span class="n">ingested_xarrays</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">xarray_list</span><span class="p">:</span>
-                <span class="n">final_xarray</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">xarray_list</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;dim_0&quot;</span><span class="p">)</span>
-                <span class="n">final_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
-                    <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+                <span class="n">final_xarray</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">xarray_list</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"dim_0"</span><span class="p">)</span>
+                <span class="n">final_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">final_xarray</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
                 <span class="p">)</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
-                <span class="n">final_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
-                    <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+                <span class="n">final_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">final_xarray</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
                 <span class="p">)</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
                 <span class="n">xarray_dict</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_xarray</span>
 

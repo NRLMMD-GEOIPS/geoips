@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.commandline.cmd_instructions &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.commandline.cmd_instructions &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,18 +830,18 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Module for retrieving help information for the GeoIPS Command Line Interface.</span>
+<span class="sd">"""Module for retrieving help information for the GeoIPS Command Line Interface.</span>
 
-<span class="sd">Used to dynamically load and apply help information to all &#39;geoips&#39; commands.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Used to dynamically load and apply help information to all 'geoips' commands.</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">exists</span><span class="p">,</span> <span class="n">getmtime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">geoips_yaml_utils</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">yaml</span>
 
 
-<div class="viewcode-block" id="instructions_modified"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.cmd_instructions.instructions_modified">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">instructions_modified</span><span class="p">(</span><span class="n">ancillary_dirname</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="s2">&quot;cmd_instructions.yaml&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check whether or not {fname}.yaml has been modified.</span>
+<div class="viewcode-block" id="instructions_modified"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.cmd_instructions.instructions_modified">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">instructions_modified</span><span class="p">(</span><span class="n">ancillary_dirname</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="s2">"cmd_instructions.yaml"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Check whether or not {fname}.yaml has been modified.</span>
 
 <span class="sd">    This uses os.path.getmtime(fname) determine whether or not the YAML command help</span>
 <span class="sd">    instructions have been modified more recently than when we last generated our JSON</span>
@@ -859,9 +861,9 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    yaml_recently_modified: bool</span>
 <span class="sd">        - The truth value as to whether or not the yaml cmd_instructions were modified</span>
 <span class="sd">          more recently than the json cmd_instructions</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">json_mtime</span> <span class="o">=</span> <span class="n">getmtime</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ancillary_dirname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">fname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;yaml&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;json&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">yaml_mtime</span> <span class="o">=</span> <span class="n">getmtime</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ancillary_dirname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">json_mtime</span> <span class="o">=</span> <span class="n">getmtime</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ancillary_dirname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">fname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'yaml'</span><span class="p">,</span><span class="w"> </span><span class="s1">'json'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">yaml_mtime</span> <span class="o">=</span> <span class="n">getmtime</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ancillary_dirname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">yaml_recently_modified</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="n">yaml_mtime</span> <span class="o">&gt;=</span> <span class="n">json_mtime</span><span class="p">:</span>
         <span class="c1"># yaml file was modified more recently than json_mtime</span>
@@ -869,16 +871,16 @@ window.runMermaid = runMermaid;</script>
     <span class="k">return</span> <span class="n">yaml_recently_modified</span></div>
 
 
-<div class="viewcode-block" id="get_instructions"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.cmd_instructions.get_instructions">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_instructions</span><span class="p">(</span><span class="n">ancillary_dirname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="s2">&quot;cmd_instructions.yaml&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a dictionary of instructions for each command, obtained by a yaml file.</span>
+<div class="viewcode-block" id="get_instructions"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.cmd_instructions.get_instructions">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_instructions</span><span class="p">(</span><span class="n">ancillary_dirname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="s2">"cmd_instructions.yaml"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Return a dictionary of instructions for each command, obtained by a yaml file.</span>
 
-<span class="sd">    This has been placed as a module attribute so we don&#39;t perform this process for</span>
+<span class="sd">    This has been placed as a module attribute so we don't perform this process for</span>
 <span class="sd">    every CLI command. It was taking too long to initialize the CLI and this was a</span>
 <span class="sd">    large partof that. See</span>
 <span class="sd">    https://github.com/NRLMMD-GEOIPS/geoips/pull/444#discussion_r1541864672 for more</span>
 <span class="sd">    information.</span>
 
-<span class="sd">    For more information on what&#39;s available, see:</span>
+<span class="sd">    For more information on what's available, see:</span>
 <span class="sd">        geoips/commandline/ancillary_info/cmd_instructions.yaml</span>
 
 <span class="sd">    Parameters</span>
@@ -895,40 +897,40 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    cmd_instructions: dict</span>
 <span class="sd">        - Dictionary of help instructions for every CLI command</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">ancillary_dirname</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ancillary_dirname</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="c1"># use the default command instructions</span>
-        <span class="n">ancillary_dirname</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;/ancillary_info&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ancillary_dirname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
-        <span class="n">err_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;File </span><span class="si">{</span><span class="n">ancillary_dirname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2"> is missing, please &quot;</span>
-        <span class="n">err_str</span> <span class="o">+=</span> <span class="s2">&quot;create that file at the specified location in order to use the CLI.&quot;</span>
+        <span class="n">ancillary_dirname</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span> <span class="o">+</span> <span class="s2">"/ancillary_info"</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ancillary_dirname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">"</span><span class="p">):</span>
+        <span class="n">err_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"File </span><span class="si">{</span><span class="n">ancillary_dirname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2"> is missing, please "</span>
+        <span class="n">err_str</span> <span class="o">+=</span> <span class="s2">"create that file at the specified location in order to use the CLI."</span>
         <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="n">err_str</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ancillary_dirname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">fname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;yaml&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;json&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ancillary_dirname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">fname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'yaml'</span><span class="p">,</span><span class="w"> </span><span class="s1">'json'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
     <span class="p">)</span> <span class="ow">or</span> <span class="n">instructions_modified</span><span class="p">(</span><span class="n">ancillary_dirname</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
-        <span class="c1"># JSON Command Instructions don&#39;t exist yet or yaml instructions were recently</span>
+        <span class="c1"># JSON Command Instructions don't exist yet or yaml instructions were recently</span>
         <span class="c1"># modified; load in the YAML Command Instructions and dump those to a JSON File,</span>
         <span class="c1"># but just assign the instructions to what we loaded from the yaml file since</span>
         <span class="c1"># they already exist in memory</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ancillary_dirname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;r&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ancillary_dirname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="s2">"r"</span><span class="p">,</span>
         <span class="p">)</span> <span class="k">as</span> <span class="n">yml_instruct</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ancillary_dirname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">fname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;yaml&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;json&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;w&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ancillary_dirname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">fname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'yaml'</span><span class="p">,</span><span class="w"> </span><span class="s1">'json'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="s2">"w"</span><span class="p">,</span>
         <span class="p">)</span> <span class="k">as</span> <span class="n">jfile</span><span class="p">:</span>
             <span class="n">yaml_file</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">yml_instruct</span><span class="p">)</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">yaml_file</span><span class="p">,</span> <span class="n">jfile</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
             <span class="n">instructions</span> <span class="o">=</span> <span class="n">yaml_file</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># Otherwise load in the JSON file as it&#39;s much quicker.</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ancillary_dirname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">fname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;yaml&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;json&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fo</span><span class="p">:</span>
+        <span class="c1"># Otherwise load in the JSON file as it's much quicker.</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ancillary_dirname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">fname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'yaml'</span><span class="p">,</span><span class="w"> </span><span class="s1">'json'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fo</span><span class="p">:</span>
             <span class="n">instructions</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fo</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">instructions</span></div>
 
 
 <span class="n">cmd_instructions</span> <span class="o">=</span> <span class="n">get_instructions</span><span class="p">()</span>
-<span class="n">alias_mapping</span> <span class="o">=</span> <span class="n">get_instructions</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="s2">&quot;alias_mapping.yaml&quot;</span><span class="p">)</span>
+<span class="n">alias_mapping</span> <span class="o">=</span> <span class="n">get_instructions</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="s2">"alias_mapping.yaml"</span><span class="p">)</span>
 </pre></div>
 
                 </article>

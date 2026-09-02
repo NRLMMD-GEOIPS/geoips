@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Configuring GeoIPS &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>Configuring GeoIPS &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -52,8 +52,8 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -568,8 +568,8 @@ will override whatever is set in your <code class="docutils literal notranslate"
 <span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">geolocation_cache_backend</span><span class="p">)</span>
 
 <span class="c1"># Dict-style access (backward compatible, deprecated)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;NO_COLOR&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">"GEOIPS_OUTDIRS"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">"NO_COLOR"</span><span class="p">])</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -880,17 +880,17 @@ accessible in Python, and are included by <code class="docutils literal notransl
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyPkgSettings</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">max_workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Max parallel workers.&quot;</span><span class="p">)</span>
+    <span class="n">max_workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Max parallel workers."</span><span class="p">)</span>
     <span class="n">tile_cache</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
 
-<span class="n">CONFIG_PLUGIN</span> <span class="o">=</span> <span class="n">ConfigPlugin</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;my_pkg&quot;</span><span class="p">,</span> <span class="n">settings_model</span><span class="o">=</span><span class="n">MyPkgSettings</span><span class="p">)</span>
+<span class="n">CONFIG_PLUGIN</span> <span class="o">=</span> <span class="n">ConfigPlugin</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"my_pkg"</span><span class="p">,</span> <span class="n">settings_model</span><span class="o">=</span><span class="n">MyPkgSettings</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>It then advertises this object through the <code class="docutils literal notranslate"><span class="pre">geoips.config_plugins</span></code>
 entry-point group in its <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>:</p>
-<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[project.entry-points.</span><span class="s2">&quot;geoips.config_plugins&quot;</span><span class="k">]</span>
-<span class="n">my_pkg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my_pkg.config:CONFIG_PLUGIN&quot;</span>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[project.entry-points.</span><span class="s2">"geoips.config_plugins"</span><span class="k">]</span>
+<span class="n">my_pkg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"my_pkg.config:CONFIG_PLUGIN"</span>
 </pre></div>
 </div>
 <p>The entry-point name (<code class="docutils literal notranslate"><span class="pre">my_pkg</span></code>) must match <code class="docutils literal notranslate"><span class="pre">ConfigPlugin.name</span></code>.</p>
@@ -908,7 +908,7 @@ but providing defaults avoids surprising failures entirely.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">geoips.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">my_pkg</span><span class="o">.</span><span class="n">max_workers</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="s2">&quot;my_pkg&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tile_cache</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="s2">"my_pkg"</span><span class="p">]</span><span class="o">.</span><span class="n">tile_cache</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>In <code class="docutils literal notranslate"><span class="pre">.geoips.yaml</span></code> they are set under <code class="docutils literal notranslate"><span class="pre">geoips.plugins.&lt;name&gt;</span></code>:</p>
@@ -1030,9 +1030,9 @@ vim ~/.config/fish/config.fish
 <p><strong>Nix:</strong></p>
 <div class="highlight-nix notranslate"><div class="highlight"><pre><span></span><span class="c1"># In your home.nix, configuration.nix or in a flake:</span>
 home<span class="o">.</span><span class="ss">sessionVariables</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="ss">GEOIPS_TESTDATA_DIR</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">${</span>config<span class="o">.</span>home<span class="o">.</span>homeDirectory<span class="si">}</span><span class="s2">/geoips_testdata&quot;</span><span class="p">;</span>
-  <span class="ss">GEOIPS_PACKAGES_DIR</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">${</span>config<span class="o">.</span>home<span class="o">.</span>homeDirectory<span class="si">}</span><span class="s2">/geoips_packages&quot;</span><span class="p">;</span>
-  <span class="ss">GEOIPS_OUTDIRS</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">${</span>config<span class="o">.</span>home<span class="o">.</span>homeDirectory<span class="si">}</span><span class="s2">/geoips_outdirs&quot;</span><span class="p">;</span>
+  <span class="ss">GEOIPS_TESTDATA_DIR</span> <span class="o">=</span> <span class="s2">"</span><span class="si">${</span>config<span class="o">.</span>home<span class="o">.</span>homeDirectory<span class="si">}</span><span class="s2">/geoips_testdata"</span><span class="p">;</span>
+  <span class="ss">GEOIPS_PACKAGES_DIR</span> <span class="o">=</span> <span class="s2">"</span><span class="si">${</span>config<span class="o">.</span>home<span class="o">.</span>homeDirectory<span class="si">}</span><span class="s2">/geoips_packages"</span><span class="p">;</span>
+  <span class="ss">GEOIPS_OUTDIRS</span> <span class="o">=</span> <span class="s2">"</span><span class="si">${</span>config<span class="o">.</span>home<span class="o">.</span>homeDirectory<span class="si">}</span><span class="s2">/geoips_outdirs"</span><span class="p">;</span>
 <span class="p">};</span>
 </pre></div>
 </div>
@@ -1081,23 +1081,23 @@ color any of its terminal output.</p>
 <p>Running the appropriate command below will disable colored terminal
 output for a single session.</p>
 <p><strong>Bash/Zsh:</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">NO_COLOR</span><span class="o">=</span><span class="s1">&#39;True&#39;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">NO_COLOR</span><span class="o">=</span><span class="s1">'True'</span>
 </pre></div>
 </div>
 <p><strong>Fish:</strong></p>
-<div class="highlight-fish notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> -x NO_COLOR <span class="s1">&#39;True&#39;</span>
+<div class="highlight-fish notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> -x NO_COLOR <span class="s1">'True'</span>
 </pre></div>
 </div>
 <p><strong>Nix:</strong></p>
 <div class="highlight-nix notranslate"><div class="highlight"><pre><span></span><span class="c1"># In a nix-shell or shell.nix</span>
-<span class="ss">shellHook</span> <span class="o">=</span> <span class="s s-Multiline">&#39;&#39;</span>
-<span class="s s-Multiline">  export NO_COLOR=&#39;True&#39;</span>
-<span class="s s-Multiline">&#39;&#39;</span><span class="p">;</span>
+<span class="ss">shellHook</span> <span class="o">=</span> <span class="s s-Multiline">''</span>
+<span class="s s-Multiline">  export NO_COLOR='True'</span>
+<span class="s s-Multiline">''</span><span class="p">;</span>
 </pre></div>
 </div>
 <p><strong>Conda:</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># With your conda environment activated</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">NO_COLOR</span><span class="o">=</span><span class="s1">&#39;True&#39;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">NO_COLOR</span><span class="o">=</span><span class="s1">'True'</span>
 </pre></div>
 </div>
 </section>

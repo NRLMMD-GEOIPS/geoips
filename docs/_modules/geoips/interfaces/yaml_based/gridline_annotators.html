@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.interfaces.yaml_based.gridline_annotators &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.interfaces.yaml_based.gridline_annotators &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Gridline Annotator interface module.&quot;&quot;&quot;</span>
+<span class="sd">"""Gridline Annotator interface module."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseYamlInterface</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.filenames.base_paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">PATHS</span> <span class="k">as</span> <span class="n">gpaths</span>
@@ -837,32 +839,32 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="GridlineAnnotatorsInterface"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.gridline_annotators.GridlineAnnotatorsInterface">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GridlineAnnotatorsInterface</span><span class="p">(</span><span class="n">BaseYamlInterface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface for gridline annotator plugins.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Interface for gridline annotator plugins."""</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;gridline_annotators&quot;</span>
-    <span class="n">use_pydantic</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_USE_PYDANTIC&quot;</span><span class="p">]</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"gridline_annotators"</span>
+    <span class="n">use_pydantic</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">"GEOIPS_USE_PYDANTIC"</span><span class="p">]</span>
 
     <span class="c1"># Keyword arguments that can be used to adjust the style of lat/lon labels applied</span>
     <span class="c1"># to annotated imagery. See geoips.image_utils.maps:draw_gridlines for how this is</span>
     <span class="c1"># implemented</span>
     <span class="n">label_kwargs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;number&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;backgroundcolor&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;string&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;string&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;fontfamily&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;string&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;fontsize&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="s2">&quot;string&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;fontstretch&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;integer&quot;</span><span class="p">,</span> <span class="s2">&quot;string&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;fontstyle&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;string&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;fontvariant&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;string&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;fontweight&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;integer&quot;</span><span class="p">,</span> <span class="s2">&quot;string&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;linespacing&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;number&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;mouseover&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;boolean&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;array&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;rotation&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="s2">&quot;string&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;rotation_mode&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;string&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;snap&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;boolean&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;wrap&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;boolean&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;zorder&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;number&quot;</span><span class="p">],</span>
+        <span class="s2">"alpha"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"number"</span><span class="p">],</span>
+        <span class="s2">"backgroundcolor"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"string"</span><span class="p">],</span>
+        <span class="s2">"color"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"string"</span><span class="p">],</span>
+        <span class="s2">"fontfamily"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"string"</span><span class="p">],</span>
+        <span class="s2">"fontsize"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"number"</span><span class="p">,</span> <span class="s2">"string"</span><span class="p">],</span>
+        <span class="s2">"fontstretch"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"integer"</span><span class="p">,</span> <span class="s2">"string"</span><span class="p">],</span>
+        <span class="s2">"fontstyle"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"string"</span><span class="p">],</span>
+        <span class="s2">"fontvariant"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"string"</span><span class="p">],</span>
+        <span class="s2">"fontweight"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"integer"</span><span class="p">,</span> <span class="s2">"string"</span><span class="p">],</span>
+        <span class="s2">"linespacing"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"number"</span><span class="p">],</span>
+        <span class="s2">"mouseover"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"boolean"</span><span class="p">],</span>
+        <span class="s2">"position"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"array"</span><span class="p">],</span>
+        <span class="s2">"rotation"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"number"</span><span class="p">,</span> <span class="s2">"string"</span><span class="p">],</span>
+        <span class="s2">"rotation_mode"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"string"</span><span class="p">],</span>
+        <span class="s2">"snap"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"boolean"</span><span class="p">],</span>
+        <span class="s2">"wrap"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"boolean"</span><span class="p">],</span>
+        <span class="s2">"zorder"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"number"</span><span class="p">],</span>
     <span class="p">}</span></div>
 
 

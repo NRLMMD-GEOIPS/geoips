@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.pydantic_models.v1.readers &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.pydantic_models.v1.readers &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -831,7 +833,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Pydantic models used to validate GeoIPS OBP v1 reader plugins.&quot;&quot;&quot;</span>
+<span class="sd">"""Pydantic models used to validate GeoIPS OBP v1 reader plugins."""</span>
 
 <span class="c1"># Previously, the model names used as type hints were quoted marking them as strings;</span>
 <span class="c1"># leading to forward references, which allow referring to a class before Python has</span>
@@ -862,66 +864,66 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="ReaderArgumentsModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.readers.ReaderArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ReaderArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reader step argument definition.</span>
+<span class="w">    </span><span class="sd">"""Reader step argument definition.</span>
 
 <span class="sd">    Pydantic model defining and validating Reader step arguments.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">area_def</span><span class="p">:</span> <span class="n">AreaDefinition</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The domain over which to read data.&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"The domain over which to read data."</span>
     <span class="p">)</span>
     <span class="n">chans</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;List of variables to read&quot;</span><span class="p">,</span>
-        <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;variables&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"List of variables to read"</span><span class="p">,</span>
+        <span class="n">alias</span><span class="o">=</span><span class="s2">"variables"</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">metadata_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Read metadata only.&quot;</span><span class="p">)</span>
-    <span class="n">self_register</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Enable self-registration.&quot;</span><span class="p">)</span>
+    <span class="n">metadata_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Read metadata only."</span><span class="p">)</span>
+    <span class="n">self_register</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Enable self-registration."</span><span class="p">)</span>
     <span class="n">filenames</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;full path to the file(s) for static dataset inputs.&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"full path to the file(s) for static dataset inputs."</span>
     <span class="p">)</span>
     <span class="n">sectored_read</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">self_register_source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Source dataset to use for self-registration&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Source dataset to use for self-registration"</span>
     <span class="p">)</span>
     <span class="n">self_register_dataset</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Dataset within the source to use for self-registration&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Dataset within the source to use for self-registration"</span>
     <span class="p">)</span>
     <span class="n">resampled_read</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">False</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Specify whether a resampled read is required, needed for &quot;</span>
-        <span class="s2">&quot;datatypes that will be read within &#39;get_alg_xarray&#39;&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Specify whether a resampled read is required, needed for "</span>
+        <span class="s2">"datatypes that will be read within 'get_alg_xarray'"</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;area_def&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"area_def"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_validate_and_normalize_areadefinition</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AreaDefinition</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Validate and normalize the input for &#39;area_def&#39;.</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Validate and normalize the input for 'area_def'.</span>
 
 <span class="sd">        This method handles the input for area_def as follows:</span>
-<span class="sd">        - &#39;dict&#39;: Converted to an &#39;AreaDefinition&#39; object using &#39;create_area_def&#39;</span>
-<span class="sd">        - &#39;AreaDefinition&#39;: return &#39;AreaDefintion&#39;</span>
-<span class="sd">        - &#39;None&#39; = return &#39;None&#39;</span>
-<span class="sd">        -  Other types = Raise a &#39;ValueError&#39;</span>
+<span class="sd">        - 'dict': Converted to an 'AreaDefinition' object using 'create_area_def'</span>
+<span class="sd">        - 'AreaDefinition': return 'AreaDefintion'</span>
+<span class="sd">        - 'None' = return 'None'</span>
+<span class="sd">        -  Other types = Raise a 'ValueError'</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        value: Any</span>
-<span class="sd">            Input values for &#39;area_def&#39;</span>
+<span class="sd">            Input values for 'area_def'</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        AreaDefintion | None</span>
-<span class="sd">            A valid &#39;AreaDefintion&#39; instance or &#39;None&#39;.</span>
+<span class="sd">            A valid 'AreaDefintion' instance or 'None'.</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        ValueError</span>
-<span class="sd">            If the input type is other than &#39;AreaDefinition&#39;, &#39;Dict&#39;, and &#39;None&#39;.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            If the input type is other than 'AreaDefinition', 'Dict', and 'None'.</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyresample</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_area_def</span>
 
@@ -930,13 +932,13 @@ window.runMermaid = runMermaid;</script>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">AreaDefinition</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">value</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input should be a valid AreaDefinition&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Input should be a valid AreaDefinition"</span><span class="p">)</span>
 
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;filenames&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"filenames"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_validate_and_normalize_fnames</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Validate and normalize the input for &#39;fnames&#39;.</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Validate and normalize the input for 'fnames'.</span>
 
 <span class="sd">        This method handles the input for fnames as follows:</span>
 <span class="sd">        - asserts that fnames is one or more valid, existing filepaths</span>
@@ -945,7 +947,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        value: Any[PathLike]</span>
-<span class="sd">            Input values for &#39;fnames&#39;. Should be either a list of one or more strings /</span>
+<span class="sd">            Input values for 'fnames'. Should be either a list of one or more strings /</span>
 <span class="sd">            valid instances of pathlib.Path objects. Strings may contain wildcard</span>
 <span class="sd">            characters that can be used with glob to generate a list of file paths.</span>
 
@@ -958,17 +960,17 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        ------</span>
 <span class="sd">        ValueError</span>
 <span class="sd">            If the input type is other than a list of pathlib.Path objects.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">fnames</span> <span class="o">=</span> <span class="n">_generate_filenames_from_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">fnames</span>
 
-    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_handle_deprecated_chans</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Check for the deprecated &#39;chans&#39; field and issue a warning.</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Check for the deprecated 'chans' field and issue a warning.</span>
 
 <span class="sd">        This method detects if `chans` is present in the input values and issues a</span>
-<span class="sd">        deprecation warning, recommending the use of &#39;variable&#39; instead.</span>
+<span class="sd">        deprecation warning, recommending the use of 'variable' instead.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -979,12 +981,12 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        dict</span>
 <span class="sd">            The original input values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">chans_message</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="s2">&quot;&#39;chans&#39; is deprecated and will be removed in GeoIPS 2.0. Use&quot;</span>
-            <span class="s2">&quot; &#39;variables&#39; instead.&quot;</span>
+            <span class="s2">"'chans' is deprecated and will be removed in GeoIPS 2.0. Use"</span>
+            <span class="s2">" 'variables' instead."</span>
         <span class="p">)</span>
-        <span class="k">if</span> <span class="s2">&quot;chans&quot;</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">"chans"</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">chans_message</span><span class="p">)</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                 <span class="n">chans_message</span><span class="p">,</span>

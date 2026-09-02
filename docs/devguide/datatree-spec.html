@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>DataTree specification (developer reference) &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>DataTree specification (developer reference) &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -41,11 +41,13 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -410,8 +412,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="prev" title="Converting module-based plugins to class-based" href="converting-module-to-class.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -483,8 +485,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -1029,7 +1031,7 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <span class="w">  </span><span class="nt">fnames</span><span class="p">:</span><span class="w"> </span><span class="kt">!ENV</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*</span>
 <span class="w">  </span><span class="nt">outputs</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">abi:Infrared</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">policy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">on_failure</span><span class="w"> </span><span class="c1"># can also be &quot;always&quot;</span>
+<span class="w">      </span><span class="nt">policy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">on_failure</span><span class="w"> </span><span class="c1"># can also be "always"</span>
 <span class="w">      </span><span class="nt">compare_path</span><span class="p">:</span><span class="w"> </span><span class="kt">!ENV</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png</span>
 <span class="w">  </span><span class="c1"># The test.steps section allows overriding steps in the spec section at test time.</span>
 <span class="w">  </span><span class="c1"># This can override any part of a step except its step_id including its kind, name,</span>
@@ -1038,7 +1040,7 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <span class="w">    </span><span class="c1"># Override the variable read by the read_abi step from B14BT to B15BT</span>
 <span class="w">    </span><span class="nt">read_abi</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">arguments</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;B15BT&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"B15BT"</span><span class="p p-Indicator">]</span>
 <span class="w">    </span><span class="c1"># Override the output_data_range from single_channel to [-100.0, 30.0]</span>
 <span class="w">    </span><span class="nt">single_channel</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">arguments</span><span class="p">:</span>
@@ -1069,19 +1071,19 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">reader</span>
 <span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">abi_netcdf</span>
 <span class="w">      </span><span class="nt">arguments</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;B14BT&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"B14BT"</span><span class="p p-Indicator">]</span>
 <span class="w">      </span><span class="nt">keep</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">sector</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sectorizer</span>
 <span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">area_definition</span>
 <span class="w">      </span><span class="nt">arguments</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">area</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;global_2km&quot;</span>
+<span class="w">        </span><span class="nt">area</span><span class="p">:</span><span class="w"> </span><span class="s">"global_2km"</span>
 <span class="w">    </span><span class="nt">single_channel</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">algorithm</span>
 <span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">single_channel</span>
 <span class="w">      </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">sector</span><span class="p p-Indicator">]</span>
 <span class="w">      </span><span class="nt">arguments</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">variable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;B14BT&quot;</span>
+<span class="w">        </span><span class="nt">variable</span><span class="p">:</span><span class="w"> </span><span class="s">"B14BT"</span>
 <span class="w">        </span><span class="nt">output_data_range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-90.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">30.0</span><span class="p p-Indicator">]</span>
 <span class="w">        </span><span class="nt">satellite_zenith_angle_cutoff</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">75.0</span>
 <span class="w">    </span><span class="nt">colorize</span><span class="p">:</span>
@@ -1089,21 +1091,21 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Infrared</span>
 <span class="w">      </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">single_channel</span><span class="p p-Indicator">]</span>
 <span class="w">      </span><span class="nt">arguments</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">cmap</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Greys_r&quot;</span>
+<span class="w">        </span><span class="nt">cmap</span><span class="p">:</span><span class="w"> </span><span class="s">"Greys_r"</span>
 <span class="w">    </span><span class="nt">render_png</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">output_formatter</span>
 <span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">imagery_annotated</span>
 <span class="w">      </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">colorize</span><span class="p p-Indicator">]</span>
 <span class="w">      </span><span class="nt">arguments</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">output_dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;out/&quot;</span>
-<span class="w">        </span><span class="nt">filename_pattern</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;abi_infrared.png&quot;</span>
+<span class="w">        </span><span class="nt">output_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"out/"</span>
+<span class="w">        </span><span class="nt">filename_pattern</span><span class="p">:</span><span class="w"> </span><span class="s">"abi_infrared.png"</span>
 <span class="w">    </span><span class="nt">write_nc</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">output_formatter</span>
 <span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">netcdf_writer</span>
 <span class="w">      </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">single_channel</span><span class="p p-Indicator">]</span>
 <span class="w">      </span><span class="nt">arguments</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">output_dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;out/&quot;</span>
-<span class="w">        </span><span class="nt">filename_pattern</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;abi_infrared.nc&quot;</span>
+<span class="w">        </span><span class="nt">output_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"out/"</span>
+<span class="w">        </span><span class="nt">filename_pattern</span><span class="p">:</span><span class="w"> </span><span class="s">"abi_infrared.nc"</span>
 </pre></div>
 </div>
 </section>
@@ -1111,36 +1113,36 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <h3>3.2 Resulting Workflow DataTree<a class="headerlink" href="#resulting-workflow-datatree" title="Permalink to this heading">#</a></h3>
 <p>When executed using <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">run</span></code>, the workflow described in section 3.1 would result in the following DataTree.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;xarray.DataTree: abi_infrared_multi&gt;
-├── attrs: { workflow_name: &quot;abi_infrared_multi&quot;,
-│            outputs: [&quot;render_png&quot;, &quot;write_nc&quot;],
-│            retention_policy: &quot;keep_referenced&quot;,
+├── attrs: { workflow_name: "abi_infrared_multi",
+│            outputs: ["render_png", "write_nc"],
+│            retention_policy: "keep_referenced",
 │            workflow_spec_yaml: &lt;str&gt;,
-│            geoips_version: &quot;1.19.0&quot;,
-│            api_version: &quot;geoips/v1&quot; }
+│            geoips_version: "1.19.0",
+│            api_version: "geoips/v1" }
 ├── /read_abi              (kept: keep=true)
 │     ├── B14BT(xr.Dataset)
 │     │   └── B14BT (data_var)
 │     ├── coords: latitude, longitude, time
-│     └── attrs: { source_name: &quot;abi&quot;, platform_name: &quot;goes-16&quot;,
-│                  wavelength: 11.2, output_token: &quot;blake2b:1a2b...&quot;,
+│     └── attrs: { source_name: "abi", platform_name: "goes-16",
+│                  wavelength: 11.2, output_token: "blake2b:1a2b...",
 │                  start_time: &lt;datetime&gt;, end_time: &lt;datetime&gt;,
-│                  plugin_name: &quot;abi_netcdf&quot;, plugin_version: &quot;1.0.0&quot; }
-├── /sector                (GC&#39;d: data dropped, attrs kept)
-│     └── attrs: { gc_status: &quot;data_dropped&quot;,
-│                  output_token: &quot;blake2b:3c4d...&quot; }
+│                  plugin_name: "abi_netcdf", plugin_version: "1.0.0" }
+├── /sector                (GC'd: data dropped, attrs kept)
+│     └── attrs: { gc_status: "data_dropped",
+│                  output_token: "blake2b:3c4d..." }
 ├── /single_channel        (kept: write_nc still consumes it)
 │     ├── B14BT_clipped (data_var)
-│     └── attrs: { output_token: &quot;blake2b:5e6f...&quot;,
-│                  arguments_hash: &quot;...&quot; }
-├── /colorize              (GC&#39;d)
-│     └── attrs: { gc_status: &quot;data_dropped&quot;,
-│                  output_token: &quot;blake2b:7a8b...&quot; }
+│     └── attrs: { output_token: "blake2b:5e6f...",
+│                  arguments_hash: "..." }
+├── /colorize              (GC'd)
+│     └── attrs: { gc_status: "data_dropped",
+│                  output_token: "blake2b:7a8b..." }
 ├── /render_png            (kept: declared output)
-│     └── attrs: { artifacts: [&quot;out/abi_infrared.png&quot;],
-│                  sha256: &quot;0a1b2c...&quot; }
+│     └── attrs: { artifacts: ["out/abi_infrared.png"],
+│                  sha256: "0a1b2c..." }
 └── /write_nc              (kept: declared output)
-      └── attrs: { artifacts: [&quot;out/abi_infrared.nc&quot;],
-                   sha256: &quot;f8e7d6...&quot; }
+      └── attrs: { artifacts: ["out/abi_infrared.nc"],
+                   sha256: "f8e7d6..." }
 </pre></div>
 </div>
 <p>Note: GC’d nodes still carry their tokens (computed before GC). The workflow’s overall token is unchanged whether intermediates were GC’d or kept. Tokens are stored in each step node’s <code class="docutils literal notranslate"><span class="pre">attrs</span></code>, not at the workflow root.</p>
@@ -1257,7 +1259,7 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <span class="w">  </span><span class="nt">fnames</span><span class="p">:</span><span class="w"> </span><span class="kt">!ENV</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*</span>
 <span class="w">  </span><span class="nt">outputs</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">abi:Infrared</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">policy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">on_failure</span><span class="w"> </span><span class="c1"># can also be &quot;always&quot;</span>
+<span class="w">      </span><span class="nt">policy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">on_failure</span><span class="w"> </span><span class="c1"># can also be "always"</span>
 <span class="w">      </span><span class="nt">compare_path</span><span class="p">:</span><span class="w"> </span><span class="kt">!ENV</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png</span>
 <span class="w">  </span><span class="c1"># The test.steps section allows overriding steps in the spec section at test time.</span>
 <span class="w">  </span><span class="c1"># This can override any part of a step except its step_id including its kind, name,</span>
@@ -1266,7 +1268,7 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <span class="w">    </span><span class="c1"># Override the variable read by the read_abi step from B14BT to B15BT</span>
 <span class="w">    </span><span class="nt">read_abi</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">arguments</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;B15BT&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"B15BT"</span><span class="p p-Indicator">]</span>
 <span class="w">    </span><span class="c1"># Override the output_data_range from single_channel to [-100.0, 30.0]</span>
 <span class="w">    </span><span class="nt">single_channel</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">arguments</span><span class="p">:</span>
@@ -1351,10 +1353,10 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">split_by_data</span>
 <span class="w">  </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">sector</span><span class="p p-Indicator">]</span>
 <span class="w">  </span><span class="nt">arguments</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">on</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/sector/cloud_mask&quot;</span>
+<span class="w">    </span><span class="nt">on</span><span class="p">:</span><span class="w"> </span><span class="s">"/sector/cloud_mask"</span>
 <span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">cloudy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;cloud_mask</span><span class="nv"> </span><span class="s">==</span><span class="nv"> </span><span class="s">1&quot;</span>
-<span class="w">      </span><span class="nt">clear</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;cloud_mask</span><span class="nv"> </span><span class="s">==</span><span class="nv"> </span><span class="s">0&quot;</span>
+<span class="w">      </span><span class="nt">cloudy</span><span class="p">:</span><span class="w"> </span><span class="s">"cloud_mask</span><span class="nv"> </span><span class="s">==</span><span class="nv"> </span><span class="s">1"</span>
+<span class="w">      </span><span class="nt">clear</span><span class="p">:</span><span class="w"> </span><span class="s">"cloud_mask</span><span class="nv"> </span><span class="s">==</span><span class="nv"> </span><span class="s">0"</span>
 <span class="w">  </span><span class="nt">scope</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
 <span class="nt">algo_cloudy</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">algorithm</span>
@@ -1371,9 +1373,9 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merge_by_mask</span>
 <span class="w">  </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">algo_cloudy</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">algo_clear</span><span class="p p-Indicator">]</span>
 <span class="w">  </span><span class="nt">arguments</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">strategy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;merge_by_mask&quot;</span>
+<span class="w">    </span><span class="nt">strategy</span><span class="p">:</span><span class="w"> </span><span class="s">"merge_by_mask"</span>
 <span class="w">    </span><span class="nt">conflict</span><span class="p">:</span>
-<span class="w">      </span><span class="s">&quot;error&quot;</span><span class="w"> </span><span class="c1"># error | last_wins | first_wins | explicit_map</span>
+<span class="w">      </span><span class="s">"error"</span><span class="w"> </span><span class="c1"># error | last_wins | first_wins | explicit_map</span>
 <span class="w">      </span><span class="c1"># output node: /recombine (exits the split scope)</span>
 </pre></div>
 </div>
@@ -1381,7 +1383,7 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;root&gt;
 ├── /sector
 ├── /split_by_cloud_mask
-│     ├── attrs: { operator: &quot;split&quot;, split_on: &quot;cloud_mask&quot; }
+│     ├── attrs: { operator: "split", split_on: "cloud_mask" }
 │     ├── /cloudy
 │     │     ├── (subset where cloud_mask == 1)
 │     │     └── /algo_cloudy
@@ -1405,7 +1407,7 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">workflow</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">preprocess_l1b</span>
 <span class="w">    </span><span class="nt">arguments</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">target_area</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;global_2km&quot;</span>
+<span class="w">      </span><span class="nt">target_area</span><span class="p">:</span><span class="w"> </span><span class="s">"global_2km"</span>
 </pre></div>
 </div>
 <p>The nested workflow’s <code class="docutils literal notranslate"><span class="pre">test</span></code> block is <strong>not</strong> executed during the parent run.</p>
@@ -1413,12 +1415,12 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <p>The only difference between the DataTree resulting from an embedded workflow and any other kind of step is that the embedded workflow’s DataTree will, itself, contain DataTrees representing each of its contained steps.</p>
 <p>For a child workflow <code class="docutils literal notranslate"><span class="pre">preprocess_l1b</span></code> with steps <code class="docutils literal notranslate"><span class="pre">read_l1b</span></code>, <code class="docutils literal notranslate"><span class="pre">sector</span></code>, <code class="docutils literal notranslate"><span class="pre">calibrate</span></code>, <code class="docutils literal notranslate"><span class="pre">mask</span></code>, and <code class="docutils literal notranslate"><span class="pre">outputs:</span> <span class="pre">[calibrated,</span> <span class="pre">masked]</span></code>, the parent’s tree looks like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;root&gt;
-├── /preprocessing                        # the entire child workflow&#39;s DataTree
-|   ├── attrs: { workflow_name: &quot;preprocess_l1b&quot;, ... }
-|   ├── /read_l1b                          # child&#39;s reader step
-|   ├── /sector                            # child&#39;s sector step
-|   ├── /calibrate                         # also reachable as the &quot;calibrated&quot; output
-|   └── /mask                              # also reachable as the &quot;masked&quot; output
+├── /preprocessing                        # the entire child workflow's DataTree
+|   ├── attrs: { workflow_name: "preprocess_l1b", ... }
+|   ├── /read_l1b                          # child's reader step
+|   ├── /sector                            # child's sector step
+|   ├── /calibrate                         # also reachable as the "calibrated" output
+|   └── /mask                              # also reachable as the "masked" output
 └── root.attrs: { processing_history: [...], ... }
 </pre></div>
 </div>
@@ -1487,7 +1489,7 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <p>Every step resolves to a class-based plugin instance via the GeoIPS Plugin Registry. The class hierarchy that governs step execution is:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>BaseClassPlugin(ABC)                # geoips/interfaces/class_based_plugin.py
 ├── data_tree: bool = False         # discriminator: True = DataTree-native
-├── call(*args, **kwargs)           # abstract; plugin&#39;s core logic
+├── call(*args, **kwargs)           # abstract; plugin's core logic
 ├── _pre_call(data, *args, **kwargs)  # hook: convert TO DataTree
 ├── _post_call(data, *args, **kwargs) # hook: convert FROM DataTree
 ├── _invoke(data=None, *args, **kwargs)  # orchestrator:
@@ -1514,7 +1516,7 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 │   └── OrderBased                  # concrete procflow; produces DataTree (when procflows are deprecated, this will become the core of GeoIPS)
 │
 └── Workflow(Plugin)                # composite; IS a step, HAS steps
-    ├── interface = &quot;workflows&quot;
+    ├── interface = "workflows"
     ├── data_tree = True
     ├── steps: Dict[str, Plugin]    # resolved child plugin instances
     ├── call(workflow_tree: DataTree) → DataTree
@@ -1553,7 +1555,7 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
     <span class="n">step_def</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="n">step_id</span><span class="p">]</span>
     <span class="n">plugin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="n">step_id</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;reader&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">"reader"</span><span class="p">:</span>
         <span class="c1"># Readers have no upstream data — call(*args, fnames, **arguments).</span>
         <span class="c1"># Call the plugin directly (plugin(...)); this routes through</span>
         <span class="c1"># __call__ -&gt; _invoke, so never call _invoke() directly.</span>
@@ -1582,8 +1584,8 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;xarray.DataTree root&gt;          # name = workflow.name
 ├── attrs                        # workflow/global metadata (§5.2)
 ├── /&lt;step_id_1&gt;                 # one node per step in the workflow
-│     ├── data.                  # this step&#39;s output data as datasets
-│     ├── coords                 # step&#39;s coordinates
+│     ├── data.                  # this step's output data as datasets
+│     ├── coords                 # step's coordinates
 │     └── attrs                  # per-step provenance: token, timing, source info (§5.4)
 ├── /&lt;step_id_2&gt;
 │     └── ...
@@ -1741,7 +1743,7 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
       <span class="n">arguments_hash</span>    <span class="p">(</span><span class="nb">str</span><span class="p">)</span>
       <span class="n">start_time</span>        <span class="p">(</span><span class="nb">str</span><span class="p">)</span>   <span class="c1"># ISO-8601</span>
       <span class="n">end_time</span>          <span class="p">(</span><span class="nb">str</span><span class="p">)</span>   <span class="c1"># ISO-8601</span>
-      <span class="n">gc_status</span>         <span class="p">(</span><span class="nb">str</span><span class="p">)</span>   <span class="c1"># &quot;kept&quot; | &quot;data_dropped&quot;</span>
+      <span class="n">gc_status</span>         <span class="p">(</span><span class="nb">str</span><span class="p">)</span>   <span class="c1"># "kept" | "data_dropped"</span>
 </pre></div>
 </div>
 <p>This lets a step’s node be inspected in isolation — just read <code class="docutils literal notranslate"><span class="pre">tree[&quot;/&lt;step_id&gt;&quot;].attrs</span></code>. <code class="docutils literal notranslate"><span class="pre">source_name</span></code>, <code class="docutils literal notranslate"><span class="pre">platform_name</span></code>, and <code class="docutils literal notranslate"><span class="pre">data_provider</span></code> are populated by reader steps only; non-reader steps leave them as <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
@@ -1750,19 +1752,19 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <h3>5.5 Variable-Level Metadata<a class="headerlink" href="#variable-level-metadata" title="Permalink to this heading">#</a></h3>
 <p>Every <code class="docutils literal notranslate"><span class="pre">DataArray</span></code> in a step node that holds primary geophysical data <strong>MUST</strong> set:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;long_name&quot;</span><span class="p">:</span>     <span class="s2">&quot;11.2 µm Brightness Temperature&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;units&quot;</span><span class="p">:</span>         <span class="s2">&quot;K&quot;</span><span class="p">,</span>                                <span class="c1"># UDUNITS-2 preferred</span>
-    <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;toa_brightness_temperature&quot;</span><span class="p">,</span>       <span class="c1"># CF or GeoIPS extension</span>
+    <span class="s2">"long_name"</span><span class="p">:</span>     <span class="s2">"11.2 µm Brightness Temperature"</span><span class="p">,</span>
+    <span class="s2">"units"</span><span class="p">:</span>         <span class="s2">"K"</span><span class="p">,</span>                                <span class="c1"># UDUNITS-2 preferred</span>
+    <span class="s2">"standard_name"</span><span class="p">:</span> <span class="s2">"toa_brightness_temperature"</span><span class="p">,</span>       <span class="c1"># CF or GeoIPS extension</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>Optional (SHOULD for channel data):</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;wavelength&quot;</span><span class="p">:</span>         <span class="mf">11.2</span><span class="p">,</span>        <span class="c1"># µm</span>
-<span class="s2">&quot;channel_number&quot;</span><span class="p">:</span>     <span class="mi">14</span><span class="p">,</span>
-<span class="s2">&quot;bandwidth&quot;</span><span class="p">:</span>          <span class="mf">0.6</span><span class="p">,</span>         <span class="c1"># µm</span>
-<span class="s2">&quot;spectral_response&quot;</span><span class="p">:</span>  <span class="o">&lt;</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">URL</span> <span class="ow">or</span> <span class="n">DOI</span><span class="o">&gt;</span><span class="p">,</span>
-<span class="s2">&quot;coverage_checker&quot;</span><span class="p">:</span>   <span class="s2">&quot;masked_arrays&quot;</span><span class="p">,</span>
-<span class="s2">&quot;minimum_coverage&quot;</span><span class="p">:</span>   <span class="mf">10.0</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s2">"wavelength"</span><span class="p">:</span>         <span class="mf">11.2</span><span class="p">,</span>        <span class="c1"># µm</span>
+<span class="s2">"channel_number"</span><span class="p">:</span>     <span class="mi">14</span><span class="p">,</span>
+<span class="s2">"bandwidth"</span><span class="p">:</span>          <span class="mf">0.6</span><span class="p">,</span>         <span class="c1"># µm</span>
+<span class="s2">"spectral_response"</span><span class="p">:</span>  <span class="o">&lt;</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">URL</span> <span class="ow">or</span> <span class="n">DOI</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="s2">"coverage_checker"</span><span class="p">:</span>   <span class="s2">"masked_arrays"</span><span class="p">,</span>
+<span class="s2">"minimum_coverage"</span><span class="p">:</span>   <span class="mf">10.0</span><span class="p">,</span>
 </pre></div>
 </div>
 </section>
@@ -1809,7 +1811,7 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <h3>5.7 Parallel Branches<a class="headerlink" href="#parallel-branches" title="Permalink to this heading">#</a></h3>
 <p>A <code class="docutils literal notranslate"><span class="pre">split</span></code> step’s node contains <strong>named child branches</strong>, each itself a valid <code class="docutils literal notranslate"><span class="pre">DataTree</span></code>. Steps with <code class="docutils literal notranslate"><span class="pre">scope:</span> <span class="pre">&lt;branch&gt;</span></code> produce their output nodes <strong>nested inside that branch</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/split_by_cloud_mask
-├── attrs: { operator: &quot;split&quot;, split_on: &quot;/sector/cloud_mask&quot; }
+├── attrs: { operator: "split", split_on: "/sector/cloud_mask" }
 ├── /cloudy                            # branch 1 — a DataTree
 │     ├── (subset where cloud_mask == 1: data_vars, coords)
 │     └── /algo_cloudy                  # step with scope: cloudy nests here
@@ -1844,8 +1846,8 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <p><strong><code class="docutils literal notranslate"><span class="pre">_input</span></code> (entry step):</strong> <code class="docutils literal notranslate"><span class="pre">tree</span></code> is the data injected into this workflow from the outside — the parent’s collected upstream tree for a sub-workflow / split branch, or an empty <code class="docutils literal notranslate"><span class="pre">DataTree</span></code> at top level. See §8.1.1. When combined with real dependencies, those parent outputs are merged into the same <code class="docutils literal notranslate"><span class="pre">tree</span></code> alongside the injected children.</p>
 <p><strong>One <code class="docutils literal notranslate"><span class="pre">depends_on</span></code>:</strong> <code class="docutils literal notranslate"><span class="pre">tree</span></code> is the parent step’s <code class="docutils literal notranslate"><span class="pre">DataTree</span></code> directly. So if <code class="docutils literal notranslate"><span class="pre">single_channel</span></code> depends on <code class="docutils literal notranslate"><span class="pre">sector</span></code>, then inside <code class="docutils literal notranslate"><span class="pre">single_channel</span></code>, <code class="docutils literal notranslate"><span class="pre">tree</span></code> is the sector’s DataTree.</p>
 <p><strong>Multiple <code class="docutils literal notranslate"><span class="pre">depends_on</span></code>:</strong> <code class="docutils literal notranslate"><span class="pre">tree</span></code> is a single <code class="docutils literal notranslate"><span class="pre">DataTree</span></code> whose children are the parent step nodes, indexed by step <code class="docutils literal notranslate"><span class="pre">id</span></code>. So if <code class="docutils literal notranslate"><span class="pre">colocate</span></code> depends on <code class="docutils literal notranslate"><span class="pre">read_abi</span></code> and <code class="docutils literal notranslate"><span class="pre">read_atms</span></code>, then inside <code class="docutils literal notranslate"><span class="pre">colocate</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">abi</span>  <span class="o">=</span> <span class="n">tree</span><span class="p">[</span><span class="s2">&quot;/read_abi&quot;</span><span class="p">]</span>    <span class="c1"># the read_abi step&#39;s DataTree</span>
-<span class="n">atms</span> <span class="o">=</span> <span class="n">tree</span><span class="p">[</span><span class="s2">&quot;/read_atms&quot;</span><span class="p">]</span>   <span class="c1"># the read_atms step&#39;s DataTree</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">abi</span>  <span class="o">=</span> <span class="n">tree</span><span class="p">[</span><span class="s2">"/read_abi"</span><span class="p">]</span>    <span class="c1"># the read_abi step's DataTree</span>
+<span class="n">atms</span> <span class="o">=</span> <span class="n">tree</span><span class="p">[</span><span class="s2">"/read_atms"</span><span class="p">]</span>   <span class="c1"># the read_atms step's DataTree</span>
 </pre></div>
 </div>
 <p>This keeps the step signature uniform (always one <code class="docutils literal notranslate"><span class="pre">DataTree</span> <span class="pre">→</span> <span class="pre">DataTree</span></code>) and makes input access predictable (always by step id, never by position).</p>
@@ -1888,9 +1890,9 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/render_png
 └── attrs:
       kind: output_formatter
-      artifacts: [&quot;out/abi_infrared.png&quot;]
-      sha256: [&quot;0a1b2c...&quot;]
-      mime_type: [&quot;image/png&quot;]
+      artifacts: ["out/abi_infrared.png"]
+      sha256: ["0a1b2c..."]
+      mime_type: ["image/png"]
 </pre></div>
 </div>
 </section>
@@ -2018,7 +2020,7 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <span class="w">    </span><span class="nt">consume</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">algorithm</span>
 <span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">single_channel</span>
-<span class="w">      </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">_input</span><span class="p p-Indicator">]</span><span class="w">    </span><span class="c1"># receives the parent&#39;s injected data</span>
+<span class="w">      </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">_input</span><span class="p p-Indicator">]</span><span class="w">    </span><span class="c1"># receives the parent's injected data</span>
 </pre></div>
 </div>
 <blockquote>
@@ -2152,7 +2154,7 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">workflow</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">preprocess_l1b</span>
 <span class="w">    </span><span class="nt">arguments</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">target_area</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;global_2km&quot;</span>
+<span class="w">      </span><span class="nt">target_area</span><span class="p">:</span><span class="w"> </span><span class="s">"global_2km"</span>
 <span class="w">  </span><span class="nt">use_calibrated</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">algorithm</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">foo</span>
@@ -2221,7 +2223,7 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">For</span> <span class="n">each</span> <span class="n">step</span> <span class="n">S</span> <span class="n">after</span> <span class="n">it</span> <span class="n">completes</span><span class="p">:</span>
     <span class="n">For</span> <span class="n">each</span> <span class="n">completed</span> <span class="n">step</span> <span class="n">P</span><span class="p">:</span>
         <span class="n">If</span> <span class="n">P</span><span class="o">.</span><span class="n">keep</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span> <span class="k">continue</span>                 <span class="c1"># author override</span>
-        <span class="n">If</span> <span class="nb">all</span> <span class="n">of</span> <span class="n">P</span><span class="s1">&#39;s downstream consumers have completed:</span>
+        <span class="n">If</span> <span class="nb">all</span> <span class="n">of</span> <span class="n">P</span><span class="s1">'s downstream consumers have completed:</span>
             <span class="n">drop_data</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>                      <span class="c1"># null out data_vars</span>
             <span class="n">mark_gc</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
 </pre></div>
@@ -2234,7 +2236,7 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">reader</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">abi_netcdf</span>
 <span class="w">    </span><span class="nt">arguments</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="nv">...</span><span class="w"> </span><span class="p p-Indicator">}</span>
-<span class="w">    </span><span class="nt">keep</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"> </span><span class="c1"># this reader&#39;s full data survives any policy</span>
+<span class="w">    </span><span class="nt">keep</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"> </span><span class="c1"># this reader's full data survives any policy</span>
 </pre></div>
 </div>
 <p>Use cases: inspecting raw reader output for QA, retaining small-but-valuable intermediates, debugging. <strong>Default: <code class="docutils literal notranslate"><span class="pre">false</span></code> for all step kinds.</strong></p>
@@ -2242,8 +2244,8 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <section id="gc-visibility-in-provenance">
 <h3>10.7 GC Visibility in Provenance<a class="headerlink" href="#gc-visibility-in-provenance" title="Permalink to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="n">hist</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;processing_history&quot;</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">hist</span><span class="p">[[</span><span class="s2">&quot;step_id&quot;</span><span class="p">,</span> <span class="s2">&quot;gc_status&quot;</span><span class="p">,</span> <span class="s2">&quot;output_token&quot;</span><span class="p">]])</span>
+<span class="n">hist</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"processing_history"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">hist</span><span class="p">[[</span><span class="s2">"step_id"</span><span class="p">,</span> <span class="s2">"gc_status"</span><span class="p">,</span> <span class="s2">"output_token"</span><span class="p">]])</span>
 <span class="c1">#       step_id        gc_status     output_token</span>
 <span class="c1"># 0   read_abi              kept     blake2b:1a2b...</span>
 <span class="c1"># 1     sector      data_dropped     blake2b:3c4d...</span>
@@ -2265,8 +2267,8 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 
 <span class="k">def</span><span class="w"> </span><span class="nf">test_single_channel_clips_range</span><span class="p">():</span>
     <span class="n">tree_in</span> <span class="o">=</span> <span class="n">infrared_datatree</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">plugin</span> <span class="o">=</span> <span class="n">geoips</span><span class="o">.</span><span class="n">algorithm</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">&quot;single_channel&quot;</span><span class="p">)</span>
-    <span class="n">tree_out</span> <span class="o">=</span> <span class="n">plugin</span><span class="p">(</span><span class="n">tree_in</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;B14BT&quot;</span><span class="p">,</span> <span class="n">output_data_range</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">90.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">])</span>
+    <span class="n">plugin</span> <span class="o">=</span> <span class="n">geoips</span><span class="o">.</span><span class="n">algorithm</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">"single_channel"</span><span class="p">)</span>
+    <span class="n">tree_out</span> <span class="o">=</span> <span class="n">plugin</span><span class="p">(</span><span class="n">tree_in</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="s2">"B14BT"</span><span class="p">,</span> <span class="n">output_data_range</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">90.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">])</span>
     <span class="k">assert</span> <span class="n">tree_out</span><span class="o">.</span><span class="n">B14BT</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">30.0</span>
     <span class="k">assert</span> <span class="n">tree_out</span><span class="o">.</span><span class="n">B14BT</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">90.0</span>
 </pre></div>
@@ -2471,7 +2473,7 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
         If data is None (reader path), calls self.call(*args, **kwargs) directly.
         Otherwise:
         1. self._pre_call(data, *args, **kwargs) — unwrap from DataTree
-        2. self.call(data, *args, **kwargs)      — the plugin&#39;s work
+        2. self.call(data, *args, **kwargs)      — the plugin's work
         3. self._post_call(data, *args, **kwargs) — re-wrap to DataTree
 
         Plugin outputs are always returned as DataTree via DataTreeDitto
@@ -2479,7 +2481,7 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 
     _unwrap(self, data: DataTree) -&gt; Any
         Uses DataTreeDitto.get_original() to convert DataTree back to
-        the plugin&#39;s native format (xr.Dataset, np.ndarray, dict, etc.).
+        the plugin's native format (xr.Dataset, np.ndarray, dict, etc.).
 
     _wrap(self, result: Any) -&gt; DataTree
         Uses DataTreeDitto converter registry to wrap any non-DataTree
@@ -2495,7 +2497,7 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
     DataTree → DataTree) and HAS-A collection of child Plugin instances.
 
     Attributes:
-        interface: str = &quot;workflows&quot;
+        interface: str = "workflows"
         data_tree: bool = True
         name: str — from the workflow YAML
         spec: WorkflowSpecModel — validated specification
@@ -2509,12 +2511,12 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
            dispatches through __call__ -&gt; _invoke, so never call _invoke()):
            a. If reader: plugin(data=None, fnames=fnames, **arguments)
            b. Otherwise: plugin(data=upstream_tree, **arguments)
-           c. Attach output at tree[&quot;/&lt;step_id&gt;&quot;]
+           c. Attach output at tree["/&lt;step_id&gt;"]
            d. Apply retention to upstream nodes
         3. Return the workflow DataTree.
 
     _topological_order() -&gt; List[str]:
-        Kahn&#39;s algorithm. For v1 linear workflows, returns dict insertion order.
+        Kahn's algorithm. For v1 linear workflows, returns dict insertion order.
         Raises DependencyCycleError if cycles detected.
 
     _collect_upstream_data(tree, depends_on) -&gt; DataTree:
@@ -2529,9 +2531,9 @@ with <code class="docutils literal notranslate"><span class="pre">dask:</span></
 <h3>15.3 <code class="docutils literal notranslate"><span class="pre">OrderBased(BaseProcflowPlugin)</span></code> (Replaces <code class="docutils literal notranslate"><span class="pre">order_based.py</span></code> module-level <code class="docutils literal notranslate"><span class="pre">call()</span></code>)<a class="headerlink" href="#orderbased-baseprocflowplugin-replaces-order-based-py-module-level-call" title="Permalink to this heading">#</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OrderBased</span> <span class="p">(</span><span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">order_based</span><span class="o">.</span><span class="n">py</span><span class="p">):</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;procflows&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;order_based&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"procflows"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"order_based"</span>
     <span class="n">data_tree</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="n">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow_spec</span><span class="p">,</span> <span class="n">fnames</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">command_line_args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataTree</span><span class="p">:</span>

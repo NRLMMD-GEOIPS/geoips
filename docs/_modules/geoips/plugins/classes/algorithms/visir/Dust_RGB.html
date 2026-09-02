@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.algorithms.visir.Dust_RGB &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.algorithms.visir.Dust_RGB &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,13 +830,13 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Data manipulation steps for &quot;Dust&quot; EUMETSAT RGB product.</span>
+<span class="sd">"""Data manipulation steps for "Dust" EUMETSAT RGB product.</span>
 
 <span class="sd">This algorithm expects three visible reflectances for an RGB image:</span>
 <span class="sd">* Red SEVIRI B10BT - B09BT</span>
 <span class="sd">* Green SEVIRI B09BT - B07BT</span>
 <span class="sd">* Blue SEVIRI B09BT</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.algorithms</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseAlgorithmPlugin</span>
 
@@ -844,14 +846,14 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="DustRgbAlgorithmPlugin"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.algorithms.visir.html#geoips.plugins.classes.algorithms.visir.Dust_RGB.DustRgbAlgorithmPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DustRgbAlgorithmPlugin</span><span class="p">(</span><span class="n">BaseAlgorithmPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dust RGB algorithm plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Dust RGB algorithm plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;algorithms&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;xarray_to_numpy&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Dust_RGB&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"algorithms"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"xarray_to_numpy"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"Dust_RGB"</span>
 
 <div class="viewcode-block" id="DustRgbAlgorithmPlugin.call"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.algorithms.visir.html#geoips.plugins.classes.algorithms.visir.Dust_RGB.DustRgbAlgorithmPlugin.call">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xobj</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Dust RGB product algorithm data manipulation steps.</span>
+<span class="w">        </span><span class="sd">"""Dust RGB product algorithm data manipulation steps.</span>
 
 <span class="sd">        This algorithm expects reflectance values for</span>
 
@@ -863,17 +865,17 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        ----------</span>
 <span class="sd">        arrays : list of numpy.ndarray</span>
 <span class="sd">            * list of numpy.ndarray or numpy.MaskedArray of channel data,</span>
-<span class="sd">                in order of sensor &quot;channels&quot; list</span>
+<span class="sd">                in order of sensor "channels" list</span>
 <span class="sd">            * Degrees Kelvin</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        numpy.ndarray</span>
 <span class="sd">            numpy.ndarray or numpy.MaskedArray of qualitative RGBA image output</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">bt07</span> <span class="o">=</span> <span class="n">xobj</span><span class="p">[</span><span class="s2">&quot;B07BT&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>  <span class="c1"># 8.7 um TB, B07 SEVIRI</span>
-        <span class="n">bt09</span> <span class="o">=</span> <span class="n">xobj</span><span class="p">[</span><span class="s2">&quot;B09BT&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>  <span class="c1"># 10.8 um TB, B09 SEVIRI</span>
-        <span class="n">bt10</span> <span class="o">=</span> <span class="n">xobj</span><span class="p">[</span><span class="s2">&quot;B10BT&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>  <span class="c1"># 12.0 um TB, B10 SEVIRI</span>
+<span class="sd">        """</span>
+        <span class="n">bt07</span> <span class="o">=</span> <span class="n">xobj</span><span class="p">[</span><span class="s2">"B07BT"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>  <span class="c1"># 8.7 um TB, B07 SEVIRI</span>
+        <span class="n">bt09</span> <span class="o">=</span> <span class="n">xobj</span><span class="p">[</span><span class="s2">"B09BT"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>  <span class="c1"># 10.8 um TB, B09 SEVIRI</span>
+        <span class="n">bt10</span> <span class="o">=</span> <span class="n">xobj</span><span class="p">[</span><span class="s2">"B10BT"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>  <span class="c1"># 12.0 um TB, B10 SEVIRI</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.data_manipulations.corrections</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_data_range</span><span class="p">,</span> <span class="n">apply_gamma</span>
 
@@ -882,8 +884,8 @@ window.runMermaid = runMermaid;</script>
             <span class="n">bt10</span> <span class="o">-</span> <span class="n">bt09</span><span class="p">,</span>
             <span class="n">min_val</span><span class="o">=</span><span class="n">data_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
             <span class="n">max_val</span><span class="o">=</span><span class="n">data_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-            <span class="n">min_outbounds</span><span class="o">=</span><span class="s2">&quot;crop&quot;</span><span class="p">,</span>
-            <span class="n">max_outbounds</span><span class="o">=</span><span class="s2">&quot;crop&quot;</span><span class="p">,</span>
+            <span class="n">min_outbounds</span><span class="o">=</span><span class="s2">"crop"</span><span class="p">,</span>
+            <span class="n">max_outbounds</span><span class="o">=</span><span class="s2">"crop"</span><span class="p">,</span>
             <span class="n">norm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">inverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>  <span class="c1"># need inverse option?</span>
@@ -895,8 +897,8 @@ window.runMermaid = runMermaid;</script>
             <span class="n">bt09</span> <span class="o">-</span> <span class="n">bt07</span><span class="p">,</span>
             <span class="n">min_val</span><span class="o">=</span><span class="n">data_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
             <span class="n">max_val</span><span class="o">=</span><span class="n">data_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-            <span class="n">min_outbounds</span><span class="o">=</span><span class="s2">&quot;crop&quot;</span><span class="p">,</span>
-            <span class="n">max_outbounds</span><span class="o">=</span><span class="s2">&quot;crop&quot;</span><span class="p">,</span>
+            <span class="n">min_outbounds</span><span class="o">=</span><span class="s2">"crop"</span><span class="p">,</span>
+            <span class="n">max_outbounds</span><span class="o">=</span><span class="s2">"crop"</span><span class="p">,</span>
             <span class="n">norm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">inverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>
@@ -908,8 +910,8 @@ window.runMermaid = runMermaid;</script>
             <span class="n">bt09</span><span class="p">,</span>
             <span class="n">min_val</span><span class="o">=</span><span class="n">data_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
             <span class="n">max_val</span><span class="o">=</span><span class="n">data_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-            <span class="n">min_outbounds</span><span class="o">=</span><span class="s2">&quot;crop&quot;</span><span class="p">,</span>
-            <span class="n">max_outbounds</span><span class="o">=</span><span class="s2">&quot;crop&quot;</span><span class="p">,</span>
+            <span class="n">min_outbounds</span><span class="o">=</span><span class="s2">"crop"</span><span class="p">,</span>
+            <span class="n">max_outbounds</span><span class="o">=</span><span class="s2">"crop"</span><span class="p">,</span>
             <span class="n">norm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">inverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>  <span class="c1"># create image of deep clouds in blueish color</span>

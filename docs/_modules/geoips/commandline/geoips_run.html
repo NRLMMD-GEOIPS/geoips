@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.commandline.geoips_run &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.commandline.geoips_run &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,10 +830,10 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;GeoIPS CLI &quot;run&quot; command.</span>
+<span class="sd">"""GeoIPS CLI "run" command.</span>
 
 <span class="sd">Runs the appropriate script based on the args provided.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">abspath</span>
 
@@ -853,21 +855,21 @@ window.runMermaid = runMermaid;</script>
 
 <span class="n">data_fusion_installed</span> <span class="o">=</span> <span class="kc">False</span>
 
-<span class="k">with</span> <span class="n">import_optional_dependencies</span><span class="p">(</span><span class="n">loglevel</span><span class="o">=</span><span class="s2">&quot;info&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Attempt to import data_fusion_args from Data Fusion.&quot;&quot;&quot;</span>
-    <span class="c1"># NOTE: loglevel is set to &#39;info&#39; here so we don&#39;t get the constant output of</span>
-    <span class="c1"># &#39;Failed to import data_fusion.commandline at /path/to/geoips/geoips/commandline/geoips_run.py:19. If you need it, install it.&#39; # NOQA</span>
-    <span class="c1"># every time we use the CLI. If a user needs the CLI, I&#39;m assuming they&#39;ll know to</span>
+<span class="k">with</span> <span class="n">import_optional_dependencies</span><span class="p">(</span><span class="n">loglevel</span><span class="o">=</span><span class="s2">"info"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Attempt to import data_fusion_args from Data Fusion."""</span>
+    <span class="c1"># NOTE: loglevel is set to 'info' here so we don't get the constant output of</span>
+    <span class="c1"># 'Failed to import data_fusion.commandline at /path/to/geoips/geoips/commandline/geoips_run.py:19. If you need it, install it.' # NOQA</span>
+    <span class="c1"># every time we use the CLI. If a user needs the CLI, I'm assuming they'll know to</span>
     <span class="c1"># install it.</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">data_fusion.commandline.args</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_args</span> <span class="k">as</span> <span class="n">data_fusion_add_args</span>
     <span class="k">except</span> <span class="ne">ModuleNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># &#39;data_fusion&#39; is not an allowed name for the data_fusion package on pypi.</span>
+            <span class="c1"># 'data_fusion' is not an allowed name for the data_fusion package on pypi.</span>
             <span class="c1"># We have temporarily pushed it to pypi as geoips_data_fusion.</span>
             <span class="c1"># This change allows geoips run to use the pypi packaged</span>
             <span class="c1"># version of the data_fusion file, which is named</span>
-            <span class="c1"># &#39;geoips_data_fusion&#39;</span>
+            <span class="c1"># 'geoips_data_fusion'</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">geoips_data_fusion.commandline.args</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
                 <span class="n">add_args</span> <span class="k">as</span> <span class="n">data_fusion_add_args</span><span class="p">,</span>
             <span class="p">)</span>
@@ -877,106 +879,106 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="GeoipsRunConfigBased"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_run.GeoipsRunConfigBased">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsRunConfigBased</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run Command for executing the config based process-workflow (procflow).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Run Command for executing the config based process-workflow (procflow)."""</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;config_based&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"config_based"</span>
     <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="GeoipsRunConfigBased.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_run.GeoipsRunConfigBased.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments to the run-subparser for the &#39;run config_based&#39; Command.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add arguments to the run-subparser for the 'run config_based' Command."""</span>
         <span class="n">add_args</span><span class="p">(</span><span class="n">parser</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="p">,</span> <span class="n">legacy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">legacy</span><span class="p">)</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the provided GeoIPS command.</span>
+<span class="w">        </span><span class="sd">"""Run the provided GeoIPS command.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        args: Namespace()</span>
 <span class="sd">            - The argument namespace to parse through</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">procflow</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">legacy</span><span class="p">:</span>
             <span class="n">err_str</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;Deprecated, Legacy &#39;run_procflow&#39; call was used and --procflow &quot;</span>
-                <span class="s2">&quot;flag wasn&#39;t specified. Please either specify which procflow is &quot;</span>
-                <span class="s2">&quot;being executed via &#39;--procflow &lt;procflow_name&gt;&#39; or use the &quot;</span>
-                <span class="s2">&quot;supported procflow call &#39;geoips run &lt;procflow_name&gt;&#39;&quot;</span>
+                <span class="s2">"Deprecated, Legacy 'run_procflow' call was used and --procflow "</span>
+                <span class="s2">"flag wasn't specified. Please either specify which procflow is "</span>
+                <span class="s2">"being executed via '--procflow &lt;procflow_name&gt;' or use the "</span>
+                <span class="s2">"supported procflow call 'geoips run &lt;procflow_name&gt;'"</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err_str</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">procflow</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># If None, set to &#39;config_based&#39;. We don&#39;t want users to have to specify</span>
+            <span class="c1"># If None, set to 'config_based'. We don't want users to have to specify</span>
             <span class="c1"># what procflow will be used as it is specified in</span>
-            <span class="c1"># &#39;geoips run config_based&#39;.</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">procflow</span> <span class="o">=</span> <span class="s2">&quot;config_based&quot;</span>
+            <span class="c1"># 'geoips run config_based'.</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">procflow</span> <span class="o">=</span> <span class="s2">"config_based"</span>
         <span class="n">main</span><span class="p">(</span><span class="n">ARGS</span><span class="o">=</span><span class="n">args</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GeoipsRunDataFusion"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_run.GeoipsRunDataFusion">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsRunDataFusion</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run Command for executing the data fusion process-workflow (procflow).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Run Command for executing the data fusion process-workflow (procflow)."""</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;data_fusion&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"data_fusion"</span>
     <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="GeoipsRunDataFusion.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_run.GeoipsRunDataFusion.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments to the run-subparser for the &#39;run data_fusion&#39; Command.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add arguments to the run-subparser for the 'run data_fusion' Command."""</span>
         <span class="k">if</span> <span class="n">data_fusion_installed</span><span class="p">:</span>
             <span class="n">data_fusion_add_args</span><span class="p">(</span><span class="n">parser</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="p">,</span> <span class="n">legacy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">legacy</span><span class="p">)</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the provided GeoIPS command.</span>
+<span class="w">        </span><span class="sd">"""Run the provided GeoIPS command.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        args: Namespace()</span>
 <span class="sd">            - The argument namespace to parse through</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">data_fusion_installed</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">procflow</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">legacy</span><span class="p">:</span>
                 <span class="n">err_str</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="s2">&quot;Deprecated, Legacy &#39;data_fusion_procflow&#39; call was used and &quot;</span>
-                    <span class="s2">&quot;--procflow flag wasn&#39;t specified. Please either specify which &quot;</span>
-                    <span class="s2">&quot;procflow is being executed via &#39;--procflow &lt;procflow_name&gt;&#39; or &quot;</span>
-                    <span class="s2">&quot;use the supported procflow call &#39;geoips run &lt;procflow_name&gt;&#39;&quot;</span>
+                    <span class="s2">"Deprecated, Legacy 'data_fusion_procflow' call was used and "</span>
+                    <span class="s2">"--procflow flag wasn't specified. Please either specify which "</span>
+                    <span class="s2">"procflow is being executed via '--procflow &lt;procflow_name&gt;' or "</span>
+                    <span class="s2">"use the supported procflow call 'geoips run &lt;procflow_name&gt;'"</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err_str</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">procflow</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="c1"># If None, set to &#39;data_fusion&#39;. We don&#39;t want users to have to specify</span>
+                <span class="c1"># If None, set to 'data_fusion'. We don't want users to have to specify</span>
                 <span class="c1"># what procflow will be used as it is specified in</span>
-                <span class="c1"># &#39;geoips run data_fusion&#39;.</span>
-                <span class="n">args</span><span class="o">.</span><span class="n">procflow</span> <span class="o">=</span> <span class="s2">&quot;data_fusion&quot;</span>
+                <span class="c1"># 'geoips run data_fusion'.</span>
+                <span class="n">args</span><span class="o">.</span><span class="n">procflow</span> <span class="o">=</span> <span class="s2">"data_fusion"</span>
             <span class="n">main</span><span class="p">(</span><span class="n">ARGS</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="s2">&quot;Data fusion is not installed. If you want to run this type of &quot;</span>
-                <span class="s2">&quot;functionality, please clone and install &quot;</span>
-                <span class="s2">&quot;https://github.com/NRLMMD-GEOIPS/data_fusion.git&quot;</span>
+                <span class="s2">"Data fusion is not installed. If you want to run this type of "</span>
+                <span class="s2">"functionality, please clone and install "</span>
+                <span class="s2">"https://github.com/NRLMMD-GEOIPS/data_fusion.git"</span>
             <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GeoipsRunOrderBased"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_run.GeoipsRunOrderBased">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsRunOrderBased</span><span class="p">(</span><span class="n">GeoipsWorkflowCommand</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run command for executing an order based process-workflow (procflow).</span>
+<span class="w">    </span><span class="sd">"""Run command for executing an order based process-workflow (procflow).</span>
 
 <span class="sd">    Makes use of workflow plugins and additional commandline arguments that single</span>
 <span class="sd">    source would use.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;order_based&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"order_based"</span>
     <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">warning_with_color</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span>
-        <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Note: &quot;</span>
+        <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">Note: "</span>
         <span class="o">+</span> <span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span>
-        <span class="o">+</span> <span class="s2">&quot;`geoips run order_based` (Order-Based Processing) is the recommended &quot;</span>
-        <span class="o">+</span> <span class="s2">&quot;processing path in GeoIPS 2.0. It is still stabilizing, so some interfaces &quot;</span>
-        <span class="o">+</span> <span class="s2">&quot;may change between releases.</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="o">+</span> <span class="s2">"`geoips run order_based` (Order-Based Processing) is the recommended "</span>
+        <span class="o">+</span> <span class="s2">"processing path in GeoIPS 2.0. It is still stabilizing, so some interfaces "</span>
+        <span class="o">+</span> <span class="s2">"may change between releases.</span><span class="se">\n</span><span class="s2">"</span>
     <span class="p">)</span>
     <span class="n">warning_no_color</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Note: `geoips run order_based` (Order-Based Processing) is the recommended &quot;</span>
-        <span class="s2">&quot;processing path in GeoIPS 2.0. It is still stabilizing, so some interfaces &quot;</span>
-        <span class="s2">&quot;may change between releases.</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">"</span><span class="se">\n</span><span class="s2">Note: `geoips run order_based` (Order-Based Processing) is the recommended "</span>
+        <span class="s2">"processing path in GeoIPS 2.0. It is still stabilizing, so some interfaces "</span>
+        <span class="s2">"may change between releases.</span><span class="se">\n</span><span class="s2">"</span>
     <span class="p">)</span>
 
 <div class="viewcode-block" id="GeoipsRunOrderBased.dict_type"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_run.GeoipsRunOrderBased.dict_type">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">dict_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure an dictionary-based override can be cast as a dictionary.</span>
+<span class="w">        </span><span class="sd">"""Ensure an dictionary-based override can be cast as a dictionary.</span>
 
 <span class="sd">        This is used to validate the input of -S, -K, and -G flags.</span>
 
@@ -984,18 +986,18 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        ----------</span>
 <span class="sd">        value: str</span>
 <span class="sd">            The full global override string for a geoips run order_based command.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid dictionary input: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid dictionary input: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 <div class="viewcode-block" id="GeoipsRunOrderBased.global_override_type"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_run.GeoipsRunOrderBased.global_override_type">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">global_override_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure an override string fits the following format.</span>
+<span class="w">        </span><span class="sd">"""Ensure an override string fits the following format.</span>
 
 <span class="sd">        Expected Format</span>
 <span class="sd">        ---------------</span>
-<span class="sd">        &#39;&lt;global_variable_name&gt;=&lt;some_value&gt;&#39;</span>
+<span class="sd">        '&lt;global_variable_name&gt;=&lt;some_value&gt;'</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1006,21 +1008,21 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        override_dict: dict</span>
 <span class="sd">            The validated contents of an override string in a dictionary.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">override</span> <span class="o">=</span> <span class="n">workflows</span><span class="o">.</span><span class="n">global_override_type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Invalid format &#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;. Expected &#39;&lt;global_variable_name&gt;=&lt;value&gt;&#39;&quot;</span>
+                <span class="sa">f</span><span class="s2">"Invalid format '</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">'. Expected '&lt;global_variable_name&gt;=&lt;value&gt;'"</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">override</span></div>
 
 <div class="viewcode-block" id="GeoipsRunOrderBased.kind_override_type"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_run.GeoipsRunOrderBased.kind_override_type">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">kind_override_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure an override string fits the following format.</span>
+<span class="w">        </span><span class="sd">"""Ensure an override string fits the following format.</span>
 
 <span class="sd">        Expected Format</span>
 <span class="sd">        ---------------</span>
-<span class="sd">        &#39;&lt;kind&gt;.&lt;argument_name&gt;=&lt;some_value&gt;&#39;</span>
+<span class="sd">        '&lt;kind&gt;.&lt;argument_name&gt;=&lt;some_value&gt;'</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1031,21 +1033,21 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        override_dict: dict</span>
 <span class="sd">            The validated contents of an override string in a dictionary.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">override</span> <span class="o">=</span> <span class="n">workflows</span><span class="o">.</span><span class="n">kind_override_type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Invalid format &#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;. Expected &#39;&lt;kind&gt;.&lt;argument_name&gt;=&lt;value&gt;&#39;&quot;</span>
+                <span class="sa">f</span><span class="s2">"Invalid format '</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">'. Expected '&lt;kind&gt;.&lt;argument_name&gt;=&lt;value&gt;'"</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">override</span></div>
 
 <div class="viewcode-block" id="GeoipsRunOrderBased.step_override_type"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_run.GeoipsRunOrderBased.step_override_type">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">step_override_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure an override string fits the following format.</span>
+<span class="w">        </span><span class="sd">"""Ensure an override string fits the following format.</span>
 
 <span class="sd">        Expected Format</span>
 <span class="sd">        ---------------</span>
-<span class="sd">        &#39;&lt;step_id&gt;.&lt;string1&gt;.&lt;optional_string2&gt;.&lt;optional_string3&gt;...=&lt;some_value&gt;&#39;</span>
+<span class="sd">        '&lt;step_id&gt;.&lt;string1&gt;.&lt;optional_string2&gt;.&lt;optional_string3&gt;...=&lt;some_value&gt;'</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1056,112 +1058,112 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        override_dict: dict</span>
 <span class="sd">            The validated contents of an override string in a dictionary.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">override</span> <span class="o">=</span> <span class="n">workflows</span><span class="o">.</span><span class="n">step_override_type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Invalid format &#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;. Expected &#39;&lt;step_id&gt;.&lt;...&gt;=&lt;value&gt;&#39;&quot;</span>
+                <span class="sa">f</span><span class="s2">"Invalid format '</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">'. Expected '&lt;step_id&gt;.&lt;...&gt;=&lt;value&gt;'"</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">override</span></div>
 
 <div class="viewcode-block" id="GeoipsRunOrderBased.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_run.GeoipsRunOrderBased.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments to the run-subparser for the &#39;run order-based&#39; command.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add arguments to the run-subparser for the 'run order-based' command."""</span>
         <span class="c1"># Required arguments</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;workflow&quot;</span><span class="p">,</span>
+            <span class="s2">"workflow"</span><span class="p">,</span>
             <span class="nb">type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow_type</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;Workflow instance. Can be the name of a registered workflow plugin, &quot;</span>
-                <span class="s2">&quot;a .json or .yaml path to an unregistered workflow plugin, or a &quot;</span>
-                <span class="s2">&quot;dictionary that will be literally evaluated as a workflow.&quot;</span>
+                <span class="s2">"Workflow instance. Can be the name of a registered workflow plugin, "</span>
+                <span class="s2">"a .json or .yaml path to an unregistered workflow plugin, or a "</span>
+                <span class="s2">"dictionary that will be literally evaluated as a workflow."</span>
             <span class="p">),</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;filenames&quot;</span><span class="p">,</span>
-            <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
+            <span class="s2">"filenames"</span><span class="p">,</span>
+            <span class="n">nargs</span><span class="o">=</span><span class="s2">"+"</span><span class="p">,</span>
             <span class="nb">type</span><span class="o">=</span><span class="n">abspath</span><span class="p">,</span>
-            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Fully qualified paths to data files to be processed.&quot;&quot;&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">"""Fully qualified paths to data files to be processed."""</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="c1"># dict-based override arguments</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;-S&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;--step-override-dict&quot;</span><span class="p">,</span>
+            <span class="s2">"-S"</span><span class="p">,</span>
+            <span class="s2">"--step-override-dict"</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="p">{},</span>
             <span class="nb">type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dict_type</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;One or more step overrides to apply to your workflow. In a dictionary &quot;</span>
-                <span class="s2">&quot;format. See geoips.pydantic_models.v1.workflows for more info on the &quot;</span>
-                <span class="s2">&quot;correct format.&quot;</span>
+                <span class="s2">"One or more step overrides to apply to your workflow. In a dictionary "</span>
+                <span class="s2">"format. See geoips.pydantic_models.v1.workflows for more info on the "</span>
+                <span class="s2">"correct format."</span>
             <span class="p">),</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;-K&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;--kind-override-dict&quot;</span><span class="p">,</span>
+            <span class="s2">"-K"</span><span class="p">,</span>
+            <span class="s2">"--kind-override-dict"</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="p">{},</span>
             <span class="nb">type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dict_type</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;One or more kind overrides to apply to your workflow. In a dictionary &quot;</span>
-                <span class="s2">&quot;format. See geoips.pydantic_models.v1.workflows for more info on the &quot;</span>
-                <span class="s2">&quot;correct format.&quot;</span>
+                <span class="s2">"One or more kind overrides to apply to your workflow. In a dictionary "</span>
+                <span class="s2">"format. See geoips.pydantic_models.v1.workflows for more info on the "</span>
+                <span class="s2">"correct format."</span>
             <span class="p">),</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;-G&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;--global-override-dict&quot;</span><span class="p">,</span>
+            <span class="s2">"-G"</span><span class="p">,</span>
+            <span class="s2">"--global-override-dict"</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="p">{},</span>
             <span class="nb">type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dict_type</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;One or more global overrides to apply to your workflow. In a &quot;</span>
-                <span class="s2">&quot;dictionary format. See geoips.pydantic_models.v1.workflows for more &quot;</span>
-                <span class="s2">&quot;info on the correct format.&quot;</span>
+                <span class="s2">"One or more global overrides to apply to your workflow. In a "</span>
+                <span class="s2">"dictionary format. See geoips.pydantic_models.v1.workflows for more "</span>
+                <span class="s2">"info on the correct format."</span>
             <span class="p">),</span>
         <span class="p">)</span>
         <span class="c1"># string-based override arguments</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;-s&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;--step-override-strings&quot;</span><span class="p">,</span>
+            <span class="s2">"-s"</span><span class="p">,</span>
+            <span class="s2">"--step-override-strings"</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="p">[],</span>
             <span class="nb">type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">step_override_type</span><span class="p">,</span>
-            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">"append"</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;Step override string to apply to your workflow. An &quot;</span>
-                <span class="s2">&quot;override string should take on the following format:</span><span class="se">\n</span><span class="s2"> &quot;</span>
-                <span class="s2">&quot;&#39;&lt;step_id&gt;.&lt;string1&gt;.&lt;optional_string2&gt;...&lt;argument&gt;=&lt;some_value&gt;&#39;&quot;</span>
+                <span class="s2">"Step override string to apply to your workflow. An "</span>
+                <span class="s2">"override string should take on the following format:</span><span class="se">\n</span><span class="s2"> "</span>
+                <span class="s2">"'&lt;step_id&gt;.&lt;string1&gt;.&lt;optional_string2&gt;...&lt;argument&gt;=&lt;some_value&gt;'"</span>
             <span class="p">),</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;-k&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;--kind-override-strings&quot;</span><span class="p">,</span>
+            <span class="s2">"-k"</span><span class="p">,</span>
+            <span class="s2">"--kind-override-strings"</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="p">[],</span>
             <span class="nb">type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kind_override_type</span><span class="p">,</span>
-            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">"append"</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;Kind override string to apply to your workflow. An &quot;</span>
-                <span class="s2">&quot;override string should take on the following format:</span><span class="se">\n</span><span class="s2"> &quot;</span>
-                <span class="s2">&quot;&#39;&lt;kind&gt;.&lt;argument_name&gt;=&lt;some_value&gt;&#39;&quot;</span>
+                <span class="s2">"Kind override string to apply to your workflow. An "</span>
+                <span class="s2">"override string should take on the following format:</span><span class="se">\n</span><span class="s2"> "</span>
+                <span class="s2">"'&lt;kind&gt;.&lt;argument_name&gt;=&lt;some_value&gt;'"</span>
             <span class="p">),</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;-g&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;--global-override-strings&quot;</span><span class="p">,</span>
+            <span class="s2">"-g"</span><span class="p">,</span>
+            <span class="s2">"--global-override-strings"</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="p">[],</span>
             <span class="nb">type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">global_override_type</span><span class="p">,</span>
-            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">"append"</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;Global override string to apply to your workflow. An &quot;</span>
-                <span class="s2">&quot;override string should take on the following format:</span><span class="se">\n</span><span class="s2"> &quot;</span>
-                <span class="s2">&quot;&#39;&lt;global_variable_name&gt;=&lt;some_value&gt;&#39;&quot;</span>
+                <span class="s2">"Global override string to apply to your workflow. An "</span>
+                <span class="s2">"override string should take on the following format:</span><span class="se">\n</span><span class="s2"> "</span>
+                <span class="s2">"'&lt;global_variable_name&gt;=&lt;some_value&gt;'"</span>
             <span class="p">),</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;-wt&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;--write-tokens&quot;</span><span class="p">,</span>
+            <span class="s2">"-wt"</span><span class="p">,</span>
+            <span class="s2">"--write-tokens"</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;Write tokens for the output of every step in a workflow. Used for &quot;</span>
-                <span class="s2">&quot;quick comparison against known token outputs.&quot;</span>
+                <span class="s2">"Write tokens for the output of every step in a workflow. Used for "</span>
+                <span class="s2">"quick comparison against known token outputs."</span>
             <span class="p">),</span>
         <span class="p">)</span></div>
 
@@ -1170,7 +1172,7 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># add_args(parser=self.parser, legacy=self.legacy)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_apply_overrides</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Override a workflow via dictionary and string overrides.</span>
+<span class="w">        </span><span class="sd">"""Override a workflow via dictionary and string overrides.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1183,7 +1185,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        workflow: WorkflowPlugin-like</span>
 <span class="sd">            - The overridden workflow.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">s_override_dict</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">step_override_dict</span>
         <span class="n">k_override_dict</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">kind_override_dict</span>
         <span class="n">g_override_dict</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">global_override_dict</span>
@@ -1227,7 +1229,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">workflow</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the provided GeoIPS command.</span>
+<span class="w">        </span><span class="sd">"""Run the provided GeoIPS command.</span>
 
 <span class="sd">        In specific, run a GeoIPS order based process-workflow (procflow) to produce</span>
 <span class="sd">        some output.</span>
@@ -1236,58 +1238,58 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        ----------</span>
 <span class="sd">        args: Namespace()</span>
 <span class="sd">            - The argument namespace to parse through.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">workflow</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">workflow</span>
 
         <span class="n">workflow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_overrides</span><span class="p">(</span><span class="n">workflow</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
 
-        <span class="n">obp</span> <span class="o">=</span> <span class="n">procflows</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">&quot;order_based&quot;</span><span class="p">)</span>
+        <span class="n">obp</span> <span class="o">=</span> <span class="n">procflows</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">"order_based"</span><span class="p">)</span>
         <span class="n">obp</span><span class="p">(</span><span class="n">workflow_spec</span><span class="o">=</span><span class="n">workflow</span><span class="p">,</span> <span class="n">filenames</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">filenames</span><span class="p">,</span> <span class="n">command_line_args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">PATHS</span><span class="p">[</span><span class="s2">&quot;NO_COLOR&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">PATHS</span><span class="p">[</span><span class="s2">"NO_COLOR"</span><span class="p">]:</span>
             <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">warning_no_color</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">warning_with_color</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GeoipsRunSingleSource"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_run.GeoipsRunSingleSource">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsRunSingleSource</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run Command for executing the single source process-workflow (procflow).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Run Command for executing the single source process-workflow (procflow)."""</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;single_source&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"single_source"</span>
     <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="GeoipsRunSingleSource.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_run.GeoipsRunSingleSource.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments to the run-subparser for the &#39;run single_source&#39; Command.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add arguments to the run-subparser for the 'run single_source' Command."""</span>
         <span class="n">add_args</span><span class="p">(</span><span class="n">parser</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="p">,</span> <span class="n">legacy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">legacy</span><span class="p">)</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the provided GeoIPS command.</span>
+<span class="w">        </span><span class="sd">"""Run the provided GeoIPS command.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        args: Namespace()</span>
 <span class="sd">            - The argument namespace to parse through</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">procflow</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">legacy</span><span class="p">:</span>
             <span class="n">err_str</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;Deprecated, Legacy &#39;run_procflow&#39; call was used and --procflow &quot;</span>
-                <span class="s2">&quot;flag wasn&#39;t specified. Please either specify which procflow is &quot;</span>
-                <span class="s2">&quot;being executed via &#39;--procflow &lt;procflow_name&gt;&#39; or use the &quot;</span>
-                <span class="s2">&quot;supported procflow call &#39;geoips run &lt;procflow_name&gt;&#39;&quot;</span>
+                <span class="s2">"Deprecated, Legacy 'run_procflow' call was used and --procflow "</span>
+                <span class="s2">"flag wasn't specified. Please either specify which procflow is "</span>
+                <span class="s2">"being executed via '--procflow &lt;procflow_name&gt;' or use the "</span>
+                <span class="s2">"supported procflow call 'geoips run &lt;procflow_name&gt;'"</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err_str</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">procflow</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># If None, set to &#39;single_source&#39;. We don&#39;t want users to have to specify</span>
+            <span class="c1"># If None, set to 'single_source'. We don't want users to have to specify</span>
             <span class="c1"># what procflow will be used as it is specified in</span>
-            <span class="c1"># &#39;geoips run single_source&#39;.</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">procflow</span> <span class="o">=</span> <span class="s2">&quot;single_source&quot;</span>
+            <span class="c1"># 'geoips run single_source'.</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">procflow</span> <span class="o">=</span> <span class="s2">"single_source"</span>
         <span class="n">main</span><span class="p">(</span><span class="n">ARGS</span><span class="o">=</span><span class="n">args</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GeoipsRun"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_run.GeoipsRun">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsRun</span><span class="p">(</span><span class="n">GeoipsCommand</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run Command for running process-workflows (procflows).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Run Command for running process-workflows (procflows)."""</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;run&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"run"</span>
     <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">GeoipsRunDataFusion</span><span class="p">,</span>
         <span class="n">GeoipsRunConfigBased</span><span class="p">,</span>

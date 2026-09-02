@@ -1,48 +1,21 @@
-Version 1.15.1 (2026-07-23)
+Version 1.15.1 (2026-09-02)
 ***************************
 
- * *Bug fixes*: Update ami test sector and imagery type
  * *Bug fixes*: Replace xarray_datatree with xarray
  * *Bug fixes*: Numpy 2.0/netcdf 1.7 bug fixes for ami reader, seg faults and dtypes
  * *Bug fixes*: Numpy 2.0 un-bug fixes for smap reader
  * *Bug fixes*: Xarray > 2024.3.0 bug fix for scat noaa netcdf reader
  * *Bug fixes*: Matplotlib 3.10 image updates using interpolation_stage data
+ * *Bug fixes*: Update ami test sector and imagery type
  * *Bug fixes*: Add pip and mamba environment files for 1.15.1 full install env
  * *Bug fixes*: Create interactive_test.sh integration test script
  * *Bug fixes*: Default to no automated plugin registry creation.
- * *Documentation*: Clean up output checker comparison outputs
  * *Breaking change*: Turn off matplotlib interpolation, and update all test outputs
+ * *Documentation*: Clean up output checker comparison outputs
  * *Release process*: Add pip and mamba 1.15.0 public and 1.15.1 full test bug fix env files
 
 Bug fixes
 =========
-
-Update ami test sector and imagery type
----------------------------------------
-
-To avoid additional issues with matplotlib updates, update the AMI
-test scripts to produce non-annotated imagery, and a small subsector.
-
-`#753 <GEOIPS/geoips>`_
-
-::
-
-     modified: tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_annotated.sh, renamed clean
-     modified: tests/scripts/ami.static.Infrared.imagery_annotated.sh, renamed clean
-     modified: tests/scripts/ami.static.Visible.imagery_annotated.sh, renamed clean
-     added: geoips/plugins/yaml/sectors/test/geostationary/geokompsat_subsector.yaml
-     moved:
-     tests/outputs/ami.static.mst.absdiff-IR-BD.imagery_annotated/20241010.000039.GK-2A.ami.absdiff-IR-BD.korea.83p16.nmsc.1p0.png
-     ->
-     tests/outputs/ami.static.mst.absdiff-IR-BD.imagery_clean/20241010.000039.GK-2A.ami.absdiff-IR-BD.geokompsat-subsector-27deg.20p50.nmsc.10p0.png
-     moved:
-     tests/outputs/ami.static.Infrared.imagery_annotated/20231208.030032.GK-2A.ami.Infrared.geokompsat.45p56.nmsc.10p0.png
-     ->
-     tests/outputs/ami.static.Infrared.imagery_clean/20231208.030032.GK-2A.ami.Infrared.geokompsat_subsector.100p0.nmsc.10p0.png
-     moved:
-     tests/outputs/ami.static.Visible.imagery_annotated/20231208.030032.GK-2A.ami.Visible.geokompsat.45p56.nmsc.10p0.png
-     ->
-     tests/outputs/ami.static.Visible.imagery_clean/20231208.030032.GK-2A.ami.Visible.geokompsator.100p0.nmsc.10p0.png
 
 Replace xarray_datatree with xarray
 -----------------------------------
@@ -147,6 +120,33 @@ but there were still a few that had slight differences.
      modified:
      tests/outputs/ami.static.mst.absdiff-IR-BD.imagery_annotated/20241010.000039.GK-2A.ami.absdiff-IR-BD.korea.83p16.nmsc.1p0.png
 
+Update ami test sector and imagery type
+---------------------------------------
+
+To avoid additional issues with matplotlib updates, update the AMI
+test scripts to produce non-annotated imagery, and a small subsector.
+
+`#753 <GEOIPS/geoips>`_
+
+::
+
+     modified: tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_annotated.sh, renamed clean
+     modified: tests/scripts/ami.static.Infrared.imagery_annotated.sh, renamed clean
+     modified: tests/scripts/ami.static.Visible.imagery_annotated.sh, renamed clean
+     added: geoips/plugins/yaml/sectors/test/geostationary/geokompsat_subsector.yaml
+     moved:
+     tests/outputs/ami.static.mst.absdiff-IR-BD.imagery_annotated/20241010.000039.GK-2A.ami.absdiff-IR-BD.korea.83p16.nmsc.1p0.png
+     ->
+     tests/outputs/ami.static.mst.absdiff-IR-BD.imagery_clean/20241010.000039.GK-2A.ami.absdiff-IR-BD.geokompsat-subsector-27deg.20p50.nmsc.10p0.png
+     moved:
+     tests/outputs/ami.static.Infrared.imagery_annotated/20231208.030032.GK-2A.ami.Infrared.geokompsat.45p56.nmsc.10p0.png
+     ->
+     tests/outputs/ami.static.Infrared.imagery_clean/20231208.030032.GK-2A.ami.Infrared.geokompsat_subsector.100p0.nmsc.10p0.png
+     moved:
+     tests/outputs/ami.static.Visible.imagery_annotated/20231208.030032.GK-2A.ami.Visible.geokompsat.45p56.nmsc.10p0.png
+     ->
+     tests/outputs/ami.static.Visible.imagery_clean/20231208.030032.GK-2A.ami.Visible.geokompsator.100p0.nmsc.10p0.png
+
 Add pip and mamba environment files for 1.15.1 full install env
 ---------------------------------------------------------------
 
@@ -195,27 +195,6 @@ environment.
 
      modified: setup/config_geoips
 
-Documentation
-=============
-
-Clean up output checker comparison outputs
-------------------------------------------
-
-* Better highlight where the "source" command is (with stars before and after)
-* Only print basename for COMPARE and PRODUCT (easier to compare to see
-  what the difference is in the old and new filenames).
-* print correct filename for MISSINGPRODUCT (was printing the same for both
-  COMPARE and PRODUCT previously)
-* Now print full path to COMPARE in the informative output above (so we
-  have the full path somewhere), so we can shorten the output where the
-  commands/instructions for updating live.
-
-`#753 <GEOIPS/geoips>`_
-
-::
-
-     modified: geoips/interfaces/module_based/output_checkers.py
-
 Breaking change
 ===============
 
@@ -259,6 +238,27 @@ and docs/source/concepts/functionality with new test names
      tests/outputs/abi.static.Visible.imagery_clean/20200918.195020.goes-16.abi.Visible.goes-east-subsector-27deg.100p00.noaa.10p0.png
      moved:
      tests/outputs/abi.static.Infrared.imagery_annotated.low_memory/20200918.195020.goes-16.abi.Infrared.goes_east.45p56.noaa.10p0.png
+
+Documentation
+=============
+
+Clean up output checker comparison outputs
+------------------------------------------
+
+* Better highlight where the "source" command is (with stars before and after)
+* Only print basename for COMPARE and PRODUCT (easier to compare to see
+  what the difference is in the old and new filenames).
+* print correct filename for MISSINGPRODUCT (was printing the same for both
+  COMPARE and PRODUCT previously)
+* Now print full path to COMPARE in the informative output above (so we
+  have the full path somewhere), so we can shorten the output where the
+  commands/instructions for updating live.
+
+`#753 <GEOIPS/geoips>`_
+
+::
+
+     modified: geoips/interfaces/module_based/output_checkers.py
 
 Release process
 ===============

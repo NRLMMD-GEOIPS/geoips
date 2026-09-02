@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.utils.memusg.dataframe_utils &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.utils.memusg.dataframe_utils &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Various utils for processing statistics.&quot;&quot;&quot;</span>
+<span class="sd">"""Various utils for processing statistics."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips_yaml_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_config</span>
@@ -837,43 +839,43 @@ window.runMermaid = runMermaid;</script>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.filenames.base_paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">PATHS</span> <span class="k">as</span> <span class="n">gpaths</span>
 
 
-<div class="viewcode-block" id="print_stats"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.memusg.html#geoips.utils.memusg.dataframe_utils.print_stats">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">print_stats</span><span class="p">(</span><span class="n">dframe</span><span class="p">,</span> <span class="n">suite_name</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print stats to stdout.</span>
+<div class="viewcode-block" id="print_stats"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.memusg.html#geoips.utils.memusg.dataframe_utils.print_stats">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">print_stats</span><span class="p">(</span><span class="n">dframe</span><span class="p">,</span> <span class="n">suite_name</span><span class="o">=</span><span class="s2">" "</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Print stats to stdout.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    dframe : pandas.core.frame.DataFrame</span>
 <span class="sd">        DataFrame of statistics</span>
 <span class="sd">    suite_name : str, optional</span>
-<span class="sd">        Source name of stats, by default &quot; &quot;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        Source name of stats, by default " "</span>
+<span class="sd">    """</span>
     <span class="n">dmax</span> <span class="o">=</span> <span class="n">dframe</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
     <span class="n">dmin</span> <span class="o">=</span> <span class="n">dframe</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
     <span class="n">dmean</span> <span class="o">=</span> <span class="n">dframe</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
     <span class="n">dmedian</span> <span class="o">=</span> <span class="n">dframe</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
     <span class="n">spad</span> <span class="o">=</span> <span class="mi">15</span>
     <span class="nb">print</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">suite_name</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">35</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;min&#39;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">spad</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;max&#39;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">spad</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;mean&#39;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">spad</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;median&#39;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">spad</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">suite_name</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">35</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'min'</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">spad</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'max'</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">spad</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'mean'</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">spad</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'median'</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">spad</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
     <span class="p">)</span>
     <span class="n">n_logs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dframe</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-    <span class="n">hosts</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">dframe</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;host&quot;</span><span class="p">,</span> <span class="p">[]))</span>
+    <span class="n">hosts</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">dframe</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"host"</span><span class="p">,</span> <span class="p">[]))</span>
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dmax</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;parsed log&quot;</span><span class="p">,</span> <span class="s2">&quot;log&quot;</span><span class="p">,</span> <span class="s2">&quot;host&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"parsed log"</span><span class="p">,</span> <span class="s2">"log"</span><span class="p">,</span> <span class="s2">"host"</span><span class="p">]:</span>
             <span class="k">continue</span>
-        <span class="n">min_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dmin</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">spad</span><span class="p">)</span>
-        <span class="n">max_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dmax</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">spad</span><span class="p">)</span>
-        <span class="n">mean_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dmean</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">spad</span><span class="p">)</span>
-        <span class="n">median_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dmedian</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">spad</span><span class="p">)</span>
-        <span class="n">stat</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">35</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">min_str</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">max_str</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">mean_str</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">median_str</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">min_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">dmin</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2">"</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">spad</span><span class="p">)</span>
+        <span class="n">max_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">dmax</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2">"</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">spad</span><span class="p">)</span>
+        <span class="n">mean_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">dmean</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2">"</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">spad</span><span class="p">)</span>
+        <span class="n">median_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">dmedian</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2">"</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">spad</span><span class="p">)</span>
+        <span class="n">stat</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">35</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">min_str</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">max_str</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">mean_str</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">median_str</span><span class="si">}</span><span class="s2">"</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">stat</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;N: </span><span class="si">{</span><span class="n">n_logs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"N: </span><span class="si">{</span><span class="n">n_logs</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">hosts</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;N Unique Hosts: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">hosts</span><span class="p">)</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="s1">&#39; ,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hosts</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"N Unique Hosts: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">hosts</span><span class="p">)</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="s1">' ,'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hosts</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="create_checkpoint_dataframe"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.memusg.html#geoips.utils.memusg.dataframe_utils.create_checkpoint_dataframe">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">create_checkpoint_dataframe</span><span class="p">(</span><span class="n">json_data</span><span class="p">,</span> <span class="n">procflow_usg</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a checkpoint dataframe that incorporates stats from overall usage stats.</span>
+<span class="w">    </span><span class="sd">"""Create a checkpoint dataframe that incorporates stats from overall usage stats.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -886,61 +888,61 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    dict</span>
 <span class="sd">        dict of panda dataframes where each key is a different source</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">overall_memusg</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">stats</span> <span class="ow">in</span> <span class="n">json_data</span><span class="p">:</span>
-        <span class="n">source</span> <span class="o">=</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">]</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="n">stats</span><span class="p">[</span><span class="s2">"source"</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">source</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">overall_memusg</span><span class="p">:</span>
             <span class="n">overall_memusg</span><span class="p">[</span><span class="n">source</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">procflow_id</span> <span class="o">=</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;procflow_id&quot;</span><span class="p">]</span>
-        <span class="n">checkpoint_group</span> <span class="o">=</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;checkpoint_group&quot;</span><span class="p">]</span>
-        <span class="n">checkpoint_name</span> <span class="o">=</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;checkpoint_name&quot;</span><span class="p">]</span>
-        <span class="n">source</span> <span class="o">=</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">]</span>
+        <span class="n">procflow_id</span> <span class="o">=</span> <span class="n">stats</span><span class="p">[</span><span class="s2">"procflow_id"</span><span class="p">]</span>
+        <span class="n">checkpoint_group</span> <span class="o">=</span> <span class="n">stats</span><span class="p">[</span><span class="s2">"checkpoint_group"</span><span class="p">]</span>
+        <span class="n">checkpoint_name</span> <span class="o">=</span> <span class="n">stats</span><span class="p">[</span><span class="s2">"checkpoint_name"</span><span class="p">]</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="n">stats</span><span class="p">[</span><span class="s2">"source"</span><span class="p">]</span>
         <span class="n">sdf</span> <span class="o">=</span> <span class="n">procflow_usg</span><span class="p">[</span><span class="n">source</span><span class="p">]</span>
         <span class="c1"># from IPython import embed; embed()</span>
-        <span class="n">pusg</span> <span class="o">=</span> <span class="n">sdf</span><span class="p">[</span><span class="n">sdf</span><span class="p">[</span><span class="s2">&quot;Procflow ID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">procflow_id</span><span class="p">]</span>
+        <span class="n">pusg</span> <span class="o">=</span> <span class="n">sdf</span><span class="p">[</span><span class="n">sdf</span><span class="p">[</span><span class="s2">"Procflow ID"</span><span class="p">]</span> <span class="o">==</span> <span class="n">procflow_id</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">pusg</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">ckey</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">checkpoint_group</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">checkpoint_name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">procflow_id</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">ckey</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">checkpoint_group</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">checkpoint_name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">procflow_id</span><span class="si">}</span><span class="s2">"</span>
             <span class="c1"># print(ckey)</span>
-            <span class="k">if</span> <span class="n">checkpoint_group</span> <span class="o">==</span> <span class="s2">&quot;AREA DEF&quot;</span><span class="p">:</span>
-                <span class="n">sector_name</span> <span class="o">=</span> <span class="n">checkpoint_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;: &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">checkpoint_group</span> <span class="o">==</span> <span class="s2">"AREA DEF"</span><span class="p">:</span>
+                <span class="n">sector_name</span> <span class="o">=</span> <span class="n">checkpoint_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">": "</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">sector_name</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="n">overall_memusg</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="n">ckey</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;start time&quot;</span><span class="p">:</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;checkpoint_datetime_start&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span>
-                    <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ&quot;</span>
+                <span class="s2">"start time"</span><span class="p">:</span> <span class="n">stats</span><span class="p">[</span><span class="s2">"checkpoint_datetime_start"</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span>
+                    <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ"</span>
                 <span class="p">),</span>
-                <span class="s2">&quot;stop time&quot;</span><span class="p">:</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;checkpoint_datetime_stop&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span>
-                    <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ&quot;</span>
+                <span class="s2">"stop time"</span><span class="p">:</span> <span class="n">stats</span><span class="p">[</span><span class="s2">"checkpoint_datetime_stop"</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span>
+                    <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ"</span>
                 <span class="p">),</span>
-                <span class="s2">&quot;platform&quot;</span><span class="p">:</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;platform&quot;</span><span class="p">],</span>
-                <span class="s2">&quot;Max. Resident Set Size (GB)&quot;</span><span class="p">:</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;max_res_set_size&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-6</span><span class="p">,</span>
-                <span class="s2">&quot;Max. Unique Set Size (GB)&quot;</span><span class="p">:</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;max_unique_set_size&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-6</span><span class="p">,</span>
-                <span class="s2">&quot;Max CPU&quot;</span><span class="p">:</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;max_cpu_percent&quot;</span><span class="p">],</span>
-                <span class="s2">&quot;elapsed time&quot;</span><span class="p">:</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;elapsed_time&quot;</span><span class="p">],</span>
-                <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">pusg</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                <span class="s2">&quot;Procflow ID&quot;</span><span class="p">:</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;procflow_id&quot;</span><span class="p">],</span>
-                <span class="s2">&quot;Procflow Output Config&quot;</span><span class="p">:</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;output_config&quot;</span><span class="p">],</span>
-                <span class="s2">&quot;Sector&quot;</span><span class="p">:</span> <span class="n">sector_name</span><span class="p">,</span>
+                <span class="s2">"platform"</span><span class="p">:</span> <span class="n">stats</span><span class="p">[</span><span class="s2">"platform"</span><span class="p">],</span>
+                <span class="s2">"Max. Resident Set Size (GB)"</span><span class="p">:</span> <span class="n">stats</span><span class="p">[</span><span class="s2">"max_res_set_size"</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-6</span><span class="p">,</span>
+                <span class="s2">"Max. Unique Set Size (GB)"</span><span class="p">:</span> <span class="n">stats</span><span class="p">[</span><span class="s2">"max_unique_set_size"</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-6</span><span class="p">,</span>
+                <span class="s2">"Max CPU"</span><span class="p">:</span> <span class="n">stats</span><span class="p">[</span><span class="s2">"max_cpu_percent"</span><span class="p">],</span>
+                <span class="s2">"elapsed time"</span><span class="p">:</span> <span class="n">stats</span><span class="p">[</span><span class="s2">"elapsed_time"</span><span class="p">],</span>
+                <span class="s2">"time"</span><span class="p">:</span> <span class="n">pusg</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="s2">"Procflow ID"</span><span class="p">:</span> <span class="n">stats</span><span class="p">[</span><span class="s2">"procflow_id"</span><span class="p">],</span>
+                <span class="s2">"Procflow Output Config"</span><span class="p">:</span> <span class="n">stats</span><span class="p">[</span><span class="s2">"output_config"</span><span class="p">],</span>
+                <span class="s2">"Sector"</span><span class="p">:</span> <span class="n">sector_name</span><span class="p">,</span>
             <span class="p">}</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">pusg</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Procflow ID&quot;</span><span class="p">,</span> <span class="s2">&quot;Procflow Output Config&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"Procflow ID"</span><span class="p">,</span> <span class="s2">"Procflow Output Config"</span><span class="p">]:</span>
                     <span class="k">continue</span>
-                <span class="n">overall_memusg</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="n">ckey</span><span class="p">][</span><span class="sa">f</span><span class="s2">&quot;Overall </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pusg</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">overall_memusg</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="n">ckey</span><span class="p">][</span><span class="sa">f</span><span class="s2">"Overall </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pusg</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">overall_memusg</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Could not parse usage from loaded json file.</span><span class="se">\n</span><span class="s2">No valid logs?&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Could not parse usage from loaded json file.</span><span class="se">\n</span><span class="s2">No valid logs?"</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="n">memusg</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">overall_memusg</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
         <span class="n">memusg</span><span class="p">[</span><span class="n">source</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">overall_memusg</span><span class="p">[</span><span class="n">source</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span>
-            <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span>
+            <span class="s2">"time"</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">memusg</span></div>
 
 
 <div class="viewcode-block" id="sort_resource_dframe"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.memusg.html#geoips.utils.memusg.dataframe_utils.sort_resource_dframe">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">sort_resource_dframe</span><span class="p">(</span><span class="n">dframe</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sort resource usage statistics by sector type.</span>
+<span class="w">    </span><span class="sd">"""Sort resource usage statistics by sector type.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -951,85 +953,85 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    dict</span>
 <span class="sd">        Dictionary of dataframes where each key is a different sector type</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">unique_sectors</span> <span class="o">=</span> <span class="n">dframe</span><span class="p">[</span><span class="s2">&quot;Sector&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
-    <span class="c1"># There can be nan&#39;s in the dframe, ensure we are only checking strings.</span>
+<span class="sd">    """</span>
+    <span class="n">unique_sectors</span> <span class="o">=</span> <span class="n">dframe</span><span class="p">[</span><span class="s2">"Sector"</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+    <span class="c1"># There can be nan's in the dframe, ensure we are only checking strings.</span>
     <span class="n">dynamic_sectors</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">unique_sectors</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;tc&quot;</span><span class="p">]</span>
+        <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">unique_sectors</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"tc"</span><span class="p">]</span>
     <span class="p">)</span>
     <span class="n">static_sectors</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">unique_sectors</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;tc&quot;</span><span class="p">]</span>
+        <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">unique_sectors</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">"tc"</span><span class="p">]</span>
     <span class="p">)</span>
     <span class="n">sector_dframes</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">parsed_procflow_configs</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">static_sector</span> <span class="ow">in</span> <span class="n">static_sectors</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sorting </span><span class="si">{</span><span class="n">static_sector</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">static_dframe</span> <span class="o">=</span> <span class="n">dframe</span><span class="p">[</span><span class="n">dframe</span><span class="p">[</span><span class="s2">&quot;Sector&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">static_sector</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">procflow_config</span> <span class="ow">in</span> <span class="n">static_dframe</span><span class="p">[</span><span class="s2">&quot;Procflow Output Config&quot;</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sorting </span><span class="si">{</span><span class="n">static_sector</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">static_dframe</span> <span class="o">=</span> <span class="n">dframe</span><span class="p">[</span><span class="n">dframe</span><span class="p">[</span><span class="s2">"Sector"</span><span class="p">]</span> <span class="o">==</span> <span class="n">static_sector</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">procflow_config</span> <span class="ow">in</span> <span class="n">static_dframe</span><span class="p">[</span><span class="s2">"Procflow Output Config"</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">procflow_config</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">parsed_procflow_configs</span><span class="p">:</span>
                 <span class="n">loaded_config</span> <span class="o">=</span> <span class="n">parse_config</span><span class="p">(</span><span class="n">procflow_config</span><span class="p">)</span>
-                <span class="n">system_cache_type</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_GEOLOCATION_CACHE_BACKEND&quot;</span><span class="p">]</span>
-                <span class="k">if</span> <span class="s2">&quot;reader_kwargs&quot;</span> <span class="ow">in</span> <span class="n">loaded_config</span><span class="p">:</span>
-                    <span class="n">cache_type</span> <span class="o">=</span> <span class="n">loaded_config</span><span class="p">[</span><span class="s2">&quot;reader_kwargs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-                        <span class="s2">&quot;geolocation_cache_backend&quot;</span><span class="p">,</span> <span class="n">system_cache_type</span>
+                <span class="n">system_cache_type</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">"GEOIPS_GEOLOCATION_CACHE_BACKEND"</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s2">"reader_kwargs"</span> <span class="ow">in</span> <span class="n">loaded_config</span><span class="p">:</span>
+                    <span class="n">cache_type</span> <span class="o">=</span> <span class="n">loaded_config</span><span class="p">[</span><span class="s2">"reader_kwargs"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                        <span class="s2">"geolocation_cache_backend"</span><span class="p">,</span> <span class="n">system_cache_type</span>
                     <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">cache_type</span> <span class="o">=</span> <span class="n">system_cache_type</span>
                 <span class="n">parsed_procflow_configs</span><span class="p">[</span><span class="n">procflow_config</span><span class="p">]</span> <span class="o">=</span> <span class="n">cache_type</span>
         <span class="n">memmap_procflows</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">x</span>
-            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">static_dframe</span><span class="p">[</span><span class="s2">&quot;Procflow Output Config&quot;</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">parsed_procflow_configs</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;memmap&quot;</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">static_dframe</span><span class="p">[</span><span class="s2">"Procflow Output Config"</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">parsed_procflow_configs</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"memmap"</span>
         <span class="p">]</span>
         <span class="n">zarr_procflows</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">x</span>
-            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">static_dframe</span><span class="p">[</span><span class="s2">&quot;Procflow Output Config&quot;</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">parsed_procflow_configs</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;zarr&quot;</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">static_dframe</span><span class="p">[</span><span class="s2">"Procflow Output Config"</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">parsed_procflow_configs</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"zarr"</span>
         <span class="p">]</span>
         <span class="k">if</span> <span class="n">memmap_procflows</span><span class="p">:</span>
-            <span class="n">sector_dframes</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">static_sector</span><span class="si">}</span><span class="s2">_memmap&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">static_dframe</span><span class="p">[</span>
-                <span class="n">static_dframe</span><span class="p">[</span><span class="s2">&quot;Procflow Output Config&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">memmap_procflows</span><span class="p">)</span>
+            <span class="n">sector_dframes</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">static_sector</span><span class="si">}</span><span class="s2">_memmap"</span><span class="p">]</span> <span class="o">=</span> <span class="n">static_dframe</span><span class="p">[</span>
+                <span class="n">static_dframe</span><span class="p">[</span><span class="s2">"Procflow Output Config"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">memmap_procflows</span><span class="p">)</span>
             <span class="p">]</span>
         <span class="k">if</span> <span class="n">zarr_procflows</span><span class="p">:</span>
-            <span class="n">sector_dframes</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">static_sector</span><span class="si">}</span><span class="s2">_zarr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">static_dframe</span><span class="p">[</span>
-                <span class="n">static_dframe</span><span class="p">[</span><span class="s2">&quot;Procflow Output Config&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">zarr_procflows</span><span class="p">)</span>
+            <span class="n">sector_dframes</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">static_sector</span><span class="si">}</span><span class="s2">_zarr"</span><span class="p">]</span> <span class="o">=</span> <span class="n">static_dframe</span><span class="p">[</span>
+                <span class="n">static_dframe</span><span class="p">[</span><span class="s2">"Procflow Output Config"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">zarr_procflows</span><span class="p">)</span>
             <span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sorting Dynamic TC Sectors&quot;</span><span class="p">)</span>
-    <span class="n">dynamic_dframe</span> <span class="o">=</span> <span class="n">dframe</span><span class="p">[</span><span class="n">dframe</span><span class="p">[</span><span class="s2">&quot;Sector&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">dynamic_sectors</span><span class="p">)]</span>
-    <span class="k">for</span> <span class="n">procflow_config</span> <span class="ow">in</span> <span class="n">dynamic_dframe</span><span class="p">[</span><span class="s2">&quot;Procflow Output Config&quot;</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Sorting Dynamic TC Sectors"</span><span class="p">)</span>
+    <span class="n">dynamic_dframe</span> <span class="o">=</span> <span class="n">dframe</span><span class="p">[</span><span class="n">dframe</span><span class="p">[</span><span class="s2">"Sector"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">dynamic_sectors</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">procflow_config</span> <span class="ow">in</span> <span class="n">dynamic_dframe</span><span class="p">[</span><span class="s2">"Procflow Output Config"</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">procflow_config</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">parsed_procflow_configs</span><span class="p">:</span>
             <span class="n">loaded_config</span> <span class="o">=</span> <span class="n">parse_config</span><span class="p">(</span><span class="n">procflow_config</span><span class="p">)</span>
-            <span class="n">system_cache_type</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_GEOLOCATION_CACHE_BACKEND&quot;</span><span class="p">]</span>
-            <span class="k">if</span> <span class="s2">&quot;reader_kwargs&quot;</span> <span class="ow">in</span> <span class="n">loaded_config</span><span class="p">:</span>
-                <span class="n">cache_type</span> <span class="o">=</span> <span class="n">loaded_config</span><span class="p">[</span><span class="s2">&quot;reader_kwargs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-                    <span class="s2">&quot;geolocation_cache_backend&quot;</span><span class="p">,</span> <span class="n">system_cache_type</span>
+            <span class="n">system_cache_type</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">"GEOIPS_GEOLOCATION_CACHE_BACKEND"</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">"reader_kwargs"</span> <span class="ow">in</span> <span class="n">loaded_config</span><span class="p">:</span>
+                <span class="n">cache_type</span> <span class="o">=</span> <span class="n">loaded_config</span><span class="p">[</span><span class="s2">"reader_kwargs"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                    <span class="s2">"geolocation_cache_backend"</span><span class="p">,</span> <span class="n">system_cache_type</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">cache_type</span> <span class="o">=</span> <span class="n">system_cache_type</span>
             <span class="n">parsed_procflow_configs</span><span class="p">[</span><span class="n">procflow_config</span><span class="p">]</span> <span class="o">=</span> <span class="n">cache_type</span>
     <span class="n">memmap_procflows</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">x</span>
-        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dynamic_dframe</span><span class="p">[</span><span class="s2">&quot;Procflow Output Config&quot;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">parsed_procflow_configs</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;memmap&quot;</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dynamic_dframe</span><span class="p">[</span><span class="s2">"Procflow Output Config"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">parsed_procflow_configs</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"memmap"</span>
     <span class="p">]</span>
     <span class="n">zarr_procflows</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">x</span>
-        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dynamic_dframe</span><span class="p">[</span><span class="s2">&quot;Procflow Output Config&quot;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">parsed_procflow_configs</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;zarr&quot;</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dynamic_dframe</span><span class="p">[</span><span class="s2">"Procflow Output Config"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">parsed_procflow_configs</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"zarr"</span>
     <span class="p">]</span>
     <span class="k">if</span> <span class="n">memmap_procflows</span><span class="p">:</span>
-        <span class="n">sector_dframes</span><span class="p">[</span><span class="s2">&quot;Dynamic-TC_memmap&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dynamic_dframe</span><span class="p">[</span>
-            <span class="n">dynamic_dframe</span><span class="p">[</span><span class="s2">&quot;Procflow Output Config&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">memmap_procflows</span><span class="p">)</span>
+        <span class="n">sector_dframes</span><span class="p">[</span><span class="s2">"Dynamic-TC_memmap"</span><span class="p">]</span> <span class="o">=</span> <span class="n">dynamic_dframe</span><span class="p">[</span>
+            <span class="n">dynamic_dframe</span><span class="p">[</span><span class="s2">"Procflow Output Config"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">memmap_procflows</span><span class="p">)</span>
         <span class="p">]</span>
     <span class="k">if</span> <span class="n">zarr_procflows</span><span class="p">:</span>
-        <span class="n">sector_dframes</span><span class="p">[</span><span class="s2">&quot;Dynamic-TC_zarr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dynamic_dframe</span><span class="p">[</span>
-            <span class="n">dynamic_dframe</span><span class="p">[</span><span class="s2">&quot;Procflow Output Config&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">zarr_procflows</span><span class="p">)</span>
+        <span class="n">sector_dframes</span><span class="p">[</span><span class="s2">"Dynamic-TC_zarr"</span><span class="p">]</span> <span class="o">=</span> <span class="n">dynamic_dframe</span><span class="p">[</span>
+            <span class="n">dynamic_dframe</span><span class="p">[</span><span class="s2">"Procflow Output Config"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">zarr_procflows</span><span class="p">)</span>
         <span class="p">]</span>
     <span class="k">return</span> <span class="n">sector_dframes</span></div>
 
 
 <div class="viewcode-block" id="sort_resource_stats"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.memusg.html#geoips.utils.memusg.dataframe_utils.sort_resource_stats">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">sort_resource_stats</span><span class="p">(</span><span class="n">resource_stats_dict</span><span class="p">,</span> <span class="n">sort_platform</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sort resource usage for each source by different sector types.</span>
+<span class="w">    </span><span class="sd">"""Sort resource usage for each source by different sector types.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1042,19 +1044,19 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    dict</span>
 <span class="sd">        dictionary of dataframes</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">sorted_dframes</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">source</span><span class="p">,</span> <span class="n">dframe</span> <span class="ow">in</span> <span class="n">resource_stats_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">sorted_dframes</span><span class="p">[</span><span class="n">source</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">sort_platform</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">platform</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">dframe</span><span class="p">[</span><span class="s2">&quot;platform&quot;</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">platform</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">dframe</span><span class="p">[</span><span class="s2">"platform"</span><span class="p">]):</span>
                 <span class="n">sorted_dframes</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="n">platform</span><span class="p">]</span> <span class="o">=</span> <span class="n">sort_resource_dframe</span><span class="p">(</span>
-                    <span class="n">dframe</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">dframe</span><span class="p">[</span><span class="s2">&quot;platform&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">platform</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span>
-                        <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;platform&quot;</span><span class="p">]</span>
+                    <span class="n">dframe</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">dframe</span><span class="p">[</span><span class="s2">"platform"</span><span class="p">]</span> <span class="o">==</span> <span class="n">platform</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span>
+                        <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">"platform"</span><span class="p">]</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">sorted_dframes</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="s2">&quot;all&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sort_resource_dframe</span><span class="p">(</span><span class="n">dframe</span><span class="p">)</span>
+            <span class="n">sorted_dframes</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="s2">"all"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sort_resource_dframe</span><span class="p">(</span><span class="n">dframe</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">sorted_dframes</span></div>
 </pre></div>
 

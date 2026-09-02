@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.commandline.geoips_describe &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.commandline.geoips_describe &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,10 +830,10 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;GeoIPS CLI &quot;describe&quot; command.</span>
+<span class="sd">"""GeoIPS CLI "describe" command.</span>
 
 <span class="sd">Retrieves the appropriate family/interface/package/plugin based on the args provided.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">resources</span><span class="p">,</span> <span class="n">import_module</span>
 
@@ -846,13 +848,13 @@ window.runMermaid = runMermaid;</script>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips</span><span class="w"> </span><span class="kn">import</span> <span class="n">interfaces</span>
 
 <span class="n">_DISPLAY_ARG_MAP</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;fnames&quot;</span><span class="p">:</span> <span class="s2">&quot;filenames&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;output_fnames&quot;</span><span class="p">:</span> <span class="s2">&quot;output_filenames&quot;</span><span class="p">,</span>
+    <span class="s2">"fnames"</span><span class="p">:</span> <span class="s2">"filenames"</span><span class="p">,</span>
+    <span class="s2">"output_fnames"</span><span class="p">:</span> <span class="s2">"output_filenames"</span><span class="p">,</span>
 <span class="p">}</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_translate_display_args</span><span class="p">(</span><span class="n">family_args_or_schema</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Replace legacy arg names with display-friendly equivalents.</span>
+<span class="w">    </span><span class="sd">"""Replace legacy arg names with display-friendly equivalents.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -865,7 +867,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        The same structure with ``fnames`` → ``filenames`` and</span>
 <span class="sd">        ``output_fnames`` → ``output_filenames`` in list elements /</span>
 <span class="sd">        dict keys.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">family_args_or_schema</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">_DISPLAY_ARG_MAP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">family_args_or_schema</span><span class="p">]</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">family_args_or_schema</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -874,9 +876,9 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="GeoipsDescribeArtifact"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_describe.GeoipsDescribeArtifact">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsDescribeArtifact</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Command which returns information describing a GeoIPS artifact.</span>
+<span class="w">    </span><span class="sd">"""Command which returns information describing a GeoIPS artifact.</span>
 
-<span class="sd">    Where this artifact is one of [&#39;interface&#39;, &#39;plugin&#39;, &#39;family&#39;.]</span>
+<span class="sd">    Where this artifact is one of ['interface', 'plugin', 'family'.]</span>
 
 <span class="sd">    This is called via `geoips describe &lt;interface_name&gt; &lt;opt_args&gt;`. Data included when</span>
 <span class="sd">    calling this command is shown below, outputted in a yaml-based format.</span>
@@ -919,31 +921,31 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            * Interface Name</span>
 <span class="sd">            * Interface Type</span>
 <span class="sd">            * Required Arguments / Schema</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;interface&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"interface"</span>
     <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="GeoipsDescribeArtifact.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_describe.GeoipsDescribeArtifact.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments to the describe-subparser for the describe Interface cmd.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add arguments to the describe-subparser for the describe Interface cmd."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;plugin_name&quot;</span><span class="p">,</span>
+            <span class="s2">"plugin_name"</span><span class="p">,</span>
             <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
-            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;GeoIPS Plugin to select from the provided interface.&quot;</span><span class="p">,</span>
+            <span class="n">nargs</span><span class="o">=</span><span class="s2">"?"</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">"GeoIPS Plugin to select from the provided interface."</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;family_name&quot;</span><span class="p">,</span>
+            <span class="s2">"family_name"</span><span class="p">,</span>
             <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
-            <span class="n">choices</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">interfaces</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">supported_families</span><span class="p">,</span>
-            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;GeoIPS Family to select from the provided interface.&quot;</span><span class="p">,</span>
+            <span class="n">nargs</span><span class="o">=</span><span class="s2">"?"</span><span class="p">,</span>
+            <span class="n">choices</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">interfaces</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"-"</span><span class="p">,</span> <span class="s2">"_"</span><span class="p">))</span><span class="o">.</span><span class="n">supported_families</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">"GeoIPS Family to select from the provided interface."</span><span class="p">,</span>
         <span class="p">)</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;CLI &#39;geoips describe &lt;interface_name&gt;&#39; command.</span>
+<span class="w">        </span><span class="sd">"""CLI 'geoips describe &lt;interface_name&gt;' command.</span>
 
 <span class="sd">        This occurs when a user has requested a interface in the manner shown above.</span>
 <span class="sd">        Outputs to the terminal the following data in a dictionary format if available.</span>
@@ -961,27 +963,27 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        ----------</span>
 <span class="sd">        args: Argparse Namespace()</span>
 <span class="sd">            - The list argument namespace to parse through</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="n">args</span><span class="o">.</span><span class="n">plugin_name</span>
-            <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">plugin_name</span> <span class="o">!=</span> <span class="s2">&quot;family&quot;</span>
-            <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">plugin_name</span> <span class="o">!=</span> <span class="s2">&quot;fam&quot;</span>
+            <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">plugin_name</span> <span class="o">!=</span> <span class="s2">"family"</span>
+            <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">plugin_name</span> <span class="o">!=</span> <span class="s2">"fam"</span>
         <span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">describe_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
         <span class="k">elif</span> <span class="p">(</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">plugin_name</span> <span class="o">==</span> <span class="s2">&quot;family&quot;</span> <span class="ow">or</span> <span class="n">args</span><span class="o">.</span><span class="n">plugin_name</span> <span class="o">==</span> <span class="s2">&quot;fam&quot;</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">plugin_name</span> <span class="o">==</span> <span class="s2">"family"</span> <span class="ow">or</span> <span class="n">args</span><span class="o">.</span><span class="n">plugin_name</span> <span class="o">==</span> <span class="s2">"fam"</span>
         <span class="p">)</span> <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">family_name</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">describe_family</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">plugin_name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">family_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">describe_interface</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="s2">&quot;Invalid command ran for &#39;geoips describe &lt;interface_name&gt;. Please run &quot;</span>
-                <span class="s2">&quot;&#39;geoips describe -h&#39; for more information on how to run this command.&quot;</span>
+                <span class="s2">"Invalid command ran for 'geoips describe &lt;interface_name&gt;. Please run "</span>
+                <span class="s2">"'geoips describe -h' for more information on how to run this command."</span>
             <span class="p">)</span>
 
 <div class="viewcode-block" id="GeoipsDescribeArtifact.describe_plugin"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_describe.GeoipsDescribeArtifact.describe_plugin">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">describe_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;CLI &#39;geoips describe &lt;interface_name&gt; &lt;plugin_name&gt;&#39; command.</span>
+<span class="w">        </span><span class="sd">"""CLI 'geoips describe &lt;interface_name&gt; &lt;plugin_name&gt;' command.</span>
 
 <span class="sd">        This occurs when a user has requested a plugin in the manner shown above.</span>
 <span class="sd">        Outputs to the terminal the following data in a dictionary format if available.</span>
@@ -1001,24 +1003,24 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        ----------</span>
 <span class="sd">        args: Argparse Namespace()</span>
 <span class="sd">            - The list argument namespace to parse through</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">interface_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">interface_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"-"</span><span class="p">,</span> <span class="s2">"_"</span><span class="p">)</span>
         <span class="n">plugin_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">plugin_name</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">interface</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">interfaces</span><span class="p">,</span> <span class="n">interface_name</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Interface: </span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2"> doesn&#39;t exist. Provide a valid interface.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Interface: </span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2"> doesn't exist. Provide a valid interface."</span>
             <span class="p">)</span>
         <span class="c1"># If plugin_name is not None, then the user has requested a plugin within</span>
         <span class="c1"># an interface, rather than the interface itself</span>
         <span class="n">interface_registry</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">plugin_registry</span><span class="o">.</span><span class="n">registered_plugins</span><span class="p">[</span>
             <span class="n">interface</span><span class="o">.</span><span class="n">interface_type</span>
         <span class="p">][</span><span class="n">interface</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
-        <span class="c1"># Ensure the provided plugin exists within the interface&#39;s plugin registry</span>
+        <span class="c1"># Ensure the provided plugin exists within the interface's plugin registry</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ensure_plugin_exists</span><span class="p">(</span><span class="n">interface</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">interface_registry</span><span class="p">,</span> <span class="n">plugin_name</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">interface</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;products&quot;</span><span class="p">:</span>
-            <span class="n">source_name</span><span class="p">,</span> <span class="n">plugin_name</span> <span class="o">=</span> <span class="n">plugin_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">interface</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">"products"</span><span class="p">:</span>
+            <span class="n">source_name</span><span class="p">,</span> <span class="n">plugin_name</span> <span class="o">=</span> <span class="n">plugin_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
             <span class="n">plugin_entry</span> <span class="o">=</span> <span class="n">interface_registry</span><span class="p">[</span><span class="n">source_name</span><span class="p">][</span><span class="n">plugin_name</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_output_dictionary_highlighted</span><span class="p">(</span><span class="n">plugin_entry</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1026,7 +1028,7 @@ window.runMermaid = runMermaid;</script>
             <span class="bp">self</span><span class="o">.</span><span class="n">_output_dictionary_highlighted</span><span class="p">(</span><span class="n">plugin_entry</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GeoipsDescribeArtifact.describe_family"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_describe.GeoipsDescribeArtifact.describe_family">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">describe_family</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;CLI &#39;geoips describe &lt;interface_name&gt; family &lt;family_name&gt;&#39; command.</span>
+<span class="w">        </span><span class="sd">"""CLI 'geoips describe &lt;interface_name&gt; family &lt;family_name&gt;' command.</span>
 
 <span class="sd">        This occurs when a user has requested a family in the manner shown above.</span>
 <span class="sd">        Outputs to the terminal the following data in a dictionary format if available.</span>
@@ -1045,57 +1047,57 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        ----------</span>
 <span class="sd">        args: Argparse Namespace()</span>
 <span class="sd">            - The list argument namespace to parse through</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">interface_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">interface_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"-"</span><span class="p">,</span> <span class="s2">"_"</span><span class="p">)</span>
         <span class="n">family_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">family_name</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">interface</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">interfaces</span><span class="p">,</span> <span class="n">interface_name</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Interface: </span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2"> doesn&#39;t exist. Provide a valid interface.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Interface: </span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2"> doesn't exist. Provide a valid interface."</span>
             <span class="p">)</span>
         <span class="n">interface_type</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">interface_type</span>
         <span class="n">supported_families</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">supported_families</span>
         <span class="k">if</span> <span class="n">family_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">supported_families</span><span class="p">:</span>
-            <span class="c1"># If the family name is not one of the interface&#39;s supported family</span>
+            <span class="c1"># If the family name is not one of the interface's supported family</span>
             <span class="c1"># members, raise an error</span>
-            <span class="n">err_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Error: Family: `</span><span class="si">{</span><span class="n">family_name</span><span class="si">}</span><span class="s2">` is not within Interface: &quot;</span>
-            <span class="n">err_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">` supported families: `</span><span class="si">{</span><span class="n">supported_families</span><span class="si">}</span><span class="s2">`&quot;</span>
+            <span class="n">err_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Error: Family: `</span><span class="si">{</span><span class="n">family_name</span><span class="si">}</span><span class="s2">` is not within Interface: "</span>
+            <span class="n">err_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"`</span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">` supported families: `</span><span class="si">{</span><span class="n">supported_families</span><span class="si">}</span><span class="s2">`"</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err_str</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">interface_type</span> <span class="o">==</span> <span class="s2">&quot;class_based&quot;</span><span class="p">:</span>
-            <span class="n">docstring</span> <span class="o">=</span> <span class="s2">&quot;Not Implemented.&quot;</span>
+        <span class="k">if</span> <span class="n">interface_type</span> <span class="o">==</span> <span class="s2">"class_based"</span><span class="p">:</span>
+            <span class="n">docstring</span> <span class="o">=</span> <span class="s2">"Not Implemented."</span>
             <span class="n">family_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
-                <span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="s2">&quot;geoips&quot;</span><span class="p">)</span>
-                <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;interfaces/</span><span class="si">{</span><span class="n">interface_type</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">.py&quot;</span>
+                <span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="s2">"geoips"</span><span class="p">)</span>
+                <span class="o">/</span> <span class="sa">f</span><span class="s2">"interfaces/</span><span class="si">{</span><span class="n">interface_type</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">.py"</span>
             <span class="p">)</span>
             <span class="n">family_args_or_schema</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">required_args</span><span class="p">[</span><span class="n">family_name</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">family_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
-                <span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="s2">&quot;geoips&quot;</span><span class="p">)</span>
-                <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;schema/</span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">family_name</span><span class="si">}</span><span class="s2">.yaml&quot;</span>
+                <span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="s2">"geoips"</span><span class="p">)</span>
+                <span class="o">/</span> <span class="sa">f</span><span class="s2">"schema/</span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">family_name</span><span class="si">}</span><span class="s2">.yaml"</span>
             <span class="p">)</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">family_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fo</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">family_path</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fo</span><span class="p">:</span>
                 <span class="n">family_args_or_schema</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">fo</span><span class="p">)</span>
-            <span class="k">if</span> <span class="s2">&quot;description&quot;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">family_args_or_schema</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-                <span class="n">family_args_or_schema</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">format_docstring</span><span class="p">(</span>
-                    <span class="n">family_args_or_schema</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">],</span>
+            <span class="k">if</span> <span class="s2">"description"</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">family_args_or_schema</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="n">family_args_or_schema</span><span class="p">[</span><span class="s2">"description"</span><span class="p">]</span> <span class="o">=</span> <span class="n">format_docstring</span><span class="p">(</span>
+                    <span class="n">family_args_or_schema</span><span class="p">[</span><span class="s2">"description"</span><span class="p">],</span>
                 <span class="p">)</span>
-                <span class="n">docstring</span> <span class="o">=</span> <span class="n">family_args_or_schema</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span>
+                <span class="n">docstring</span> <span class="o">=</span> <span class="n">family_args_or_schema</span><span class="p">[</span><span class="s2">"description"</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">docstring</span> <span class="o">=</span> <span class="s2">&quot;Not Implemented.&quot;</span>
+                <span class="n">docstring</span> <span class="o">=</span> <span class="s2">"Not Implemented."</span>
         <span class="n">family_args_or_schema</span> <span class="o">=</span> <span class="n">_translate_display_args</span><span class="p">(</span><span class="n">family_args_or_schema</span><span class="p">)</span>
         <span class="n">family_entry</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;Interface Name&quot;</span><span class="p">:</span> <span class="n">interface_name</span><span class="p">,</span>
-            <span class="s2">&quot;Interface Type&quot;</span><span class="p">:</span> <span class="n">interface_type</span><span class="p">,</span>
-            <span class="s2">&quot;Family Name&quot;</span><span class="p">:</span> <span class="n">family_name</span><span class="p">,</span>
-            <span class="s2">&quot;Required Args / Schema&quot;</span><span class="p">:</span> <span class="n">family_args_or_schema</span><span class="p">,</span>
-            <span class="s2">&quot;Docstring&quot;</span><span class="p">:</span> <span class="n">docstring</span><span class="p">,</span>
-            <span class="s2">&quot;Family Path&quot;</span><span class="p">:</span> <span class="n">family_path</span><span class="p">,</span>
+            <span class="s2">"Interface Name"</span><span class="p">:</span> <span class="n">interface_name</span><span class="p">,</span>
+            <span class="s2">"Interface Type"</span><span class="p">:</span> <span class="n">interface_type</span><span class="p">,</span>
+            <span class="s2">"Family Name"</span><span class="p">:</span> <span class="n">family_name</span><span class="p">,</span>
+            <span class="s2">"Required Args / Schema"</span><span class="p">:</span> <span class="n">family_args_or_schema</span><span class="p">,</span>
+            <span class="s2">"Docstring"</span><span class="p">:</span> <span class="n">docstring</span><span class="p">,</span>
+            <span class="s2">"Family Path"</span><span class="p">:</span> <span class="n">family_path</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_output_dictionary_highlighted</span><span class="p">(</span><span class="n">family_entry</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GeoipsDescribeArtifact.describe_interface"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_describe.GeoipsDescribeArtifact.describe_interface">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">describe_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;CLI &#39;geoips describe &lt;interface_name&gt;&#39; command.</span>
+<span class="w">        </span><span class="sd">"""CLI 'geoips describe &lt;interface_name&gt;' command.</span>
 
 <span class="sd">        This occurs when a user has requested a interface in the manner shown above.</span>
 <span class="sd">        Outputs to the terminal the following data in a dictionary format if available.</span>
@@ -1108,33 +1110,33 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            - Interface Name</span>
 <span class="sd">            - Interface Type</span>
 <span class="sd">            - Supported Families</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">interface_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">interface_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"-"</span><span class="p">,</span> <span class="s2">"_"</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">interface</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">interfaces</span><span class="p">,</span> <span class="n">interface_name</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Interface: </span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2"> doesn&#39;t exist. Provide a valid interface.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Interface: </span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2"> doesn't exist. Provide a valid interface."</span>
             <span class="p">)</span>
 
-        <span class="n">geoips_pkg_path</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="s2">&quot;geoips&quot;</span><span class="p">)</span>
+        <span class="n">geoips_pkg_path</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="s2">"geoips"</span><span class="p">)</span>
         <span class="n">interface_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
             <span class="n">geoips_pkg_path</span>
-            <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;interfaces/</span><span class="si">{</span><span class="n">interface</span><span class="o">.</span><span class="n">interface_type</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">interface</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.py&quot;</span>
+            <span class="o">/</span> <span class="sa">f</span><span class="s2">"interfaces/</span><span class="si">{</span><span class="n">interface</span><span class="o">.</span><span class="n">interface_type</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">interface</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.py"</span>
         <span class="p">)</span>
         <span class="n">interface_entry</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;Interface&quot;</span><span class="p">:</span> <span class="n">interface</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-            <span class="s2">&quot;Interface Type&quot;</span><span class="p">:</span> <span class="n">interface</span><span class="o">.</span><span class="n">interface_type</span><span class="p">,</span>
-            <span class="s2">&quot;Docstring&quot;</span><span class="p">:</span> <span class="n">format_docstring</span><span class="p">(</span><span class="n">interface</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">),</span>
-            <span class="s2">&quot;Absolute Path&quot;</span><span class="p">:</span> <span class="n">interface_path</span><span class="p">,</span>
-            <span class="s2">&quot;Supported Families&quot;</span><span class="p">:</span> <span class="n">interface</span><span class="o">.</span><span class="n">supported_families</span><span class="p">,</span>
+            <span class="s2">"Interface"</span><span class="p">:</span> <span class="n">interface</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">"Interface Type"</span><span class="p">:</span> <span class="n">interface</span><span class="o">.</span><span class="n">interface_type</span><span class="p">,</span>
+            <span class="s2">"Docstring"</span><span class="p">:</span> <span class="n">format_docstring</span><span class="p">(</span><span class="n">interface</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">),</span>
+            <span class="s2">"Absolute Path"</span><span class="p">:</span> <span class="n">interface_path</span><span class="p">,</span>
+            <span class="s2">"Supported Families"</span><span class="p">:</span> <span class="n">interface</span><span class="o">.</span><span class="n">supported_families</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_output_dictionary_highlighted</span><span class="p">(</span><span class="n">interface_entry</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GeoipsDescribeArtifact.ensure_plugin_exists"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_describe.GeoipsDescribeArtifact.ensure_plugin_exists">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">ensure_plugin_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interface_name</span><span class="p">,</span> <span class="n">interface_registry</span><span class="p">,</span> <span class="n">plugin_name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure that the given plugin exists within an interface&#39;s plugin registry.</span>
+<span class="w">        </span><span class="sd">"""Ensure that the given plugin exists within an interface's plugin registry.</span>
 
-<span class="sd">        If the plugin is not found within the interface&#39;s registry, raise a KeyError,</span>
+<span class="sd">        If the plugin is not found within the interface's registry, raise a KeyError,</span>
 <span class="sd">        otherwise, just return.</span>
 
 <span class="sd">        Parameters</span>
@@ -1145,47 +1147,47 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            - The plugin registry for the selected GeoIPS Interface</span>
 <span class="sd">        plugin_name: str</span>
 <span class="sd">            - The name of the plugin from the selected interface</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">interface_name</span> <span class="o">==</span> <span class="s2">&quot;products&quot;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plugin_name</span><span class="p">:</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">interface_name</span> <span class="o">==</span> <span class="s2">"products"</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">":"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plugin_name</span><span class="p">:</span>
                 <span class="n">err_str</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="s2">&quot;Product plugins must be retrieved via `&lt;source_name&gt;:&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;&lt;plugin_name&gt;`. Requested </span><span class="si">{</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2"> doesn&#39;t match that.&quot;</span>
+                    <span class="s2">"Product plugins must be retrieved via `&lt;source_name&gt;:"</span>
+                    <span class="sa">f</span><span class="s2">"&lt;plugin_name&gt;`. Requested </span><span class="si">{</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2"> doesn't match that."</span>
                 <span class="p">)</span>
                 <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">err_str</span><span class="p">)</span>
-            <span class="n">source_name</span><span class="p">,</span> <span class="n">plugin_name</span> <span class="o">=</span> <span class="n">plugin_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">source_name</span><span class="p">,</span> <span class="n">plugin_name</span> <span class="o">=</span> <span class="n">plugin_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">plugin_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">interface_registry</span><span class="p">[</span><span class="n">source_name</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                 <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2"> not found under Products </span><span class="si">{</span><span class="n">source_name</span><span class="si">}</span><span class="s2"> entry.&quot;</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2"> not found under Products </span><span class="si">{</span><span class="n">source_name</span><span class="si">}</span><span class="s2"> entry."</span>
                 <span class="p">)</span>
         <span class="k">elif</span> <span class="n">plugin_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">interface_registry</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2"> doesn&#39;t exist within Interface </span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2"> doesn't exist within Interface </span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="GeoipsDescribePackage"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_describe.GeoipsDescribePackage">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsDescribePackage</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Describe Command which retrieves information about a certain GeoIPS Package.</span>
+<span class="w">    </span><span class="sd">"""Describe Command which retrieves information about a certain GeoIPS Package.</span>
 
 <span class="sd">    This is called via `geoips describe package &lt;interface_name&gt;`. Data included when</span>
 <span class="sd">    calling this command is shown below, outputted in a yaml-based format.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;package&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"package"</span>
     <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="GeoipsDescribePackage.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_describe.GeoipsDescribePackage.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments to the describe-subparser for the describe Package Command.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add arguments to the describe-subparser for the describe Package Command."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;package_name&quot;</span><span class="p">,</span>
+            <span class="s2">"package_name"</span><span class="p">,</span>
             <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
-            <span class="n">default</span><span class="o">=</span><span class="s2">&quot;geoips&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="s2">"geoips"</span><span class="p">,</span>
             <span class="n">choices</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_package_names</span><span class="p">,</span>
-            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;GeoIPS Package to retrieve.&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">"GeoIPS Package to retrieve."</span><span class="p">,</span>
         <span class="p">)</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;CLI &#39;geoips describe package &lt;package_name&gt;&#39; command.</span>
+<span class="w">        </span><span class="sd">"""CLI 'geoips describe package &lt;package_name&gt;' command.</span>
 
 <span class="sd">        This occurs when a user has requested a package in the manner shown above.</span>
 <span class="sd">        Outputs to the terminal the following data in a dictionary format if available.</span>
@@ -1203,32 +1205,32 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        ----------</span>
 <span class="sd">        args: Argparse Namespace()</span>
 <span class="sd">            - The list argument namespace to parse through</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">package_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">package_name</span>
         <span class="n">package_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">package_name</span><span class="p">))</span>
 
         <span class="n">docstring</span> <span class="o">=</span> <span class="n">import_module</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span><span class="o">.</span><span class="vm">__doc__</span>
         <span class="n">package_entry</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;GeoIPS Package&quot;</span><span class="p">:</span> <span class="n">package_name</span><span class="p">,</span>
-            <span class="s2">&quot;Docstring&quot;</span><span class="p">:</span> <span class="n">format_docstring</span><span class="p">(</span><span class="n">docstring</span><span class="p">,</span> <span class="n">use_regex</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
-            <span class="s2">&quot;Package Path&quot;</span><span class="p">:</span> <span class="n">package_path</span><span class="p">,</span>
-            <span class="s2">&quot;Source Code&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">github_org_url</span><span class="si">}{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Version Number&quot;</span><span class="p">:</span> <span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">),</span>
+            <span class="s2">"GeoIPS Package"</span><span class="p">:</span> <span class="n">package_name</span><span class="p">,</span>
+            <span class="s2">"Docstring"</span><span class="p">:</span> <span class="n">format_docstring</span><span class="p">(</span><span class="n">docstring</span><span class="p">,</span> <span class="n">use_regex</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+            <span class="s2">"Package Path"</span><span class="p">:</span> <span class="n">package_path</span><span class="p">,</span>
+            <span class="s2">"Source Code"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">github_org_url</span><span class="si">}{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="s2">"Version Number"</span><span class="p">:</span> <span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">),</span>
         <span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_output_dictionary_highlighted</span><span class="p">(</span><span class="n">package_entry</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GeoipsDescribe"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_describe.GeoipsDescribe">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsDescribe</span><span class="p">(</span><span class="n">GeoipsCommand</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Top-Level Describe Command Class for retrieving info about GeoIPS Artifacts.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Top-Level Describe Command Class for retrieving info about GeoIPS Artifacts."""</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;describe&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"describe"</span>
 
     <span class="n">generated_classes</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">int_name</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">__all__</span><span class="p">):</span>
         <span class="n">generated_classes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">CommandClassFactory</span><span class="p">(</span>
                 <span class="n">GeoipsDescribeArtifact</span><span class="p">,</span>
-                <span class="n">int_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">),</span>
+                <span class="n">int_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"_"</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">),</span>
             <span class="p">)</span><span class="o">.</span><span class="n">generated_class</span>
         <span class="p">)</span>
 

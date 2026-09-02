@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.interfaces.class_based.filename_formatters &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.interfaces.class_based.filename_formatters &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Filename formatters interface class.&quot;&quot;&quot;</span>
+<span class="sd">"""Filename formatters interface class."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">join</span> <span class="k">as</span> <span class="n">pathjoin</span>
 
@@ -841,25 +843,25 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="BaseFilenameFormatterPlugin"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.filename_formatters.BaseFilenameFormatterPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BaseFilenameFormatterPlugin</span><span class="p">(</span><span class="n">BaseClassPlugin</span><span class="p">,</span> <span class="n">abstract</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for GeoIPS filename_formatter plugins.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Base class for GeoIPS filename_formatter plugins."""</span>
 
     <span class="n">data_tree</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_normalize_obp_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign None to area_def when no sector step is upstream.</span>
+<span class="w">        </span><span class="sd">"""Assign None to area_def when no sector step is upstream.</span>
 
 <span class="sd">        Filename formatters that accept ``area_def`` (e.g. ``basic_fname``)</span>
 <span class="sd">        guard against ``None`` with an ``if area_def:`` check, so ``None`` is</span>
-<span class="sd">        a valid sentinel meaning &quot;no area definition available&quot;. When no sector</span>
+<span class="sd">        a valid sentinel meaning "no area definition available". When no sector</span>
 <span class="sd">        step is listed in ``depends_on`` the conduit never injects ``area_def``,</span>
 <span class="sd">        so we default it here rather than requiring every unsectored workflow to</span>
 <span class="sd">        repeat ``arguments: {area_def: null}``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;area_def&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"area_def"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">kwargs</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_pre_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Flatten OBP DataTree input into a mutable Dataset before base hooks.</span>
+<span class="w">        </span><span class="sd">"""Flatten OBP DataTree input into a mutable Dataset before base hooks.</span>
 
 <span class="sd">        Under OBP, upstream dependency outputs are collected into a multi-input</span>
 <span class="sd">        ``xr.DataTree``. This override flattens the child node datasets into a</span>
@@ -868,13 +870,13 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">        Also bridges the singular ``product_name`` global (OBP convention) to</span>
 <span class="sd">        the ``product_names`` list expected by ``data``-family formatters.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">kwargs_modified</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="n">_obp_initiated</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">):</span>
                 <span class="n">data</span> <span class="o">=</span> <span class="n">to_mutable_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-            <span class="k">if</span> <span class="s2">&quot;product_names&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="s2">&quot;product_name&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;product_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;product_name&quot;</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="s2">"product_names"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="s2">"product_name"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">"product_names"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">"product_name"</span><span class="p">]]</span>
                 <span class="n">kwargs_modified</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_pre_call</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="n">_obp_initiated</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">kwargs_modified</span><span class="p">:</span>
@@ -882,19 +884,19 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">result</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_post_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Normalize filename output into ``DataTreeDitto`` for OBP.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""Normalize filename output into ``DataTreeDitto`` for OBP.</span>
 
 <span class="sd">        Filename formatter ``call()`` methods return a plain output path string. When</span>
 <span class="sd">        invoked by OBP, this hook wraps that path into a ``DataTreeDitto`` so it can be</span>
 <span class="sd">        attached to the workflow ``DataTree`` with metadata needed by downstream steps.</span>
 
 <span class="sd">        Why a data variable and not just ``attrs``? The output path *is* this</span>
-<span class="sd">        step&#39;s produced data, so it is stored as an ``output_path`` data</span>
+<span class="sd">        step's produced data, so it is stored as an ``output_path`` data</span>
 <span class="sd">        variable (a ``DataArray``). Plugin kinds whose product is purely</span>
-<span class="sd">        descriptive (e.g. a sector&#39;s area definition, a colormapper&#39;s color</span>
+<span class="sd">        descriptive (e.g. a sector's area definition, a colormapper's color</span>
 <span class="sd">        info) carry that information in ``attrs`` instead, because it describes</span>
-<span class="sd">        the node rather than being the node&#39;s data. The path is additionally</span>
-<span class="sd">        mirrored into ``attrs[&#39;output_filenames&#39;]`` for the conduit that feeds it</span>
+<span class="sd">        the node rather than being the node's data. The path is additionally</span>
+<span class="sd">        mirrored into ``attrs['output_filenames']`` for the conduit that feeds it</span>
 <span class="sd">        to downstream steps.</span>
 
 <span class="sd">        Parameters</span>
@@ -910,22 +912,22 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        DataTreeDitto | str | None</span>
 <span class="sd">            The normalized ``DataTreeDitto`` output for insertion into the workflow</span>
 <span class="sd">            ``DataTree``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">_obp_initiated</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
-                <span class="p">{</span><span class="s2">&quot;output_path&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;path&quot;</span><span class="p">],</span> <span class="p">[</span><span class="n">data</span><span class="p">])},</span>
+                <span class="p">{</span><span class="s2">"output_path"</span><span class="p">:</span> <span class="p">([</span><span class="s2">"path"</span><span class="p">],</span> <span class="p">[</span><span class="n">data</span><span class="p">])},</span>
                 <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
-                    <span class="s2">&quot;output_filenames&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">data</span><span class="p">],</span>
-                    <span class="s2">&quot;plugin_kind&quot;</span><span class="p">:</span> <span class="s2">&quot;filename_formatter&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;output_key&quot;</span><span class="p">:</span> <span class="s2">&quot;output_filenames&quot;</span><span class="p">,</span>
+                    <span class="s2">"output_filenames"</span><span class="p">:</span> <span class="p">[</span><span class="n">data</span><span class="p">],</span>
+                    <span class="s2">"plugin_kind"</span><span class="p">:</span> <span class="s2">"filename_formatter"</span><span class="p">,</span>
+                    <span class="s2">"output_key"</span><span class="p">:</span> <span class="s2">"output_filenames"</span><span class="p">,</span>
                 <span class="p">},</span>
             <span class="p">)</span>
-            <span class="k">return</span> <span class="n">DataTreeDitto</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;filename_output&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">DataTreeDitto</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"filename_output"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">data</span></div>
 
 
 <div class="viewcode-block" id="WindsFilenameFormatterPlugin"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.filename_formatters.WindsFilenameFormatterPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WindsFilenameFormatterPlugin</span><span class="p">(</span><span class="n">BaseFilenameFormatterPlugin</span><span class="p">,</span> <span class="n">abstract</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for wind-based filename_formatter plugins.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Base class for wind-based filename_formatter plugins."""</span>
 
 <div class="viewcode-block" id="WindsFilenameFormatterPlugin.assemble_windspeeds_text_full_fname"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.filename_formatters.WindsFilenameFormatterPlugin.assemble_windspeeds_text_full_fname">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">assemble_windspeeds_text_full_fname</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -934,11 +936,11 @@ window.runMermaid = runMermaid;</script>
         <span class="n">platform_name</span><span class="p">,</span>
         <span class="n">data_provider</span><span class="p">,</span>
         <span class="n">product_datetime</span><span class="p">,</span>
-        <span class="n">dt_format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">.%H%M&quot;</span><span class="p">,</span>
-        <span class="n">extension</span><span class="o">=</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+        <span class="n">dt_format</span><span class="o">=</span><span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">.%H%M"</span><span class="p">,</span>
+        <span class="n">extension</span><span class="o">=</span><span class="s2">".txt"</span><span class="p">,</span>
         <span class="n">creation_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Produce full output product path using product / sensor specifications.</span>
+<span class="w">        </span><span class="sd">"""Produce full output product path using product / sensor specifications.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -952,9 +954,9 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            Name of data provider</span>
 <span class="sd">        product_datetime : datetime.datetime</span>
 <span class="sd">            Start time of data used to generate product</span>
-<span class="sd">        dt_format : str, default=&quot;%Y%m%d.%H%M&quot;</span>
+<span class="sd">        dt_format : str, default="%Y%m%d.%H%M"</span>
 <span class="sd">            Format used to display product_datetime within filename</span>
-<span class="sd">        extension : str, default=&quot;.txt&quot;</span>
+<span class="sd">        extension : str, default=".txt"</span>
 <span class="sd">            File extension, specifying type.</span>
 <span class="sd">        creation_time : datetime.datetime, default=None</span>
 <span class="sd">            Include given creation_time of file in filename</span>
@@ -969,29 +971,29 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; startdt = datetime.strptime(&#39;20200216T001412&#39;, &#39;%Y%m%dT%H%M%S&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; startdt = datetime.strptime('20200216T001412', '%Y%m%dT%H%M%S')</span>
 <span class="sd">        &gt;&gt;&gt; assemble_windspeeds_text_full_fname(</span>
-<span class="sd">        ...     &#39;/outdir&#39;,</span>
-<span class="sd">        ...     &#39;smap-spd&#39;,</span>
-<span class="sd">        ...     &#39;smap&#39;,</span>
-<span class="sd">        ...     &#39;remss&#39;,</span>
+<span class="sd">        ...     '/outdir',</span>
+<span class="sd">        ...     'smap-spd',</span>
+<span class="sd">        ...     'smap',</span>
+<span class="sd">        ...     'remss',</span>
 <span class="sd">        ...     startdt,</span>
-<span class="sd">        ...     &#39;%Y%m%d&#39;</span>
+<span class="sd">        ...     '%Y%m%d'</span>
 <span class="sd">        ...     )</span>
-<span class="sd">        &#39;/outdir/smap-spd_remss_smap_surface_winds_20200216&#39;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<span class="sd">        '/outdir/smap-spd_remss_smap_surface_winds_20200216'</span>
+<span class="sd">        """</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="s2">"_"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
             <span class="p">[</span>
                 <span class="n">source_name</span><span class="p">,</span>
                 <span class="n">data_provider</span><span class="p">,</span>
                 <span class="n">platform_name</span><span class="p">,</span>
-                <span class="s2">&quot;surface_winds&quot;</span><span class="p">,</span>
+                <span class="s2">"surface_winds"</span><span class="p">,</span>
                 <span class="n">product_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">dt_format</span><span class="p">),</span>
             <span class="p">]</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">creation_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span> <span class="o">+</span> <span class="s2">&quot;_creationtime_&quot;</span> <span class="o">+</span> <span class="n">creation_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">T%H%MZ&quot;</span><span class="p">)</span>
+            <span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span> <span class="o">+</span> <span class="s2">"_creationtime_"</span> <span class="o">+</span> <span class="n">creation_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">T%H%MZ"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">extension</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span> <span class="o">+</span> <span class="n">extension</span>
@@ -1000,54 +1002,54 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="FilenameFormattersInterface"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.filename_formatters.FilenameFormattersInterface">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">FilenameFormattersInterface</span><span class="p">(</span><span class="n">BaseClassInterface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Specification for formatting the full path and file name.</span>
+<span class="w">    </span><span class="sd">"""Specification for formatting the full path and file name.</span>
 
 <span class="sd">    File path and name formatting is determined using attributes within the</span>
 <span class="sd">    GeoIPS xarray objects.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;filename_formatters&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"filename_formatters"</span>
     <span class="n">plugin_class</span> <span class="o">=</span> <span class="n">BaseFilenameFormatterPlugin</span>
 
     <span class="n">required_args</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;area_def&quot;</span><span class="p">,</span> <span class="s2">&quot;xarray_obj&quot;</span><span class="p">,</span> <span class="s2">&quot;product_name&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;xarray_metadata_to_filename&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;xarray_obj&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;area_def&quot;</span><span class="p">,</span> <span class="s2">&quot;xarray_obj&quot;</span><span class="p">,</span> <span class="s2">&quot;product_names&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;standard_metadata&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;area_def&quot;</span><span class="p">,</span> <span class="s2">&quot;xarray_obj&quot;</span><span class="p">,</span> <span class="s2">&quot;product_filename&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;xarray_area_product_to_filename&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;xarray_obj&quot;</span><span class="p">,</span> <span class="s2">&quot;area_def&quot;</span><span class="p">,</span> <span class="s2">&quot;product_name&quot;</span><span class="p">],</span>
+        <span class="s2">"standard"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"area_def"</span><span class="p">,</span> <span class="s2">"xarray_obj"</span><span class="p">,</span> <span class="s2">"product_name"</span><span class="p">],</span>
+        <span class="s2">"xarray_metadata_to_filename"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"xarray_obj"</span><span class="p">],</span>
+        <span class="s2">"data"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"area_def"</span><span class="p">,</span> <span class="s2">"xarray_obj"</span><span class="p">,</span> <span class="s2">"product_names"</span><span class="p">],</span>
+        <span class="s2">"standard_metadata"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"area_def"</span><span class="p">,</span> <span class="s2">"xarray_obj"</span><span class="p">,</span> <span class="s2">"product_filename"</span><span class="p">],</span>
+        <span class="s2">"xarray_area_product_to_filename"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"xarray_obj"</span><span class="p">,</span> <span class="s2">"area_def"</span><span class="p">,</span> <span class="s2">"product_name"</span><span class="p">],</span>
     <span class="p">}</span>
     <span class="n">required_kwargs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;coverage&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;output_type&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;basedir&quot;</span><span class="p">,</span>
+        <span class="s2">"standard"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">"coverage"</span><span class="p">,</span>
+            <span class="s2">"output_type"</span><span class="p">,</span>
+            <span class="s2">"basedir"</span><span class="p">,</span>
         <span class="p">],</span>
-        <span class="s2">&quot;xarray_metadata_to_filename&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;extension&quot;</span><span class="p">,</span> <span class="s2">&quot;basedir&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;coverage&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;output_type&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;basedir&quot;</span><span class="p">,</span>
+        <span class="s2">"xarray_metadata_to_filename"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"extension"</span><span class="p">,</span> <span class="s2">"basedir"</span><span class="p">],</span>
+        <span class="s2">"data"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">"coverage"</span><span class="p">,</span>
+            <span class="s2">"output_type"</span><span class="p">,</span>
+            <span class="s2">"basedir"</span><span class="p">,</span>
         <span class="p">],</span>
-        <span class="s2">&quot;standard_metadata&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;metadata_dir&quot;</span><span class="p">,</span> <span class="s2">&quot;metadata_type&quot;</span><span class="p">,</span> <span class="s2">&quot;basedir&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;xarray_area_product_to_filename&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;output_type&quot;</span><span class="p">,</span> <span class="s2">&quot;basedir&quot;</span><span class="p">,</span> <span class="s2">&quot;extra_field&quot;</span><span class="p">],</span>
+        <span class="s2">"standard_metadata"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"metadata_dir"</span><span class="p">,</span> <span class="s2">"metadata_type"</span><span class="p">,</span> <span class="s2">"basedir"</span><span class="p">],</span>
+        <span class="s2">"xarray_area_product_to_filename"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"output_type"</span><span class="p">,</span> <span class="s2">"basedir"</span><span class="p">,</span> <span class="s2">"extra_field"</span><span class="p">],</span>
     <span class="p">}</span></div>
 
     <span class="c1"># The functions below were commented out as they included errors, and were not used</span>
     <span class="c1"># by GeoIPS at this time. 9/27/23</span>
 
     <span class="c1"># def find_duplicates(self, *args, **kwargs):</span>
-    <span class="c1">#     &quot;&quot;&quot;Find duplicate files.&quot;&quot;&quot;</span>
+    <span class="c1">#     """Find duplicate files."""</span>
     <span class="c1">#     try:</span>
-    <span class="c1">#         func = self.get_plugin_attr(name, &quot;find_duplicates&quot;)</span>
+    <span class="c1">#         func = self.get_plugin_attr(name, "find_duplicates")</span>
     <span class="c1">#     except AttributeError:</span>
     <span class="c1">#         raise AttributeError(</span>
-    <span class="c1">#             f&#39;Plugin {name} does not have a &quot;find_duplicates&quot; function.&#39;</span>
+    <span class="c1">#             f'Plugin {name} does not have a "find_duplicates" function.'</span>
     <span class="c1">#         )</span>
 
     <span class="c1">#     duplicates = func()</span>
 
     <span class="c1"># def remove_duplicates(self):</span>
-    <span class="c1">#     &quot;&quot;&quot;Remove duplicate files.&quot;&quot;&quot;</span>
+    <span class="c1">#     """Remove duplicate files."""</span>
     <span class="c1">#     duplicates = self.find_duplicates()</span>
 
 

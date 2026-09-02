@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.modules.procflows.order_based &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.modules.procflows.order_based &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,12 +830,12 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Processing workflow for order-based data source processing.</span>
+<span class="sd">"""Processing workflow for order-based data source processing.</span>
 
 <span class="sd">The ``OrderBased`` class replaces the legacy module-level ``call()``</span>
 <span class="sd">function.  External callers should resolve through the procflows registry:</span>
-<span class="sd">``interfaces.procflows.get_plugin(&quot;order_based&quot;)(workflow_spec, fnames=fnames)``.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">``interfaces.procflows.get_plugin("order_based")(workflow_spec, fnames=fnames)``.</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -850,22 +852,22 @@ window.runMermaid = runMermaid;</script>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;procflows&quot;</span>
-<span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
-<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;order_based&quot;</span>
+<span class="n">interface</span> <span class="o">=</span> <span class="s2">"procflows"</span>
+<span class="n">family</span> <span class="o">=</span> <span class="s2">"standard"</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">"order_based"</span>
 
 
 <div class="viewcode-block" id="OrderBased"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.procflows.html#geoips.plugins.modules.procflows.order_based.OrderBased">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">OrderBased</span><span class="p">(</span><span class="n">BaseProcflowPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute an order-based process workflow (OBP).</span>
+<span class="w">    </span><span class="sd">"""Execute an order-based process workflow (OBP).</span>
 
 <span class="sd">    Loads a validated workflow specification, builds a ``Workflow``</span>
 <span class="sd">    composite instance, and walks through steps in topological order,</span>
 <span class="sd">    collecting output into an ``xr.DataTree``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;procflows&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;order_based&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;order_based&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"procflows"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"order_based"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"order_based"</span>
 
 <div class="viewcode-block" id="OrderBased.call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.procflows.html#geoips.plugins.modules.procflows.order_based.OrderBased.call">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -874,7 +876,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">command_line_args</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the order-based procflow.</span>
+<span class="w">        </span><span class="sd">"""Run the order-based procflow.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -895,20 +897,20 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        xr.DataTree</span>
 <span class="sd">            The fully-populated workflow DataTree.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">workflow_spec</span><span class="p">,</span> <span class="n">WorkflowSpecModel</span><span class="p">):</span>
-            <span class="n">wf_name</span> <span class="o">=</span> <span class="s2">&quot;embedded&quot;</span>
+            <span class="n">wf_name</span> <span class="o">=</span> <span class="s2">"embedded"</span>
             <span class="n">spec</span> <span class="o">=</span> <span class="n">workflow_spec</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">workflow_spec</span><span class="p">,</span> <span class="n">WorkflowPluginModel</span><span class="p">):</span>
             <span class="n">wf_spec</span> <span class="o">=</span> <span class="n">workflow_spec</span>
             <span class="n">wf_name</span> <span class="o">=</span> <span class="n">wf_spec</span><span class="o">.</span><span class="n">name</span>
             <span class="n">spec</span> <span class="o">=</span> <span class="n">wf_spec</span><span class="o">.</span><span class="n">spec</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">workflow_spec</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">ctx</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;skip_plugin_name_validation&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
-            <span class="k">if</span> <span class="s2">&quot;spec&quot;</span> <span class="ow">in</span> <span class="n">workflow_spec</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">workflow_spec</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
-                <span class="n">wf_name</span> <span class="o">=</span> <span class="n">workflow_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;embedded&quot;</span><span class="p">)</span>
+            <span class="n">ctx</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"skip_plugin_name_validation"</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+            <span class="k">if</span> <span class="s2">"spec"</span> <span class="ow">in</span> <span class="n">workflow_spec</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">workflow_spec</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">wf_name</span> <span class="o">=</span> <span class="n">workflow_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">"embedded"</span><span class="p">)</span>
                 <span class="n">spec</span> <span class="o">=</span> <span class="n">WorkflowSpecModel</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span>
-                    <span class="n">workflow_spec</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">],</span>
+                    <span class="n">workflow_spec</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">],</span>
                     <span class="n">context</span><span class="o">=</span><span class="n">ctx</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
@@ -920,27 +922,27 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">spec</span> <span class="o">=</span> <span class="n">wf_spec</span><span class="o">.</span><span class="n">spec</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Expected WorkflowPluginModel, WorkflowSpecModel, or &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;dict, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">workflow_spec</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Expected WorkflowPluginModel, WorkflowSpecModel, or "</span>
+                <span class="sa">f</span><span class="s2">"dict, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">workflow_spec</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">filenames</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span>
 
-        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;Begin processing &#39;</span><span class="si">%s</span><span class="s2">&#39; workflow.&quot;</span><span class="p">,</span> <span class="n">wf_name</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">"Begin processing '</span><span class="si">%s</span><span class="s2">' workflow."</span><span class="p">,</span> <span class="n">wf_name</span><span class="p">)</span>
 
         <span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">workflow_name</span><span class="o">=</span><span class="n">wf_name</span><span class="p">)</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">filenames</span><span class="o">=</span><span class="n">filenames</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;The workflow &#39;</span><span class="si">%s</span><span class="s2">&#39; has finished processing.&quot;</span><span class="p">,</span> <span class="n">wf_name</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">"The workflow '</span><span class="si">%s</span><span class="s2">' has finished processing."</span><span class="p">,</span> <span class="n">wf_name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span></div></div>
 
 
 <div class="viewcode-block" id="call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.procflows.html#geoips.plugins.modules.procflows.order_based.call">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="n">workflow_spec</span><span class="p">,</span> <span class="n">fnames</span><span class="p">,</span> <span class="n">command_line_args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Module-level entry point for pluginify discovery.</span>
+<span class="w">    </span><span class="sd">"""Module-level entry point for pluginify discovery.</span>
 
 <span class="sd">    Delegates to :class:`OrderBased.call`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">OrderBased</span><span class="p">()</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
         <span class="n">workflow_spec</span><span class="p">,</span>
         <span class="n">fnames</span><span class="o">=</span><span class="n">fnames</span><span class="p">,</span>

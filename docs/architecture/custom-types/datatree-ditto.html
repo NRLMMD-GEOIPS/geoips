@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>DataTreeDitto &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>DataTreeDitto &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="The DataTree data model" href="datatree.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -127,8 +127,8 @@
       
     
     
-    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -574,12 +574,12 @@ subclass of <code class="docutils literal notranslate"><span class="pre">ndarray
 <h1>Operations on Converted Data<a class="headerlink" href="#operations-on-converted-data" title="Permalink to this heading">#</a></h1>
 <p>DataTreeDitto preserves its type across tree operations. Methods that would
 normally return a plain <code class="docutils literal notranslate"><span class="pre">DataTree</span></code> return <code class="docutils literal notranslate"><span class="pre">DataTreeDitto</span></code> instead:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="n">DataTreeDitto</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;root&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="n">DataTreeDitto</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]),</span> <span class="n">name</span><span class="o">=</span><span class="s2">"root"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sliced</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">dim_0</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">sliced</span><span class="p">,</span> <span class="n">DataTreeDitto</span><span class="p">)</span>
 <span class="go">True</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">filtered</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;root&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filtered</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">"root"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">filtered</span><span class="p">,</span> <span class="n">DataTreeDitto</span><span class="p">)</span>
 <span class="go">True</span>
 
@@ -612,24 +612,24 @@ you can use DataTreeDitto to do anything you can do with an <code class="xref py
 <section id="automatic-conversion-of-children">
 <h2>Automatic Conversion of Children<a class="headerlink" href="#automatic-conversion-of-children" title="Permalink to this heading">#</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tree</span> <span class="o">=</span> <span class="n">DataTreeDitto</span><span class="p">()</span>
-<span class="n">tree</span><span class="p">[</span><span class="s2">&quot;child_1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
-<span class="n">tree</span><span class="p">[</span><span class="s2">&quot;child_2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="s2">&quot;b&quot;</span><span class="p">}</span>  <span class="c1"># Will raise TypeError unless converter is registered</span>
+<span class="n">tree</span><span class="p">[</span><span class="s2">"child_1"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
+<span class="n">tree</span><span class="p">[</span><span class="s2">"child_2"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="s2">"b"</span><span class="p">}</span>  <span class="c1"># Will raise TypeError unless converter is registered</span>
 
 <span class="c1"># Get child as DataTreeDitto instance:</span>
-<span class="n">child</span> <span class="o">=</span> <span class="n">tree</span><span class="p">[</span><span class="s2">&quot;child_1&quot;</span><span class="p">]</span>
+<span class="n">child</span> <span class="o">=</span> <span class="n">tree</span><span class="p">[</span><span class="s2">"child_1"</span><span class="p">]</span>
 <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">DataTreeDitto</span><span class="p">)</span>
 </pre></div>
 </div>
 <section id="hierarchical-tree-structure">
 <h3>Hierarchical Tree Structure:<a class="headerlink" href="#hierarchical-tree-structure" title="Permalink to this heading">#</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tree</span><span class="p">[</span><span class="s2">&quot;sub&quot;</span><span class="p">][</span><span class="s2">&quot;nested&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,))</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tree</span><span class="p">[</span><span class="s2">"sub"</span><span class="p">][</span><span class="s2">"nested"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">to_datatree</span><span class="p">())</span>  <span class="c1"># Returns standard xarray.DataTree version for compatibility.</span>
 </pre></div>
 </div>
 </section>
 <section id="round-trip-recovery">
 <h3>Round-trip Recovery:<a class="headerlink" href="#round-trip-recovery" title="Permalink to this heading">#</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">recovered</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_original</span><span class="p">(</span><span class="s2">&quot;sub/nested&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">recovered</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_original</span><span class="p">(</span><span class="s2">"sub/nested"</span><span class="p">)</span>
 <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">recovered</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -642,7 +642,7 @@ you can use DataTreeDitto to do anything you can do with an <code class="xref py
 <h3>Example: Handling Lists<a class="headerlink" href="#example-handling-lists" title="Permalink to this heading">#</a></h3>
 <p>Suppose you want to allow lists to be stored in a tree node.</p>
 <p>Define conversion functions:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">list_to_dataset</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">list_to_dataset</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"data"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">DataTreeDitto</span><span class="o">.</span><span class="n">_numpy_to_dataset</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lst</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">dataset_to_list</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
@@ -665,7 +665,7 @@ you can use DataTreeDitto to do anything you can do with an <code class="xref py
 <p>To see which nodes have been converted from non-xarray objects:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">converted_info</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">list_converted_nodes</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">path_str</span><span class="p">,</span> <span class="n">orig_type</span> <span class="ow">in</span> <span class="n">converted_info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path_str</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">orig_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">path_str</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">orig_type</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -687,11 +687,11 @@ you can use DataTreeDitto to do anything you can do with an <code class="xref py
 <li><p>You can override or remove previously registered converters by re-calling <code class="docutils literal notranslate"><span class="pre">register_converter()</span></code>.</p></li>
 </ul>
 <p>If you try to assign an unsupported type without registering a converter:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>TypeError: No converter registered for type &lt;class &#39;dict&#39;&gt;
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>TypeError: No converter registered for type &lt;class 'dict'&gt;
 </pre></div>
 </div>
 <p>To debug representation info at any time:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">tree</span><span class="p">))</span>  <span class="c1"># assuming &#39;tree&#39; is a DataTreeDitto instance</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">tree</span><span class="p">))</span>  <span class="c1"># assuming 'tree' is a DataTreeDitto instance</span>
 </pre></div>
 </div>
 <p>This will include paths and original types of all converted nodes.</p>

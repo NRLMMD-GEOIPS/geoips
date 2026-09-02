@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.dev.product &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.dev.product &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,13 +830,13 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Interpolation interface will be deprecated v2.0.</span>
+<span class="sd">"""Interpolation interface will be deprecated v2.0.</span>
 
 <span class="sd">Wrapper functions for geoips product specifications.</span>
 
 <span class="sd">This functionality will be replaced with a class-based implementation v2.0,</span>
 <span class="sd">and deprecated at that time.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">colormappers</span><span class="p">,</span> <span class="n">coverage_checkers</span>
@@ -843,7 +845,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="get_required_variables"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.product.get_required_variables">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_required_variables</span><span class="p">(</span><span class="n">prod_plugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.</span>
+<span class="w">    </span><span class="sd">"""Interface will be deprecated v2.0.</span>
 
 <span class="sd">    Return required variables names for the input product plugin. If variables are</span>
 <span class="sd">    combined with their dataset name, the dataset name will be stripped and only the</span>
@@ -860,10 +862,10 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        * If list: List of strings specifying required variables.</span>
 <span class="sd">        * If dict: Dictionary of variable types of lists of variable names</span>
 
-<span class="sd">            * {&#39;&lt;variable_type&gt;&#39;: [&#39;var1&#39;, &#39;var2&#39;, ... , &#39;varn&#39;]}</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">            * {'&lt;variable_type&gt;': ['var1', 'var2', ... , 'varn']}</span>
+<span class="sd">    """</span>
     <span class="c1"># This can either be a list or dictionary, dependent on YAML config specification</span>
-    <span class="n">variables</span> <span class="o">=</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;variables&quot;</span><span class="p">)</span>
+    <span class="n">variables</span> <span class="o">=</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"variables"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">variables</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
 
@@ -873,23 +875,23 @@ window.runMermaid = runMermaid;</script>
         <span class="k">for</span> <span class="n">vartype</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
             <span class="n">return_vars</span><span class="p">[</span><span class="n">vartype</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">[</span><span class="n">vartype</span><span class="p">]:</span>
-                <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">varname</span><span class="p">:</span>
-                    <span class="n">return_vars</span><span class="p">[</span><span class="n">vartype</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">varname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]]</span>
+                <span class="k">if</span> <span class="s2">":"</span> <span class="ow">in</span> <span class="n">varname</span><span class="p">:</span>
+                    <span class="n">return_vars</span><span class="p">[</span><span class="n">vartype</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">varname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]]</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">return_vars</span><span class="p">[</span><span class="n">vartype</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">varname</span><span class="p">]</span>
     <span class="c1"># Otherwise, just a single variable</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">return_vars</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">varname</span><span class="p">:</span>
-                <span class="n">return_vars</span> <span class="o">+=</span> <span class="p">[</span><span class="n">varname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="s2">":"</span> <span class="ow">in</span> <span class="n">varname</span><span class="p">:</span>
+                <span class="n">return_vars</span> <span class="o">+=</span> <span class="p">[</span><span class="n">varname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">return_vars</span> <span class="o">+=</span> <span class="p">[</span><span class="n">varname</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">return_vars</span></div>
 
 
 <div class="viewcode-block" id="get_requested_datasets_for_variables"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.product.get_requested_datasets_for_variables">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_requested_datasets_for_variables</span><span class="p">(</span><span class="n">prod_plugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.</span>
+<span class="w">    </span><span class="sd">"""Interface will be deprecated v2.0.</span>
 
 <span class="sd">    Retrieve required datasets if specified for product variables,</span>
 <span class="sd">    based on requested product and source</span>
@@ -904,28 +906,28 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    product_name : str</span>
-<span class="sd">        Name of requested product (ie, &#39;IR-BD&#39;, &#39;89H&#39;, &#39;color89Nearest&#39;, etc)</span>
+<span class="sd">        Name of requested product (ie, 'IR-BD', '89H', 'color89Nearest', etc)</span>
 <span class="sd">    source_name : str</span>
-<span class="sd">        Name of requested source (ie, &#39;ahi&#39;, &#39;modis&#39;, etc)</span>
+<span class="sd">        Name of requested source (ie, 'ahi', 'modis', etc)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    datasets_for_variable : dict</span>
 <span class="sd">        * Dictionary of</span>
 
-<span class="sd">            * ``{&#39;&lt;variable_name&gt;&#39;: &#39;&lt;requested_dataset&gt;&#39;}`` OR</span>
-<span class="sd">            * ``{&#39;variable_type&#39;: {&#39;&lt;variable_name&gt;&#39;: &#39;&lt;requested_dataset&gt;&#39;}``</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">variables</span> <span class="o">=</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;variables&quot;</span><span class="p">]</span>
+<span class="sd">            * ``{'&lt;variable_name&gt;': '&lt;requested_dataset&gt;'}`` OR</span>
+<span class="sd">            * ``{'variable_type': {'&lt;variable_name&gt;': '&lt;requested_dataset&gt;'}``</span>
+<span class="sd">    """</span>
+    <span class="n">variables</span> <span class="o">=</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">][</span><span class="s2">"variables"</span><span class="p">]</span>
     <span class="n">return_dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="c1"># Support categorizing variables in a dictionary - var_dict[var_type] =</span>
-    <span class="c1"># [&#39;var1&#39;, &#39;var2&#39;, &#39;varn&#39;]</span>
+    <span class="c1"># ['var1', 'var2', 'varn']</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="n">return_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">vartype</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
             <span class="n">return_dict</span><span class="p">[</span><span class="n">vartype</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">[</span><span class="n">vartype</span><span class="p">]:</span>
-                <span class="n">dataset</span><span class="p">,</span> <span class="n">variable</span> <span class="o">=</span> <span class="n">varname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+                <span class="n">dataset</span><span class="p">,</span> <span class="n">variable</span> <span class="o">=</span> <span class="n">varname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">varname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">return_dict</span><span class="p">:</span>
                     <span class="n">return_dict</span><span class="p">[</span><span class="n">vartype</span><span class="p">][</span><span class="n">variable</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">dataset</span><span class="p">]</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -933,8 +935,8 @@ window.runMermaid = runMermaid;</script>
     <span class="c1"># Otherwise just a list</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">varname</span><span class="p">:</span>
-                <span class="n">dataset</span><span class="p">,</span> <span class="n">variable</span> <span class="o">=</span> <span class="n">varname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">":"</span> <span class="ow">in</span> <span class="n">varname</span><span class="p">:</span>
+                <span class="n">dataset</span><span class="p">,</span> <span class="n">variable</span> <span class="o">=</span> <span class="n">varname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">varname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">return_dict</span><span class="p">:</span>
                     <span class="n">return_dict</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">dataset</span><span class="p">]</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -943,68 +945,68 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="get_data_range"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.product.get_data_range">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_data_range</span><span class="p">(</span><span class="n">prod_plugin</span><span class="p">,</span> <span class="n">output_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.</span>
+<span class="w">    </span><span class="sd">"""Interface will be deprecated v2.0.</span>
 
 <span class="sd">    Retrieve required data range for requested product</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    product_name : str</span>
-<span class="sd">        Name of requested product (ie, &#39;IR-BD&#39;, &#39;89H&#39;, &#39;color89Nearest&#39;, etc)</span>
+<span class="sd">        Name of requested product (ie, 'IR-BD', '89H', 'color89Nearest', etc)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    data_range : list</span>
 <span class="sd">        List of float specifying min and max value for the output product</span>
-<span class="sd">        ``&lt;geoips_package&gt;.algorithms.&lt;algorithm_name&gt;.alg_params[&#39;output_data_range&#39;]``</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">alg_args</span> <span class="o">=</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;algorithm&quot;</span><span class="p">][</span><span class="s2">&quot;plugin&quot;</span><span class="p">][</span><span class="s2">&quot;arguments&quot;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="s2">&quot;output_data_range&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">alg_args</span><span class="p">:</span>
+<span class="sd">        ``&lt;geoips_package&gt;.algorithms.&lt;algorithm_name&gt;.alg_params['output_data_range']``</span>
+<span class="sd">    """</span>
+    <span class="n">alg_args</span> <span class="o">=</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">][</span><span class="s2">"algorithm"</span><span class="p">][</span><span class="s2">"plugin"</span><span class="p">][</span><span class="s2">"arguments"</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">"output_data_range"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">alg_args</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Product </span><span class="si">{</span><span class="n">prod_plugin</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> does not define &#39;output_data_range&#39; for its &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;algorithm.&quot;</span>
+            <span class="sa">f</span><span class="s2">"Product </span><span class="si">{</span><span class="n">prod_plugin</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> does not define 'output_data_range' for its "</span>
+            <span class="sa">f</span><span class="s2">"algorithm."</span>
         <span class="p">)</span>
-    <span class="c1"># Add .copy() so we aren&#39;t returning the ACTUAL list attached to the args</span>
-    <span class="k">return</span> <span class="n">alg_args</span><span class="p">[</span><span class="s2">&quot;output_data_range&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
+    <span class="c1"># Add .copy() so we aren't returning the ACTUAL list attached to the args</span>
+    <span class="k">return</span> <span class="n">alg_args</span><span class="p">[</span><span class="s2">"output_data_range"</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="get_cmap_data_range"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.product.get_cmap_data_range">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_cmap_data_range</span><span class="p">(</span><span class="n">prod_plugin</span><span class="p">,</span> <span class="n">output_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.</span>
+<span class="w">    </span><span class="sd">"""Interface will be deprecated v2.0.</span>
 
 <span class="sd">    Retrieve required data range for requested product</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    product_name : str</span>
-<span class="sd">        Name of requested product (ie, &#39;IR-BD&#39;, &#39;89H&#39;, &#39;color89Nearest&#39;, etc)</span>
+<span class="sd">        Name of requested product (ie, 'IR-BD', '89H', 'color89Nearest', etc)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    data_range : list</span>
 <span class="sd">        List of float specifying min and max value for the output product</span>
-<span class="sd">        ``&lt;geoips_package&gt;.colormapper.&lt;cmap_name&gt;.arguments[&#39;data_range&#39;]``</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">cmap_args</span> <span class="o">=</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;colormapper&quot;</span><span class="p">][</span><span class="s2">&quot;plugin&quot;</span><span class="p">][</span><span class="s2">&quot;arguments&quot;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="s2">&quot;data_range&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cmap_args</span><span class="p">:</span>
+<span class="sd">        ``&lt;geoips_package&gt;.colormapper.&lt;cmap_name&gt;.arguments['data_range']``</span>
+<span class="sd">    """</span>
+    <span class="n">cmap_args</span> <span class="o">=</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">][</span><span class="s2">"colormapper"</span><span class="p">][</span><span class="s2">"plugin"</span><span class="p">][</span><span class="s2">"arguments"</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">"data_range"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cmap_args</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Product </span><span class="si">{</span><span class="n">prod_plugin</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> does not define &#39;output_data_range&#39; for its &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;algorithm.&quot;</span>
+            <span class="sa">f</span><span class="s2">"Product </span><span class="si">{</span><span class="n">prod_plugin</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> does not define 'output_data_range' for its "</span>
+            <span class="sa">f</span><span class="s2">"algorithm."</span>
         <span class="p">)</span>
-    <span class="c1"># Add .copy() so we aren&#39;t returning the ACTUAL list attached to the args</span>
-    <span class="k">return</span> <span class="n">cmap_args</span><span class="p">[</span><span class="s2">&quot;data_range&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
+    <span class="c1"># Add .copy() so we aren't returning the ACTUAL list attached to the args</span>
+    <span class="k">return</span> <span class="n">cmap_args</span><span class="p">[</span><span class="s2">"data_range"</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="get_product_display_name"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.product.get_product_display_name">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_product_display_name</span><span class="p">(</span><span class="n">prod_plugin</span><span class="p">,</span> <span class="n">output_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.</span>
+<span class="w">    </span><span class="sd">"""Interface will be deprecated v2.0.</span>
 
 <span class="sd">    Retrieve product display name. For titles, etc.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    product_name : str</span>
-<span class="sd">        Name of requested product (ie, &#39;IR-BD&#39;, &#39;89H&#39;, &#39;color89Nearest&#39;, etc)</span>
+<span class="sd">        Name of requested product (ie, 'IR-BD', '89H', 'color89Nearest', etc)</span>
 <span class="sd">    source_name : str</span>
-<span class="sd">        Name of requested source (ie, &#39;ahi&#39;, &#39;modis&#39;, etc)</span>
+<span class="sd">        Name of requested source (ie, 'ahi', 'modis', etc)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1015,24 +1017,24 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    --------</span>
 <span class="sd">    ``geoips.dev.check_cmap_func``</span>
 <span class="sd">        additional information on colormapper types, arguments, and return values</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;display_name&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">][</span><span class="s2">"display_name"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">prod_plugin</span><span class="o">.</span><span class="n">name</span></div>
 
 
 <div class="viewcode-block" id="get_cmap_from_product"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.product.get_cmap_from_product">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_cmap_from_product</span><span class="p">(</span><span class="n">prod_plugin</span><span class="p">,</span> <span class="n">output_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""Interface will be deprecated v2.0.</span>
 
 <span class="sd">    Retrieve colormapper information, based on requested product and source</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    product_name : str</span>
-<span class="sd">        Name of requested product (ie, &#39;IR-BD&#39;, &#39;89H&#39;, &#39;color89Nearest&#39;, etc)</span>
+<span class="sd">        Name of requested product (ie, 'IR-BD', '89H', 'color89Nearest', etc)</span>
 <span class="sd">    source_name : str</span>
-<span class="sd">        Name of requested source (ie, &#39;ahi&#39;, &#39;modis&#39;, etc)</span>
+<span class="sd">        Name of requested source (ie, 'ahi', 'modis', etc)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1043,26 +1045,26 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    --------</span>
 <span class="sd">    ``geoips.dev.check_cmap_func``</span>
 <span class="sd">        additional information on colormapper types, arguments, and return values</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">cmap_func</span> <span class="o">=</span> <span class="n">colormappers</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span>
-        <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;colormapper&quot;</span><span class="p">][</span><span class="s2">&quot;plugin&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+        <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">][</span><span class="s2">"colormapper"</span><span class="p">][</span><span class="s2">"plugin"</span><span class="p">][</span><span class="s2">"name"</span><span class="p">]</span>
     <span class="p">)</span>
-    <span class="n">cmap_args</span> <span class="o">=</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;colormapper&quot;</span><span class="p">][</span><span class="s2">&quot;plugin&quot;</span><span class="p">][</span><span class="s2">&quot;arguments&quot;</span><span class="p">]</span>
+    <span class="n">cmap_args</span> <span class="o">=</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">][</span><span class="s2">"colormapper"</span><span class="p">][</span><span class="s2">"plugin"</span><span class="p">][</span><span class="s2">"arguments"</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">cmap_func</span><span class="p">(</span><span class="o">**</span><span class="n">cmap_args</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="get_covg_from_product"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.product.get_covg_from_product">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_covg_from_product</span><span class="p">(</span><span class="n">prod_plugin</span><span class="p">,</span> <span class="n">output_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">covg_field</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.</span>
+<span class="w">    </span><span class="sd">"""Interface will be deprecated v2.0.</span>
 
 <span class="sd">    Retrieve coverage check function name, based on requested product and source</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    product_name : str</span>
-<span class="sd">        Name of requested product (ie, &#39;IR-BD&#39;, &#39;89H&#39;, &#39;color89Nearest&#39;, etc)</span>
+<span class="sd">        Name of requested product (ie, 'IR-BD', '89H', 'color89Nearest', etc)</span>
 <span class="sd">    source_name : str</span>
-<span class="sd">        Name of requested source (ie, &#39;ahi&#39;, &#39;modis&#39;, etc)</span>
+<span class="sd">        Name of requested source (ie, 'ahi', 'modis', etc)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1073,29 +1075,29 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    --------</span>
 <span class="sd">    ``geoips.dev.check_cmap_func``</span>
 <span class="sd">        additional information on colormapper types, arguments, and return values</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">prod_spec</span> <span class="o">=</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">]</span>
+<span class="sd">    """</span>
+    <span class="n">prod_spec</span> <span class="o">=</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">covg_field</span> <span class="ow">in</span> <span class="n">prod_spec</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">coverage_checkers</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">prod_spec</span><span class="p">[</span><span class="n">covg_field</span><span class="p">][</span><span class="s2">&quot;plugin&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
-    <span class="k">elif</span> <span class="s2">&quot;coverage_checker&quot;</span> <span class="ow">in</span> <span class="n">prod_spec</span> <span class="ow">and</span> <span class="n">prod_spec</span><span class="p">[</span><span class="s2">&quot;coverage_checker&quot;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">coverage_checkers</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">prod_spec</span><span class="p">[</span><span class="n">covg_field</span><span class="p">][</span><span class="s2">"plugin"</span><span class="p">][</span><span class="s2">"name"</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="s2">"coverage_checker"</span> <span class="ow">in</span> <span class="n">prod_spec</span> <span class="ow">and</span> <span class="n">prod_spec</span><span class="p">[</span><span class="s2">"coverage_checker"</span><span class="p">]:</span>
         <span class="k">return</span> <span class="n">coverage_checkers</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span>
-            <span class="n">prod_spec</span><span class="p">[</span><span class="s2">&quot;coverage_checker&quot;</span><span class="p">][</span><span class="s2">&quot;plugin&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+            <span class="n">prod_spec</span><span class="p">[</span><span class="s2">"coverage_checker"</span><span class="p">][</span><span class="s2">"plugin"</span><span class="p">][</span><span class="s2">"name"</span><span class="p">]</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">coverage_checkers</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">&quot;masked_arrays&quot;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">coverage_checkers</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">"masked_arrays"</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="get_covg_args_from_product"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.product.get_covg_args_from_product">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_covg_args_from_product</span><span class="p">(</span><span class="n">prod_plugin</span><span class="p">,</span> <span class="n">output_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">covg_field</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.</span>
+<span class="w">    </span><span class="sd">"""Interface will be deprecated v2.0.</span>
 
 <span class="sd">    Retrieve coverage check function args, based on requested product and source</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    product_name : str</span>
-<span class="sd">        Name of requested product (ie, &#39;IR-BD&#39;, &#39;89H&#39;, &#39;color89Nearest&#39;, etc)</span>
+<span class="sd">        Name of requested product (ie, 'IR-BD', '89H', 'color89Nearest', etc)</span>
 <span class="sd">    source_name : str</span>
-<span class="sd">        Name of requested source (ie, &#39;ahi&#39;, &#39;modis&#39;, etc)</span>
+<span class="sd">        Name of requested source (ie, 'ahi', 'modis', etc)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1106,14 +1108,14 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    --------</span>
 <span class="sd">    ``geoips.dev.check_cmap_func``</span>
 <span class="sd">        additional information on colormapper types, arguments, and return values</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">prod_spec</span> <span class="o">=</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">]</span>
-    <span class="c1"># Add .copy() to coverage args so we aren&#39;t passing the ACTUAL coverage</span>
+<span class="sd">    """</span>
+    <span class="n">prod_spec</span> <span class="o">=</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">]</span>
+    <span class="c1"># Add .copy() to coverage args so we aren't passing the ACTUAL coverage</span>
     <span class="c1"># args attached to the product plugin.</span>
     <span class="k">if</span> <span class="n">covg_field</span> <span class="ow">in</span> <span class="n">prod_spec</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">prod_spec</span><span class="p">[</span><span class="n">covg_field</span><span class="p">][</span><span class="s2">&quot;plugin&quot;</span><span class="p">][</span><span class="s2">&quot;arguments&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="k">elif</span> <span class="s2">&quot;coverage_checker&quot;</span> <span class="ow">in</span> <span class="n">prod_spec</span> <span class="ow">and</span> <span class="n">prod_spec</span><span class="p">[</span><span class="s2">&quot;coverage_checker&quot;</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="n">prod_spec</span><span class="p">[</span><span class="s2">&quot;coverage_checker&quot;</span><span class="p">][</span><span class="s2">&quot;plugin&quot;</span><span class="p">][</span><span class="s2">&quot;arguments&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">prod_spec</span><span class="p">[</span><span class="n">covg_field</span><span class="p">][</span><span class="s2">"plugin"</span><span class="p">][</span><span class="s2">"arguments"</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="s2">"coverage_checker"</span> <span class="ow">in</span> <span class="n">prod_spec</span> <span class="ow">and</span> <span class="n">prod_spec</span><span class="p">[</span><span class="s2">"coverage_checker"</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">prod_spec</span><span class="p">[</span><span class="s2">"coverage_checker"</span><span class="p">][</span><span class="s2">"plugin"</span><span class="p">][</span><span class="s2">"arguments"</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">{}</span></div>
 </pre></div>

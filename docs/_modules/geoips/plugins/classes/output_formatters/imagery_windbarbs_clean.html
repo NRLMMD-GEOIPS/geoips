@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.output_formatters.imagery_windbarbs_clean &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.output_formatters.imagery_windbarbs_clean &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Matplotlib-based windbarb clean image output (no overlays or backgrounds).&quot;&quot;&quot;</span>
+<span class="sd">"""Matplotlib-based windbarb clean image output (no overlays or backgrounds)."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.output_formatters</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">WindbarbOutputFormatterPlugin</span><span class="p">,</span>
@@ -840,11 +842,11 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="ImageryWindbarbsCleanOutputFormatterPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.imagery_windbarbs_clean.ImageryWindbarbsCleanOutputFormatterPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ImageryWindbarbsCleanOutputFormatterPlugin</span><span class="p">(</span><span class="n">WindbarbOutputFormatterPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Imagery Windbarbs Clean Output formatter plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Imagery Windbarbs Clean Output formatter plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;output_formatters&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;image&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;imagery_windbarbs_clean&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"output_formatters"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"image"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"imagery_windbarbs_clean"</span>
 
 <div class="viewcode-block" id="ImageryWindbarbsCleanOutputFormatterPlugin.call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.imagery_windbarbs_clean.ImageryWindbarbsCleanOutputFormatterPlugin.call">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -860,7 +862,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">main_ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">mapobj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot clean windbarb imagery on matplotlib figure.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Plot clean windbarb imagery on matplotlib figure."""</span>
         <span class="n">formatted_data_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_windbarb_data</span><span class="p">(</span><span class="n">xarray_obj</span><span class="p">,</span> <span class="n">product_name</span><span class="p">)</span>
 
         <span class="n">success_outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_clean_windbarbs</span><span class="p">(</span>

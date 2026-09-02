@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.interfaces.yaml_based.workflows &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.interfaces.yaml_based.workflows &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Workflow interface module.&quot;&quot;&quot;</span>
+<span class="sd">"""Workflow interface module."""</span>
 
 <span class="c1"># cspell: ignore koverrides soverrides</span>
 
@@ -846,9 +848,9 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="WorkflowsInterface"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.workflows.WorkflowsInterface">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WorkflowsInterface</span><span class="p">(</span><span class="n">BaseYamlInterface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface for workflow plugins.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Interface for workflow plugins."""</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;workflows&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"workflows"</span>
     <span class="n">use_pydantic</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Always use pydantic for workflows.</span>
 
     <span class="c1">##########################################</span>
@@ -858,11 +860,11 @@ window.runMermaid = runMermaid;</script>
     <span class="c1">##########################################</span>
 
 <div class="viewcode-block" id="WorkflowsInterface.global_override_type"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.global_override_type">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">global_override_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure an override string fits the following format.</span>
+<span class="w">        </span><span class="sd">"""Ensure an override string fits the following format.</span>
 
 <span class="sd">        Expected Format</span>
 <span class="sd">        ---------------</span>
-<span class="sd">        &#39;&lt;global_variable_name&gt;=&lt;some_value&gt;&#39;</span>
+<span class="sd">        '&lt;global_variable_name&gt;=&lt;some_value&gt;'</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -873,26 +875,26 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        override_dict: dict</span>
 <span class="sd">            The validated contents of an override string in a dictionary.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Invalid format &#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;. Expected &#39;&lt;global_variable_name&gt;=&lt;value&gt;&#39;&quot;</span>
+                <span class="sa">f</span><span class="s2">"Invalid format '</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">'. Expected '&lt;global_variable_name&gt;=&lt;value&gt;'"</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">&quot;argument&quot;</span><span class="p">:</span> <span class="n">lhs</span><span class="p">,</span>
+            <span class="s2">"argument"</span><span class="p">:</span> <span class="n">lhs</span><span class="p">,</span>
             <span class="c1"># doing a yaml.safe_load attempts to cast the value into its correct type</span>
-            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">rhs</span><span class="p">),</span>
+            <span class="s2">"value"</span><span class="p">:</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">rhs</span><span class="p">),</span>
         <span class="p">}</span></div>
 
 <div class="viewcode-block" id="WorkflowsInterface.kind_override_type"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.kind_override_type">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">kind_override_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure an override string fits the following format.</span>
+<span class="w">        </span><span class="sd">"""Ensure an override string fits the following format.</span>
 
 <span class="sd">        Expected Format</span>
 <span class="sd">        ---------------</span>
-<span class="sd">        &#39;&lt;kind&gt;.&lt;argument_name&gt;=&lt;some_value&gt;&#39;</span>
+<span class="sd">        '&lt;kind&gt;.&lt;argument_name&gt;=&lt;some_value&gt;'</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -903,38 +905,38 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        override_dict: dict</span>
 <span class="sd">            The validated contents of an override string in a dictionary.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Invalid format &#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;. Expected &#39;&lt;kind&gt;.&lt;argument_name&gt;=&lt;value&gt;&#39;&quot;</span>
+                <span class="sa">f</span><span class="s2">"Invalid format '</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">'. Expected '&lt;kind&gt;.&lt;argument_name&gt;=&lt;value&gt;'"</span>
             <span class="p">)</span>
 
-        <span class="n">parts</span> <span class="o">=</span> <span class="n">lhs</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">lhs</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Invalid key &#39;</span><span class="si">{</span><span class="n">lhs</span><span class="si">}</span><span class="s2">&#39;. Must be in the format of &quot;</span>
-                <span class="s2">&quot;&#39;&lt;kind&gt;.&lt;argument_name&gt;&#39;&quot;</span>
+                <span class="sa">f</span><span class="s2">"Invalid key '</span><span class="si">{</span><span class="n">lhs</span><span class="si">}</span><span class="s2">'. Must be in the format of "</span>
+                <span class="s2">"'&lt;kind&gt;.&lt;argument_name&gt;'"</span>
             <span class="p">)</span>
 
         <span class="n">kind</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">argument</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="n">kind</span><span class="p">,</span>
-            <span class="s2">&quot;argument&quot;</span><span class="p">:</span> <span class="n">argument</span><span class="p">,</span>
+            <span class="s2">"kind"</span><span class="p">:</span> <span class="n">kind</span><span class="p">,</span>
+            <span class="s2">"argument"</span><span class="p">:</span> <span class="n">argument</span><span class="p">,</span>
             <span class="c1"># doing a yaml.safe_load attempts to cast the value into its correct type</span>
-            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">rhs</span><span class="p">),</span>
+            <span class="s2">"value"</span><span class="p">:</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">rhs</span><span class="p">),</span>
         <span class="p">}</span></div>
 
 <div class="viewcode-block" id="WorkflowsInterface.step_override_type"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.step_override_type">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">step_override_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure an override string fits the following format.</span>
+<span class="w">        </span><span class="sd">"""Ensure an override string fits the following format.</span>
 
 <span class="sd">        Expected Format</span>
 <span class="sd">        ---------------</span>
-<span class="sd">        &#39;&lt;step_id&gt;.&lt;string1&gt;.&lt;optional_string2&gt;.&lt;optional_string3&gt;...=&lt;some_value&gt;&#39;</span>
+<span class="sd">        '&lt;step_id&gt;.&lt;string1&gt;.&lt;optional_string2&gt;.&lt;optional_string3&gt;...=&lt;some_value&gt;'</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -945,19 +947,19 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        override_dict: dict</span>
 <span class="sd">            The validated contents of an override string in a dictionary.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Invalid format &#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;. Expected &#39;&lt;step_id&gt;.&lt;...&gt;=&lt;value&gt;&#39;&quot;</span>
+                <span class="sa">f</span><span class="s2">"Invalid format '</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">'. Expected '&lt;step_id&gt;.&lt;...&gt;=&lt;value&gt;'"</span>
             <span class="p">)</span>
 
-        <span class="n">parts</span> <span class="o">=</span> <span class="n">lhs</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">lhs</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Invalid key &#39;</span><span class="si">{</span><span class="n">lhs</span><span class="si">}</span><span class="s2">&#39;. Must have at least &#39;&lt;step_id&gt;.&lt;string&gt;&#39;&quot;</span>
+                <span class="sa">f</span><span class="s2">"Invalid key '</span><span class="si">{</span><span class="n">lhs</span><span class="si">}</span><span class="s2">'. Must have at least '&lt;step_id&gt;.&lt;string&gt;'"</span>
             <span class="p">)</span>
 
         <span class="n">step_id</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -965,15 +967,15 @@ window.runMermaid = runMermaid;</script>
         <span class="n">argument</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">&quot;step_id&quot;</span><span class="p">:</span> <span class="n">step_id</span><span class="p">,</span>
-            <span class="s2">&quot;keys&quot;</span><span class="p">:</span> <span class="n">keys</span><span class="p">,</span>
-            <span class="s2">&quot;argument&quot;</span><span class="p">:</span> <span class="n">argument</span><span class="p">,</span>
+            <span class="s2">"step_id"</span><span class="p">:</span> <span class="n">step_id</span><span class="p">,</span>
+            <span class="s2">"keys"</span><span class="p">:</span> <span class="n">keys</span><span class="p">,</span>
+            <span class="s2">"argument"</span><span class="p">:</span> <span class="n">argument</span><span class="p">,</span>
             <span class="c1"># doing a yaml.safe_load attempts to cast the value into its correct type</span>
-            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">rhs</span><span class="p">),</span>
+            <span class="s2">"value"</span><span class="p">:</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">rhs</span><span class="p">),</span>
         <span class="p">}</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_set_nested</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">step_id</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">argument</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a key value pair in a nested dictionary.</span>
+<span class="w">        </span><span class="sd">"""Set a key value pair in a nested dictionary.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -984,22 +986,22 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        argument: str</span>
 <span class="sd">            The final key to set value to.</span>
 <span class="sd">        value: Any</span>
-<span class="sd">            The value to assign to a key that&#39;s in a nested dictionary.</span>
+<span class="sd">            The value to assign to a key that's in a nested dictionary.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        d: dict[dict]</span>
 <span class="sd">            A nested dictionary.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">current</span> <span class="o">=</span> <span class="n">d</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="n">step_id</span><span class="p">]</span> <span class="o">+</span> <span class="n">keys</span><span class="p">:</span>
             <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">{})</span>
-        <span class="n">current</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;arguments&quot;</span><span class="p">,</span> <span class="p">{})[</span><span class="n">argument</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="n">current</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"arguments"</span><span class="p">,</span> <span class="p">{})[</span><span class="n">argument</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
         <span class="k">return</span> <span class="n">d</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_override_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">override</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Override an argument of a given step.</span>
+<span class="w">        </span><span class="sd">"""Override an argument of a given step.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1011,19 +1013,19 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        steps: dict[dict]</span>
-<span class="sd">            An overridden representation of &#39;steps&#39;.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            An overridden representation of 'steps'.</span>
+<span class="sd">        """</span>
         <span class="n">steps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_nested</span><span class="p">(</span>
             <span class="n">steps</span><span class="p">,</span>
-            <span class="n">override</span><span class="p">[</span><span class="s2">&quot;step_id&quot;</span><span class="p">],</span>
-            <span class="n">override</span><span class="p">[</span><span class="s2">&quot;keys&quot;</span><span class="p">],</span>
-            <span class="n">override</span><span class="p">[</span><span class="s2">&quot;argument&quot;</span><span class="p">],</span>
-            <span class="n">override</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">],</span>
+            <span class="n">override</span><span class="p">[</span><span class="s2">"step_id"</span><span class="p">],</span>
+            <span class="n">override</span><span class="p">[</span><span class="s2">"keys"</span><span class="p">],</span>
+            <span class="n">override</span><span class="p">[</span><span class="s2">"argument"</span><span class="p">],</span>
+            <span class="n">override</span><span class="p">[</span><span class="s2">"value"</span><span class="p">],</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">steps</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_override_kind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">override</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Override an argument of a given kind.</span>
+<span class="w">        </span><span class="sd">"""Override an argument of a given kind.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1035,17 +1037,17 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        steps: dict[dict]</span>
-<span class="sd">            An overridden representation of &#39;steps&#39;.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            An overridden representation of 'steps'.</span>
+<span class="sd">        """</span>
         <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">steps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">Lexeme</span><span class="p">(</span><span class="n">step</span><span class="p">[</span><span class="s2">&quot;kind&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">singular</span> <span class="o">==</span> <span class="n">Lexeme</span><span class="p">(</span><span class="n">override</span><span class="p">[</span><span class="s2">&quot;kind&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">singular</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;arguments&quot;</span><span class="p">):</span>
-                    <span class="n">steps</span><span class="p">[</span><span class="nb">id</span><span class="p">][</span><span class="s2">&quot;arguments&quot;</span><span class="p">][</span><span class="n">override</span><span class="p">[</span><span class="s2">&quot;argument&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">override</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">Lexeme</span><span class="p">(</span><span class="n">step</span><span class="p">[</span><span class="s2">"kind"</span><span class="p">])</span><span class="o">.</span><span class="n">singular</span> <span class="o">==</span> <span class="n">Lexeme</span><span class="p">(</span><span class="n">override</span><span class="p">[</span><span class="s2">"kind"</span><span class="p">])</span><span class="o">.</span><span class="n">singular</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"arguments"</span><span class="p">):</span>
+                    <span class="n">steps</span><span class="p">[</span><span class="nb">id</span><span class="p">][</span><span class="s2">"arguments"</span><span class="p">][</span><span class="n">override</span><span class="p">[</span><span class="s2">"argument"</span><span class="p">]]</span> <span class="o">=</span> <span class="n">override</span><span class="p">[</span><span class="s2">"value"</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">steps</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_override_global</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">override</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Override an argument of a given global.</span>
+<span class="w">        </span><span class="sd">"""Override an argument of a given global.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1057,11 +1059,11 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        steps: dict[dict]</span>
-<span class="sd">            An overridden representation of &#39;steps&#39;.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            An overridden representation of 'steps'.</span>
+<span class="sd">        """</span>
         <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">steps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;arguments&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">override</span><span class="p">[</span><span class="s2">&quot;argument&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">step</span><span class="p">[</span><span class="s2">&quot;arguments&quot;</span><span class="p">]:</span>
-                <span class="n">steps</span><span class="p">[</span><span class="nb">id</span><span class="p">][</span><span class="s2">&quot;arguments&quot;</span><span class="p">][</span><span class="n">override</span><span class="p">[</span><span class="s2">&quot;argument&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">override</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"arguments"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">override</span><span class="p">[</span><span class="s2">"argument"</span><span class="p">]</span> <span class="ow">in</span> <span class="n">step</span><span class="p">[</span><span class="s2">"arguments"</span><span class="p">]:</span>
+                <span class="n">steps</span><span class="p">[</span><span class="nb">id</span><span class="p">][</span><span class="s2">"arguments"</span><span class="p">][</span><span class="n">override</span><span class="p">[</span><span class="s2">"argument"</span><span class="p">]]</span> <span class="o">=</span> <span class="n">override</span><span class="p">[</span><span class="s2">"value"</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">steps</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_override_workflow_string_format</span><span class="p">(</span>
@@ -1071,7 +1073,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">koverrides</span><span class="o">=</span><span class="p">[],</span>
         <span class="n">soverrides</span><span class="o">=</span><span class="p">[],</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Override a workflow plugin where applicable.</span>
+<span class="w">        </span><span class="sd">"""Override a workflow plugin where applicable.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1087,24 +1089,24 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        overridden: dict</span>
-<span class="sd">            The overridden representation of &#39;workflow&#39;.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">steps</span> <span class="o">=</span> <span class="n">workflow</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;steps&quot;</span><span class="p">]</span>
+<span class="sd">            The overridden representation of 'workflow'.</span>
+<span class="sd">        """</span>
+        <span class="n">steps</span> <span class="o">=</span> <span class="n">workflow</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">][</span><span class="s2">"steps"</span><span class="p">]</span>
 
-        <span class="n">wf_overrides</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;globals&quot;</span><span class="p">:</span> <span class="n">goverrides</span><span class="p">,</span> <span class="s2">&quot;kinds&quot;</span><span class="p">:</span> <span class="n">koverrides</span><span class="p">,</span> <span class="s2">&quot;steps&quot;</span><span class="p">:</span> <span class="n">soverrides</span><span class="p">}</span>
+        <span class="n">wf_overrides</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"globals"</span><span class="p">:</span> <span class="n">goverrides</span><span class="p">,</span> <span class="s2">"kinds"</span><span class="p">:</span> <span class="n">koverrides</span><span class="p">,</span> <span class="s2">"steps"</span><span class="p">:</span> <span class="n">soverrides</span><span class="p">}</span>
 
         <span class="k">for</span> <span class="n">override_type</span><span class="p">,</span> <span class="n">overrides</span> <span class="ow">in</span> <span class="n">wf_overrides</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">type_singular</span> <span class="o">=</span> <span class="n">Lexeme</span><span class="p">(</span><span class="n">override_type</span><span class="p">)</span><span class="o">.</span><span class="n">singular</span>
             <span class="k">for</span> <span class="n">override</span> <span class="ow">in</span> <span class="n">overrides</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">override</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                    <span class="n">steps</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;_override_</span><span class="si">{</span><span class="n">type_singular</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)(</span>
+                    <span class="n">steps</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"_override_</span><span class="si">{</span><span class="n">type_singular</span><span class="si">}</span><span class="s2">"</span><span class="p">)(</span>
                         <span class="n">steps</span><span class="p">,</span>
-                        <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">type_singular</span><span class="si">}</span><span class="s2">_override_type&quot;</span><span class="p">)(</span><span class="n">override</span><span class="p">),</span>
+                        <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">type_singular</span><span class="si">}</span><span class="s2">_override_type"</span><span class="p">)(</span><span class="n">override</span><span class="p">),</span>
                     <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">steps</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;_override_</span><span class="si">{</span><span class="n">type_singular</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)(</span><span class="n">steps</span><span class="p">,</span> <span class="n">override</span><span class="p">)</span>
+                    <span class="n">steps</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"_override_</span><span class="si">{</span><span class="n">type_singular</span><span class="si">}</span><span class="s2">"</span><span class="p">)(</span><span class="n">steps</span><span class="p">,</span> <span class="n">override</span><span class="p">)</span>
 
-        <span class="n">workflow</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;steps&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">steps</span>
+        <span class="n">workflow</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">][</span><span class="s2">"steps"</span><span class="p">]</span> <span class="o">=</span> <span class="n">steps</span>
 
         <span class="k">return</span> <span class="n">workflow</span>
 
@@ -1121,7 +1123,7 @@ window.runMermaid = runMermaid;</script>
     <span class="c1">########################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_insert_after_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">target_key</span><span class="p">,</span> <span class="n">new_key</span><span class="p">,</span> <span class="n">new_value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Insert a key/value pair immediately after an existing key.</span>
+<span class="w">        </span><span class="sd">"""Insert a key/value pair immediately after an existing key.</span>
 
 <span class="sd">        This helper only preserves ordering. Callers are responsible for</span>
 <span class="sd">        constructing and validating ``new_value`` before insertion.</span>
@@ -1141,7 +1143,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        dict</span>
 <span class="sd">            Workflow steps dictionary with the new key/value pair inserted.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">new_steps</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">inserted</span> <span class="o">=</span> <span class="kc">False</span>
 
@@ -1153,12 +1155,12 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">inserted</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">inserted</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find key &#39;</span><span class="si">{</span><span class="n">target_key</span><span class="si">}</span><span class="s2">&#39; for insertion.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Could not find key '</span><span class="si">{</span><span class="n">target_key</span><span class="si">}</span><span class="s2">' for insertion."</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">new_steps</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_build_output_checker_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_key</span><span class="p">,</span> <span class="n">target_step</span><span class="p">,</span> <span class="n">override</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build an output checker step from a workflow test override.</span>
+<span class="w">        </span><span class="sd">"""Build an output checker step from a workflow test override.</span>
 
 <span class="sd">        Output checker overrides target an existing output formatter step. The</span>
 <span class="sd">        generated checker depends on that formatter and receives ``compare_path``</span>
@@ -1178,42 +1180,42 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        dict or None</span>
 <span class="sd">            Output checker step definition, or ``None`` when no compare path was</span>
 <span class="sd">            supplied and the checker should not be inserted.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">target_step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;output_formatter&quot;</span><span class="p">:</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">target_step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"kind"</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">"output_formatter"</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Output checker overrides must target an output_formatter &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;step. Step &#39;</span><span class="si">{</span><span class="n">target_key</span><span class="si">}</span><span class="s2">&#39; has kind &#39;</span><span class="si">{</span><span class="n">target_step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;kind&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+                <span class="s2">"Output checker overrides must target an output_formatter "</span>
+                <span class="sa">f</span><span class="s2">"step. Step '</span><span class="si">{</span><span class="n">target_key</span><span class="si">}</span><span class="s2">' has kind '</span><span class="si">{</span><span class="n">target_step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'kind'</span><span class="p">)</span><span class="si">}</span><span class="s2">'."</span>
             <span class="p">)</span>
 
         <span class="n">checker_step</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">override</span><span class="p">)</span>
-        <span class="n">compare_path</span> <span class="o">=</span> <span class="n">checker_step</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;compare_path&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="n">threshold</span> <span class="o">=</span> <span class="n">checker_step</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;threshold&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">compare_path</span> <span class="o">=</span> <span class="n">checker_step</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"compare_path"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="n">checker_step</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"threshold"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">compare_path</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="s2">&quot;WARNING: NO COMPARE PATH PROVIDED, NOT ADDING OUTPUT CHECKER &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;STEP AFTER STEP &#39;</span><span class="si">{</span><span class="n">target_key</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+                <span class="s2">"WARNING: NO COMPARE PATH PROVIDED, NOT ADDING OUTPUT CHECKER "</span>
+                <span class="sa">f</span><span class="s2">"STEP AFTER STEP '</span><span class="si">{</span><span class="n">target_key</span><span class="si">}</span><span class="s2">'."</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-        <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="n">checker_step</span> <span class="ow">and</span> <span class="s2">&quot;output_checker_name&quot;</span> <span class="ow">in</span> <span class="n">checker_step</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Specify only one of &#39;name&#39; or &#39;output_checker_name&#39;.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s2">&quot;output_checker_name&quot;</span> <span class="ow">in</span> <span class="n">checker_step</span><span class="p">:</span>
-            <span class="n">checker_step</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">checker_step</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;output_checker_name&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"name"</span> <span class="ow">in</span> <span class="n">checker_step</span> <span class="ow">and</span> <span class="s2">"output_checker_name"</span> <span class="ow">in</span> <span class="n">checker_step</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Specify only one of 'name' or 'output_checker_name'."</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"output_checker_name"</span> <span class="ow">in</span> <span class="n">checker_step</span><span class="p">:</span>
+            <span class="n">checker_step</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">checker_step</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"output_checker_name"</span><span class="p">)</span>
 
-        <span class="n">checker_step</span><span class="p">[</span><span class="s2">&quot;arguments&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;compare_path&quot;</span><span class="p">:</span> <span class="n">compare_path</span><span class="p">}</span>
+        <span class="n">checker_step</span><span class="p">[</span><span class="s2">"arguments"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"compare_path"</span><span class="p">:</span> <span class="n">compare_path</span><span class="p">}</span>
         <span class="k">if</span> <span class="n">threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">checker_step</span><span class="p">[</span><span class="s2">&quot;arguments&quot;</span><span class="p">][</span><span class="s2">&quot;threshold&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">threshold</span>
-        <span class="n">checker_step</span><span class="p">[</span><span class="s2">&quot;depends_on&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">target_key</span><span class="p">]</span>
-        <span class="n">checker_step</span><span class="p">[</span><span class="s2">&quot;kind&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;output_checker&quot;</span>
+            <span class="n">checker_step</span><span class="p">[</span><span class="s2">"arguments"</span><span class="p">][</span><span class="s2">"threshold"</span><span class="p">]</span> <span class="o">=</span> <span class="n">threshold</span>
+        <span class="n">checker_step</span><span class="p">[</span><span class="s2">"depends_on"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">target_key</span><span class="p">]</span>
+        <span class="n">checker_step</span><span class="p">[</span><span class="s2">"kind"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"output_checker"</span>
 
-        <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">checker_step</span><span class="p">:</span>
-            <span class="n">checker_step</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">output_checkers</span><span class="o">.</span><span class="n">identify_checker</span><span class="p">(</span><span class="n">compare_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"name"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">checker_step</span><span class="p">:</span>
+            <span class="n">checker_step</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">output_checkers</span><span class="o">.</span><span class="n">identify_checker</span><span class="p">(</span><span class="n">compare_path</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">checker_step</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_apply_output_checker_override</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">override</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Recursively apply output checker overrides.</span>
+<span class="w">        </span><span class="sd">"""Recursively apply output checker overrides.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1226,25 +1228,25 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        dict</span>
 <span class="sd">            Updated workflow steps.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">override</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">steps</span>
 
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">override</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="c1"># Detected leaf output checker override. Overriding. &#39;full_test_policy&#39; is a</span>
+            <span class="c1"># Detected leaf output checker override. Overriding. 'full_test_policy' is a</span>
             <span class="c1"># field that is unique to output checker overrides and step definitions</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;full_test_policy&quot;</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">"full_test_policy"</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
                 <span class="c1"># Generate a unique step id based on how many output checker step ids</span>
                 <span class="c1"># were encountered previously</span>
                 <span class="n">count</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
-                    <span class="n">step_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;output_checker&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">step_name</span> <span class="ow">in</span> <span class="n">steps</span>
+                    <span class="n">step_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"output_checker"</span><span class="p">)</span> <span class="k">for</span> <span class="n">step_name</span> <span class="ow">in</span> <span class="n">steps</span>
                 <span class="p">)</span>
-                <span class="n">oc_step_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;output_checker</span><span class="si">{</span><span class="n">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">oc_step_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"output_checker</span><span class="si">{</span><span class="n">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span>
 
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">target_step</span> <span class="o">=</span> <span class="n">steps</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; for insertion.&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Could not find key '</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">' for insertion."</span><span class="p">)</span>
 
                 <span class="n">checker_step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_output_checker_step</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">target_step</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">checker_step</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1262,8 +1264,8 @@ window.runMermaid = runMermaid;</script>
                     <span class="n">step</span> <span class="o">=</span> <span class="n">steps</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
-                        <span class="s2">&quot;Error: the requested override cannot access a given key, value&quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot; pair because it does not exist. Missing key = &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+                        <span class="s2">"Error: the requested override cannot access a given key, value"</span>
+                        <span class="sa">f</span><span class="s2">" pair because it does not exist. Missing key = '</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">'."</span>
                     <span class="p">)</span>
 
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
@@ -1279,8 +1281,8 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">steps</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_convert_override_dict_to_string_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convert a workflow&#39;s test section overrides to string-based overrides.</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Convert a workflow's test section overrides to string-based overrides.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1295,10 +1297,10 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            A list of kind override strings.</span>
 <span class="sd">        soverrides: list[str]</span>
 <span class="sd">            A list of step override strings.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">_iterate_over_nested</span><span class="p">(</span><span class="n">current</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;Iterate over the keys of a nested dictionary.</span>
+<span class="w">            </span><span class="sd">"""Iterate over the keys of a nested dictionary.</span>
 
 <span class="sd">            Expected format of the nested dictionary is a single key, value pair in</span>
 <span class="sd">            each nested dictionary.</span>
@@ -1316,33 +1318,33 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">                dictionary.</span>
 <span class="sd">            value: Any</span>
 <span class="sd">                The override value being applied.</span>
-<span class="sd">            &quot;&quot;&quot;</span>
+<span class="sd">            """</span>
             <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">current</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">):</span>
-                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">current</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">current</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">_iterate_over_nested</span><span class="p">(</span><span class="n">current</span><span class="p">[</span><span class="n">key</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">_iterate_over_nested</span><span class="p">(</span><span class="n">current</span><span class="p">[</span><span class="n">key</span><span class="p">])</span><span class="si">}</span><span class="s2">"</span>
 
-        <span class="n">override_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;globals&quot;</span><span class="p">,</span> <span class="s2">&quot;kinds&quot;</span><span class="p">,</span> <span class="s2">&quot;steps&quot;</span><span class="p">]</span>
+        <span class="n">override_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"globals"</span><span class="p">,</span> <span class="s2">"kinds"</span><span class="p">,</span> <span class="s2">"steps"</span><span class="p">]</span>
         <span class="n">goverrides</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">koverrides</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">soverrides</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">override_type</span> <span class="ow">in</span> <span class="n">override_types</span><span class="p">:</span>
-            <span class="n">overrides</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">override_type</span><span class="p">)</span>
+            <span class="n">overrides</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"test"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">override_type</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">overrides</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">override_key</span><span class="p">,</span> <span class="n">override</span> <span class="ow">in</span> <span class="n">overrides</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">override</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">override</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                         <span class="k">continue</span>
                     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">override</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
                         <span class="n">str_override</span> <span class="o">=</span> <span class="p">(</span>
-                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">override_key</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">_iterate_over_nested</span><span class="p">(</span><span class="n">override</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">override_key</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">_iterate_over_nested</span><span class="p">(</span><span class="n">override</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
                         <span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">str_override</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">override_key</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">override</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="n">str_override</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">override_key</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">override</span><span class="si">}</span><span class="s2">"</span>
 
-                    <span class="k">if</span> <span class="n">override_type</span> <span class="o">==</span> <span class="s2">&quot;globals&quot;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">override_type</span> <span class="o">==</span> <span class="s2">"globals"</span><span class="p">:</span>
                         <span class="n">goverrides</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">str_override</span><span class="p">)</span>
-                    <span class="k">elif</span> <span class="n">override_type</span> <span class="o">==</span> <span class="s2">&quot;kinds&quot;</span><span class="p">:</span>
+                    <span class="k">elif</span> <span class="n">override_type</span> <span class="o">==</span> <span class="s2">"kinds"</span><span class="p">:</span>
                         <span class="n">koverrides</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">str_override</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">soverrides</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">str_override</span><span class="p">)</span>
@@ -1358,7 +1360,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">oc_overrides</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">use_test</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Override a workflow plugin where applicable.</span>
+<span class="w">        </span><span class="sd">"""Override a workflow plugin where applicable.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1373,24 +1375,24 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        oc_overrides: dict, optional</span>
 <span class="sd">            A dictionary for output_checker overrides.</span>
 <span class="sd">        use_test: bool, optional</span>
-<span class="sd">            Whether or not to use the overrides specified in a workflow&#39;s &#39;test&#39; section</span>
+<span class="sd">            Whether or not to use the overrides specified in a workflow's 'test' section</span>
 <span class="sd">            or to use the overrides provided as arguments to this function.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        overridden: dict</span>
-<span class="sd">            The overridden representation of &#39;workflow&#39;.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            The overridden representation of 'workflow'.</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">use_test</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">override_type</span><span class="p">,</span> <span class="n">overrides</span> <span class="ow">in</span> <span class="p">{</span>
-                <span class="s2">&quot;globals&quot;</span><span class="p">:</span> <span class="n">goverrides</span><span class="p">,</span>
-                <span class="s2">&quot;kinds&quot;</span><span class="p">:</span> <span class="n">koverrides</span><span class="p">,</span>
-                <span class="s2">&quot;steps&quot;</span><span class="p">:</span> <span class="n">soverrides</span><span class="p">,</span>
+                <span class="s2">"globals"</span><span class="p">:</span> <span class="n">goverrides</span><span class="p">,</span>
+                <span class="s2">"kinds"</span><span class="p">:</span> <span class="n">koverrides</span><span class="p">,</span>
+                <span class="s2">"steps"</span><span class="p">:</span> <span class="n">soverrides</span><span class="p">,</span>
             <span class="p">}</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">overrides</span><span class="p">:</span>
-                    <span class="n">workflow</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">][</span><span class="n">override_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">overrides</span>
+                    <span class="n">workflow</span><span class="p">[</span><span class="s2">"test"</span><span class="p">][</span><span class="n">override_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">overrides</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">workflow</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">][</span><span class="n">override_type</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="n">workflow</span><span class="p">[</span><span class="s2">"test"</span><span class="p">][</span><span class="n">override_type</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="n">goverrides</span><span class="p">,</span> <span class="n">koverrides</span><span class="p">,</span> <span class="n">soverrides</span> <span class="o">=</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_convert_override_dict_to_string_format</span><span class="p">(</span><span class="n">workflow</span><span class="p">)</span>
@@ -1400,19 +1402,19 @@ window.runMermaid = runMermaid;</script>
             <span class="n">workflow</span><span class="p">,</span> <span class="n">goverrides</span><span class="p">,</span> <span class="n">koverrides</span><span class="p">,</span> <span class="n">soverrides</span>
         <span class="p">)</span>
 
-        <span class="n">steps</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">workflow</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;steps&quot;</span><span class="p">])</span>
+        <span class="n">steps</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">workflow</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">][</span><span class="s2">"steps"</span><span class="p">])</span>
 
         <span class="n">output_overrides</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">oc_overrides</span>
             <span class="k">if</span> <span class="n">oc_overrides</span>
-            <span class="k">else</span> <span class="n">workflow</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;outputs&quot;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="k">else</span> <span class="n">workflow</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"test"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"outputs"</span><span class="p">,</span> <span class="p">{})</span>
         <span class="p">)</span>
 
         <span class="c1"># override with output_checker steps</span>
         <span class="k">for</span> <span class="n">step_id</span><span class="p">,</span> <span class="n">override</span> <span class="ow">in</span> <span class="n">output_overrides</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">steps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_output_checker_override</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="p">{</span><span class="n">step_id</span><span class="p">:</span> <span class="n">override</span><span class="p">})</span>
 
-        <span class="n">workflow</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;steps&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">steps</span>
+        <span class="n">workflow</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">][</span><span class="s2">"steps"</span><span class="p">]</span> <span class="o">=</span> <span class="n">steps</span>
 
         <span class="k">return</span> <span class="n">workflow</span>
 
@@ -1423,7 +1425,7 @@ window.runMermaid = runMermaid;</script>
     <span class="c1">######################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_override_expanded_workflow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expanded_workflow</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Override the contents of an expanded workflow.</span>
+<span class="w">        </span><span class="sd">"""Override the contents of an expanded workflow.</span>
 
 <span class="sd">        During this process, if the plugin is found to have a test section, replace all</span>
 <span class="sd">        relevant portions of the workflow plugin with the contents of the test section,</span>
@@ -1439,11 +1441,11 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            A dictionary representation of an expanded workflow plugin. Expanding means</span>
 <span class="sd">            nested workflows and/or products have been fully generated and everything</span>
 <span class="sd">            has been specified in a single workflow plugin.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">expanded_workflow</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">):</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">expanded_workflow</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"test"</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Error: attemping to test workflow plugin </span><span class="si">{</span><span class="n">expanded_workflow</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span>
-                <span class="s2">&quot;but the plugin is missing a top level &#39;test&#39; section.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Error: attemping to test workflow plugin </span><span class="si">{</span><span class="n">expanded_workflow</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span><span class="si">}</span><span class="s2"> "</span>
+                <span class="s2">"but the plugin is missing a top level 'test' section."</span>
             <span class="p">)</span>
 
         <span class="n">expanded_workflow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_override_workflow_dict_format</span><span class="p">(</span>
@@ -1453,16 +1455,16 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># Import buried in order to avoid circular import error</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.pydantic_models.v1.workflows</span><span class="w"> </span><span class="kn">import</span> <span class="n">WorkflowPluginModel</span>
 
-        <span class="c1"># omit adding &#39;test&#39; section as that has already been validated. All we care</span>
-        <span class="c1"># about is validating the overridden &#39;steps&#39; section.</span>
+        <span class="c1"># omit adding 'test' section as that has already been validated. All we care</span>
+        <span class="c1"># about is validating the overridden 'steps' section.</span>
         <span class="n">plugin_subset</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
-            <span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">],</span>
-            <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">],</span>
-            <span class="s2">&quot;docstring&quot;</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">&quot;docstring&quot;</span><span class="p">],</span>
-            <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">&quot;package&quot;</span><span class="p">],</span>
-            <span class="s2">&quot;relpath&quot;</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">&quot;relpath&quot;</span><span class="p">],</span>
-            <span class="s2">&quot;spec&quot;</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">],</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span>
+            <span class="s2">"interface"</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">"interface"</span><span class="p">],</span>
+            <span class="s2">"family"</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">"family"</span><span class="p">],</span>
+            <span class="s2">"docstring"</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">"docstring"</span><span class="p">],</span>
+            <span class="s2">"package"</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">"package"</span><span class="p">],</span>
+            <span class="s2">"relpath"</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">"relpath"</span><span class="p">],</span>
+            <span class="s2">"spec"</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">],</span>
         <span class="p">}</span>
 
         <span class="n">WorkflowPluginModel</span><span class="p">(</span><span class="o">**</span><span class="n">plugin_subset</span><span class="p">)</span>
@@ -1470,10 +1472,10 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">expanded_workflow</span>
 
 <div class="viewcode-block" id="WorkflowsInterface.get_plugin"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.get_plugin">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">rebuild_registries</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">_expand</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a workflow plugin by its name.</span>
+<span class="w">        </span><span class="sd">"""Get a workflow plugin by its name.</span>
 
-<span class="sd">        This overrides BaseYamlInterface:get_plugin as we need to support &#39;expand&#39;</span>
-<span class="sd">        functionality for the CLI command &#39;geoips expand &lt;workflow&gt;&#39;.</span>
+<span class="sd">        This overrides BaseYamlInterface:get_plugin as we need to support 'expand'</span>
+<span class="sd">        functionality for the CLI command 'geoips expand &lt;workflow&gt;'.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1489,9 +1491,9 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            rebuilt once.</span>
 <span class="sd">        _expand: private bool (default=False)</span>
 <span class="sd">            If true, fully expand the workflow plugin in place. Otherwise, load as is</span>
-<span class="sd">            done usually. This should only be used for the &#39;geoips expand &lt;workflow&gt;&#39;</span>
+<span class="sd">            done usually. This should only be used for the 'geoips expand &lt;workflow&gt;'</span>
 <span class="sd">            command.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_registry</span><span class="o">.</span><span class="n">get_yaml_plugin</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">name</span><span class="p">,</span>

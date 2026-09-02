@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.interfaces.class_based.coverage_checkers &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.interfaces.class_based.coverage_checkers &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Coverage checkers interface class.&quot;&quot;&quot;</span>
+<span class="sd">"""Coverage checkers interface class."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 
@@ -838,18 +840,18 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="BaseCoverageCheckerPlugin"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.coverage_checkers.BaseCoverageCheckerPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BaseCoverageCheckerPlugin</span><span class="p">(</span><span class="n">BaseClassPlugin</span><span class="p">,</span> <span class="n">abstract</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for GeoIPS coverage_checker plugins.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Base class for GeoIPS coverage_checker plugins."""</span>
 
     <span class="n">data_tree</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_invoke</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterate over ``variables`` when a list is given, then delegate.</span>
+<span class="w">        </span><span class="sd">"""Iterate over ``variables`` when a list is given, then delegate.</span>
 
 <span class="sd">        When *kwargs* contains a ``variables`` list (from step</span>
 <span class="sd">        arguments) the coverage checker is invoked once per entry with</span>
 <span class="sd">        ``variable_name`` injected.  If ``minimum_coverage`` is also</span>
 <span class="sd">        present, a ``ValueError`` is raised immediately when any</span>
-<span class="sd">        variable&#39;s coverage falls below the threshold.</span>
+<span class="sd">        variable's coverage falls below the threshold.</span>
 
 <span class="sd">        Otherwise delegates to the standard ``_invoke`` without</span>
 <span class="sd">        alteration.</span>
@@ -876,30 +878,30 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        ValueError</span>
-<span class="sd">            When ``minimum_coverage`` is set and any variable&#39;s</span>
+<span class="sd">            When ``minimum_coverage`` is set and any variable's</span>
 <span class="sd">            coverage percentage falls below it.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">_obp_initiated</span> <span class="ow">and</span> <span class="s2">&quot;variable_name&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;variable_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_infer_variable_name</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">_obp_initiated</span> <span class="ow">and</span> <span class="s2">"variable_name"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"variable_name"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_infer_variable_name</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-        <span class="n">variables</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;variables&quot;</span><span class="p">)</span>
+        <span class="n">variables</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"variables"</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">_obp_initiated</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_invoke</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="n">_obp_initiated</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="n">minimum_coverage</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;minimum_coverage&quot;</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
-        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;variables&quot;</span><span class="p">)</span>
+        <span class="n">minimum_coverage</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"minimum_coverage"</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"variables"</span><span class="p">)</span>
 
         <span class="n">min_cov</span> <span class="o">=</span> <span class="mf">100.0</span>
         <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">for</span> <span class="n">vname</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
-            <span class="n">vkwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="s2">&quot;variable_name&quot;</span><span class="p">:</span> <span class="n">vname</span><span class="p">}</span>
+            <span class="n">vkwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="s2">"variable_name"</span><span class="p">:</span> <span class="n">vname</span><span class="p">}</span>
             <span class="n">res</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_invoke</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="n">_obp_initiated</span><span class="p">,</span> <span class="o">**</span><span class="n">vkwargs</span><span class="p">)</span>
-            <span class="n">cov</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;coverage&quot;</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+            <span class="n">cov</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"coverage"</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"value"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">cov</span> <span class="o">&lt;</span> <span class="n">minimum_coverage</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Coverage for variable &#39;</span><span class="si">{</span><span class="n">vname</span><span class="si">}</span><span class="s2">&#39; is </span><span class="si">{</span><span class="n">cov</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%, &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;below the required minimum of &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">minimum_coverage</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%.&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Coverage for variable '</span><span class="si">{</span><span class="n">vname</span><span class="si">}</span><span class="s2">' is </span><span class="si">{</span><span class="n">cov</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%, "</span>
+                    <span class="sa">f</span><span class="s2">"below the required minimum of "</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">minimum_coverage</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%."</span>
                 <span class="p">)</span>
             <span class="k">if</span> <span class="n">cov</span> <span class="o">&lt;</span> <span class="n">min_cov</span><span class="p">:</span>
                 <span class="n">min_cov</span> <span class="o">=</span> <span class="n">cov</span>
@@ -907,50 +909,50 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">result</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_infer_variable_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Infer the coverage-checker variable from upstream data when unambiguous.</span>
+<span class="w">        </span><span class="sd">"""Infer the coverage-checker variable from upstream data when unambiguous.</span>
 
 <span class="sd">        Coverage checker steps may be inserted automatically while expanding legacy</span>
 <span class="sd">        product definitions. In those cases, the product configuration often does not</span>
 <span class="sd">        name the algorithm output variable. Use the actual upstream dataset at call</span>
 <span class="sd">        time to infer the variable only when exactly one data variable is available.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">dataset</span> <span class="o">=</span> <span class="n">to_mutable_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="n">data_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="s2">&quot;data_vars&quot;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="n">data_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="s2">"data_vars"</span><span class="p">,</span> <span class="p">[]))</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_vars</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">data_vars</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">data_vars</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Coverage checker plugin &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; requires &#39;variable_name&#39;, &quot;</span>
-                <span class="s2">&quot;but no data variables were found in the upstream data.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Coverage checker plugin '</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">' requires 'variable_name', "</span>
+                <span class="s2">"but no data variables were found in the upstream data."</span>
             <span class="p">)</span>
 
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Coverage checker plugin &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; requires &#39;variable_name&#39; when &quot;</span>
-            <span class="s2">&quot;upstream data contains multiple data variables. Available variables: &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_vars</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">"Coverage checker plugin '</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">' requires 'variable_name' when "</span>
+            <span class="s2">"upstream data contains multiple data variables. Available variables: "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">data_vars</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_pre_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Flatten OBP DataTree input into a mutable Dataset before base hooks.</span>
+<span class="w">        </span><span class="sd">"""Flatten OBP DataTree input into a mutable Dataset before base hooks.</span>
 
 <span class="sd">        Mirrors ``BaseAlgorithmPlugin._pre_call``: under OBP upstream outputs</span>
 <span class="sd">        arrive as a ``DataTree`` whose child nodes expose immutable</span>
 <span class="sd">        ``DatasetView`` objects via ``.ds``. This override flattens that tree</span>
 <span class="sd">        into a mutable Dataset so ``call()`` receives the expected input.</span>
 <span class="sd">        Legacy (non-OBP) inputs pass through unchanged.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">_obp_initiated</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">):</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">to_mutable_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_pre_call</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="n">_obp_initiated</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_post_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Normalize coverage_checker output into ``DataTreeDitto``.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""Normalize coverage_checker output into ``DataTreeDitto``.</span>
 
 <span class="sd">        The base ``_post_call`` wraps scalar outputs into ``DataTreeDitto`` and stores</span>
-<span class="sd">        them under ``attrs[&quot;value&quot;]``. This override renames that key to</span>
-<span class="sd">        ``attrs[&quot;coverage&quot;]`` so downstream steps can access coverage metadata</span>
+<span class="sd">        them under ``attrs["value"]``. This override renames that key to</span>
+<span class="sd">        ``attrs["coverage"]`` so downstream steps can access coverage metadata</span>
 <span class="sd">        unambiguously.</span>
 
 <span class="sd">        Parameters</span>
@@ -970,43 +972,43 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        DataTreeDitto | Any</span>
 <span class="sd">            The normalized ``DataTreeDitto`` output with coverage stored in</span>
-<span class="sd">            ``data.ds.attrs[&quot;coverage&quot;]``; otherwise the result returned by the</span>
+<span class="sd">            ``data.ds.attrs["coverage"]``; otherwise the result returned by the</span>
 <span class="sd">            base ``_post_call``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Calling super()._post_call() here results in a DataTreeDitto object. The DTD</span>
         <span class="c1"># object will have the same name as the calling CoverageChecker. It will contain</span>
-        <span class="c1"># a single attribute named &quot;value&quot; that will contain the coverage percentage.</span>
+        <span class="c1"># a single attribute named "value" that will contain the coverage percentage.</span>
         <span class="c1">#</span>
-        <span class="c1"># The code below will rename the &quot;value&quot; attribute to &quot;coverage&quot;.</span>
+        <span class="c1"># The code below will rename the "value" attribute to "coverage".</span>
         <span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_post_call</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="n">_obp_initiated</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">_obp_initiated</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ds&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">ds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">_obp_initiated</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"ds"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">ds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">attrs</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span>
-            <span class="k">if</span> <span class="s2">&quot;value&quot;</span> <span class="ow">in</span> <span class="n">attrs</span> <span class="ow">and</span> <span class="s2">&quot;coverage&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
-                <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;coverage&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">"value"</span> <span class="ow">in</span> <span class="n">attrs</span> <span class="ow">and</span> <span class="s2">"coverage"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+                <span class="n">attrs</span><span class="p">[</span><span class="s2">"coverage"</span><span class="p">]</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"value"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">data</span></div>
 
 
 <div class="viewcode-block" id="CoverageCheckersInterface"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.coverage_checkers.CoverageCheckersInterface">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CoverageCheckersInterface</span><span class="p">(</span><span class="n">BaseClassInterface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interpolation routine to apply when reprojecting data.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Interpolation routine to apply when reprojecting data."""</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;coverage_checkers&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"coverage_checkers"</span>
     <span class="n">plugin_class</span> <span class="o">=</span> <span class="n">BaseCoverageCheckerPlugin</span>
 
-    <span class="n">required_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;xarray_obj&quot;</span><span class="p">,</span> <span class="s2">&quot;variable_name&quot;</span><span class="p">]}</span>
-    <span class="n">required_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+    <span class="n">required_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"standard"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"xarray_obj"</span><span class="p">,</span> <span class="s2">"variable_name"</span><span class="p">]}</span>
+    <span class="n">required_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"standard"</span><span class="p">:</span> <span class="p">{}}</span>
     <span class="n">allowable_kwargs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;area_def&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;radius_km&quot;</span><span class="p">,</span>
+        <span class="s2">"standard"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"area_def"</span><span class="p">,</span>
+            <span class="s2">"radius_km"</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">}</span>
 
-<div class="viewcode-block" id="CoverageCheckersInterface.get_plugin_for_product"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.coverage_checkers.CoverageCheckersInterface.get_plugin_for_product">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_plugin_for_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">product</span><span class="p">,</span> <span class="n">checker_field</span><span class="o">=</span><span class="s2">&quot;coverage_checker&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get plugin for product.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="CoverageCheckersInterface.get_plugin_for_product"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.coverage_checkers.CoverageCheckersInterface.get_plugin_for_product">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_plugin_for_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">product</span><span class="p">,</span> <span class="n">checker_field</span><span class="o">=</span><span class="s2">"coverage_checker"</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Get plugin for product."""</span>
         <span class="k">if</span> <span class="n">checker_field</span> <span class="ow">in</span> <span class="n">product</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">product</span><span class="p">[</span><span class="n">checker_field</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">product</span><span class="p">[</span><span class="n">checker_field</span><span class="p">][</span><span class="s2">"name"</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">&quot;masked_array&quot;</span><span class="p">)</span></div></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">"masked_array"</span><span class="p">)</span></div></div>
 
 
 <span class="n">coverage_checkers</span> <span class="o">=</span> <span class="n">CoverageCheckersInterface</span><span class="p">()</span>

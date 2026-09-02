@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.interpolators.pyresample_wrappers.interp_nearest &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.interpolators.pyresample_wrappers.interp_nearest &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Geoips plugin for driving pyresample Nearest Neighbor interpolation.&quot;&quot;&quot;</span>
+<span class="sd">"""Geoips plugin for driving pyresample Nearest Neighbor interpolation."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.interpolators</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseInterpolatorPlugin</span>
 
@@ -847,37 +849,37 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="InterpNearestInterpolatorPlugin"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.pyresample_wrappers.html#geoips.plugins.classes.interpolators.pyresample_wrappers.interp_nearest.InterpNearestInterpolatorPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">InterpNearestInterpolatorPlugin</span><span class="p">(</span><span class="n">BaseInterpolatorPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interp Nearest interpolator plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Interp Nearest interpolator plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;interpolators&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;2d&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;interp_nearest&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"interpolators"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"2d"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"interp_nearest"</span>
 
 <div class="viewcode-block" id="InterpNearestInterpolatorPlugin.get_final_roi"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.pyresample_wrappers.html#geoips.plugins.classes.interpolators.pyresample_wrappers.interp_nearest.InterpNearestInterpolatorPlugin.get_final_roi">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_final_roi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xarray_obj</span><span class="p">,</span> <span class="n">area_def</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the final interpolation Radius of Influence.</span>
+<span class="w">        </span><span class="sd">"""Get the final interpolation Radius of Influence.</span>
 
 <span class="sd">        This takes the maximum of the xarray attribute, area_def pixel width,</span>
 <span class="sd">        and area_def pixel height.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">roi</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="s2">&quot;interpolation_radius_of_influence&quot;</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="s2">"interpolation_radius_of_influence"</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">roi</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">interpolation_radius_of_influence</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    USING XARRAY ROI of </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">roi</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    USING XARRAY ROI of </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">roi</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">roi</span> <span class="ow">or</span> <span class="n">area_def</span><span class="o">.</span><span class="n">pixel_size_x</span> <span class="o">&gt;</span> <span class="n">roi</span><span class="p">:</span>
             <span class="n">roi</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">pixel_size_x</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    USING AREA_DEF X ROI of </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">roi</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    USING AREA_DEF X ROI of </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">roi</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">area_def</span><span class="o">.</span><span class="n">pixel_size_y</span> <span class="o">&gt;</span> <span class="n">roi</span><span class="p">:</span>
             <span class="n">roi</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">pixel_size_y</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    USING AREA_DEF Y ROI of </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">roi</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    USING AREA_DEF Y ROI of </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">roi</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">roi</span></div>
 
 <div class="viewcode-block" id="InterpNearestInterpolatorPlugin.call"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.pyresample_wrappers.html#geoips.plugins.classes.interpolators.pyresample_wrappers.interp_nearest.InterpNearestInterpolatorPlugin.call">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">area_def</span><span class="p">,</span> <span class="n">input_xarray</span><span class="p">,</span> <span class="n">output_xarray</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">array_num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pyresample interp_kd_tree nearest neighbor GeoIPS plugin.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Pyresample interp_kd_tree nearest neighbor GeoIPS plugin."""</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;Interpolating nearest using standard scifile register method: kd_tree &quot;</span>
-            <span class="s2">&quot;nearest&quot;</span>
+            <span class="s2">"Interpolating nearest using standard scifile register method: kd_tree "</span>
+            <span class="s2">"nearest"</span>
         <span class="p">)</span>
 
         <span class="n">roi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_final_roi</span><span class="p">(</span><span class="n">input_xarray</span><span class="p">,</span> <span class="n">area_def</span><span class="p">)</span>
@@ -885,30 +887,30 @@ window.runMermaid = runMermaid;</script>
         <span class="n">vars_to_interp</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">array_num</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_xarray</span><span class="p">[</span><span class="n">varlist</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_xarray</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                    <span class="n">lons</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="n">array_num</span><span class="p">]</span>
-                    <span class="n">lats</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="n">array_num</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_xarray</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">lons</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="n">array_num</span><span class="p">]</span>
+                    <span class="n">lats</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="n">array_num</span><span class="p">]</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">lons</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>
-                    <span class="n">lats</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>
+                    <span class="n">lons</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>
+                    <span class="n">lats</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>
                 <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">varlist</span><span class="p">:</span>
                     <span class="n">vars_to_interp</span> <span class="o">+=</span> <span class="p">[</span>
                         <span class="n">input_xarray</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="n">array_num</span><span class="p">]</span>
                     <span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_xarray</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                    <span class="n">lons</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>
-                    <span class="n">lats</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_xarray</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">lons</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>
+                    <span class="n">lats</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">lons</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="p">:,</span> <span class="n">array_num</span><span class="p">]</span>
-                    <span class="n">lats</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="p">:,</span> <span class="n">array_num</span><span class="p">]</span>
+                    <span class="n">lons</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="p">:,</span> <span class="n">array_num</span><span class="p">]</span>
+                    <span class="n">lats</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="p">:,</span> <span class="n">array_num</span><span class="p">]</span>
                 <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">varlist</span><span class="p">:</span>
                     <span class="n">vars_to_interp</span> <span class="o">+=</span> <span class="p">[</span>
                         <span class="n">input_xarray</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="p">:,</span> <span class="n">array_num</span><span class="p">]</span>
                     <span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">lons</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>
-            <span class="n">lats</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>
+            <span class="n">lons</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>
+            <span class="n">lats</span> <span class="o">=</span> <span class="n">input_xarray</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">varlist</span><span class="p">:</span>
                 <span class="n">vars_to_interp</span> <span class="o">+=</span> <span class="p">[</span><span class="n">input_xarray</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()]</span>
 
@@ -923,29 +925,29 @@ window.runMermaid = runMermaid;</script>
             <span class="n">area_def</span><span class="p">,</span>
             <span class="n">data_box_definition</span><span class="p">,</span>
             <span class="nb">float</span><span class="p">(</span><span class="n">roi</span><span class="p">),</span>
-            <span class="n">interp_type</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span>
+            <span class="n">interp_type</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kd_kwargs</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">for</span> <span class="n">arr</span><span class="p">,</span> <span class="n">orig</span><span class="p">,</span> <span class="n">varname</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">interp_data</span><span class="p">,</span> <span class="n">vars_to_interp</span><span class="p">,</span> <span class="n">varlist</span><span class="p">):</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> min/max before: </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">varname</span><span class="p">,</span> <span class="n">orig</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">orig</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> min/max after:  </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">varname</span><span class="p">,</span> <span class="n">arr</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">arr</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> Percent unmasked before </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">varname</span><span class="p">,</span> <span class="n">percent_unmasked</span><span class="p">(</span><span class="n">orig</span><span class="p">))</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> Percent unmasked after  </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">varname</span><span class="p">,</span> <span class="n">percent_unmasked</span><span class="p">(</span><span class="n">arr</span><span class="p">))</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2"> min/max before: </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">varname</span><span class="p">,</span> <span class="n">orig</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">orig</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2"> min/max after:  </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">varname</span><span class="p">,</span> <span class="n">arr</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">arr</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2"> Percent unmasked before </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">varname</span><span class="p">,</span> <span class="n">percent_unmasked</span><span class="p">(</span><span class="n">orig</span><span class="p">))</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2"> Percent unmasked after  </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">varname</span><span class="p">,</span> <span class="n">percent_unmasked</span><span class="p">(</span><span class="n">arr</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">output_xarray</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">output_xarray</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
         <span class="n">copy_standard_metadata</span><span class="p">(</span><span class="n">input_xarray</span><span class="p">,</span> <span class="n">output_xarray</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">output_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;registered_dataset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">output_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;area_definition&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span>
+        <span class="n">output_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"registered_dataset"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">output_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"area_definition"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span>
 
         <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">varlist</span><span class="p">)):</span>
             <span class="n">output_xarray</span><span class="p">[</span><span class="n">varlist</span><span class="p">[</span><span class="n">ind</span><span class="p">]]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">interp_data</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span>
 
-        <span class="k">if</span> <span class="s2">&quot;latitude&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output_xarray</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="s2">"latitude"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output_xarray</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">interp_lons</span><span class="p">,</span> <span class="n">interp_lats</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">get_lonlats</span><span class="p">()</span>
-            <span class="n">output_xarray</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">interp_lats</span><span class="p">)</span>
-            <span class="n">output_xarray</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">interp_lons</span><span class="p">)</span>
+            <span class="n">output_xarray</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">interp_lats</span><span class="p">)</span>
+            <span class="n">output_xarray</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">interp_lons</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">output_xarray</span></div></div>
 

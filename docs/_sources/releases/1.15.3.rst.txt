@@ -1,33 +1,10 @@
-Version 1.15.3 (2026-07-23)
+Version 1.15.3 (2026-09-02)
 ***************************
 
- * *Cli*: Add geoips config install-github cli command
  * *Testing*: Provide more informative integration pytest output when running with -s
- * *Documentation*: Update upcoming and tagged versions
  * *Enhancement*: Implement additional caching options for abi geostationary reader
-
-Cli
-===
-
-Add geoips config install-github cli command
---------------------------------------------
-
-Currently this just calls $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh
-test_data_github, but functionality can later be moved directly into the python. This will
-allow us to update READMEs for consistency (geoips config install test_data_* for datasets
-that are available on CIRA NEXCLOUD, geoips config install-github test_data_* for datasets
-that are available at $GEOIPS_REPO_URL), and eventually deprecate the check_system_requirements.sh
-command.
-
-Note geoips config install and geoips config install-github can both be updated
-in the future to support package installs as well, but for now leave a note in both
-of their help functions noting that currently only test data installations are
-supported.
-
-::
-
-     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
-     modified: geoips/commandline/geoips_config.py
+ * *Cli*: Add geoips config install-github cli command
+ * *Documentation*: Update upcoming and tagged versions
 
 Testing
 =======
@@ -43,22 +20,6 @@ setup_logging did not appear to immediately work with initial tests).
 ::
 
      modified: tests/integration_tests/test_integration.py
-
-Documentation
-=============
-
-Update upcoming and tagged versions
------------------------------------
-
-* Tagged version: 1.15.3
-* Upcoming version: 1.16.2
-
-geoips#861 - 1.15.3 updates
-
-::
-
-     modified: .github/versions/tagged_version
-     modified: .github/versions/upcoming_version
 
 Enhancement
 ===========
@@ -103,3 +64,42 @@ geoips#852 - caching options
      modified: geoips/plugins/modules/readers/abi_netcdf.py
      modified: setup/config_geoips
      modified: tests/integration_tests/test_integration.py
+
+Cli
+===
+
+Add geoips config install-github cli command
+--------------------------------------------
+
+Currently this just calls $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh
+test_data_github, but functionality can later be moved directly into the python. This will
+allow us to update READMEs for consistency (geoips config install test_data_* for datasets
+that are available on CIRA NEXCLOUD, geoips config install-github test_data_* for datasets
+that are available at $GEOIPS_REPO_URL), and eventually deprecate the check_system_requirements.sh
+command.
+
+Note geoips config install and geoips config install-github can both be updated
+in the future to support package installs as well, but for now leave a note in both
+of their help functions noting that currently only test data installations are
+supported.
+
+::
+
+     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+     modified: geoips/commandline/geoips_config.py
+
+Documentation
+=============
+
+Update upcoming and tagged versions
+-----------------------------------
+
+* Tagged version: 1.15.3
+* Upcoming version: 1.16.2
+
+geoips#861 - 1.15.3 updates
+
+::
+
+     modified: .github/versions/tagged_version
+     modified: .github/versions/upcoming_version

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.filename_formatters.geoips_fname &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.filename_formatters.geoips_fname &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Standard geoips filename production.&quot;&quot;&quot;</span>
+<span class="sd">"""Standard geoips filename production."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.filename_formatters</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">BaseFilenameFormatterPlugin</span><span class="p">,</span>
@@ -845,11 +847,11 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="GeoipsFnameFilenameFormatterPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.filename_formatters.html#geoips.plugins.classes.filename_formatters.geoips_fname.GeoipsFnameFilenameFormatterPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsFnameFilenameFormatterPlugin</span><span class="p">(</span><span class="n">BaseFilenameFormatterPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Geoips Fname Filename formatter plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Geoips Fname Filename formatter plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;filename_formatters&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;geoips_fname&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"filename_formatters"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"geoips_fname"</span>
 
 <div class="viewcode-block" id="GeoipsFnameFilenameFormatterPlugin.call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.filename_formatters.html#geoips.plugins.classes.filename_formatters.geoips_fname.GeoipsFnameFilenameFormatterPlugin.call">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -857,29 +859,29 @@ window.runMermaid = runMermaid;</script>
         <span class="n">xarray_obj</span><span class="p">,</span>
         <span class="n">product_name</span><span class="p">,</span>
         <span class="n">coverage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">output_type</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">,</span>
+        <span class="n">output_type</span><span class="o">=</span><span class="s2">"png"</span><span class="p">,</span>
         <span class="n">output_type_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">product_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">product_subdir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">source_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">basedir</span><span class="o">=</span><span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;ANNOTATED_IMAGERY_PATH&quot;</span><span class="p">],</span>
+        <span class="n">basedir</span><span class="o">=</span><span class="n">gpaths</span><span class="p">[</span><span class="s2">"ANNOTATED_IMAGERY_PATH"</span><span class="p">],</span>
         <span class="n">output_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">extra</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create GeoIPS standard filenames, sector-based subdirs.</span>
+<span class="w">        </span><span class="sd">"""Create GeoIPS standard filenames, sector-based subdirs.</span>
 
 <span class="sd">        This uses the sector specification (continent, country, area, subarea,</span>
 <span class="sd">        state, city), product name, source name, and platform name</span>
 <span class="sd">        to generate a full unique path, as well as additional attributes to</span>
 <span class="sd">        create a fully unique file name.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># from geoips.xarray_utils.time import get_min_from_xarray_time</span>
-        <span class="c1"># start_dt = get_min_from_xarray_time(xarray_obj, &#39;time&#39;)</span>
+        <span class="c1"># start_dt = get_min_from_xarray_time(xarray_obj, 'time')</span>
         <span class="n">start_dt</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">start_datetime</span>
 
         <span class="n">resolution</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">pixel_size_x</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">pixel_size_y</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1000.0</span>
         <span class="c1"># This means area_extent is defined in units of degrees longitude, not meters.</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;area_extent&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">"area_extent"</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent</span> <span class="o">==</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">:</span>
                 <span class="c1"># 111km per degree longitude.</span>
                 <span class="n">resolution</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">resolution</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">area_def</span><span class="o">.</span><span class="n">resolution</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="mf">111.0</span>
@@ -887,25 +889,25 @@ window.runMermaid = runMermaid;</script>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">sector_info</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span>
-            <span class="k">if</span> <span class="s2">&quot;region&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-            <span class="k">else</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;region&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">"region"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="k">else</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"region"</span><span class="p">]</span>
         <span class="p">)</span>
-        <span class="k">if</span> <span class="s2">&quot;continent&quot;</span> <span class="ow">in</span> <span class="n">sector_info</span><span class="p">:</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;continent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;continent&quot;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="s2">&quot;country&quot;</span> <span class="ow">in</span> <span class="n">sector_info</span><span class="p">:</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;country&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;country&quot;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="s2">&quot;area&quot;</span> <span class="ow">in</span> <span class="n">sector_info</span><span class="p">:</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;area&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;area&quot;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="s2">&quot;subarea&quot;</span> <span class="ow">in</span> <span class="n">sector_info</span><span class="p">:</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;subarea&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;subarea&quot;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="s2">&quot;state&quot;</span> <span class="ow">in</span> <span class="n">sector_info</span><span class="p">:</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="s2">&quot;city&quot;</span> <span class="ow">in</span> <span class="n">sector_info</span><span class="p">:</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;city&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;city&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">"continent"</span> <span class="ow">in</span> <span class="n">sector_info</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"continent"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_info</span><span class="p">[</span><span class="s2">"continent"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">"country"</span> <span class="ow">in</span> <span class="n">sector_info</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"country"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_info</span><span class="p">[</span><span class="s2">"country"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">"area"</span> <span class="ow">in</span> <span class="n">sector_info</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"area"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_info</span><span class="p">[</span><span class="s2">"area"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">"subarea"</span> <span class="ow">in</span> <span class="n">sector_info</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"subarea"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_info</span><span class="p">[</span><span class="s2">"subarea"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">"state"</span> <span class="ow">in</span> <span class="n">sector_info</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"state"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_info</span><span class="p">[</span><span class="s2">"state"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">"city"</span> <span class="ow">in</span> <span class="n">sector_info</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"city"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_info</span><span class="p">[</span><span class="s2">"city"</span><span class="p">]</span>
 
-        <span class="n">base_extra</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:0.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">resolution</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">)</span>
+        <span class="n">base_extra</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0:0.1f}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">resolution</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"."</span><span class="p">,</span> <span class="s2">"p"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">extra</span><span class="p">:</span>
-            <span class="n">extra</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_extra</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">extra</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">extra</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">base_extra</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">extra</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">extra</span> <span class="o">=</span> <span class="n">base_extra</span>
         <span class="n">web_fname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">assemble_geoips_fname</span><span class="p">(</span>
@@ -939,7 +941,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">coverage</span><span class="p">,</span>
         <span class="n">resolution</span><span class="p">,</span>
         <span class="n">product_datetime</span><span class="p">,</span>
-        <span class="n">output_type</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">,</span>
+        <span class="n">output_type</span><span class="o">=</span><span class="s2">"png"</span><span class="p">,</span>
         <span class="n">data_provider</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">extra</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">product_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -951,7 +953,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">city</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Produce full output product path from product / sensor specifications.</span>
+<span class="w">        </span><span class="sd">"""Produce full output product path from product / sensor specifications.</span>
 
 <span class="sd">        standard web paths are of the format:</span>
 <span class="sd">            &lt;basedir&gt;/&lt;continent&gt;-&lt;country&gt;-&lt;area&gt;/&lt;subarea&gt;-&lt;state&gt;-&lt;city&gt;/</span>
@@ -982,30 +984,30 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        output_type : str, optional</span>
 <span class="sd">            file extension type, default is png</span>
 <span class="sd">        data_provider :  str, optional</span>
-<span class="sd">            String to include in filename &quot;data_provider&quot; field</span>
+<span class="sd">            String to include in filename "data_provider" field</span>
 <span class="sd">        extra : str, optional</span>
-<span class="sd">            String to include in filename &quot;extra&quot; field, default is None</span>
-<span class="sd">            If None, use fillval of &#39;x&#39;</span>
+<span class="sd">            String to include in filename "extra" field, default is None</span>
+<span class="sd">            If None, use fillval of 'x'</span>
 <span class="sd">        continent : str, optional</span>
-<span class="sd">            String to include in filename &quot;continent&quot; field, default is None</span>
-<span class="sd">            If None, use fillval of &#39;x&#39;</span>
+<span class="sd">            String to include in filename "continent" field, default is None</span>
+<span class="sd">            If None, use fillval of 'x'</span>
 <span class="sd">        country : str, optional</span>
-<span class="sd">            String to include in filename &quot;country&quot; field, default is None</span>
-<span class="sd">            If None, use fillval of &#39;x&#39;</span>
+<span class="sd">            String to include in filename "country" field, default is None</span>
+<span class="sd">            If None, use fillval of 'x'</span>
 <span class="sd">        area : str, optional</span>
-<span class="sd">            String to include in filename &quot;area&quot; field, default is None</span>
-<span class="sd">            If None, use fillval of &#39;x&#39;</span>
+<span class="sd">            String to include in filename "area" field, default is None</span>
+<span class="sd">            If None, use fillval of 'x'</span>
 <span class="sd">        subarea : str, optional</span>
-<span class="sd">            String to include in filename &quot;subarea&quot; field, default is None</span>
-<span class="sd">            If None, use fillval of &#39;x&#39;</span>
+<span class="sd">            String to include in filename "subarea" field, default is None</span>
+<span class="sd">            If None, use fillval of 'x'</span>
 <span class="sd">        state : str, optional</span>
-<span class="sd">            String to include in filename &quot;state&quot; field, default is None</span>
-<span class="sd">            If None, use fillval of &#39;x&#39;</span>
+<span class="sd">            String to include in filename "state" field, default is None</span>
+<span class="sd">            If None, use fillval of 'x'</span>
 <span class="sd">        city : str, optional</span>
-<span class="sd">            String to include in filename &quot;city&quot; field, default is None</span>
-<span class="sd">            If None, use fillval of &#39;x&#39;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">fillval</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span>
+<span class="sd">            String to include in filename "city" field, default is None</span>
+<span class="sd">            If None, use fillval of 'x'</span>
+<span class="sd">        """</span>
+        <span class="n">fillval</span> <span class="o">=</span> <span class="s2">"x"</span>
         <span class="k">if</span> <span class="n">continent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">continent</span> <span class="o">=</span> <span class="n">fillval</span>
         <span class="k">if</span> <span class="n">country</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1029,36 +1031,36 @@ window.runMermaid = runMermaid;</script>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">basedir</span><span class="p">)</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">pathjoin</span><span class="p">(</span>
             <span class="n">basedir</span><span class="p">,</span>
-            <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">-</span><span class="si">{1}</span><span class="s2">-</span><span class="si">{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">continent</span><span class="p">,</span> <span class="n">country</span><span class="p">,</span> <span class="n">area</span><span class="p">),</span>
-            <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">-</span><span class="si">{1}</span><span class="s2">-</span><span class="si">{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">subarea</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">city</span><span class="p">),</span>
+            <span class="s2">"</span><span class="si">{0}</span><span class="s2">-</span><span class="si">{1}</span><span class="s2">-</span><span class="si">{2}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">continent</span><span class="p">,</span> <span class="n">country</span><span class="p">,</span> <span class="n">area</span><span class="p">),</span>
+            <span class="s2">"</span><span class="si">{0}</span><span class="s2">-</span><span class="si">{1}</span><span class="s2">-</span><span class="si">{2}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">subarea</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">city</span><span class="p">),</span>
             <span class="n">product_dir</span><span class="p">,</span>
             <span class="n">source_dir</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="c1"># source_dir,</span>
-        <span class="c1"># &#39;{0:0.1f}&#39;.format(resolution).replace(&#39;.&#39;, &#39;p&#39;))</span>
-        <span class="c1"># fname = &#39;&lt;date{%Y%m%d}&gt;.&lt;time{%H%M%S}&gt;.&lt;satname&gt;.&lt;sensorname&gt;</span>
+        <span class="c1"># '{0:0.1f}'.format(resolution).replace('.', 'p'))</span>
+        <span class="c1"># fname = '&lt;date{%Y%m%d}&gt;.&lt;time{%H%M%S}&gt;.&lt;satname&gt;.&lt;sensorname&gt;</span>
         <span class="c1">#          .&lt;productname&gt;.&lt;sectorname&gt;</span>
-        <span class="c1">#          .&lt;coverage&gt;.&lt;dataprovider&gt;.&lt;extra&gt;&#39;</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="c1">#          .&lt;coverage&gt;.&lt;dataprovider&gt;.&lt;extra&gt;'</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="s2">"."</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
             <span class="p">[</span>
-                <span class="n">product_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">),</span>
-                <span class="n">product_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H%M%S&quot;</span><span class="p">),</span>
+                <span class="n">product_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">"</span><span class="p">),</span>
+                <span class="n">product_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%H%M%S"</span><span class="p">),</span>
                 <span class="n">platform_name</span><span class="p">,</span>
                 <span class="n">source_name</span><span class="p">,</span>
                 <span class="n">product_name</span><span class="p">,</span>
                 <span class="n">sector_name</span><span class="p">,</span>
-                <span class="s2">&quot;</span><span class="si">{0:0.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">coverage</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">),</span>
+                <span class="s2">"</span><span class="si">{0:0.2f}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">coverage</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"."</span><span class="p">,</span> <span class="s2">"p"</span><span class="p">),</span>
                 <span class="n">data_provider</span><span class="p">,</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">extra</span><span class="p">),</span>
             <span class="p">]</span>
         <span class="p">)</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">.</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">output_type</span><span class="p">)</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2">.</span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">output_type</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pathjoin</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GeoipsFnameFilenameFormatterPlugin.geoips_fname_remove_duplicates"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.filename_formatters.html#geoips.plugins.classes.filename_formatters.geoips_fname.GeoipsFnameFilenameFormatterPlugin.geoips_fname_remove_duplicates">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">geoips_fname_remove_duplicates</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">mins_to_remove</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">remove_files</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;remove_duplicates function currently not defined.</span>
+<span class="w">        </span><span class="sd">"""remove_duplicates function currently not defined.</span>
 
 <span class="sd">        If defined, this function will identify duplicate files, and remove</span>
 <span class="sd">        appropriately.  It should identify duplicates specifically based</span>
@@ -1066,8 +1068,8 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">        Currently returns empty lists.  When defined, will return a list of</span>
 <span class="sd">        deleted files and a list of saved files.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;MUST ADD LOGIC TO REMOVE STANDARD GEOIPS FILENAME DUPLICATES&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"MUST ADD LOGIC TO REMOVE STANDARD GEOIPS FILENAME DUPLICATES"</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[],</span> <span class="p">[]</span></div></div>
 
 

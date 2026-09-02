@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.interpolators.utils.boxdefinitions &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.interpolators.utils.boxdefinitions &#8212; GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation</title>
   
   
   
@@ -40,11 +40,13 @@
   <link rel="preload" as="script" href="../../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../_static/documentation_options.js?v=20cb8ded"></script>
     <script src="../../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -407,8 +409,8 @@ window.runMermaid = runMermaid;</script>
     <link rel="search" title="Search" href="../../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="1.2" />
+    <meta name="docbuild:last-update" content="Sep 02, 2026 19:40:26"/>
   
     
     <script src="../../../../../../_static/searchtools.js"></script>
@@ -480,8 +482,8 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
+    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.20.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Classes for geometry operations allowing masked data in swath corners.</span>
+<span class="sd">"""Classes for geometry operations allowing masked data in swath corners.</span>
 
 <span class="sd">This package uses the pyresample geometry package as base classes:</span>
 
@@ -839,7 +841,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd"># Authors:</span>
 <span class="sd">#    Esben S. Nielsen</span>
 <span class="sd">#    Thomas Lavergne</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">absolute_import</span>
 
@@ -862,7 +864,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="MaskedCornersSwathDefinition"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.utils.html#geoips.plugins.classes.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">MaskedCornersSwathDefinition</span><span class="p">(</span><span class="n">SwathDefinition</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Swath defined by lons and lats.</span>
+<span class="w">    </span><span class="sd">"""Swath defined by lons and lats.</span>
 
 <span class="sd">    Allows datasets with potentially masked data in the corners.</span>
 
@@ -892,14 +894,14 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Swath lats</span>
 <span class="sd">    cartesian_coords : object</span>
 <span class="sd">        Swath cartesian coordinates</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">nprocs</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize class.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Initialize class."""</span>
         <span class="k">if</span> <span class="n">lons</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">lats</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;lon and lat arrays must have same shape&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"lon and lat arrays must have same shape"</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">lons</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only 1 and 2 dimensional swaths are allowed&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Only 1 and 2 dimensional swaths are allowed"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">lons</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">lats</span><span class="o">.</span><span class="n">shape</span> <span class="ow">and</span> <span class="n">lons</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">lats</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="n">lons</span><span class="o">.</span><span class="n">shape</span>
@@ -909,8 +911,8 @@ window.runMermaid = runMermaid;</script>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="p">(</span>
-                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> must be created with either &quot;</span>
-                    <span class="s2">&quot;lon/lats of the same shape with same dtype&quot;</span>
+                    <span class="s2">"</span><span class="si">%s</span><span class="s2"> must be created with either "</span>
+                    <span class="s2">"lon/lats of the same shape with same dtype"</span>
                 <span class="p">)</span>
                 <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
             <span class="p">)</span>
@@ -919,17 +921,17 @@ window.runMermaid = runMermaid;</script>
         <span class="n">lons_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">lats_type</span> <span class="o">!=</span> <span class="n">lons_type</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;lons and lats must be of same type&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"lons and lats must be of same type"</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">lons</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">lons</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">lats</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;lons and lats must have same shape&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"lons and lats must have same shape"</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">nprocs</span> <span class="o">=</span> <span class="n">nprocs</span>
 
         <span class="c1"># check the latitutes</span>
         <span class="k">if</span> <span class="n">lats</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">((</span><span class="n">lats</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">90.0</span> <span class="ow">or</span> <span class="n">lats</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="o">+</span><span class="mf">90.0</span><span class="p">)):</span>
             <span class="c1"># throw exception</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Some latitudes are outside the [-90.;+90] validity range&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Some latitudes are outside the [-90.;+90] validity range"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">lats</span> <span class="o">=</span> <span class="n">lats</span>
 
@@ -937,10 +939,10 @@ window.runMermaid = runMermaid;</script>
         <span class="k">if</span> <span class="n">lons</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">((</span><span class="n">lons</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">180.0</span> <span class="ow">or</span> <span class="n">lons</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="o">+</span><span class="mf">180.0</span><span class="p">)):</span>
             <span class="c1"># issue warning</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;All geometry objects expect longitudes in the [-180:+180[ range. &quot;</span>
-                <span class="s2">&quot;We will now automatically wrap your longitudes into [-180:+180[, &quot;</span>
-                <span class="s2">&quot;and continue. &quot;</span>
-                <span class="s2">&quot;To avoid this warning next time, use routine utils.wrap_longitudes().&quot;</span>
+                <span class="s2">"All geometry objects expect longitudes in the [-180:+180[ range. "</span>
+                <span class="s2">"We will now automatically wrap your longitudes into [-180:+180[, "</span>
+                <span class="s2">"and continue. "</span>
+                <span class="s2">"To avoid this warning next time, use routine utils.wrap_longitudes()."</span>
             <span class="p">)</span>
             <span class="c1"># wrap longitudes to [-180;+180[</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">lons</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">wrap_longitudes</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span>
@@ -950,7 +952,7 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">cartesian_coords</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="MaskedCornersSwathDefinition.intersection"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.utils.html#geoips.plugins.classes.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.intersection">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">intersection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return current area intersection polygon corners.</span>
+<span class="w">        </span><span class="sd">"""Return current area intersection polygon corners.</span>
 
 <span class="sd">        *other* allows for potentially masked data in the corners.</span>
 
@@ -962,7 +964,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        (corner1, corner2, corner3, corner4) : tuple of points</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyresample.spherical_geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">intersection_polygon</span>
 
         <span class="c1"># This was failing if all the corners of the</span>
@@ -973,7 +975,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">allselfcornersin</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">allothercornersin</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">retcorners</span><span class="p">:</span>
-            <span class="c1"># Only try these if intersection_polygon didn&#39;t return anything.</span>
+            <span class="c1"># Only try these if intersection_polygon didn't return anything.</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">corners</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">planar_point_inside</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">corners</span><span class="p">):</span>
                     <span class="n">allselfcornersin</span> <span class="o">=</span> <span class="kc">True</span>
@@ -992,7 +994,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">retcorners</span></div>
 
 <div class="viewcode-block" id="MaskedCornersSwathDefinition.overlaps_minmaxlatlon"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.utils.html#geoips.plugins.classes.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.overlaps_minmaxlatlon">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">overlaps_minmaxlatlon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test current area overlaps *other* area.</span>
+<span class="w">        </span><span class="sd">"""Test current area overlaps *other* area.</span>
 
 <span class="sd">        This is based solely on the min/max lat/lon of areas, assuming the</span>
 <span class="sd">         boundaries to be along lat/lon lines.</span>
@@ -1005,11 +1007,11 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        overlaps : bool</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">self_corners</span> <span class="o">=</span> <span class="n">get_2d_false_corners</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">other_corners</span> <span class="o">=</span> <span class="n">get_2d_false_corners</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    Swath 2d False Corners: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">self_corners</span><span class="p">))</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    Other 2d False Corners: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">other_corners</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    Swath 2d False Corners: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">self_corners</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    Other 2d False Corners: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">other_corners</span><span class="p">))</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">self_corners</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">planar_point_inside</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">other_corners</span><span class="p">):</span>
@@ -1021,13 +1023,13 @@ window.runMermaid = runMermaid;</script>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">corners</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return current area corners.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return current area corners."""</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Try to just set normal CoordinateDefinition corners</span>
-            <span class="c1">#    (Which doesn&#39;t work with bad vals in corners)</span>
+            <span class="c1">#    (Which doesn't work with bad vals in corners)</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">CoordinateDefinition</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">corners</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="c1"># print &#39;        Corners failed on CoordinateDefinition, try falsecorners&#39;</span>
+            <span class="c1"># print '        Corners failed on CoordinateDefinition, try falsecorners'</span>
             <span class="k">pass</span>
 
         <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lonlats</span><span class="p">()</span>
@@ -1046,17 +1048,17 @@ window.runMermaid = runMermaid;</script>
         <span class="n">max_col</span> <span class="o">=</span> <span class="n">good_col_inds</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
 
         <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;    USING FALSE CORNERS!! setting corners. min row/col: &quot;</span>
+            <span class="s2">"    USING FALSE CORNERS!! setting corners. min row/col: "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">min_row</span><span class="p">)</span>
-            <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="o">+</span> <span class="s2">" "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">min_col</span><span class="p">)</span>
-            <span class="o">+</span> <span class="s2">&quot; &quot;</span>
-            <span class="o">+</span> <span class="s2">&quot;max row/col: &quot;</span>
+            <span class="o">+</span> <span class="s2">" "</span>
+            <span class="o">+</span> <span class="s2">"max row/col: "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">max_row</span><span class="p">)</span>
-            <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="o">+</span> <span class="s2">" "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">max_col</span><span class="p">)</span>
-            <span class="o">+</span> <span class="s2">&quot; &quot;</span>
-            <span class="o">+</span> <span class="s2">&quot;shape: &quot;</span>
+            <span class="o">+</span> <span class="s2">" "</span>
+            <span class="o">+</span> <span class="s2">"shape: "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">lons</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="p">)</span>
 
@@ -1068,12 +1070,12 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># Corners for top side</span>
         <span class="c1"># Right side was failing with Divide by Zero error for NCC data because there</span>
         <span class="c1"># was a single good point in the max_col.  Keep incrementing or decrementing</span>
-        <span class="c1"># until good.min doesn&#39;t equal good.max</span>
+        <span class="c1"># until good.min doesn't equal good.max</span>
         <span class="n">good</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">lons</span><span class="p">[</span><span class="n">min_row</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">tries</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">while</span> <span class="n">tries</span> <span class="o">&lt;</span> <span class="mi">20</span> <span class="ow">and</span> <span class="n">good</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">==</span> <span class="n">good</span><span class="o">.</span><span class="n">max</span><span class="p">():</span>
-            <span class="c1"># print &#39;good.min() can\&#39;t equal good.max() for top side, incrementing</span>
-            <span class="c1"># min_row! Would have failed with ZeroDivisionError before!&#39;</span>
+            <span class="c1"># print 'good.min() can\'t equal good.max() for top side, incrementing</span>
+            <span class="c1"># min_row! Would have failed with ZeroDivisionError before!'</span>
             <span class="n">min_row</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="n">tries</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="n">good</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">lons</span><span class="p">[</span><span class="n">min_row</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -1087,8 +1089,8 @@ window.runMermaid = runMermaid;</script>
         <span class="n">good</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">lons</span><span class="p">[</span><span class="n">max_row</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">tries</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">while</span> <span class="n">tries</span> <span class="o">&lt;</span> <span class="mi">20</span> <span class="ow">and</span> <span class="n">good</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">==</span> <span class="n">good</span><span class="o">.</span><span class="n">max</span><span class="p">():</span>
-            <span class="c1"># print &#39;good.min() can\&#39;t equal good.max() for bottom side, decrementing</span>
-            <span class="c1"># max_row! Would have failed with ZeroDivisionError before!&#39;</span>
+            <span class="c1"># print 'good.min() can\'t equal good.max() for bottom side, decrementing</span>
+            <span class="c1"># max_row! Would have failed with ZeroDivisionError before!'</span>
             <span class="n">max_row</span> <span class="o">-=</span> <span class="mi">1</span>
             <span class="n">tries</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="n">good</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">lons</span><span class="p">[</span><span class="n">max_row</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -1102,8 +1104,8 @@ window.runMermaid = runMermaid;</script>
         <span class="n">good</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">lons</span><span class="p">[:,</span> <span class="n">min_col</span><span class="p">]</span><span class="o">.</span><span class="n">mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">tries</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">while</span> <span class="n">tries</span> <span class="o">&lt;</span> <span class="mi">20</span> <span class="ow">and</span> <span class="n">good</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">==</span> <span class="n">good</span><span class="o">.</span><span class="n">max</span><span class="p">():</span>
-            <span class="c1"># print &#39;good.min() can\&#39;t equal good.max() for left side, incrementing</span>
-            <span class="c1"># min_col! Would have failed with ZeroDivisionError before!&#39;</span>
+            <span class="c1"># print 'good.min() can\'t equal good.max() for left side, incrementing</span>
+            <span class="c1"># min_col! Would have failed with ZeroDivisionError before!'</span>
             <span class="n">min_col</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="n">tries</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="n">good</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">lons</span><span class="p">[:,</span> <span class="n">min_col</span><span class="p">]</span><span class="o">.</span><span class="n">mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -1117,8 +1119,8 @@ window.runMermaid = runMermaid;</script>
         <span class="n">good</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">lons</span><span class="p">[:,</span> <span class="n">max_col</span><span class="p">]</span><span class="o">.</span><span class="n">mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">tries</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">while</span> <span class="n">tries</span> <span class="o">&lt;</span> <span class="mi">20</span> <span class="ow">and</span> <span class="n">good</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">==</span> <span class="n">good</span><span class="o">.</span><span class="n">max</span><span class="p">():</span>
-            <span class="c1"># print &#39;good.min() can\&#39;t equal good.max() for right side, decrementing</span>
-            <span class="c1"># max_col! Would have failed with ZeroDivisionError before!&#39;</span>
+            <span class="c1"># print 'good.min() can\'t equal good.max() for right side, decrementing</span>
+            <span class="c1"># max_col! Would have failed with ZeroDivisionError before!'</span>
             <span class="n">max_col</span> <span class="o">-=</span> <span class="mi">1</span>
             <span class="n">tries</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="n">good</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">lons</span><span class="p">[:,</span> <span class="n">max_col</span><span class="p">]</span><span class="o">.</span><span class="n">mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -1161,7 +1163,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">_corners</span>
 
 <div class="viewcode-block" id="MaskedCornersSwathDefinition.get_bounding_box_lonlats"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.utils.html#geoips.plugins.classes.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.get_bounding_box_lonlats">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_bounding_box_lonlats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npts</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return lon/lats along bounding Arcs.</span>
+<span class="w">        </span><span class="sd">"""Return lon/lats along bounding Arcs.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1182,8 +1184,8 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">           ([rtlon0,rtlon1,rtlon2],[rtlat0,rtlat1,rtlat2]),</span>
 <span class="sd">           ([btlon0,btlon1,btlon2],[btlat0,btlat1,btlat2]),</span>
 <span class="sd">           ([ltlon0,ltlon1,ltlon2],[ltlat0,ltlat1,ltlat2]),</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">g</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s2">&quot;WGS84&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s2">"WGS84"</span><span class="p">)</span>
 
         <span class="c1"># Top of bounding box</span>
         <span class="c1"># g.npts returns a list of tuples of lon/lat pairs</span>
@@ -1248,13 +1250,13 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="PlanarPolygonDefinition"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.utils.html#geoips.plugins.classes.interpolators.utils.boxdefinitions.PlanarPolygonDefinition">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PlanarPolygonDefinition</span><span class="p">(</span><span class="n">CoordinateDefinition</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Planar polygon definition.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Planar polygon definition."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">nprocs</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">lons</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">lats</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;lon and lat arrays must have same shape&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"lon and lat arrays must have same shape"</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">lons</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only 1 and 2 dimensional swaths are allowed&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Only 1 and 2 dimensional swaths are allowed"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">lons</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">lats</span><span class="o">.</span><span class="n">shape</span> <span class="ow">and</span> <span class="n">lons</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">lats</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="n">lons</span><span class="o">.</span><span class="n">shape</span>
@@ -1264,8 +1266,8 @@ window.runMermaid = runMermaid;</script>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="p">(</span>
-                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> must be created with either &quot;</span>
-                    <span class="s2">&quot;lon/lats of the same shape with same dtype&quot;</span>
+                    <span class="s2">"</span><span class="si">%s</span><span class="s2"> must be created with either "</span>
+                    <span class="s2">"lon/lats of the same shape with same dtype"</span>
                 <span class="p">)</span>
                 <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
             <span class="p">)</span>
@@ -1274,17 +1276,17 @@ window.runMermaid = runMermaid;</script>
         <span class="n">lons_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">lons_type</span> <span class="o">!=</span> <span class="n">lats_type</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;lons and lats must be of same type&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"lons and lats must be of same type"</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">lons</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">lons</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">lats</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;lons and lats must have same shape&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"lons and lats must have same shape"</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">nprocs</span> <span class="o">=</span> <span class="n">nprocs</span>
 
         <span class="c1"># check the latitutes</span>
         <span class="k">if</span> <span class="n">lats</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">((</span><span class="n">lats</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">90.0</span> <span class="ow">or</span> <span class="n">lats</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="o">+</span><span class="mf">90.0</span><span class="p">)):</span>
             <span class="c1"># throw exception</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Some latitudes are outside the [-90.;+90] validity range&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Some latitudes are outside the [-90.;+90] validity range"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">lats</span> <span class="o">=</span> <span class="n">lats</span>
 
@@ -1292,10 +1294,10 @@ window.runMermaid = runMermaid;</script>
         <span class="k">if</span> <span class="n">lons</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">((</span><span class="n">lons</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">180.0</span> <span class="ow">or</span> <span class="n">lons</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="o">+</span><span class="mf">180.0</span><span class="p">)):</span>
             <span class="c1"># issue warning</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;All geometry objects expect longitudes in the [-180:+180[ range. &quot;</span>
-                <span class="s2">&quot;We will now automatically wrap your longitudes into [-180:+180[, &quot;</span>
-                <span class="s2">&quot;and continue. &quot;</span>
-                <span class="s2">&quot;To avoid this warning next time, use routine utils.wrap_longitudes().&quot;</span>
+                <span class="s2">"All geometry objects expect longitudes in the [-180:+180[ range. "</span>
+                <span class="s2">"We will now automatically wrap your longitudes into [-180:+180[, "</span>
+                <span class="s2">"and continue. "</span>
+                <span class="s2">"To avoid this warning next time, use routine utils.wrap_longitudes()."</span>
             <span class="p">)</span>
             <span class="c1"># wrap longitudes to [-180;+180[</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">lons</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">wrap_longitudes</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span>
@@ -1305,7 +1307,7 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">cartesian_coords</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="PlanarPolygonDefinition.get_bounding_box_lonlats"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.utils.html#geoips.plugins.classes.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.get_bounding_box_lonlats">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_bounding_box_lonlats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npts</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return array of lon/lats along the bounding lat/lon lines.</span>
+<span class="w">        </span><span class="sd">"""Return array of lon/lats along the bounding lat/lon lines.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1326,7 +1328,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">           ([rtlon0,rtlon1,rtlon2],[rtlat0,rtlat1,rtlat2]),</span>
 <span class="sd">           ([btlon0,btlon1,btlon2],[btlat0,btlat1,btlat2]),</span>
 <span class="sd">           ([ltlon0,ltlon1,ltlon2],[ltlat0,ltlat1,ltlat2]),</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Top of bounding box</span>
         <span class="n">tplons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">corners</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span> <span class="n">npts</span><span class="p">)</span>
         <span class="n">tplats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">corners</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="n">npts</span><span class="p">)</span>
@@ -1350,10 +1352,10 @@ window.runMermaid = runMermaid;</script>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">corners</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return corners.&quot;&quot;&quot;</span>
-        <span class="c1"># print &#39;    In 2D false corners for: &#39;+str(self.name)</span>
+<span class="w">        </span><span class="sd">"""Return corners."""</span>
+        <span class="c1"># print '    In 2D false corners for: '+str(self.name)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># print &#39;        Corners already set, returning&#39;</span>
+            <span class="c1"># print '        Corners already set, returning'</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">CoordinateDefinition</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">corners</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="k">pass</span>
@@ -1361,10 +1363,10 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">get_2d_false_corners</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Idenfity if point inside the 4 corners of the current area.</span>
+<span class="w">        </span><span class="sd">"""Idenfity if point inside the 4 corners of the current area.</span>
 
 <span class="sd">        This DOES NOT use spherical geometry / great circle arcs.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">corners</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">corners</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
@@ -1374,12 +1376,12 @@ window.runMermaid = runMermaid;</script>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">retval</span> <span class="o">=</span> <span class="n">planar_point_inside</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">corners</span><span class="p">)</span>
 
-        <span class="c1"># print &#39;        retval from FALSE CORNERS contains &#39;+str(retval)</span>
+        <span class="c1"># print '        retval from FALSE CORNERS contains '+str(retval)</span>
 
         <span class="k">return</span> <span class="n">retval</span>
 
 <div class="viewcode-block" id="PlanarPolygonDefinition.intersection"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.utils.html#geoips.plugins.classes.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.intersection">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">intersection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return current area intersection polygon corners against other.</span>
+<span class="w">        </span><span class="sd">"""Return current area intersection polygon corners against other.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1389,7 +1391,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        (corner1, corner2, corner3, corner4) : tuple of points</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">self_corners</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">corners</span>
 
         <span class="n">other_corners</span> <span class="o">=</span> <span class="n">get_2d_false_corners</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
@@ -1399,12 +1401,12 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">planar_intersection_polygon</span><span class="p">(</span><span class="n">self_corners</span><span class="p">,</span> <span class="n">other_corners</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PlanarPolygonDefinition.overlaps_minmaxlatlon"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.utils.html#geoips.plugins.classes.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.overlaps_minmaxlatlon">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">overlaps_minmaxlatlon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Determine if overlaps.&quot;&quot;&quot;</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;PlanarPolygonDefinition overlaps_minmaxlatlon&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Determine if overlaps."""</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"PlanarPolygonDefinition overlaps_minmaxlatlon"</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">overlaps</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PlanarPolygonDefinition.overlaps"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.utils.html#geoips.plugins.classes.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.overlaps">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">overlaps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test if the current area overlaps the *other* area.</span>
+<span class="w">        </span><span class="sd">"""Test if the current area overlaps the *other* area.</span>
 
 <span class="sd">        This is based</span>
 <span class="sd">        solely on the corners of areas, assuming the boundaries to be straight</span>
@@ -1418,13 +1420,13 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        overlaps : bool</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">self_corners</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">corners</span>
         <span class="n">other_corners</span> <span class="o">=</span> <span class="n">get_2d_false_corners</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
-        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    PlanarPolygon Overlaps Self False Corners: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">self_corners</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    PlanarPolygon Overlaps Self False Corners: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">self_corners</span><span class="p">))</span>
         <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;    PlanarPolygon Overlaps Other False Corners: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">other_corners</span><span class="p">)</span>
+            <span class="s2">"    PlanarPolygon Overlaps Other False Corners: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">other_corners</span><span class="p">)</span>
         <span class="p">)</span>
 
         <span class="c1"># Previously just did if i in other or if i in self.</span>
@@ -1434,11 +1436,11 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># planar_point_inside, but spherical point_inside.</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">self_corners</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">planar_point_inside</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">other_corners</span><span class="p">):</span>
-                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    Point &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; in other&quot;</span><span class="p">)</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    Point "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" in other"</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kc">True</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">other_corners</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">planar_point_inside</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">self_corners</span><span class="p">):</span>
-                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    Point &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; in self&quot;</span><span class="p">)</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    Point "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" in self"</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kc">True</span>
 
         <span class="n">self_line1</span> <span class="o">=</span> <span class="n">Line</span><span class="p">(</span><span class="n">self_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">self_corners</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -1459,17 +1461,17 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="Line"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.utils.html#geoips.plugins.classes.interpolators.utils.boxdefinitions.Line">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Line</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A Line between two lat/lon points.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A Line between two lat/lon points."""</span>
 
     <span class="n">start</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">end</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize Line.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Initialize Line."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test two lines equal.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Test two lines equal."""</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">lon</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">lon</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">EPSILON</span>
             <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">lon</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">lon</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">EPSILON</span>
@@ -1480,33 +1482,33 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="mi">0</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test two lines not equal.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Test two lines not equal."""</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return string.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; -&gt; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Return string."""</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" -&gt; "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return representation.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; -&gt; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Return representation."""</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" -&gt; "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Line.intersects"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.utils.html#geoips.plugins.classes.interpolators.utils.boxdefinitions.Line.intersects">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">intersects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_line</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test two lines intersect.</span>
+<span class="w">        </span><span class="sd">"""Test two lines intersect.</span>
 
 <span class="sd">        Says if two lines defined by the current line and the *other_line*</span>
 <span class="sd">        intersect. A line is defined as the shortest tracks between two points.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">intpt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">other_line</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">intpt</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Line.intersection"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.utils.html#geoips.plugins.classes.interpolators.utils.boxdefinitions.Line.intersection">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">intersection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Identify intersection between two lines.</span>
+<span class="w">        </span><span class="sd">"""Identify intersection between two lines.</span>
 
 <span class="sd">        Says where, if two lines defined by the current line and the</span>
 <span class="sd">        *other_line* intersect.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;self: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; other: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">other</span><span class="p">))</span>
+<span class="sd">        """</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"self: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" other: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">other</span><span class="p">))</span>
         <span class="k">if</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span><span class="p">:</span>
             <span class="c1"># Used to be return True, that is definitely not right (expects Coordinate)</span>
             <span class="c1"># Do we want start or end ? Does it matter? Lines are the same, everything</span>
@@ -1541,13 +1543,13 @@ window.runMermaid = runMermaid;</script>
         <span class="c1">#            otherstartlon = other.start.lon + 2*math.pi</span>
 
         <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;    self lons: &quot;</span>
+            <span class="s2">"    self lons: "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">selfstartlon</span><span class="p">))</span>
-            <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="o">+</span> <span class="s2">" "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">selfendlon</span><span class="p">))</span>
-            <span class="o">+</span> <span class="s2">&quot; other lons: &quot;</span>
+            <span class="o">+</span> <span class="s2">" other lons: "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">otherstartlon</span><span class="p">))</span>
-            <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="o">+</span> <span class="s2">" "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">otherendlon</span><span class="p">))</span>
         <span class="p">)</span>
 
@@ -1556,7 +1558,7 @@ window.runMermaid = runMermaid;</script>
             <span class="nb">abs</span><span class="p">(</span><span class="n">selfendlon</span> <span class="o">-</span> <span class="n">selfstartlon</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">EPSILON</span>
             <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">otherendlon</span> <span class="o">-</span> <span class="n">otherstartlon</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">EPSILON</span>
         <span class="p">):</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    Both vertical, no intersection&quot;</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    Both vertical, no intersection"</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="c1"># If self is vertical, but not parallel, intersection will be selfstartlon</span>
         <span class="c1"># and lat = Mother*lon+B_other</span>
@@ -1565,7 +1567,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">M_other</span> <span class="o">=</span> <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">lat</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">lat</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">otherendlon</span> <span class="o">-</span> <span class="n">otherstartlon</span><span class="p">)</span>
             <span class="n">B_other</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">lat</span> <span class="o">-</span> <span class="n">M_other</span> <span class="o">*</span> <span class="n">otherendlon</span>
             <span class="n">lat</span> <span class="o">=</span> <span class="n">M_other</span> <span class="o">*</span> <span class="n">lon</span> <span class="o">+</span> <span class="n">B_other</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    self is vertical&quot;</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    self is vertical"</span><span class="p">)</span>
             <span class="c1"># Make sure it falls within the segment and not outside.</span>
             <span class="c1"># Previously was only checking lat, need to</span>
             <span class="c1"># also check lon or opposite side of world would match</span>
@@ -1575,7 +1577,7 @@ window.runMermaid = runMermaid;</script>
                 <span class="ow">and</span> <span class="n">lon</span> <span class="o">&gt;</span> <span class="nb">min</span><span class="p">([</span><span class="n">otherendlon</span><span class="p">,</span> <span class="n">otherstartlon</span><span class="p">])</span>
                 <span class="ow">and</span> <span class="n">lon</span> <span class="o">&lt;</span> <span class="nb">max</span><span class="p">([</span><span class="n">otherendlon</span><span class="p">,</span> <span class="n">otherstartlon</span><span class="p">])</span>
             <span class="p">):</span>
-                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;        and intersects&quot;</span><span class="p">)</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"        and intersects"</span><span class="p">)</span>
                 <span class="c1"># Apparently Coordinate takes degrees ??? And must be -180 to 180 ?!</span>
                 <span class="c1"># MLS use wrap_longitudes?</span>
                 <span class="k">if</span> <span class="n">lon</span> <span class="o">&gt;</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span>
@@ -1589,7 +1591,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">M_self</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">lat</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">lat</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">selfendlon</span> <span class="o">-</span> <span class="n">selfstartlon</span><span class="p">)</span>
             <span class="n">B_self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">lat</span> <span class="o">-</span> <span class="n">M_self</span> <span class="o">*</span> <span class="n">selfendlon</span>
             <span class="n">lat</span> <span class="o">=</span> <span class="n">M_self</span> <span class="o">*</span> <span class="n">lon</span> <span class="o">+</span> <span class="n">B_self</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    other is vertical&quot;</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    other is vertical"</span><span class="p">)</span>
             <span class="c1"># Make sure it falls within the segment and not outside.</span>
             <span class="c1"># Previously was only checking lat, need to</span>
             <span class="c1"># also check lon or opposite side of world would match</span>
@@ -1599,7 +1601,7 @@ window.runMermaid = runMermaid;</script>
                 <span class="ow">and</span> <span class="n">lon</span> <span class="o">&gt;</span> <span class="nb">min</span><span class="p">([</span><span class="n">selfendlon</span><span class="p">,</span> <span class="n">selfstartlon</span><span class="p">])</span>
                 <span class="ow">and</span> <span class="n">lon</span> <span class="o">&lt;</span> <span class="nb">max</span><span class="p">([</span><span class="n">selfendlon</span><span class="p">,</span> <span class="n">selfstartlon</span><span class="p">])</span>
             <span class="p">):</span>
-                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;        and intersects&quot;</span><span class="p">)</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"        and intersects"</span><span class="p">)</span>
                 <span class="c1"># Apparently Coordinate takes degrees ??? And must be -180 to 180 ?!</span>
                 <span class="c1"># MLS Use wrap_longitudes?</span>
                 <span class="k">if</span> <span class="n">lon</span> <span class="o">&gt;</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span>
@@ -1614,7 +1616,7 @@ window.runMermaid = runMermaid;</script>
 
         <span class="c1"># If they are parallel, no intersection</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">M_self</span> <span class="o">-</span> <span class="n">M_other</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">EPSILON</span><span class="p">:</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    self and other are parallel, no intersection&quot;</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    self and other are parallel, no intersection"</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="c1"># Get the y-intercepts of the lines</span>
@@ -1622,8 +1624,8 @@ window.runMermaid = runMermaid;</script>
         <span class="n">B_other</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">lat</span> <span class="o">-</span> <span class="n">M_other</span> <span class="o">*</span> <span class="n">otherendlon</span>
 
         <span class="c1"># Solve the equation</span>
-        <span class="c1"># y=m1x+b1 and y=m2x+b2, equate y&#39;s so m1x+b1=m2x+b2, x = (b1-b2)/(m2-m1)</span>
-        <span class="c1"># equate x&#39;s so x=(y-b1)/m1=(y-b2)/m2, y = (b1m2-b2m1)/(m2-m1)</span>
+        <span class="c1"># y=m1x+b1 and y=m2x+b2, equate y's so m1x+b1=m2x+b2, x = (b1-b2)/(m2-m1)</span>
+        <span class="c1"># equate x's so x=(y-b1)/m1=(y-b2)/m2, y = (b1m2-b2m1)/(m2-m1)</span>
         <span class="n">lon</span> <span class="o">=</span> <span class="p">(</span><span class="n">B_self</span> <span class="o">-</span> <span class="n">B_other</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">M_other</span> <span class="o">-</span> <span class="n">M_self</span><span class="p">)</span>
         <span class="n">lat</span> <span class="o">=</span> <span class="p">(</span><span class="n">B_self</span> <span class="o">*</span> <span class="n">M_other</span> <span class="o">-</span> <span class="n">B_other</span> <span class="o">*</span> <span class="n">M_self</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">M_other</span> <span class="o">-</span> <span class="n">M_self</span><span class="p">)</span>
 
@@ -1638,20 +1640,20 @@ window.runMermaid = runMermaid;</script>
             <span class="ow">and</span> <span class="n">lon</span> <span class="o">&gt;</span> <span class="nb">min</span><span class="p">([</span><span class="n">selfendlon</span><span class="p">,</span> <span class="n">selfstartlon</span><span class="p">])</span>
             <span class="ow">and</span> <span class="n">lon</span> <span class="o">&lt;</span> <span class="nb">max</span><span class="p">([</span><span class="n">selfendlon</span><span class="p">,</span> <span class="n">selfstartlon</span><span class="p">])</span>
         <span class="p">):</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    self and other intersect within segment&quot;</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    self and other intersect within segment"</span><span class="p">)</span>
             <span class="c1"># Apparently Coordinate takes degrees ??? And must be -180 to 180 ?!</span>
             <span class="c1"># MLS use wrap longitudes?</span>
             <span class="k">if</span> <span class="n">lon</span> <span class="o">&gt;</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span>
                 <span class="n">lon</span> <span class="o">-=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
             <span class="k">return</span> <span class="n">Coordinate</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">lon</span><span class="p">),</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">lat</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    self and other intersect, but not within segment&quot;</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    self and other intersect, but not within segment"</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span></div></div>
 
 
 <div class="viewcode-block" id="get_2d_false_corners"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.utils.html#geoips.plugins.classes.interpolators.utils.boxdefinitions.get_2d_false_corners">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_2d_false_corners</span><span class="p">(</span><span class="n">box_def</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Identify false corners.&quot;&quot;&quot;</span>
-    <span class="c1"># print &#39;    In 2D false corners for: &#39;+str(box_def.name)</span>
+<span class="w">    </span><span class="sd">"""Identify false corners."""</span>
+    <span class="c1"># print '    In 2D false corners for: '+str(box_def.name)</span>
 
     <span class="n">min_row</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">max_row</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
@@ -1672,11 +1674,11 @@ window.runMermaid = runMermaid;</script>
     <span class="k">if</span> <span class="n">tries</span><span class="p">:</span>
         <span class="n">side1</span> <span class="o">=</span> <span class="n">box_def</span><span class="o">.</span><span class="n">get_lonlats</span><span class="p">(</span><span class="n">data_slice</span><span class="o">=</span><span class="p">(</span><span class="n">min_row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)))</span>
         <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;Needed some data in side 1, incremented slice number &quot;</span>
+            <span class="s2">"Needed some data in side 1, incremented slice number "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tries</span><span class="p">)</span>
-            <span class="o">+</span> <span class="s2">&quot; times. Now have &quot;</span>
+            <span class="o">+</span> <span class="s2">" times. Now have "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">side1</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-            <span class="o">+</span> <span class="s2">&quot; valid of &quot;</span>
+            <span class="o">+</span> <span class="s2">" valid of "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">side1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mask</span><span class="p">))</span>
         <span class="p">)</span>
 
@@ -1690,11 +1692,11 @@ window.runMermaid = runMermaid;</script>
     <span class="k">if</span> <span class="n">tries</span><span class="p">:</span>
         <span class="n">side2</span> <span class="o">=</span> <span class="n">box_def</span><span class="o">.</span><span class="n">get_lonlats</span><span class="p">(</span><span class="n">data_slice</span><span class="o">=</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="n">max_col</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;Needed some data in side 2, decremented slice number &quot;</span>
+            <span class="s2">"Needed some data in side 2, decremented slice number "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tries</span><span class="p">)</span>
-            <span class="o">+</span> <span class="s2">&quot; times. Now have &quot;</span>
+            <span class="o">+</span> <span class="s2">" times. Now have "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">side2</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-            <span class="o">+</span> <span class="s2">&quot; valid of &quot;</span>
+            <span class="o">+</span> <span class="s2">" valid of "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">side2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mask</span><span class="p">))</span>
         <span class="p">)</span>
 
@@ -1708,11 +1710,11 @@ window.runMermaid = runMermaid;</script>
     <span class="k">if</span> <span class="n">tries</span><span class="p">:</span>
         <span class="n">side3</span> <span class="o">=</span> <span class="n">box_def</span><span class="o">.</span><span class="n">get_lonlats</span><span class="p">(</span><span class="n">data_slice</span><span class="o">=</span><span class="p">(</span><span class="n">max_row</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)))</span>
         <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;Needed some data in side 3, decremented slice number &quot;</span>
+            <span class="s2">"Needed some data in side 3, decremented slice number "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tries</span><span class="p">)</span>
-            <span class="o">+</span> <span class="s2">&quot; times. Now have &quot;</span>
+            <span class="o">+</span> <span class="s2">" times. Now have "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">side3</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-            <span class="o">+</span> <span class="s2">&quot; valid of &quot;</span>
+            <span class="o">+</span> <span class="s2">" valid of "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">side3</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mask</span><span class="p">))</span>
         <span class="p">)</span>
 
@@ -1726,11 +1728,11 @@ window.runMermaid = runMermaid;</script>
     <span class="k">if</span> <span class="n">tries</span><span class="p">:</span>
         <span class="n">side4</span> <span class="o">=</span> <span class="n">box_def</span><span class="o">.</span><span class="n">get_lonlats</span><span class="p">(</span><span class="n">data_slice</span><span class="o">=</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="n">min_col</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;Needed some data in side 4, incremented slice number &quot;</span>
+            <span class="s2">"Needed some data in side 4, incremented slice number "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tries</span><span class="p">)</span>
-            <span class="o">+</span> <span class="s2">&quot; times. Now have &quot;</span>
+            <span class="o">+</span> <span class="s2">" times. Now have "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">side4</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-            <span class="o">+</span> <span class="s2">&quot; valid of &quot;</span>
+            <span class="o">+</span> <span class="s2">" valid of "</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">side4</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mask</span><span class="p">))</span>
         <span class="p">)</span>
 
@@ -1756,9 +1758,9 @@ window.runMermaid = runMermaid;</script>
     <span class="n">minlat</span> <span class="o">=</span> <span class="n">selflats</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
     <span class="n">maxlat</span> <span class="o">=</span> <span class="n">selflats</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
 
-    <span class="c1"># print &#39;IN PlanarPolygonDefinition CORNERS for &#39;+box_def.name+\</span>
-    <span class="c1">#    &#39; min/max lat min/max lon:&#39;+\</span>
-    <span class="c1">#    str(minlat)+&#39; &#39;+str(maxlat)+&#39; &#39;+str(minlon)+&#39; &#39;+str(maxlon)</span>
+    <span class="c1"># print 'IN PlanarPolygonDefinition CORNERS for '+box_def.name+\</span>
+    <span class="c1">#    ' min/max lat min/max lon:'+\</span>
+    <span class="c1">#    str(minlat)+' '+str(maxlat)+' '+str(minlon)+' '+str(maxlon)</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyresample.spherical_geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Coordinate</span>
 
@@ -1771,7 +1773,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="planar_intersection_polygon"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.utils.html#geoips.plugins.classes.interpolators.utils.boxdefinitions.planar_intersection_polygon">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">planar_intersection_polygon</span><span class="p">(</span><span class="n">area_corners</span><span class="p">,</span> <span class="n">segment_corners</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the intersection polygon between two areas.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Get the intersection polygon between two areas."""</span>
     <span class="c1"># First test each</span>
     <span class="n">lons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
     <span class="n">lats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
@@ -1783,7 +1785,7 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">currlon</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
             <span class="n">lons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">lons</span><span class="p">,</span> <span class="p">[</span><span class="n">currlon</span><span class="p">]))</span>
             <span class="n">lats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">lats</span><span class="p">,</span> <span class="p">[</span><span class="n">segment_corner</span><span class="o">.</span><span class="n">lat</span><span class="p">]))</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Adding intersection from segment &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">segment_corner</span><span class="p">))</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Adding intersection from segment "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">segment_corner</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">area_corner</span> <span class="ow">in</span> <span class="n">area_corners</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">planar_point_inside</span><span class="p">(</span><span class="n">area_corner</span><span class="p">,</span> <span class="n">segment_corners</span><span class="p">):</span>
             <span class="n">currlon</span> <span class="o">=</span> <span class="n">area_corner</span><span class="o">.</span><span class="n">lon</span>
@@ -1792,7 +1794,7 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">currlon</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
             <span class="n">lons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">lons</span><span class="p">,</span> <span class="p">[</span><span class="n">currlon</span><span class="p">]))</span>
             <span class="n">lats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">lats</span><span class="p">,</span> <span class="p">[</span><span class="n">area_corner</span><span class="o">.</span><span class="n">lat</span><span class="p">]))</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Adding intersection from area &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">area_corner</span><span class="p">))</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Adding intersection from area "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">area_corner</span><span class="p">))</span>
 
     <span class="n">area_line1</span> <span class="o">=</span> <span class="n">Line</span><span class="p">(</span><span class="n">area_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">area_corners</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">area_line2</span> <span class="o">=</span> <span class="n">Line</span><span class="p">(</span><span class="n">area_corners</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">area_corners</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
@@ -1808,7 +1810,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="p">(</span><span class="n">segment_line1</span><span class="p">,</span> <span class="n">segment_line2</span><span class="p">,</span> <span class="n">segment_line3</span><span class="p">,</span> <span class="n">segment_line4</span><span class="p">):</span>
             <span class="n">intersect</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">intersect</span><span class="p">:</span>
-                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Adding actual intersection &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">intersect</span><span class="p">))</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Adding actual intersection "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">intersect</span><span class="p">))</span>
                 <span class="n">currlon</span> <span class="o">=</span> <span class="n">intersect</span><span class="o">.</span><span class="n">lon</span>
                 <span class="c1"># MLS use wrap_longitudes?</span>
                 <span class="k">if</span> <span class="n">intersect</span><span class="o">.</span><span class="n">lon</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -1844,11 +1846,11 @@ window.runMermaid = runMermaid;</script>
 <span class="c1">#</span>
 <span class="c1"># def planar_point_inside(point, boxdef):</span>
 <div class="viewcode-block" id="planar_point_inside"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.utils.html#geoips.plugins.classes.interpolators.utils.boxdefinitions.planar_point_inside">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">planar_point_inside</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">corners</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Identify point inside 4 corners.</span>
+<span class="w">    </span><span class="sd">"""Identify point inside 4 corners.</span>
 
 <span class="sd">    This DOES NOT USE great circle arcs as area</span>
 <span class="sd">    boundaries.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1">#    lons = boxdef.get_lonlats()[0]</span>
     <span class="n">lons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">corn</span><span class="o">.</span><span class="n">lon</span> <span class="k">for</span> <span class="n">corn</span> <span class="ow">in</span> <span class="n">corners</span><span class="p">])</span>
     <span class="n">lats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">corn</span><span class="o">.</span><span class="n">lat</span> <span class="k">for</span> <span class="n">corn</span> <span class="ow">in</span> <span class="n">corners</span><span class="p">])</span>
@@ -1864,21 +1866,21 @@ window.runMermaid = runMermaid;</script>
     <span class="c1"># MLS use wrap_longitudes?</span>
     <span class="k">if</span> <span class="n">point</span><span class="o">.</span><span class="n">lon</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">point</span><span class="o">.</span><span class="n">lon</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
-    <span class="c1">#    print &#39;    IN PlanarPolygonDefinition point_inside!!! &#39;+\</span>
-    <span class="c1">#        &#39; point: &#39;+str(point)+&#39; &#39;+str(math.degrees(minlat))+&#39; &#39;+</span>
-    <span class="c1">#                 str(math.degrees(maxlat))+&#39; &#39;+str(math.degrees(minlon))+&#39; &#39;+</span>
+    <span class="c1">#    print '    IN PlanarPolygonDefinition point_inside!!! '+\</span>
+    <span class="c1">#        ' point: '+str(point)+' '+str(math.degrees(minlat))+' '+</span>
+    <span class="c1">#                 str(math.degrees(maxlat))+' '+str(math.degrees(minlon))+' '+</span>
     <span class="c1">#                 str(math.degrees(maxlon))</span>
-    <span class="c1">#        &#39; point: &#39;+str(point)+&#39;\n&#39;+\</span>
-    <span class="c1">#        &#39;c0 &#39;+str(corners[0])+&#39;\n&#39;+\</span>
-    <span class="c1">#        &#39;c1 &#39;+str(corners[1])+&#39;\n&#39;+\</span>
-    <span class="c1">#        &#39;c2 &#39;+str(corners[2])+&#39;\n&#39;+\</span>
-    <span class="c1">#        &#39;c3 &#39;+str(corners[3])+&#39;\n&#39;+\</span>
-    <span class="c1">#        str(minlat)+&#39; &#39;+str(maxlat)+&#39; &#39;+str(minlon)+&#39; &#39;+str(maxlon)</span>
+    <span class="c1">#        ' point: '+str(point)+'\n'+\</span>
+    <span class="c1">#        'c0 '+str(corners[0])+'\n'+\</span>
+    <span class="c1">#        'c1 '+str(corners[1])+'\n'+\</span>
+    <span class="c1">#        'c2 '+str(corners[2])+'\n'+\</span>
+    <span class="c1">#        'c3 '+str(corners[3])+'\n'+\</span>
+    <span class="c1">#        str(minlat)+' '+str(maxlat)+' '+str(minlon)+' '+str(maxlon)</span>
     <span class="c1"># MLS 20160405 NOTE point prints degrees for str, but point.lon and point.lat are</span>
     <span class="c1"># stored as radians.</span>
     <span class="c1"># minlon/maxlon also radians.</span>
     <span class="c1"># This is why big sectors were failing, after fixing the</span>
-    <span class="c1"># &quot;other side of the world&quot; problem.</span>
+    <span class="c1"># "other side of the world" problem.</span>
     <span class="c1"># Also, Coordinate takes degrees when passing it a lat lon</span>
     <span class="k">if</span> <span class="n">minlon</span> <span class="o">&lt;</span> <span class="n">point</span><span class="o">.</span><span class="n">lon</span> <span class="o">&lt;</span> <span class="n">maxlon</span> <span class="ow">and</span> <span class="n">minlat</span> <span class="o">&lt;</span> <span class="n">point</span><span class="o">.</span><span class="n">lat</span> <span class="o">&lt;</span> <span class="n">maxlat</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span>
@@ -1886,9 +1888,9 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_slice</span><span class="p">(</span><span class="n">segments</span><span class="p">,</span> <span class="n">shape</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Segment a 1D or 2D array.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Segment a 1D or 2D array."""</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot segment array of shape: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">shape</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Cannot segment array of shape: </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">shape</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">size</span> <span class="o">=</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">slice_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="o">/</span> <span class="n">segments</span><span class="p">)</span>
@@ -1904,7 +1906,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_flatten_cartesian_coords</span><span class="p">(</span><span class="n">cartesian_coords</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Flatten array to (n, 3) shape.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Flatten array to (n, 3) shape."""</span>
     <span class="n">shape</span> <span class="o">=</span> <span class="n">cartesian_coords</span><span class="o">.</span><span class="n">shape</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">cartesian_coords</span> <span class="o">=</span> <span class="n">cartesian_coords</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
@@ -1912,12 +1914,12 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_highest_level_class</span><span class="p">(</span><span class="n">obj1</span><span class="p">,</span> <span class="n">obj2</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get highest level class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Get highest level class."""</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">obj1</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">obj2</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span>
         <span class="n">obj2</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">obj1</span><span class="o">.</span><span class="vm">__class__</span>
     <span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="s2">&quot;No common superclass for </span><span class="si">%s</span><span class="s2"> and </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj1</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">obj2</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
+            <span class="s2">"No common superclass for </span><span class="si">%s</span><span class="s2"> and </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj1</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">obj2</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
         <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">obj1</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">==</span> <span class="n">obj2</span><span class="o">.</span><span class="vm">__class__</span><span class="p">:</span>
