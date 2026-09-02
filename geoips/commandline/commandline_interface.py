@@ -241,34 +241,6 @@ def support_legacy_procflows():
     return False
 
 
-def print_beta_warning():
-    """Notify the user that the CLI is still in Beta development stage."""
-    warning_with_color = (
-        Fore.RED
-        + "\nWARNING: "
-        + Fore.YELLOW
-        + "The GeoIPS CLI is currently under development and is subject "
-        "to change.\nUntil this warning is removed, do not rely on the CLI to be "
-        "static.\nPlease feel free to test the CLI and report any bugs or comments as "
-        "an issue here:\n"
-        + Fore.BLUE
-        + "https://github.com/NRLMMD-GEOIPS/geoips/issues/new/choose\n"
-        + Style.RESET_ALL
-    )
-    warning_no_color = (
-        "\nWARNING: The GeoIPS CLI is currently under development and is subject "
-        "to change.\nUntil this warning is removed, do not rely on the CLI to be "
-        "static.\nPlease feel free to test the CLI and report any bugs or comments as "
-        "an issue here:\n"
-        "https://github.com/NRLMMD-GEOIPS/geoips/issues/new/choose\n"
-    )
-
-    if PATHS["NO_COLOR"]:
-        print(warning_no_color)
-    else:
-        print(warning_with_color)
-
-
 def main(suppress_args=True):
     """Entry point for GeoIPS command line interface (CLI).
 
@@ -286,8 +258,6 @@ def main(suppress_args=True):
     geoips_cli = GeoipsCLI(legacy=legacy)
     # Execute the called command
     args = geoips_cli.execute_command()
-    # Notify that the user is in Beta development status right now.
-    print_beta_warning()
     if not suppress_args:
         return args
 
