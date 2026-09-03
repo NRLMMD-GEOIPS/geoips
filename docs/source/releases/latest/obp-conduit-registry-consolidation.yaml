@@ -1,0 +1,28 @@
+refactor:
+- title: 'Consolidate OBP conduit registry and use Lexeme for kind/interface names'
+  description: |
+    The OBP "conduit" binding registry (upstream plugin kind -> downstream kwarg
+    name + extractor) previously lived inside ``class_based_plugin`` as
+    ``_OBP_CONDUITS`` and was reached back into by ``YamlPluginCallable``. It now
+    has a single home in ``geoips/utils/types/obp_conduits.py`` (alongside the
+    other adaptation/conversion types), exported as ``OBP_CONDUITS`` +
+    ``kwarg_name_for_kind``, so a new plugin kind is wired in one place. Plugin
+    kind <-> interface-name conversion is done with ``Lexeme(...).plural`` /
+    ``Lexeme(...).singular`` directly at the call sites; the previous, subtly
+    wrong ``interface.rstrip("s")`` in ``YamlPluginCallable`` is replaced with
+    ``Lexeme``.
+  files:
+    added:
+    - geoips/utils/types/obp_conduits.py
+    modified:
+    - geoips/interfaces/class_based_plugin.py
+    - geoips/utils/types/yaml_plugin_callable.py
+    - geoips/interfaces/class_based/workflow.py
+    - geoips/pydantic_models/v1/workflows.py
+    - geoips/plugins/modules/procflows/obp_utils.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
