@@ -1954,9 +1954,9 @@ def call(fnames, command_line_args=None):
     output_checker_kwargs = command_line_args["output_checker_kwargs"]
 
     if product_db:
-        from geoips.interfaces import databases
+        from geoips.interfaces import notifiers
 
-        db_writer = databases.get_plugin(product_db_writer)
+        db_writer = notifiers.get_plugin(product_db_writer)
         if not getenv("GEOIPS_DB_URI"):
             raise ValueError("Need to set $GEOIPS_DB_URI")
 
@@ -2494,7 +2494,7 @@ def call(fnames, command_line_args=None):
                             "db_writer families supported. Either reformat "
                             "db_writer plugin as correct family, or add support "
                             "for additional families in the procflow and "
-                            "databases interface."
+                            "notifiers interface."
                         )
 
             process_datetimes[area_def.area_id]["end"] = datetime.utcnow()

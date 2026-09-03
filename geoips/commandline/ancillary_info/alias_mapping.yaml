@@ -10,10 +10,6 @@ coverage-checkers:
   - cchk
   - cchks
   - coverage-checker
-databases:
-  - db
-  - dbs
-  - database
 filename-formatters:
   - ffmt
   - ffmts
@@ -22,6 +18,8 @@ interpolators:
   - interp
   - interps
   - interpolator
+notifiers:
+  - notifier
 output-checkers:
   - ochk
   - ochks

@@ -18,9 +18,9 @@
 from geoips.interfaces.class_based.algorithms import algorithms
 from geoips.interfaces.class_based.colormappers import colormappers
 from geoips.interfaces.class_based.coverage_checkers import coverage_checkers
-from geoips.interfaces.class_based.databases import databases
 from geoips.interfaces.class_based.filename_formatters import filename_formatters
 from geoips.interfaces.class_based.interpolators import interpolators
+from geoips.interfaces.class_based.notifiers import notifiers
 from geoips.interfaces.class_based.output_checkers import output_checkers
 from geoips.interfaces.class_based.output_formatters import (
     output_formatters,
@@ -59,9 +59,9 @@ class_based_interfaces = [
     "algorithms",
     "colormappers",
     "coverage_checkers",
-    "databases",
     "filename_formatters",
     "interpolators",
+    "notifiers",
     "output_checkers",
     "output_formatters",
     "procflows",
