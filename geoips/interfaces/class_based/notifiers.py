@@ -1,25 +1,25 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Databases interface class."""
+"""Notifiers interface class."""
 
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
 
 
-class BaseDatabasePlugin(BaseClassPlugin, abstract=True):
-    """Base class for GeoIPS database plugins."""
+class BaseNotifierPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS notifier plugins."""
 
     data_tree = False
 
     pass
 
 
-class DatabasesInterface(BaseClassInterface):
-    """Interface for database table writers/quieriers."""
+class NotifiersInterface(BaseClassInterface):
+    """Interface for notifier plugins."""
 
-    name = "databases"
-    plugin_class = BaseDatabasePlugin
+    name = "notifiers"
+    plugin_class = BaseNotifierPlugin
 
     required_args = {
         "xarray_area_def_to_table": ["product_filename", "xarray_obj", "area_def"],
@@ -52,6 +52,7 @@ class DatabasesInterface(BaseClassInterface):
         ],
         "query_overpass_table": ["window_start", "window_end"],
         "query_product_table": ["window_start", "window_end"],
+        "rabbitmq": ["metadata"],
     }
     required_kwargs = {
         "xarray_area_def_to_table": [],
@@ -67,4 +68,4 @@ class DatabasesInterface(BaseClassInterface):
     }
 
 
-databases = DatabasesInterface()
+notifiers = NotifiersInterface()
