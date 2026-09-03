@@ -1,0 +1,23 @@
+enhancement:
+- title: 'Add support for embedded workflow argument overrides'
+  description: |
+    Adds support for argument overrides to steps in an embedded workflow. Additionally,
+    added logic to handle 'depends_on' fields for embedded workflows. This way you
+    can specify depends on to the outer workflow, and the first data step of the
+    embedded workflow must add a depends_on field using [_input] * len(outer_dependencies)
+    to make sure data is passed appropriately to the first data step.
+  files:
+    modified:
+      - geoips/interfaces/class_based/workflow.py
+      - geoips/plugins/yaml/workflows/unit_tests/Infrared/ABI-Infrared.yaml
+      - geoips/plugins/yaml/workflows/unit_tests/Infrared/AHI-Infrared.yaml
+      - geoips/plugins/yaml/workflows/unit_tests/Infrared/Infrared-Base.yaml
+      - geoips/plugins/yaml/workflows/unit_tests/Infrared/VIIRS-Infrared.yaml
+      - geoips/plugins/yaml/workflows/unit_tests/Infrared/output-imagery-annotated.yaml
+      - geoips/pydantic_models/v1/workflows.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
