@@ -14,7 +14,7 @@ Usage:
 
 interactive_pytest.sh pre-defined-command repopath [explicit-pytest-args]
 
-    * pre-defined-command  - REQUIRED shortcut to a specific combination of pytest markers and arguments (see below)
+    * pre-defined-command  - REQUIRED probably just 'all', shortcut to a specific combination of pytest markers and arguments (see below)
     * repopath             - REQUIRED path to repository you would like to run pytest on
     * explicit-pytest-args - OPTIONAL explicit additional arguments to pass to pytest
 
@@ -23,7 +23,7 @@ interactive_pytest.sh pre-defined-command repopath [explicit-pytest-args]
 
     Call with one of the pre-defined-commands:
 
-    all              - Run everything BUT disabled tests, with any specified arguments passed in.
+    all              - Usually just pass 'all'. Run everything BUT disabled tests, with any specified arguments passed in.
     geoips-site      - only GeoIPS Site based tests (no real-time, pre-processing, or data ingest type tests)
     full-single-repo - Avoid having the same error cause tests to fail in multiple repositories.
     short            - short unit tests
@@ -202,13 +202,13 @@ start_time=`date +%s`
 # So ensure if this script is updated, we never include empty variables in "".
 currdir=$PWD; cd $testpath; pwd
 if [[ "$interactive_pytest_request" == "all" ]]; then
-    pytest $test_dirname $s_arg "$@" 2>&1 | tee -ai $logfname
+    /usr/bin/time -v pytest $test_dirname $s_arg "$@" 2>&1 | tee -ai $logfname
     retval=${PIPESTATUS[0]}
 elif [[ "$@" == "" ]]; then
-    pytest $test_dirname $s_arg $pytest_marker_option "$pytest_marker_args" 2>&1 | tee -ai $logfname
+    /usr/bin/time -v pytest $test_dirname $s_arg $pytest_marker_option "$pytest_marker_args" 2>&1 | tee -ai $logfname
     retval=${PIPESTATUS[0]}
 else
-    pytest $test_dirname $s_arg $pytest_marker_option "$pytest_marker_args" "$@" 2>&1 | tee -ai $logfname
+    /usr/bin/time -v pytest $test_dirname $s_arg $pytest_marker_option "$pytest_marker_args" "$@" 2>&1 | tee -ai $logfname
     retval=${PIPESTATUS[0]}
 fi
 
@@ -217,11 +217,34 @@ end_time=`date +%s`
 
 total_time=$((end_time-start_time))
 
+passed_log_files=""
+failed_log_files=""
+
+while IFS= read -r line ; do
+    passed_log_files="$passed_log_files ${line/PASSED LOG FILE: /}"
+done < <(grep "PASSED LOG FILE: " $logfname)
+
+while IFS= read -r line ; do
+    failed_log_files="$failed_log_files ${line/FAILED LOG FILE: /}"
+done < <(grep "FAILED LOG FILE: " $logfname)
+
+
+
 # Standard copy/pasteable output for reference
 final_output="""
-Complete
+Testing Complete, summarized interactive_pytest output:
+
+`grep -hE 'PRODUCTPATH' $passed_log_files $failed_log_files`
+
 `grep "PASSED LOG FILE: " $logfname`
 `grep "FAILED LOG FILE: " $logfname`
+
+`grep "User time (seconds): " $logfname`
+`grep "System time (seconds): " $logfname`
+`grep "Elapsed (wall clock) time (h:mm:ss or m:ss): " $logfname`
+`grep "Percent of CPU this job got: " $logfname`
+`grep "Maximum resident set size (kbytes): " $logfname`
+
 $reponame  $interactive_pytest_request
 args       "$@"
 return     $retval
@@ -229,11 +252,18 @@ total time $total_time
 `date -u`
 user       $USER
 Log file   $logfname
+
+Final return value: $retval
 """
 
 echo "$final_output"
 echo "$logfname"
 echo "$final_output" >> $logfname 2>&1
+
+if [[ "$retval" == "0" ]]; then
+    echo ""
+    echo "Test successful!"
+fi
 
 # Must return appropriately!
 exit $retval

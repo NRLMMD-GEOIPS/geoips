@@ -2,6 +2,7 @@ name: Require up-to-date branch
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
   push:
     branches:
       - main
@@ -11,7 +12,8 @@ permissions:
 
 jobs:
   status-check:
-    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event.pull_request.draft == false
+    runs-on: ${{ vars.RUNNER }}
     steps:
       - name: No-op status check
-        run: echo "No-op Actions workflow to enforce up to date branches before merge"
+        run: echo "No-op Actions workflow to allow enforcing up to date branches before merge"

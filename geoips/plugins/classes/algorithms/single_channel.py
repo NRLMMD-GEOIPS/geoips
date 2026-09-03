@@ -7,25 +7,21 @@ Generalized algorithm to apply data manipulation steps in a standard order
 to apply corrections to a single channel output product.
 """
 
-import logging
-
 from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
+
+import logging
 
 LOG = logging.getLogger(__name__)
 
+KtoC_conversion = -273.15
+
 
 class SingleChannelAlgorithmPlugin(BaseAlgorithmPlugin):
-    """Plugin class for the single channel algorithm.
-
-    Applies a series of masking and data manipulation to a series of arrays containing
-    data from a single channel.
-    """
-
-    KtoC_conversion = -273.15
+    """Single Channel algorithm plugin class."""
 
     interface = "algorithms"
     family = "list_numpy_to_numpy"
-    name = "single_channel_cb"
+    name = "single_channel"
 
     def call(
         self,
@@ -49,7 +45,7 @@ class SingleChannelAlgorithmPlugin(BaseAlgorithmPlugin):
         """Apply data range and requested corrections to a single channel product.
 
         Data manipulation steps for applying a data range and requested corrections
-        to a single channel product.
+        to a single channel product
 
         Parameters
         ----------

@@ -13,9 +13,7 @@
 from __future__ import annotations
 
 # Python Standard Libraries
-from glob import glob
 import logging
-import os
 from pathlib import Path
 from typing import Any, List
 
@@ -25,7 +23,10 @@ from pyresample.geometry import AreaDefinition
 import warnings
 
 # GeoIPS imports
-from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
+from geoips.pydantic_models.v1.bases import (
+    _generate_filenames_from_value,
+    PermissiveFrozenModel,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -39,14 +40,14 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     area_def: AreaDefinition | None = Field(
         None, description="The domain over which to read data."
     )
-    variables: List[str] = Field(
+    chans: List[str] = Field(
         None,
         description="List of variables to read",
-        alias="chans",
+        alias="variables",
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
     self_register: str = Field(None, description="Enable self-registration.")
-    fnames: List[Path] = Field(
+    filenames: List[Path] = Field(
         None, description="full path to the file(s) for static dataset inputs."
     )
     sectored_read: bool = Field(False)
@@ -101,7 +102,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
             return value
         raise ValueError("Input should be a valid AreaDefinition")
 
-    @field_validator("fnames", mode="before")
+    @field_validator("filenames", mode="before")
     @classmethod
     def _validate_and_normalize_fnames(cls, value: Any) -> List[Path] | None:
         """
@@ -128,35 +129,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         ValueError
             If the input type is other than a list of pathlib.Path objects.
         """
-        try:
-            os.fspath(value)
-            items = [value]
-        except TypeError:
-            items = value
-
-        fnames = []
-        uniterable_or_bad_type = False
-        try:
-            for item in items:
-                path = Path(item)
-
-                matches = glob(str(path))
-                if matches:
-                    fnames.extend([Path(fname) for fname in matches])
-                else:
-                    fnames.append(path)
-        except TypeError:
-            # occurs when items is not iterable or an item can't be cast as a path,
-            # raise a value error now
-            uniterable_or_bad_type = True
-
-        if not fnames or uniterable_or_bad_type:
-            raise ValueError(
-                f"Error: input argument for {fnames} could not be associated with one "
-                "or more existing file paths. Please ensure this data exists before "
-                "continuing."
-            )
-
+        fnames = _generate_filenames_from_value(value)
         return fnames
 
     @model_validator(mode="before")

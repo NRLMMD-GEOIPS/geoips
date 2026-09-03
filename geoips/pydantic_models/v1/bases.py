@@ -13,9 +13,12 @@ Other models defined here validate field types within child plugin models.
 from __future__ import annotations
 
 # Python Standard Libraries
+from glob import glob
 import keyword
 import logging
-from typing import Any, ClassVar, Dict, Union, Tuple, Type
+import os
+from pathlib import Path
+from typing import Any, ClassVar, Dict, List, Union, Tuple, Type
 import warnings
 
 # Third-Party Libraries
@@ -41,6 +44,67 @@ LOG = logging.getLogger(__name__)
 
 ColorTuple = Union[Tuple[float, float, float], Tuple[float, float, float, float]]
 ColorType = Union[ColorTuple, str]
+
+
+def _generate_filenames_from_value(value: Any) -> List[Path] | None:  # NOQA
+    """Generate a list of filenames (filepaths) from an input value.
+
+    This method handles the input for fnames as follows:
+    - asserts that fnames is one or more valid, existing filepaths
+    - converts them to pathlib.Path objects
+
+    Parameters
+    ----------
+    value: Any[PathLike]
+        Input values for 'fnames'. Should be either a list of one or more strings /
+        valid instances of pathlib.Path objects. Strings may contain wildcard
+        characters that can be used with glob to generate a list of file paths.
+
+    Returns
+    -------
+    list[PosixPath]
+        A valid list of pathlib.Path objects.
+
+    Raises
+    ------
+    ValueError
+        If the input type is other than a list of pathlib.Path objects.
+    """
+    try:
+        os.fspath(value)
+        items = [value]
+    except TypeError:
+        items = value
+
+    fnames = []
+    uniterable_or_bad_type = False
+    try:
+        for item in items:
+            path = Path(item)
+
+            matches = glob(str(path))
+            if matches:
+                fnames.extend([Path(fname) for fname in matches])
+            else:
+                fnames.append(path)
+    except TypeError:
+        # occurs when items is not iterable or an item can't be cast as a path,
+        # raise a value error now
+        uniterable_or_bad_type = True
+
+    error_str = (
+        f"Error: input argument for {fnames} could not be associated with one "
+        "or more existing file paths. Please ensure this data exists before "
+        "continuing."
+    )
+
+    if not fnames or uniterable_or_bad_type:
+        raise ValueError(error_str)
+
+    if not any([fname.exists() for fname in fnames]):
+        raise ValueError(error_str)
+
+    return fnames
 
 
 class CoreBaseModel(BaseModel):
@@ -288,6 +352,49 @@ def python_identifier(val: str) -> str:
 
 # Create the PythonIdentifier type
 PythonIdentifier = Annotated[str, AfterValidator(python_identifier)]
+
+
+def step_reference(val: str) -> str:
+    """Validate a workflow step reference, optionally into a sub-workflow.
+
+    A step reference is one or more Python identifiers joined by ``.`` (dots).
+    A single segment (e.g. ``"reader"``) refers to a top-level step. A dotted
+    reference (e.g. ``"subwf.algo"`` or ``"split.scope.algo"``) refers to a
+    step nested inside a ``workflow`` or ``split`` container step; each segment
+    must itself be a valid Python identifier.
+
+    Parameters
+    ----------
+    val : str
+        The input string to validate.
+
+    Returns
+    -------
+    str
+        The input string if every dot-separated segment is a valid Python
+        identifier.
+
+    Raises
+    ------
+    ValueError
+        If *val* is empty or any segment is not a valid Python identifier.
+    """
+    if not val:
+        raise ValueError("Step reference must be a non-empty string.")
+    segments = val.split(".")
+    for segment in segments:
+        # Reuse python_identifier so keyword/identifier rules stay consistent.
+        try:
+            python_identifier(segment)
+        except ValueError as e:
+            LOG.warning(e)
+    return val
+
+
+# Create the StepReference type: a dot-separated path of Python identifiers,
+# used by ``depends_on`` to reference top-level steps or steps nested inside
+# ``workflow``/``split`` container steps.
+StepReference = Annotated[str, AfterValidator(step_reference)]
 
 
 def get_interfaces(namespace) -> set[str]:

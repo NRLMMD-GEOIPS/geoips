@@ -10,6 +10,8 @@ from geoips.interfaces.base import BaseClassInterface
 class BaseSectorSpecGeneratorPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS sector_spec_generator plugins."""
 
+    data_tree = False
+
     pass
 
 

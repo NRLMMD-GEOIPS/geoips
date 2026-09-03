@@ -132,7 +132,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
     self_register: List[str] = Field(None, description="Enable self-registration.")
-    fnames: List[str] = Field(
+    filenames: List[str] = Field(
         None, description="full path to the file(s) for static dataset inputs."
     )
 

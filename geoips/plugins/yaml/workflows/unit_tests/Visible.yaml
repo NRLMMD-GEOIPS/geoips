@@ -1,0 +1,71 @@
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: Visible
+docstring: |
+  0.51 µm Visible.
+
+  This daytime only product utilizes channel 2 (0.51 µm) and can be used for tracking the motion and cloud patterns.
+description: 0.51 µm Visible.
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        chans: ["B03Ref", "solar_zenith_angle"]
+    sector:
+      kind: sector
+      name: goes_east
+      depends_on: []
+      arguments: {}
+    interpolator:
+      kind: interpolator
+      name: interp_nearest
+      depends_on: [reader, sector]
+      arguments:
+        varlist: ["B03Ref", "solar_zenith_angle"]
+    algorithm:
+      kind: algorithm
+      name: single_channel
+      depends_on: [interpolator]
+      arguments:
+        output_data_range: [0.0, 100.0]
+        input_units: reflectance
+        output_units: reflectance
+        min_outbounds: crop
+        max_outbounds: crop
+        scale_factor: 100
+        gamma_list: [1.5]
+        sun_zen_correction: true
+        max_day_zen: 90
+        inverse: false
+        norm: false
+    colormapper:
+      kind: colormapper
+      name: matplotlib_linear_norm
+      depends_on: []
+      arguments:
+        data_range: [0.0, 100.0]
+        cmap_name: Greys_r
+        cbar_label: Reflectance
+    gridlines:
+      kind: gridline_annotator
+      name: default
+      depends_on: []
+      arguments: {}
+    features:
+      kind: feature_annotator
+      name: default
+      depends_on: []
+      arguments: {}
+    output_formatter:
+      kind: output_formatter
+      name: imagery_annotated
+      depends_on: [algorithm, colormapper, gridlines, features, sector]
+      arguments:
+        product_name: Visible
+        product_name_title: G16 Visible @ 0.51 um
+        output_fnames: [!ENV $GEOIPS_OUTDIRS/visible_full_run.png]

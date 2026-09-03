@@ -1,0 +1,20 @@
+testing:
+- title: Remove full_setup and site_setup from integration test script
+  description: |
+    Only use base_setup for confirming geoips is installed properly - we do not want
+    to run full_setup or site_setup because you may need to run one of the tests within
+    those markers, but not actually have a completely full or site install available.
+    We have stopped using full or site setup, so remove them as options to avoid
+    confusion.
+  files:
+    modified:
+    - 'tests/integration_tests/test_integration.py'
+    deleted:
+    - ''
+    moved:
+    - ''
+  related-issue:
+    internal: geoips#1067 - 1.19.0 updates
+  date:
+    start: 2026-06-01
+    finish: 2026-06-01

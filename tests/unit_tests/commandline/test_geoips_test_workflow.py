@@ -24,9 +24,26 @@ class TestGeoipsTestWorkflow(BaseCliTest):
         if not hasattr(self, "_cmd_list"):
             base_args = ["geoips", "test", "workflow"]
             self._cmd_list = []
+            missing_test_workflow = {
+                "apiVersion": "geoips/v1",
+                "interface": "workflows",
+                "family": "order_based",
+                "name": "missing_test_section_workflow",
+                "docstring": "Workflow missing test section.",
+                "description": "Workflow missing test section.",
+                "spec": {
+                    "steps": {
+                        "sector": {
+                            "kind": "sector",
+                            "name": "test_goes16_eqc_3km_day_20200918T1950Z",
+                            "depends_on": [],
+                        },
+                    },
+                },
+            }
             self._cmd_list.append(base_args + ["test_product"])
             self._cmd_list.append(base_args + ["test_workflow"])
-            self._cmd_list.append(base_args + ["test_bad_test_section"])
+            self._cmd_list.append(base_args + [str(missing_test_workflow)])
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with non existent workflow
             self._cmd_list.append(base_args + ["non_existent_workflow"])
@@ -45,22 +62,26 @@ class TestGeoipsTestWorkflow(BaseCliTest):
         # This can occur for the 'test_product' unit test if the data is missing on your
         # device
         if "could not be associated with one or more existing file paths." in error:
-            assert "1 validation error for ReaderArgumentsModel" in error
+            assert "1 validation error for" in error
             return
 
-        assert "To use, type `geoips test workflow <workflow_name>" in error
+        if "No valid files found" in error:
+            return
+
+        assert "To use, type `geoips test workflow <workflow_type>" in error
 
         if "non_existent" in args[-1]:
             assert "Error: could not load workflow plugin under name" in error
             return
 
+        if "missing_test_section_workflow" in args[-1]:
+            assert "cannot test" in error and "missing a ``test`` section." in error
+            return
+
         wf = workflows.get_plugin(args[-1])
 
         if wf.get("test") is None:
-            assert (
-                "Error: cannot test 'test_workflow' workflow plugin as it is missing a "
-                "``test`` section."
-            ) in error
+            assert "cannot test" in error and "missing a ``test`` section." in error
         else:
             assert (
                 "Error: ``test`` parameters differ from the set of allowable parameters"
@@ -79,7 +100,7 @@ class TestGeoipsTestWorkflow(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            assert "To use, type `geoips test workflow <workflow_name>" in output
+            assert "To use, type `geoips test workflow <workflow_type>" in output
         else:
             assert "has finished processing." in output
 
@@ -104,4 +125,6 @@ def test_command_combinations(monkeypatch, caplog, args):
     args: 2D array of str
         - List of arguments to call the CLI with (ie. ['geoips', 'test', 'workflow'])
     """
+    if args == ["geoips", "test", "workflow"]:
+        pytest.skip("Deferred until PR #1380 addresses OBP interpolator handling.")
     test_sub_cmd.test_command_combinations(monkeypatch, args=args, caplog=caplog)

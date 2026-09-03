@@ -1,0 +1,20 @@
+installation:
+- title: Add CLAVR-x orb executable install to site install.
+  description: |
+    Ensure clavrx executable is installed during GeoIPS open source site install, since
+    the clavrx proc test scripts require the clavrx executable.
+
+    Also add pluginify to site_install.sh to ensure it is cloned locally and installed
+    editable for development purposes.
+  files:
+    modified:
+    - 'tests/integration_tests/site_install.sh'
+    deleted:
+    - ''
+    moved:
+    - ''
+  related-issue:
+    internal: geoips#1067 - 1.19.0 updates
+  date:
+    start: 2026-06-01
+    finish: 2026-06-01

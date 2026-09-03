@@ -12,16 +12,19 @@ spec:
     read_abi_L1_data:
       kind: reader
       name: ami_netcdf
+      depends_on: []
       arguments: { }
     interpolate_using_gaussian:
       kind: interpolator
       # name: interp_gauss
       name: interp_nearest
       # name: interp_grid
+      depends_on: [read_abi_L1_data]
       arguments: {}
     algorithm:
       kind: algorithm
       name: absdiff_mst
+      depends_on: [interpolate_using_gaussian]
       arguments: {
         output_data_range: [0.0, 35.0],
         input_units: Kelvin,
