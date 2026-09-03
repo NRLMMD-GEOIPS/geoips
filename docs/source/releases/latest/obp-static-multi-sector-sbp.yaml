@@ -1,0 +1,21 @@
+feature:
+- title: 'Static multi-sector processing (SBP) via split over sector_list'
+  description: |
+    The order-based procflow can now produce output for multiple static sectors
+    in a single run. A ``split`` step with ``over: sector_list`` resolves each
+    static sector in ``globals.sector_list`` to an ``AreaDefinition`` (making the
+    previously dead ``Workflow._resolve_area_defs`` live) and runs its inline body
+    sub-workflow once per sector. Each branch's ``AreaDefinition`` is seeded into
+    the branch input so the body's steps receive it as ``area_def`` through the
+    standard conduit mechanism. Dynamic sectors remain out of scope.
+  files:
+    added:
+    - tests/integration_tests/test_obp_sectoring.py
+    modified:
+    - geoips/interfaces/class_based/workflow.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
