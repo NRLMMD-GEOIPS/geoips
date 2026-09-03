@@ -10,8 +10,6 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 import os
 import sys
 
-from colorama import Fore, Style
-
 from geoips import __version__
 from geoips.commandline import ancillary_info
 from geoips.commandline.geoips_command import GeoipsCommand
@@ -28,7 +26,6 @@ from geoips.commandline.geoips_test_data import GeoipsTestData
 from geoips.commandline.geoips_tree import GeoipsTree
 from geoips.commandline.geoips_validate import GeoipsValidate
 from geoips.commandline.log_setup import setup_logging
-from geoips.filenames.base_paths import PATHS
 
 
 class GeoipsCLI(GeoipsCommand):
