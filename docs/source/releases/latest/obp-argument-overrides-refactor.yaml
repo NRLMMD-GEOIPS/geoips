@@ -1,0 +1,94 @@
+enhancement:
+- title: OBP Argument Overrides Refactor
+  description: |
+    Refactors how argument overrides are applied in GeoIPS workflow plugins. A new
+    'arguments' field has been added as a new optional field to the top-level of a
+    workflow plugin as well as an optional field to its 'test' section. It follows the
+    same format regardless of which section it's specified in. It looks like the
+    following:
+
+    ```yaml
+    arguments:
+      global:
+        <global_argument>: <value>
+      <step_id>.<argument>: <value>
+      <step_id>.<nested_step_id>...<argument>: <value
+      <global>.<argument>: <value
+    ```
+
+    Again, these are optional fields and will only be applied if specified. The logic
+    of how these overrides are applied follow these rules:
+
+    - ``geoips run order_based`` (in order of precedence)
+      1. CLI string overrides (``-g`` and ``-s``)
+      2. CLI dict overrides (``-G`` and ``-S``)
+      3. Base overrides (e.g. ``arguments`` top level field)
+    - ``geoips test workflow`` (in order of precedence)
+      1. ``test['arguments']`` field
+      2. ``arguments`` top-level field
+
+    The argument logic can be applied in a step's arguments as well. For example, if a
+    nested workflow were to occur as a step, you could do:
+
+    ``<inner_step_id>.<argument>: <value>``
+
+    additionally, you can override the ``depends_on`` field of a nested step. Such as:
+
+    ``<inner_step_id>.depends_on: [<inner_step_idX>, ...]``
+
+    Finally, modified a large majority of the workflows found in
+    ``geoips/plugins/yaml/workflows/tests/`` to adhere to this new logic. All of the
+    workflows modified in this PR seem to be working now.
+  files:
+    modified:
+      - docs/dev/running_order_based_procflow.rst
+      - geoips/commandline/geoips_run.py
+      - geoips/interfaces/class_based_plugin.py
+      - geoips/interfaces/yaml_based/workflows.py
+      - geoips/plugins/classes/algorithms/absdiff_mst.py
+      - geoips/plugins/classes/algorithms/visir/nasa_dust_rgb.py
+      - geoips/plugins/yaml/workflows/tests/abi_static_infrared_imagery_annotated_enhanced.yaml
+      - geoips/plugins/yaml/workflows/tests/abi_static_infrared_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/abi_static_infrared_netcdf_geoips.yaml
+      - geoips/plugins/yaml/workflows/tests/abi_static_nasa_dust_rgb_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/abi_static_test_visible_logarithmic_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/abi_static_visible_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/ami_static_infrared_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/ami_static_mst_absdiff_ir_bd_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/ami_static_visible_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/ewsg_static_infrared_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/fci_static_visible_imagery_annotated.yaml
+      - geoips/plugins/yaml/workflows/tests/gfs_static_waveheight_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/gfs_static_windspeed_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/mimic_coarse_static_tpw_cimss_imagery_annotated.yaml
+      - geoips/plugins/yaml/workflows/tests/mwr_tb165_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/mwr_tb180_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/mwr_tb325_15_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/mwr_tb50_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/mwr_tb89_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/seviri_airmass_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/seviri_convective_storms_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/seviri_day_microphys_summer_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/seviri_day_microphys_winter_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/seviri_day_solar_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/seviri_dust_rgb_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/seviri_natural_color_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/seviri_night_microphys_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/seviri_volcanic_ash_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/seviri_wv_upper_no_self_register_unprojected_image.yaml
+      - geoips/plugins/yaml/workflows/tests/seviri_wv_upper_unprojected_image.yaml
+      - geoips/plugins/yaml/workflows/tests/sgli_static_ir_rgb_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/smap_awips_netcdf.yaml
+      - geoips/plugins/yaml/workflows/tests/smap_unsectored_text_winds.yaml
+      - geoips/plugins/yaml/workflows/tests/viirs_static_visible_imagery_clean.yaml
+      - geoips/plugins/yaml/workflows/tests/viirsclearnight_night_vis_ir_geoips1_imagery_annotated.yaml
+      - geoips/plugins/yaml/workflows/tests/viirsclearnight_night_vis_ir_geoips1_unprojected_image.yaml
+      - geoips/plugins/yaml/workflows/tests/viirsday_global_night_vis_ir_cogeotiff_rgba.yaml
+      - geoips/pydantic_models/v1/workflows.py
+      - tests/unit_tests/plugins/yaml/workflows/test_workflow_overrides.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

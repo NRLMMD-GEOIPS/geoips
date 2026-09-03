@@ -188,31 +188,6 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
             )
         return override
 
-    def kind_override_type(self, value: str):
-        """Ensure an override string fits the following format.
-
-        Expected Format
-        ---------------
-        '<kind>.<argument_name>=<some_value>'
-
-        Parameters
-        ----------
-        value: str
-            The full kind override string for a geoips run order_based command.
-
-        Returns
-        -------
-        override_dict: dict
-            The validated contents of an override string in a dictionary.
-        """
-        try:
-            override = workflows.kind_override_type(value)
-        except ValueError:
-            raise self.parser.error(
-                f"Invalid format '{value}'. Expected '<kind>.<argument_name>=<value>'"
-            )
-        return override
-
     def step_override_type(self, value: str):
         """Ensure an override string fits the following format.
 
@@ -269,17 +244,6 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
             ),
         )
         self.parser.add_argument(
-            "-K",
-            "--kind-override-dict",
-            default={},
-            type=self.dict_type,
-            help=(
-                "One or more kind overrides to apply to your workflow. In a dictionary "
-                "format. See geoips.pydantic_models.v1.workflows for more info on the "
-                "correct format."
-            ),
-        )
-        self.parser.add_argument(
             "-G",
             "--global-override-dict",
             default={},
@@ -301,18 +265,6 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
                 "Step override string to apply to your workflow. An "
                 "override string should take on the following format:\n "
                 "'<step_id>.<string1>.<optional_string2>...<argument>=<some_value>'"
-            ),
-        )
-        self.parser.add_argument(
-            "-k",
-            "--kind-override-strings",
-            default=[],
-            type=self.kind_override_type,
-            action="append",
-            help=(
-                "Kind override string to apply to your workflow. An "
-                "override string should take on the following format:\n "
-                "'<kind>.<argument_name>=<some_value>'"
             ),
         )
         self.parser.add_argument(
@@ -358,44 +310,29 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
             - The overridden workflow.
         """
         s_override_dict = args.step_override_dict
-        k_override_dict = args.kind_override_dict
         g_override_dict = args.global_override_dict
 
         s_override_strings = args.step_override_strings
-        k_override_strings = args.kind_override_strings
         g_override_strings = args.global_override_strings
 
+        # Even if no overrides have been applied at the commandline, make sure to apply
+        # the argument overrides in the workflow file if they exist.
+
         # apply dict-based overrides
-        if any(
-            [
-                s_override_dict,
-                k_override_dict,
-                g_override_dict,
-            ]
-        ):
-            workflow = workflows._override_workflow_dict_format(
-                workflow,
-                goverrides=g_override_dict,
-                koverrides=k_override_dict,
-                soverrides=s_override_dict,
-            )
-            WorkflowPluginModel(**workflow, is_registered=False)
+        workflow = workflows._override_workflow_dict_format(
+            workflow,
+            goverrides=g_override_dict,
+            soverrides=s_override_dict,
+        )
+        WorkflowPluginModel(**workflow, is_registered=False)
 
         # apply string-based overrides
-        if any(
-            [
-                s_override_strings,
-                k_override_strings,
-                g_override_strings,
-            ]
-        ):
-            workflow = workflows._override_workflow_string_format(
-                workflow,
-                goverrides=g_override_strings,
-                koverrides=k_override_strings,
-                soverrides=s_override_strings,
-            )
-            WorkflowPluginModel(**workflow, is_registered=False)
+        workflow = workflows._override_workflow_string_format(
+            workflow,
+            goverrides=g_override_strings,
+            soverrides=s_override_strings,
+        )
+        WorkflowPluginModel(**workflow, is_registered=False)
 
         return workflow
 

@@ -50,7 +50,7 @@ class AbsdiffMstAlgorithmPlugin(BaseAlgorithmPlugin):
         """Apply data range and requested corrections to an absdiff product.
 
         Data manipulation steps for applying a data range and requested corrections
-        to a single channel productn absdiff product.
+        to a single channel product absdiff product.
 
         Parameters
         ----------

@@ -22,13 +22,14 @@ test:
       full_test_policy: on_token_mismatch # always | never
       compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/viirs.static.visible.imagery_clean
       output_checker_name: image
-spec:
+arguments:
   globals:
     product_name: Visible
     reader_defined_area_def: False
     # will be uncommented after split operation is implemented
     # sector_list: ["se_asia"]
-    minimum_coverage: 0 
+    minimum_coverage: 0
+spec:
   steps:
     sector:
       kind: sector
@@ -37,10 +38,14 @@ spec:
       kind: reader
       name: viirs_sdr_hdf5
       depends_on: [sector]
+      arguments:
+        chans: ["M05Ref"]
     viirs_Visible:
       kind: product
       name: [viirs, Visible]
       depends_on: [sector, reader]
+      arguments:
+        coverage_checker.variable_name: Visible
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
