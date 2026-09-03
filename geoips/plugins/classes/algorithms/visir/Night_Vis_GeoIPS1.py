@@ -6,7 +6,7 @@
 This algorithm expects one VIIRS channel (DNBRad) for a single channel image.
 """
 
-from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
+from geoips.interfaces.class_based.bases.algorithms import BaseAlgorithmPlugin
 
 import logging
 from geoips.data_manipulations.corrections import mask_day

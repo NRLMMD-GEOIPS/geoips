@@ -16,7 +16,7 @@ Notes
   (decompressed) filenames, so built in filename dependence by using satpy.
 """
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.bases.readers import BaseReaderPlugin
 
 # Python Standard Libraries
 import os

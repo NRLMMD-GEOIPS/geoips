@@ -3,7 +3,7 @@
 
 """Parser for dyanmic volcanoes csv files."""
 
-from geoips.interfaces.class_based.sector_metadata_generators import (
+from geoips.interfaces.class_based.bases.sector_metadata_generators import (
     BaseSectorMetadataGeneratorPlugin,
 )
 

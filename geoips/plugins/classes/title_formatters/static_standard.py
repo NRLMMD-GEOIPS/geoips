@@ -3,7 +3,9 @@
 
 """Standard GeoIPS static title production."""
 
-from geoips.interfaces.class_based.title_formatters import BaseTitleFormatterPlugin
+from geoips.interfaces.class_based.bases.title_formatters import (
+    BaseTitleFormatterPlugin,
+)
 
 # Python Standard Libraries
 import logging

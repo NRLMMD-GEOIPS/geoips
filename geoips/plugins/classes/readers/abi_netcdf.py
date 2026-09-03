@@ -5,7 +5,7 @@
 
 """Standard GeoIPS xarray dictionary based ABI NetCDF data reader."""
 
-from geoips.interfaces.class_based.readers import BaseAbiReaderPlugin
+from geoips.interfaces.class_based.bases.readers import BaseAbiReaderPlugin
 
 # Python Standard Libraries
 import logging

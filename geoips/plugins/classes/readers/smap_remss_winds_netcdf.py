@@ -3,7 +3,7 @@
 
 """Read derived surface winds from REMSS SMAP netcdf data."""
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.bases.readers import BaseReaderPlugin
 
 # Python Standard Libraries
 import logging

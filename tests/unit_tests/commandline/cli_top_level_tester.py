@@ -180,11 +180,20 @@ class BaseCliTest(abc.ABC):
                 pkg_idx = idx + 1
                 pkg_name = args[pkg_idx]
                 break
+            elif arg == "lint" and len(args) > idx + 1:
+                # That means a package was provided. It might not be valid, but we
+                # don't care. We'll test this in the if statements below.
+                pkg_idx = idx + 1
+                pkg_name = args[pkg_idx]
+                break
 
         if pkg_name is not None and pkg_name not in self.plugin_package_names:
             # If the package provided is not a valid package, check for that error
             # instead
-            assert f"{args[2]}: error: argument --package-name/-p: invalid" in error
+            assert (
+                f"{args[2]}: error: argument --package-name/-p: invalid" in error
+                or "error: argument package_name: invalid" in error
+            )
             return False
 
         # There are a few commands that require GeoIPS to be installed in editable mode
@@ -193,9 +202,7 @@ class BaseCliTest(abc.ABC):
         # is only accessible in editable mode. Other commands, such as
         # 'geoips test script' default to the GeoIPS package and are only accessible in
         # editable mode.
-        geoips_editable = is_editable("geoips") and (
-            "linting" in args or "script" in args
-        )
+        geoips_editable = is_editable("geoips") and ("lint" in args or "script" in args)
         if geoips_editable or "scripts" in args:
             # Otherwise, assume we're working on all installed packages
             editable = any(
@@ -353,11 +360,11 @@ class BaseCliTest(abc.ABC):
             case _ if "-h" in args:
                 # Can't capture help messages using monkeypatch... yet
                 return False
-            case _ if "linting" in args:
-                # Can't capture linting output using monkeypatch... yet
+            case _ if "lint" in args:
+                # Can't capture lint output using monkeypatch... yet
                 return False
-            case _ if "test" in args and "script" in args:
-                # Can't capture bash script output using monkeypatch... yet
+            case _ if "test" in args and "workflow" in args:
+                # Can't capture bash output using monkeypatch... yet
                 return False
             case _ if (
                 "run" in args

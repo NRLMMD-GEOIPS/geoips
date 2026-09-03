@@ -3,7 +3,7 @@
 
 """VIIRS Level 2 NetCDF reader."""
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.bases.readers import BaseReaderPlugin
 
 import logging
 from datetime import datetime

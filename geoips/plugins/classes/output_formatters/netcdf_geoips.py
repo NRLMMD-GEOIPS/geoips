@@ -3,7 +3,9 @@
 
 """Geoips style NetCDF output format."""
 
-from geoips.interfaces.class_based.output_formatters import NetcdfOutputFormatterPlugin
+from geoips.interfaces.class_based.bases.output_formatters import (
+    NetcdfOutputFormatterPlugin,
+)
 
 import logging
 

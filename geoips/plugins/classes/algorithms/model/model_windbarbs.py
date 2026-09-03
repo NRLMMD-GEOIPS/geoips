@@ -3,7 +3,7 @@
 
 """Data manipulation steps for model windbarbs."""
 
-from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
+from geoips.interfaces.class_based.bases.algorithms import BaseAlgorithmPlugin
 
 import logging
 import numpy as np
