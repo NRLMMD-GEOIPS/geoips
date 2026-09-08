@@ -1,0 +1,17 @@
+bug fix:
+- title: 'Allow arguments to be None on workflow-kind steps'
+  description: |
+    ``WorkflowStepDefinitionModel.arguments`` was typed ``Dict[str, Any]`` but
+    ``_ensure_xor_name_spec`` sets it to ``None`` for ``kind: workflow`` steps
+    (which carry an inline ``spec`` instead). Newer pydantic rejects ``None`` for
+    a non-optional dict field, breaking sub-workflow (and now split) steps. The
+    field is now ``Dict[str, Any] | None``.
+  files:
+    modified:
+    - geoips/pydantic_models/v1/workflows.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

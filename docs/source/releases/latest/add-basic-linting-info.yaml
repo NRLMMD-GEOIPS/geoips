@@ -1,0 +1,14 @@
+documentation:
+- title: 'Add basic linting information'
+  description: 'Added documentation for linters to help contributors follow coding standards.'
+  files:
+    deleted: []
+    moved: []
+    added: ['docs/source/contribute/linters.rst']
+    modified: ['docs/source/contribute/index.rst']
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2024-11-09
+    finish: 2025-12-05
