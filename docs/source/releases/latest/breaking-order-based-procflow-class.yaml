@@ -1,0 +1,20 @@
+removal:
+- title: 'Remove module-level call() from order_based.py in favor of class-based OrderBased'
+  description: |
+    The module-level call(workflow, fnames, command_line_args) function in
+    geoips.plugins.modules.procflows.order_based has been removed. The procflow
+    is now a class-based OrderBased(BaseProcflowPlugin) plugin. External callers
+    that imported this function directly must now resolve through the procflows
+    registry: interfaces.procflows.get_plugin("order_based")(workflow_spec,
+    fnames=fnames). The CLI (geoips run order_based) is unchanged from a user
+    perspective.
+  files:
+    modified:
+    - geoips/plugins/modules/procflows/order_based.py
+    - geoips/commandline/geoips_run.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
