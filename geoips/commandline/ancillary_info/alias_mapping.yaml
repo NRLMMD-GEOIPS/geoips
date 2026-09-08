@@ -18,8 +18,9 @@ interpolators:
   - interp
   - interps
   - interpolator
-notifiers:
-  - notifier
+reporters:
+  - report
+  - reporter
 output-checkers:
   - ochk
   - ochks

@@ -20,13 +20,13 @@ from geoips.interfaces.class_based.colormappers import colormappers
 from geoips.interfaces.class_based.coverage_checkers import coverage_checkers
 from geoips.interfaces.class_based.filename_formatters import filename_formatters
 from geoips.interfaces.class_based.interpolators import interpolators
-from geoips.interfaces.class_based.notifiers import notifiers
 from geoips.interfaces.class_based.output_checkers import output_checkers
 from geoips.interfaces.class_based.output_formatters import (
     output_formatters,
 )
 from geoips.interfaces.class_based.procflows import procflows
 from geoips.interfaces.class_based.readers import readers
+from geoips.interfaces.class_based.reporters import reporters
 from geoips.interfaces.class_based.sector_adjusters import (
     sector_adjusters,
 )
@@ -61,11 +61,11 @@ class_based_interfaces = [
     "coverage_checkers",
     "filename_formatters",
     "interpolators",
-    "notifiers",
     "output_checkers",
     "output_formatters",
     "procflows",
     "readers",
+    "reporters",
     "sector_adjusters",
     "sector_metadata_generators",
     "sector_spec_generators",

@@ -1,25 +1,25 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Notifiers interface class."""
+"""Reporters interface class."""
 
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
 
 
-class BaseNotifierPlugin(BaseClassPlugin, abstract=True):
-    """Base class for GeoIPS notifier plugins."""
+class BaseReporterPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS reporter plugins."""
 
     data_tree = False
 
     pass
 
 
-class NotifiersInterface(BaseClassInterface):
-    """Interface for notifier plugins."""
+class ReportersInterface(BaseClassInterface):
+    """Interface for reporter plugins."""
 
-    name = "notifiers"
-    plugin_class = BaseNotifierPlugin
+    name = "reporters"
+    plugin_class = BaseReporterPlugin
 
     required_args = {
         "xarray_area_def_to_table": ["product_filename", "xarray_obj", "area_def"],
@@ -68,4 +68,4 @@ class NotifiersInterface(BaseClassInterface):
     }
 
 
-notifiers = NotifiersInterface()
+reporters = ReportersInterface()

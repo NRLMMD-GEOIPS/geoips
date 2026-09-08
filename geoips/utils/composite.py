@@ -6,7 +6,7 @@
 import isodate
 from datetime import timedelta
 
-from geoips.interfaces import notifiers
+from geoips.interfaces import reporters
 
 
 def find_preproc_alg_files(
@@ -122,7 +122,7 @@ def find_preproc_alg_netcdfs(
         List of pre-processed netCDF algorithm files
     """
     if product_db:
-        query_plugin = notifiers.get_plugin(postgres_query_plugin)
+        query_plugin = reporters.get_plugin(postgres_query_plugin)
         search_schema = []
         for schema in postgres_schemas:
             for ptime in [product_time_start, product_time_end]:
