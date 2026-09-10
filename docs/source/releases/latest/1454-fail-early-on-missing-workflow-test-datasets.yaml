@@ -1,0 +1,21 @@
+bug fix:
+- title: 'Fail early on missing workflow test datasets'
+  description: >
+    Fail early with a clear error when the `fnames` glob pattern in a workflow's
+    `test` section resolves to no files, instead of proceeding into the procflow
+    and raising an uninformative `IndexError`.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'docs/source/releases/latest/1454-fail-early-on-missing-workflow-test-datasets.yaml'
+    modified:
+    - 'geoips/commandline/geoips_test.py'
+  related-issue:
+    number: 1453
+    repo_url: ''
+  date:
+    start: null
+    finish: null

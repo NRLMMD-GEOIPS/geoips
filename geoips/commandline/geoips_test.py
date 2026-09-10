@@ -432,6 +432,11 @@ class GeoipsTestWorkflow(GeoipsWorkflowCommand):
             )
 
         fnames = test_section.get("filenames", test_section.get("fnames", []))
+        if not fnames:
+            self.parser.error(
+                f"No input files found for workflow '{workflow['name']}'. "
+                "Verify the test data and filename pattern."
+            )
         LOG.info(
             "Testing workflow %r with %d input file(s).",
             workflow["name"],
