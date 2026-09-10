@@ -176,6 +176,7 @@ full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/seviri.WV-Upper.no_self_register.unprojected_image.sh",  # noqa: E501
     "$geoips_repopath/tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh",  # noqa: E501
+    "$geoips_repopath/tests/scripts/abi.algortithm_configs.sh",
 ]
 
 # Test scripts spanning multiple repositories / geoips plugins.

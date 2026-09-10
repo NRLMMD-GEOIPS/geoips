@@ -1,0 +1,84 @@
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: ABIAlgorithmConfig
+docstring: |
+    pass
+spec:
+    globals:
+        product_name: ABIAlgorithmConfig
+    steps:
+        sector:
+            kind: sector
+            name: conus
+        reader:
+            kind: reader
+            name: abi_netcdf
+            arguments:
+                resampled_read: True
+        abi_Airmass_Algorithm:
+            kind: algorithm
+            name: config_rgb
+            arguments: 
+                obp_spec:
+                  red:
+                      equation:
+                              type: expression
+                              expression: "np.subtract(B08BT, B10BT)"
+                              variables:
+                                - B08BT
+                                - B10BT
+                      data_range: [-26.2, 0.6]
+                      gamma: 1.0
+                      input_units: kelvin
+                      output_units: kelvin
+                  green:
+                      equation:
+                              type: difference
+                              variables:
+                                - B12BT
+                                - B13BT
+                      data_range: [-43.2, 6.7]
+                      gamma: 1.0
+                      input_units: kelvin
+                      output_units: kelvin
+                  blue:
+                      equation:
+                              type: raw
+                              variables:
+                                - B08BT
+                      data_range: [243.9, 208.5]
+                      gamma: 1.0
+                      input_units: kelvin
+                      output_units: kelvin
+        coverage_checker:
+          kind: coverage_checker
+          name: masked_arrays
+          depends_on: [abi_Airmass_Algorithm, sector]
+          arguments:
+            variable_name: ABIAlgorithmConfig
+        colormapper:
+            kind: colormapper
+            name: matplotlib_linear_norm 
+            depends_on: []
+            arguments:
+              data_range: [-90.0, 30.0]
+        filename_formatter:
+            kind: filename_formatter
+            name: geoips_fname
+            depends_on: [abi_Airmass_Algorithm, sector, coverage_checker]
+        output_formatter:
+            kind: output_formatter
+            name: imagery_annotated
+            depends_on:
+                - abi_Airmass_Algorithm
+                - colormapper
+                - filename_formatter
+                - sector
+        output_checker:
+          kind: output_checker
+          name: image
+          arguments:
+            compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.algorithm_config
+            output_products: [!ENV "${GEOIPS_OUTDIRS}/preprocessed/annotated_imagery/NorthAmerica-UnitedStates-Continental/x-x-x/ABIAlgorithmConfig/abi/20200918.195020.goes-16.abi.ABIAlgorithmConfig.conus.100p00.noaa.3p0.png"]
+
