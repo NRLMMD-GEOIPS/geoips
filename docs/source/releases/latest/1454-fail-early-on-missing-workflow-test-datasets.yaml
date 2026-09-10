@@ -10,11 +10,11 @@ bug fix:
     moved:
     - ''
     added:
-    - ''
+    - 'docs/source/releases/latest/1454-fail-early-on-missing-workflow-test-datasets.yaml'
     modified:
     - 'geoips/commandline/geoips_test.py'
   related-issue:
-    number: null
+    number: 1453
     repo_url: ''
   date:
     start: null
