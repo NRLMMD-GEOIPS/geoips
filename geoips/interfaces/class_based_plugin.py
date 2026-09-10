@@ -346,8 +346,7 @@ class BaseClassPlugin(ABC):
                 f"Original error: {exc}"
             ) from exc
 
-    @staticmethod
-    def _extract_child_kwargs(data, kwargs):
+    def _extract_child_kwargs(self, data, kwargs):
         """Inject conduit-mapped keyword arguments from upstream DataTree children.
 
         Walks each child of *data* (a ``multi_input`` DataTree built by
@@ -400,7 +399,14 @@ class BaseClassPlugin(ABC):
             if val is not None:
                 kwargs[kwarg_name] = val
 
-        _apply_legacy_product_name_rename(kwargs)
+        # The following interfaces expect 'product_name' to be a variable in the
+        # xarray object they are provided.
+        if self.interface in [
+            "coverage_checkers",
+            "filename_formatters",
+            "output_formatters",
+        ]:
+            _apply_legacy_product_name_rename(kwargs)
 
         return kwargs
 

@@ -1,6 +1,6 @@
 """Unit test module for testing workflow overrides."""
 
-# cspell: ignore koverrides, soverrides
+# cspell: ignore soverrides
 
 from collections import OrderedDict
 from copy import deepcopy
@@ -52,20 +52,12 @@ def sample_workflow():
                 },
             }
         },
-        "test": {
-            "globals": {
+        "arguments": {
+            "global": {
                 "logging_level": "INFO",
+                "satellite_zenith_angle_cutoff": 90,
             },
-            "kinds": {
-                "algorithms": {
-                    "output_units": "kelvin",
-                }
-            },
-            "steps": {
-                "reader": {
-                    "self_register": "LOW",
-                }
-            },
+            "reader.self_register": "LOW",
         },
     }
 
@@ -102,42 +94,17 @@ def test_global_override_type_yaml_casting():
     }
 
 
-def test_kind_override_type():
-    """Test parsing a valid kind override string.
-
-    Ensures the kind name, argument name, and value are extracted
-    correctly from a valid override specification.
-    """
-    result = workflows.kind_override_type("algorithm.output_units=kelvin")
-
-    assert result == {
-        "kind": "algorithm",
-        "argument": "output_units",
-        "value": "kelvin",
-    }
-
-
-def test_kind_override_type_invalid_key_format():
-    """Test failure when a kind override key is improperly formatted.
-
-    A valid kind override must contain exactly one period separating
-    the kind name and argument name.
-    """
-    with pytest.raises(ValueError, match="Must be in the format"):
-        workflows.kind_override_type("algorithm.output.units=kelvin")
-
-
 def test_step_override_type():
     """Test parsing a step override containing nested keys.
 
     Verifies that the step identifier, intermediate keys, argument,
     and value are extracted correctly from a nested override path.
     """
-    result = workflows.step_override_type("reader.spec.arguments.self_register=LOW")
+    result = workflows.step_override_type("reader.self_register=LOW")
 
     assert result == {
         "step_id": "reader",
-        "keys": ["spec", "arguments"],
+        "keys": [],
         "argument": "self_register",
         "value": "LOW",
     }
@@ -219,27 +186,6 @@ def test_override_step(sample_workflow):
     assert result["reader"]["arguments"]["self_register"] == "LOW"
 
 
-def test_override_kind(sample_workflow):
-    """Test overriding all steps of a given kind.
-
-    Parameters
-    ----------
-    sample_workflow: pytest.fixture[dict]
-        A dummy workflow to perform unit tests on.
-    """
-    override = {
-        "kind": "algorithm",
-        "argument": "output_units",
-        "value": "kelvin",
-    }
-
-    steps = deepcopy(sample_workflow["spec"]["steps"])
-
-    result = workflows._override_kind(steps, override)
-
-    assert result["algorithm"]["arguments"]["output_units"] == "kelvin"
-
-
 def test_override_global(sample_workflow):
     """Test overriding all matching global arguments.
 
@@ -277,28 +223,26 @@ def test_override_workflow_string_format_from_dict(sample_workflow):
         }
     ]
 
-    koverrides = [
-        {
-            "kind": "algorithms",
-            "argument": "output_units",
-            "value": "kelvin",
-        }
-    ]
-
     soverrides = [
         {
             "step_id": "reader",
             "keys": [],
             "argument": "self_register",
             "value": "LOW",
-        }
+        },
+        {
+            "step_id": "algorithm",
+            "keys": [],
+            "argument": "output_units",
+            "value": "kelvin",
+        },
     ]
 
     result = workflows._override_workflow_string_format(
         workflow,
         goverrides=goverrides,
-        koverrides=koverrides,
         soverrides=soverrides,
+        grab_bases=False,
     )
 
     steps = result["spec"]["steps"]
@@ -320,22 +264,19 @@ def test_override_workflow_string_format_from_string(sample_workflow):
 
     goverrides = ["satellite_zenith_angle_cutoff=85"]
 
-    koverrides = ["algorithms.output_units=kelvin"]
-
     soverrides = ["reader.self_register=LOW"]
 
     result = workflows._override_workflow_string_format(
         workflow,
         goverrides=goverrides,
-        koverrides=koverrides,
         soverrides=soverrides,
+        grab_bases=False,
     )
 
     steps = result["spec"]["steps"]
 
     assert steps["reader"]["arguments"]["self_register"] == "LOW"
     assert steps["reader"]["arguments"]["satellite_zenith_angle_cutoff"] == 85
-    assert steps["algorithm"]["arguments"]["output_units"] == "kelvin"
 
 
 ##########################################
@@ -359,12 +300,6 @@ def test_override_workflow_dict_format(sample_workflow):
         "satellite_zenith_angle_cutoff": 90,
     }
 
-    koverrides = {
-        "algorithms": {
-            "output_units": "kelvin",
-        }
-    }
-
     soverrides = {
         "reader": {
             "self_register": "LOW",
@@ -374,15 +309,12 @@ def test_override_workflow_dict_format(sample_workflow):
     result = workflows._override_workflow_dict_format(
         workflow,
         goverrides=goverrides,
-        koverrides=koverrides,
         soverrides=soverrides,
     )
 
     steps = result["spec"]["steps"]
 
     assert steps["reader"]["arguments"]["satellite_zenith_angle_cutoff"] == 90
-
-    assert steps["algorithm"]["arguments"]["output_units"] == "kelvin"
 
     assert steps["reader"]["arguments"]["self_register"] == "LOW"
 
@@ -575,16 +507,13 @@ def test_convert_override_dict_to_string_format(sample_workflow):
     Ensures that global, kind, and step overrides are converted into
     the string representation accepted by the CLI.
     """
-    goverrides, koverrides, soverrides = (
-        workflows._convert_override_dict_to_string_format(sample_workflow)
+    goverrides, soverrides = workflows._convert_override_dict_to_string_format(
+        sample_workflow
     )
 
     assert goverrides == [
         "logging_level=INFO",
-    ]
-
-    assert koverrides == [
-        "algorithms.output_units=kelvin",
+        "satellite_zenith_angle_cutoff=90",
     ]
 
     assert soverrides == [
@@ -599,44 +528,11 @@ def test_convert_override_dict_to_string_format_nested():
     into the expected dot-delimited string representation.
     """
     workflow = {
-        "test": {
-            "steps": {
-                "abi:Infrared": {
-                    "spec": {
-                        "steps": {
-                            "algorithm": {
-                                "output_units": "kelvin",
-                            },
-                        }
-                    }
-                }
-            }
-        }
+        "arguments": {
+            "abi:Infrared.algorithm.output_units": "kelvin",
+        },
     }
 
-    _, _, soverrides = workflows._convert_override_dict_to_string_format(workflow)
+    goverrides, soverrides = workflows._convert_override_dict_to_string_format(workflow)
 
-    assert soverrides == ["abi:Infrared.spec.steps.algorithm.output_units=kelvin"]
-
-
-def test_convert_override_dict_to_string_format_empty_mapping():
-    """Test that empty override mappings are ignored.
-
-    Verifies that empty dictionaries within the workflow test section
-    do not generate override strings.
-    """
-    workflow = {
-        "test": {
-            "globals": {
-                "logging_level": {},
-            }
-        }
-    }
-
-    goverrides, koverrides, soverrides = (
-        workflows._convert_override_dict_to_string_format(workflow)
-    )
-
-    assert goverrides == []
-    assert koverrides == []
-    assert soverrides == []
+    assert soverrides == ["abi:Infrared.algorithm.output_units=kelvin"]
