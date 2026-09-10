@@ -987,9 +987,19 @@ class WorkflowSpecModel(FrozenModel):
             ):
                 if step.get("depends_on"):
                     _inputs = step["depends_on"]
-                expanded_steps = cls.extend_dict(
-                    expanded_steps, cls.expand_step(step, info, _inputs)
+
+                expanded_steps[name] = {
+                    "spec": {"steps": {}},
+                    "kind": "workflow",
+                    "depends_on": _inputs,
+                }
+
+                expanded_steps[name]["spec"]["steps"] = cls.expand_step(
+                    step, info, _inputs
                 )
+                # expanded_steps = cls.extend_dict(
+                #     expanded_steps, cls.expand_step(step, info, _inputs)
+                # )
             else:
                 # Not a workflow or product-based plugin, just keep the step as it is
                 expanded_steps[name] = step

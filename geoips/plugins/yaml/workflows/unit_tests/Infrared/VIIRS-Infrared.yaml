@@ -22,7 +22,8 @@ spec:
     infrared_workflow:
       kind: workflow
       name: Infrared-Base
-      depends_on: [reader, sector]
+      # depends_on: [reader, sector]
+      depends_on: [_input]
       arguments:
         interpolator.varlist: ["I05BT"]
         apply_single_channel.output_data_range: [-90, 30]
@@ -30,7 +31,8 @@ spec:
     apply_imagery_annotated:
       kind: workflow
       name: output-imagery-annotated
-      depends_on: [infrared_colormap, apply_single_channel, sector]
+      # depends_on: [infrared_colormap, apply_single_channel, sector]
+      depend_on: [_input]
       arguments:
         apply_imagery_annotated:
           product_name: Infrared
