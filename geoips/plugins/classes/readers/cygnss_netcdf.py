@@ -28,6 +28,8 @@ class CygnssNetcdfReaderPlugin(BaseReaderPlugin):
     DEG_TO_KM = 111.321
     source_names = ["cygnss"]
 
+    VARLIST = ["wind_speed_kts"]
+
     def call(
         self,
         fnames,

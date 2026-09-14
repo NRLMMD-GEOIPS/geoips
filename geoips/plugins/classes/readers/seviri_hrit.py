@@ -16,7 +16,7 @@ Notes
   (decompressed) filenames, so built in filename dependence by using satpy.
 """
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.readers import BaseReaderPlugin, ChannelList
 
 # Python Standard Libraries
 import os
@@ -66,105 +66,6 @@ class XritError(Exception):
             return "{}: {}".format(self.code, self.value)
         else:
             return self.value
-
-
-class Chan(object):
-    """Channel class."""
-
-    _good_names = [
-        "B01Rad",
-        "B01Ref",  # VIS0.6 Cloud mapping
-        "B02Rad",
-        "B02Ref",  # VIS0.8 Vegetation index
-        "B03Rad",
-        "B03Ref",  # NIR1.6 Cloud / snow discrimination
-        "B04Rad",
-        "B04BT",  # IR3.9  Atmospheric window
-        "B05Rad",
-        "B05BT",  # IR6.2  Water vapour channel (Upper atmosphere)
-        "B06Rad",
-        "B06BT",  # IR7.3  Water vapour channel (Lower atmosphere)
-        "B07Rad",
-        "B07BT",  # IR8.7  Atmospheric window
-        "B08Rad",
-        "B08BT",  # IR9.7  Ozone channel
-        "B09Rad",
-        "B09BT",  # IR10.8 Atmospheric window
-        "B10Rad",
-        "B10BT",  # IR12.0 Atmospheric window
-        "B11Rad",
-        "B11BT",
-    ]  # IR13.4 Carbon dioxide channel
-
-    def __init__(self, name):
-        """Initialize Chan object."""
-        if "B12" in name:
-            raise HritError(
-                "Channel 12 (High Resolution Visible) currently not handled."
-            )
-        if name not in self._good_names:
-            raise ValueError("Unknown channel name: {}".format(name))
-        self._name = name
-        self._band = name[0:3]
-        self._type = name[3:]
-
-    @property
-    def name(self):
-        """Name property."""
-        return self._name
-
-    @property
-    def band(self):
-        """Band property."""
-        return self._band
-
-    @property
-    def band_num(self):
-        """Band number property."""
-        return int(self._band[1:])
-
-    @property
-    def type(self):
-        """Type property."""
-        return self._type
-
-
-class ChanList(object):
-    """ChanList Class."""
-
-    def __init__(self, chans):
-        """Initialize ChanList object."""
-        chans = set(chans)
-        self._info = {"chans": [Chan(chan) for chan in chans]}
-        self._info["names"] = list(set([chan.name for chan in self.chans]))
-        self._info["bands"] = list(set([chan.band for chan in self.chans]))
-        self._info["types"] = list(set([chan.type for chan in self.chans]))
-
-    @property
-    def chans(self):
-        """Chans property."""
-        return self._info["chans"]
-
-    @property
-    def names(self):
-        """Names property."""
-        return self._info["names"]
-
-    @property
-    def bands(self):
-        """Bands property."""
-        return self._info["bands"]
-
-    @classmethod
-    def _all_types_for_bands(cls, bands):
-        """List all types for bands."""
-        good_names = Chan._good_names
-        chans = set()
-        for chan in good_names:
-            for band in bands:
-                if band in chan:
-                    chans.add(chan)
-        return cls(chans)
 
 
 class SeviriHritReaderPlugin(BaseReaderPlugin):
@@ -334,6 +235,39 @@ class SeviriHritReaderPlugin(BaseReaderPlugin):
         "solar_azimuth_angle",
         "satellite_azimuth_angle",
     ]
+
+    _readable_channels = [
+        "B01Rad",
+        "B01Ref",  # VIS0.6 Cloud mapping
+        "B02Rad",
+        "B02Ref",  # VIS0.8 Vegetation index
+        "B03Rad",
+        "B03Ref",  # NIR1.6 Cloud / snow discrimination
+        "B04Rad",
+        "B04BT",  # IR3.9  Atmospheric window
+        "B05Rad",
+        "B05BT",  # IR6.2  Water vapour channel (Upper atmosphere)
+        "B06Rad",
+        "B06BT",  # IR7.3  Water vapour channel (Lower atmosphere)
+        "B07Rad",
+        "B07BT",  # IR8.7  Atmospheric window
+        "B08Rad",
+        "B08BT",  # IR9.7  Ozone channel
+        "B09Rad",
+        "B09BT",  # IR10.8 Atmospheric window
+        "B10Rad",
+        "B10BT",  # IR12.0 Atmospheric window
+        "B11Rad",
+        "B11BT",
+    ]  # IR13.4 Carbon dioxide channel
+
+    @staticmethod
+    def _chan_exception_func(name):
+        """Exception function for a channel requested to be read for this reader."""
+        if "B12" in name:
+            raise HritError(
+                "Channel 12 (High Resolution Visible) currently not handled."
+            )
 
     def calculate_chebyshev_polynomial(self, coefs, start_dt, end_dt, dt):
         """Calculate Chebyshev Polynomial."""
@@ -840,7 +774,12 @@ class SeviriHritReaderPlugin(BaseReaderPlugin):
 
         # If specific channels were requested, check them against the input data
         if chans:
-            chlist = ChanList(list(set(chans) - set(self.geolocation_variable_names)))
+            chlist = ChannelList(
+                self.name,
+                list(set(chans) - set(self.geolocation_variable_names)),
+                self._readable_channels,
+                self._chan_exception_func,
+            )
             for chan in chlist.chans:
                 if chan.band not in dfs.keys():
                     raise ValueError(
@@ -850,7 +789,12 @@ class SeviriHritReaderPlugin(BaseReaderPlugin):
                     )
         # If no specific channels were requested, get everything
         else:
-            chlist = ChanList._all_types_for_bands(dfs.keys())
+            chlist = ChannelList(
+                self.name,
+                self._readable_channels,
+                self._readable_channels,
+                self._chan_exception_func,
+            )._all_types_for_bands(dfs.keys())
 
         xarray_obj.attrs["datavars"] = {}
         # Gather geolocation data
