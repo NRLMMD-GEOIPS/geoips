@@ -188,8 +188,14 @@ class BaseReaderPlugin(BaseClassPlugin, abstract=True):
         channel_listing = {}
         if hasattr(self, "ALL_CHANS"):
             channel_listing = self.ALL_CHANS
+        elif hasattr(self, "BAND_MAP"):
+            channel_listing = {"channels": list(self.BAND_MAP.keys())}
         elif hasattr(self, "DATASET_INFO"):
             channel_listing = self.DATASET_INFO
+        elif hasattr(self, "varnames"):
+            channel_listing = {"channels": list(self.varnames.values())}
+        elif hasattr(self, "VARLIST"):
+            channel_listing = {"channels": self.VARLIST}
 
         return channel_listing
 
