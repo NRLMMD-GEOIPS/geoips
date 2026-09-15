@@ -28,6 +28,8 @@ profiling/
 ####################################################
 # geoips package specific .gitignore options:
 
+# GeoIPS config file
+.geoips.yaml
 # auto-downloaded test datasets
 tests/data/**
 # auto-generated command instructions file
@@ -76,6 +78,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+uv.lock
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -186,6 +189,9 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
+# Ruff settings
+.ruff.toml
+
 # mkdocs documentation
 /site
 
@@ -209,3 +215,6 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+
+# build mounts for dockerfile
+geoips_test_data

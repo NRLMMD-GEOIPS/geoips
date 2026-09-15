@@ -1,0 +1,39 @@
+enhancement:
+- title: 'OBP-Style Scripting Interface'
+  description: |
+    Add an OBP-Style scripting interface. This provides a number of user-facing convenience
+    functions and updates the plugins to handle appropriate data retention policies.
+
+    Also added new tests as well as some example scripts.
+  files:
+    added:
+    - 'docs/dev/obp_script_plugin_calls.md'
+    - 'docs/dev/script_datatree_developer_notes.md'
+    - 'docs/source/releases/latest/obp-based-scripting.yaml'
+    - 'geoips/scripting.py'
+    - 'geoips/utils/types/datatree_helpers.py'
+    - 'geoips/utils/types/script_datatree.py'
+    - 'tests/example_scripts/obp_scripting/verify_script_abi_infrared_output.py'
+    - 'tests/example_scripts/obp_scripting/verify_script_manual_difference_output.py'
+    - 'tests/example_scripts/obp_scripting/verify_script_reader.py'
+    - 'tests/example_scripts/obp_scripting/verify_script_reader_manipulation.py'
+    - 'tests/unit_tests/test_scripting.py'
+    - 'tests/unit_tests/utils/types/test_script_datatree.py'
+    modified:
+    - 'geoips/interfaces/class_based/algorithms.py'
+    - 'geoips/interfaces/class_based/coverage_checkers.py'
+    - 'geoips/interfaces/class_based/filename_formatters.py'
+    - 'geoips/interfaces/class_based/interpolators.py'
+    - 'geoips/interfaces/class_based_plugin.py'
+    - 'geoips/utils/types/obp_conduits.py'
+    - 'tests/integration_tests/test_integration.py'
+    - 'tests/unit_tests/interfaces/test_class_based_plugin_invoke.py'
+    - 'tests/unit_tests/xarray_utils/test_coords.py'
+    deleted: []
+    moved: []
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2026-07-16
+    finish: 2026-07-16

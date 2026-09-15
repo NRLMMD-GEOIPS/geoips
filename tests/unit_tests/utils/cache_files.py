@@ -81,8 +81,7 @@ def test_create_cached_json_from_yaml():
 
     # Clean up
     os.remove(yaml_file)
-    os.remove(json_file)
-    os.rmdir(cache_dir)
+    shutil.rmtree(cache_dir)
     os.rmdir(tmp_dir)
 
 

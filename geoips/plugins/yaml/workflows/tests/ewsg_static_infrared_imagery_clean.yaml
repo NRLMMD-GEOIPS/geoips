@@ -1,0 +1,49 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# script migration = done
+# product testing = ongoing
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
+# set of arguments.
+
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: ewsg_static_infrared_imagery_clean
+docstring: |
+  GOES-13 GVAR Infrared brightness temperature clean imagery over the static EWSG
+  sector.
+package: geoips
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_ewsg/data/2020.1211.2312.goes-13.gvar.nc
+  outputs:
+    output_formatter:
+      full_test_policy: on_token_mismatch # always | never
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/ewsg.static.<product>.imagery_clean
+      output_checker_name: image
+spec:
+  globals:
+    product_name: Infrared
+    reader_defined_area_def: False
+    # will be uncommented after split operation is implemented
+    # sector_list: ["ewsg"]
+  steps:
+    sector:
+      kind: sector
+      name: ewsg
+    reader:
+      kind: reader
+      name: ewsg_netcdf
+      depends_on: [sector]
+    gvar_Infrared:
+      kind: product
+      name: [gvar, Infrared]
+      depends_on: [sector, reader]
+    filename_formatter:
+      kind: filename_formatter
+      name: geoips_fname
+    output_formatter:
+      kind: output_formatter
+      name: imagery_clean

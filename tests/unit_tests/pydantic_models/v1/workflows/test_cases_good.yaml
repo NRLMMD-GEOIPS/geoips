@@ -1,48 +1,48 @@
 global_variables_presector:
   description: "Ensure valid value for presector is accepted"
-  key: global_arguments/presector
+  key: globals/presector
   val: True
   cls: WorkflowSpecModel
 global_variables_product_db:
   description: "Ensure valid value for product_db is accepted"
-  key: global_arguments/product_db
+  key: globals/product_db
   val: True
   cls: WorkflowSpecModel
 global_variables_product_db_writer:
   description: "Ensure valid value for product_db_writer is accepted"
-  key: global_arguments/product_db_writer
+  key: globals/product_db_writer
   val: "string"
   cls: WorkflowSpecModel
 global_variables_product_name:
   description: "Ensure valid value for product_name is accepted"
-  key: global_arguments/product_name
+  key: globals/product_name
   val: "windspeed"
   cls: WorkflowSpecModel
 global_variables_reader_defined_area_def:
   description: "Ensure valid value for sector_list is accepted"
-  key: global_arguments/reader_defined_area_def
+  key: globals/reader_defined_area_def
   val: True
   cls: WorkflowSpecModel
 global_variables_sector_list:
   description: "Ensure valid value for sector_list is accepted"
-  key: global_arguments/sector_list
+  key: globals/sector_list
   val: ['global_cylindrical']
   cls: WorkflowSpecModel
 global_variables_window_start_time_accepts_iso_string:
   description: "ISO-8601 string for window_start_time coerces to datetime."
-  key: global_arguments/window_start_time
+  key: globals/window_start_time
   val: "2025-01-01T00:00:00"
   cls: WorkflowSpecModel
 global_variables_product_db_neither_set:
   description: "Both product_db and product_db_writer at defaults -> constructs successfully."
-  key: global_arguments
+  key: globals
   val:
     product_db: false
     product_db_writer: null
   cls: WorkflowSpecModel
 global_variables_temporal_windowing_neither_set:
   description: "Both window_start_time and window_end_time at defaults -> constructs successfully."
-  key: global_arguments
+  key: globals
   val:
     window_start_time: null
     window_end_time: null

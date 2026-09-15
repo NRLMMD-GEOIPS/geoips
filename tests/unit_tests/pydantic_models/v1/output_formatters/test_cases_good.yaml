@@ -1,0 +1,165 @@
+append_valid_input:
+  description: "Ensure valid value for append is accepted" 
+  key: append
+  val: False
+  cls: OutputFormatterArgumentsModel
+basedir_valid_input:
+  description: "Ensure valid value for basedir is accepted"
+  key: basedir
+  val: gpaths["TCWWW"]
+  cls: OutputFormatterArgumentsModel
+cog_valid_input:
+  description: "Ensure valid value for cog is accepted"
+  key: cog
+  val: False
+  cls: OutputFormatterArgumentsModel
+clobber_valid_input:
+  description: "Ensure valid value for clobber is accepted"
+  key: clobber
+  val: True
+  cls: OutputFormatterArgumentsModel
+hist_colorbar_valid_input:
+  description: "Ensure valid boolean for hist_colorbar is accepted"
+  key: hist_colorbar
+  val: True
+  cls: OutputFormatterArgumentsModel
+is_3d_valid_input:
+  description: "Ensure valid value for is_3d is accepted"
+  key: is_3d
+  val: True
+  cls: OutputFormatterArgumentsModel
+overwrite_valid_input:
+  description: "Ensure valid value for overwrite is accepted"
+  key: overwrite
+  val: False
+  cls: OutputFormatterArgumentsModel
+use_compression_valid_input:
+  description: "Ensure valid value for use_compression is accepted"
+  key: use_compression
+  val: True
+  cls: OutputFormatterArgumentsModel
+clean_fname_valid_input:
+  description: "Ensure valid file path for clean_fname is accepted"
+  key: clean_fname
+  val: "/path/to/clean.png"
+  cls: OutputFormatterArgumentsModel
+clean_fname_none_valid_input:
+  description: "Ensure None for clean_fname is accepted"
+  key: clean_fname
+  val: null
+  cls: OutputFormatterArgumentsModel
+existing_image_valid_input:
+  description: "Ensure valid file path for existing_image is accepted"
+  key: existing_image
+  val: "/path/to/image.png"
+  cls: OutputFormatterArgumentsModel
+metadata_dir_valid_input:
+  description: "Ensure valid string for metadata_dir is accepted"
+  key: metadata_dir
+  val: "metadata"
+  cls: OutputFormatterArgumentsModel
+bg_datatype_title_valid_input:
+  description: "Ensure valid string for bg_datatype_title is accepted"
+  key: bg_datatype_title
+  val: "ABI B13"
+  cls: OutputFormatterArgumentsModel
+bg_product_name_title_valid_input:
+  description: "Ensure valid string for bg_product_name_title is accepted"
+  key: bg_product_name_title
+  val: "Infrared"
+  cls: OutputFormatterArgumentsModel
+product_name_title_valid_input:
+  description: "Ensure valid string for product_name_title is accepted"
+  key: product_name_title
+  val: "Infrared-Gray"
+  cls: OutputFormatterArgumentsModel
+product_datatype_title_valid_input:
+  description: "Ensure valid string for product_datatype_title is accepted"
+  key: product_datatype_title
+  val: "GOES-16 ABI"
+  cls: OutputFormatterArgumentsModel
+title_copyright_valid_input:
+  description: "Ensure valid string for title_copyright is accepted"
+  key: title_copyright
+  val: "Data copyright 2024 EUMETSAT"
+  cls: OutputFormatterArgumentsModel
+title_formatter_valid_input:
+  description: "Ensure valid string for title_formatter is accepted"
+  key: title_formatter
+  val: "tc_copyright"
+  cls: OutputFormatterArgumentsModel
+var_name_valid_input:
+  description: "Ensure valid variable name string for var_name is accepted"
+  key: var_name
+  val: "Infrared"
+  cls: OutputFormatterArgumentsModel
+working_directory_valid_input:
+  description: "Ensure valid directory string for working_directory is accepted"
+  key: working_directory
+  val: "/path/to/output"
+  cls: OutputFormatterArgumentsModel
+x_size_valid_input:
+  description: "Ensure valid integer for x_size is accepted"
+  key: x_size
+  val: 1000
+  cls: OutputFormatterArgumentsModel
+y_size_valid_input:
+  description: "Ensure valid integer for y_size is accepted"
+  key: y_size
+  val: 800
+  cls: OutputFormatterArgumentsModel
+bg_mpl_colors_info_valid_input:
+  description: "Ensure valid dict for bg_mpl_colors_info is accepted"
+  key: bg_mpl_colors_info
+  val: {cmap: "Greys", colorbar: true}
+  cls: OutputFormatterArgumentsModel
+metadata_fname_dict_valid_input:
+  description: "Ensure valid dict with product_name key for metadata_fname_dict is accepted"
+  key: metadata_fname_dict
+  val: {product_name: "Infrared"}
+  cls: OutputFormatterArgumentsModel
+mpl_colors_info_valid_input:
+  description: "Ensure valid dict for mpl_colors_info is accepted"
+  key: mpl_colors_info
+  val: {cmap: "Greys", colorbar: true, cbar_label: "Brightness Temperature (C)"}
+  cls: OutputFormatterArgumentsModel
+output_dict_valid_input:
+  description: "Ensure valid dict with product_spec_override key for output_dict is accepted"
+  key: output_dict
+  val: {product_spec_override: {}}
+  cls: OutputFormatterArgumentsModel
+output_fname_dict_valid_input:
+  description: "Ensure valid dict for output_fname_dict is accepted"
+  key: output_fname_dict
+  val: {product_name: "Infrared"}
+  cls: OutputFormatterArgumentsModel
+pressure_range_dict_valid_input:
+  description: "Ensure valid pressure level dict for pressure_range_dict is accepted"
+  key: pressure_range_dict
+  val: {Low: [701, 1013.25], Mid: [401, 700], High: [0, 400]}
+  cls: OutputFormatterArgumentsModel
+savefig_kwargs_valid_input:
+  description: "Ensure valid kwargs dict for savefig_kwargs is accepted"
+  key: savefig_kwargs
+  val: {dpi: 150, facecolor: "white"}
+  cls: OutputFormatterArgumentsModel
+area_def_none_valid_input:
+  description: "Ensure None for area_def is accepted"
+  key: area_def
+  val: null
+  cls: OutputFormatterArgumentsModel
+bg_data_none_valid_input:
+  description: "Ensure None for bg_data is accepted"
+  key: bg_data
+  val: null
+  cls: OutputFormatterArgumentsModel
+bg_xarray_none_valid_input:
+  description: "Ensure None for bg_xarray is accepted"
+  key: bg_xarray
+  val: null
+  cls: OutputFormatterArgumentsModel
+remove_duplicate_minrange_none_valid_input:
+  description: "Ensure None for remove_duplicate_minrange is accepted"
+  key: remove_duplicate_minrange
+  val: null
+  cls: OutputFormatterArgumentsModel

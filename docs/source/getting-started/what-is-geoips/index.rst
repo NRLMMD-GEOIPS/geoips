@@ -6,15 +6,17 @@
 What is GeoIPS
 **************
 
-The Geolocated Information Processing System (GeoIPS) is a generalized processing system, providing a collection
-of algorithm and product implementations facilitating consistent and reliable application of specific products
-across a variety of sensors and data types.
+GeoIPS (Geolocated Information Processing System) is an extensible,
+open-source Python framework designed to process any dataset with latitude and
+longitude coordinates. It is completely plugin-based to the degree that most
+of its functionality is provided by plugins, enabling consistent and reliable
+application of specific products across a variety of sensors and data types.
 
 .. image:: GeoIPS_Functionality_Overview.png
    :width: 800
 
 GeoIPS acts as a toolbox for internal GeoIPS-based product development - all modules are expected to
-have simple inputs and outputs (Python numpy or dask arrays or xarrays, dictionaries, strings, lists), to enable
+have simple inputs and outputs (Python numpy or dask arrays or xarrays, DataTree, dictionaries, strings, lists), to enable
 portability and simplified interfacing between modules.
 
 Some of the primary benefits / requirements of GeoIPS include:
@@ -45,3 +47,23 @@ configurable data formats (imagery, NetCDF, etc).
 
 Data collection, data transfers, and product dissemination are all site specific implementations for driving
 GeoIPS® processing, and fall outside the scope of the GeoIPS® "core" processing system.
+
+How GeoIPS processes data
+=========================
+
+GeoIPS functionality is provided by **plugins** — small, composable units that each do one
+job: read a data type, interpolate to a grid, apply an algorithm, colorize a product, or
+write an output. Plugins come in two forms: :ref:`class-based (Python) plugins
+<writing-class-based-plugins>` and YAML plugins (products, sectors, annotators).
+
+In GeoIPS 2.0, plugins are orchestrated by :ref:`Order-Based Processing (OBP)
+<order-based-processing>`. You describe the exact, ordered sequence of plugin steps for a
+product in a YAML *workflow*, and GeoIPS runs it — reading data, transforming it, computing
+the product, and writing output. The same plugins can also be driven directly from Python
+with the :ref:`scripting API <scripting-guide>`.
+
+.. note::
+
+   The GeoIPS 1.x fixed procflows (``single_source``, ``config_based``, ``data_fusion``)
+   still run but are deprecated. New processing should use OBP. See
+   :ref:`migrating-1x-to-2x`.

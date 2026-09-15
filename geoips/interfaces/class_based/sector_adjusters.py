@@ -10,6 +10,8 @@ from geoips.interfaces.base import BaseClassInterface
 class BaseSectorAdjusterPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS sector_adjuster plugins."""
 
+    data_tree = False
+
     pass
 
 

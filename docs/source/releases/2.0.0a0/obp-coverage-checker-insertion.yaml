@@ -1,0 +1,17 @@
+enhancement:
+- title: Default Coverage Checkers when product encountered
+  description: |
+    Any time a product is encountered as a step in a workflow, fully expand that product
+    as a nested series of steps in the original workflow, then add a coverage checker as
+    the final step of the product nested steps if it doesn't already exist as a step.
+    Use the masked arrays coverage checker in this case and set minimum coverage to 10.
+  files:
+    modified:
+      - geoips/pydantic_models/v1/workflows.py
+      - geoips/interfaces/class_based/coverage_checkers.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

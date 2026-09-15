@@ -6,6 +6,9 @@
 # cspell:ignore knmi
 # cspell:ignore wfabba
 # cspell:ignore ewsg
+# cspell:ignore cbar
+# cspell:ignore gpaths
+# cspell:ignore TCWW
 
 # Third-Party Libraries
 import pytest
@@ -55,7 +58,7 @@ def valid_reader_arguments_model_data(file_generated_from_pytest_fixture):
         "variables": ["None"],
         "metadata_only": True,
         "self_register": "LOW",
-        "fnames": [file_generated_from_pytest_fixture],
+        "filenames": [file_generated_from_pytest_fixture],
     }
 
 
@@ -147,6 +150,27 @@ def pluign_types_and_plugins():
 
 
 @pytest.fixture
+def valid_colormapper_plugin_data():
+    """Fixture providing valid data for ColormapperArgumentsModel."""
+    return {
+        "cbar_full_width": False,
+        "cbar_label": "hello",
+        "cbar_spacing": "proportional",
+        "cbar_ticks": None,
+        "cbar_tick_labels": None,
+        "cmap_name": "Greys",
+        "cmap_path": None,
+        "colorbar_kwargs": None,
+        "set_ticks_kwargs": None,
+        "create_colorbar": True,
+        "data_range": (20, 30),
+        "pressure_range_legend": None,
+        "set_ticks_args": None,
+        "set_label_args": None,
+    }
+
+
+@pytest.fixture
 def valid_title_formatter_arguments():
     """Fixture providing valid data for TitleFormatterArgumentsModel."""
     return {
@@ -169,10 +193,18 @@ def valid_output_checker_arguments(file_generated_from_pytest_fixture):
 
 
 @pytest.fixture
+def valid_output_formatter_arguments():
+    """Fixture providing valid data OutputFormatterArgumentsModel tests."""
+    return {
+        "append": False,
+    }
+
+
+@pytest.fixture
 def valid_workflow_spec_model_data():
     """Fixture providing valid data testing WorkflowSpecModel fields."""
     return {
-        "global_arguments": {
+        "globals": {
             "presector": False,
             "product_db": True,
             "product_db_writer": "postgres_database",
@@ -223,4 +255,25 @@ def valid_algorithm_arguments():
         "time_key": "atime",
         # "norm": None,
         # "inverse": None,
+    }
+
+
+@pytest.fixture
+def valid_filename_formatter_arguments():
+    """Fixture providing valid data for FilenameFormatterArgumentsModel."""
+    return {
+        "area_def": None,
+        "base_dir": "gpaths['TCWWW']",
+        "extra": "test_input",
+        "coverage": 95.5,
+        "extension": ".png",
+        "metdata_dir": "test_input",
+        "metadata_type": "sector_information",
+        "output_dict": {},
+        "output_type": "png",
+        "output_type_dir": "test_input",
+        "product_filename": "test_input",
+        "product_dir": "test_input",
+        "product_subdir": "test_input",
+        "source_dir": "test_input",
     }

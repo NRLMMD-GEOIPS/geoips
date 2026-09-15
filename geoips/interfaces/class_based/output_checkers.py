@@ -564,6 +564,8 @@ def gunzip_product(fname, is_comparison_product=False, clobber=False):
 class BaseOutputCheckerPlugin(BaseClassPlugin, abstract=True):
     """Output Checkers Base Plugin for comparing data outputs."""
 
+    data_tree = False
+
     def is_gz(self, fname):
         """Check if fname is a gzip file.
 

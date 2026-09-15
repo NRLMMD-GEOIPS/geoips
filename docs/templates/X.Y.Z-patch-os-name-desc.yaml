@@ -1,5 +1,5 @@
 bug fixes:
-- title: Updates required internal to make this release function
+- title: Updates required open source on github.com/NRLMMD-GEOIPS to make this release function
   description: |
     * Update the contents of this with actual required patches / files changed.
     * Rename the patch release note file to include your name and a short description

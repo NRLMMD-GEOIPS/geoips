@@ -14,7 +14,7 @@ invalid_input_self_register:
   cls: ReaderArgumentsModel
   err_str: "Input should be a valid string"
 invalid_input_fnames:
-  key: fnames
+  key: filenames
   val: True
   cls: ReaderArgumentsModel
   err_str: "Value error, Error: input argument for [] could not be associated with one or more existing file paths. Please ensure this data exists before continuing."

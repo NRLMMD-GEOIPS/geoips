@@ -1,0 +1,21 @@
+bug fix:
+- title: 'Stop workflows model reading os.environ at import'
+  description: |
+    WorkflowPluginModel read GEOIPS_TESTDATA_DIR/GEOIPS_PACKAGES_DIR straight
+    from os.environ at import time just for schema examples.
+    This updates the workflow model to use geoips.config instead.
+  files:
+    added:
+    - 'docs/source/releases/latest/fix-workflows-env-at-import.yaml'
+    deleted:
+    - ''
+    moved:
+    - ''
+    modified:
+    - 'geoips/pydantic_models/v1/workflows.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

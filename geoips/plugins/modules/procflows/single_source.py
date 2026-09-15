@@ -50,6 +50,7 @@ from geoips.interfaces import (
     products,
     readers,
     sector_adjusters,
+    sector_spec_generators,
 )
 
 # These output families require an input filename list, AND require the returned
@@ -1084,11 +1085,9 @@ def pad_area_definition(
             clat = area_def.proj_dict["lat_0"]
             clon = area_def.proj_dict["lon_0"]
 
-        from geoips.plugins.modules.sector_spec_generators.center_coordinates import (
-            call,
-        )
+        center_coords = sector_spec_generators.get_plugin("center_coordinates")
 
-        pad_area_def = call(
+        pad_area_def = center_coords(
             area_id=area_def.area_id,
             long_description=area_def.description,
             clat=clat,
@@ -1705,7 +1704,7 @@ def get_alg_xarray(
             pid_track.print_mem_usg(logstr="AFTER APPLY_ALG_FIRST")
 
         if prod_plugin.family in ["algorithm_interpolator_colormapper"]:
-            # Now apply the intepolator after applying the algorithm.
+            # Now apply the interpolator after applying the algorithm.
             final_xarray = apply_interp_after_alg(
                 alg_xarray,
                 interp_plugin,
