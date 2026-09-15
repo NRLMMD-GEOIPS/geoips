@@ -19,7 +19,6 @@ spec:
     sector:
       kind: sector
       name: goes_east
-      depends_on: []
       arguments: {}
     infrared_workflow:
       kind: workflow
