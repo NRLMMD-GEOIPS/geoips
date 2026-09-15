@@ -1,0 +1,72 @@
+testing:
+  - title: "Meteosat EU and IO general land ocean tiny test sector"
+    description: |
+      Same location for both Meteosat EU and IO, off the coast of Spain, over
+      the Mediterranean.
+
+      * Add meteoeu and meteoio landocean 3km tiny sector, off the coast of
+        Spain, over the Mediterranean
+      * Add meteoeu and meteoio full disk tiny sectors
+      * Added meteoeu tiny sector outputs (no available meteoio dataset right now).
+        landocean using fci, full disk using seviri.
+      * Update test_tiny_sectors_geoips.py with the global image evaluation for
+        the 20250624 MSG-3 (METEOEU) dataset (remove unused 2020 MSG-1 METEO-IO
+        dataset example).
+      * Update all seviri global sector test scripts to use new meteoeu
+        landocean tiny sector, and update test outputs accordingly.
+      * Update all seviri unprojected image outputs to output the standard
+        300x300 test output image size, vs previous 1000x1000, and update
+        test outputs accordingly.  Note we can't use tiny sectors for the
+        self register / unprojected image outputs.
+
+      This update saved only about 15% processing time improvement for the seviri
+      sectored test scripts, but about 85% file size improvement (~1MB for full disk
+      outputs, <100KB for tiny sector outputs).
+    files:
+      deleted:
+        - "tests/outputs/seviri.Convective_Storms.imagery_clean/20250624.120000.msg-3.seviri.Convective_Storms.global_cylindrical.22p84.nesdisstar.20p0.png"
+        - "tests/outputs/seviri.Day_Microphys_Summer.imagery_clean/20250624.120000.msg-3.seviri.Day_Microphys_Summer.global_cylindrical.22p84.nesdisstar.20p0.png"
+        - "tests/outputs/seviri.Day_Microphys_Winter.imagery_clean/20250624.120000.msg-3.seviri.Day_Microphys_Winter.global_cylindrical.22p84.nesdisstar.20p0.png"
+        - "tests/outputs/seviri.Day_Solar.imagery_clean/20250624.120000.msg-3.seviri.Day_Solar.global_cylindrical.22p84.nesdisstar.20p0.png"
+        - "tests/outputs/seviri.Dust-RGB.imagery_clean/20250624.120000.msg-3.seviri.Dust_RGB.global_cylindrical.22p84.nesdisstar.20p0.png"
+        - "tests/outputs/seviri.Natural-Color.imagery_clean/20250624.120000.msg-3.seviri.Natural_Color.global_cylindrical.22p84.nesdisstar.20p0.png"
+        - "tests/outputs/seviri.Night_Microphys.imagery_clean/20250624.120000.msg-3.seviri.Night_Microphys.global_cylindrical.22p84.nesdisstar.20p0.png"
+        - "tests/outputs/seviri.Volcanic_Ash.imagery_clean/20250624.120000.msg-3.seviri.Volcanic_Ash.global_cylindrical.22p84.nesdisstar.20p0.png"
+        - "tests/outputs/seviri.airmass.imagery_clean/20250624.120000.msg-3.seviri.airmass.global_cylindrical.22p84.nesdisstar.20p0.png"
+      moved:
+        - ""
+      added:
+        - "tests/integration_tests/tiny_sectors/outputs/test_meteoeu_eqc_3km_landocean_Test-FCI-B14-Day-Only/20250623.120000.MTG-I1.fci.Test-FCI-B14-Day-Only.test_meteoeu_eqc_3km_landocean.100p00.EUMETSAT.3p0.png"
+        - "tests/integration_tests/tiny_sectors/outputs/test_meteoeu_longlat_50km_fulldisk_Test-SEVIRI-B9-Day-Only/20250624.120000.msg-3.seviri.Test-SEVIRI-B9-Day-Only.test_meteoeu_longlat_50km_fulldisk.86p42.nesdisstar.53p7.png"
+        - "tests/outputs/seviri.Convective_Storms.imagery_clean/20250624.120000.msg-3.seviri.Convective_Storms.test_meteoeu_eqc_3km_landocean.100p00.nesdisstar.3p0.png"
+        - "tests/outputs/seviri.Day_Microphys_Summer.imagery_clean/20250624.120000.msg-3.seviri.Day_Microphys_Summer.test_meteoeu_eqc_3km_landocean.100p00.nesdisstar.3p0.png"
+        - "tests/outputs/seviri.Day_Microphys_Winter.imagery_clean/20250624.120000.msg-3.seviri.Day_Microphys_Winter.test_meteoeu_eqc_3km_landocean.100p00.nesdisstar.3p0.png"
+        - "tests/outputs/seviri.Day_Solar.imagery_clean/20250624.120000.msg-3.seviri.Day_Solar.test_meteoeu_eqc_3km_landocean.100p00.nesdisstar.3p0.png"
+        - "tests/outputs/seviri.Dust-RGB.imagery_clean/20250624.120000.msg-3.seviri.Dust_RGB.test_meteoeu_eqc_3km_landocean.100p00.nesdisstar.3p0.png"
+        - "tests/outputs/seviri.Natural-Color.imagery_clean/20250624.120000.msg-3.seviri.Natural_Color.test_meteoeu_eqc_3km_landocean.100p00.nesdisstar.3p0.png"
+        - "tests/outputs/seviri.Night_Microphys.imagery_clean/20250624.120000.msg-3.seviri.Night_Microphys.test_meteoeu_eqc_3km_landocean.100p00.nesdisstar.3p0.png"
+        - "tests/outputs/seviri.Volcanic_Ash.imagery_clean/20250624.120000.msg-3.seviri.Volcanic_Ash.test_meteoeu_eqc_3km_landocean.100p00.nesdisstar.3p0.png"
+        - "tests/outputs/seviri.airmass.imagery_clean/20250624.120000.msg-3.seviri.airmass.test_meteoeu_eqc_3km_landocean.100p00.nesdisstar.3p0.png"
+        - "geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/test_meteoeu_eqc_3km_landocean.yaml"
+        - "geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/test_meteoio_eqc_3km_landocean.yaml"
+        - "geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/test_meteoeu_longlat_50km_fulldisk.yaml"
+        - "geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/test_meteoio_longlat_50km_fulldisk.yaml"
+      modified:
+        - "tests/outputs/seviri.WV-Upper.no_self_register.unprojected_image/20250624.120000.msg-3.seviri.WV-Upper-No-SR.unk.nesdisstar..png"
+        - "tests/integration_tests/test_tiny_sectors_geoips.py"
+        - "tests/scripts/seviri.Convective_Storms.imagery_clean.sh"
+        - "tests/scripts/seviri.Day_Microphys_Summer.imagery_clean.sh"
+        - "tests/scripts/seviri.Day_Microphys_Winter.imagery_clean.sh"
+        - "tests/scripts/seviri.Day_Solar.imagery_clean.sh"
+        - "tests/scripts/seviri.Dust_RGB.imagery_clean.sh"
+        - "tests/scripts/seviri.Natural_Color.imagery_clean.sh"
+        - "tests/scripts/seviri.Night_Microphys.imagery_clean.sh"
+        - "tests/scripts/seviri.Volcanic_Ash.imagery_clean.sh"
+        - "tests/scripts/seviri.WV-Upper.no_self_register.unprojected_image.sh"
+        - "tests/scripts/seviri.WV-Upper.unprojected_image.sh"
+        - "tests/scripts/seviri.airmass.imagery_clean.sh"
+    related-issue:
+      internal: geoips#959 - 1.17.2 version release
+    date:
+      start: 2025-12-05
+      finish: 2025-12-08

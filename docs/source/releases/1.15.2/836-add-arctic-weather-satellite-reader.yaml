@@ -38,8 +38,7 @@ enhancement:
     - 'tests/scripts/aws_tc_TB50.imagery_clean.sh'
     - 'tests/scripts/aws_tc_TB89.imagery_clean.sh'
   related-issue:
-    number: 816
-    repo_url: GEOIPS
+    internal: geoips#816
   date:
     start: 2025-05-05
     finish: 2025-05-05
@@ -80,8 +79,7 @@ enhancement:
     - 'tests/integration_tests/test_integration.py'
     - 'docs/source/releases/latest/836-add-arctic-weather-satellite-reader.yaml'
   related-issue:
-    number: 816
-    repo_url: '/GEOIPS/geoips'
+    internal: geoips#816
   date:
     start: 2025-05-01
     finish: 2025-05-01
@@ -106,8 +104,7 @@ enhancement:
     - 'tests/scripts/aws_single_chan.sh'
     - 'docs/source/releases/latest/836-add-arctic-weather-satellite-reader.yaml'
   related-issue:
-    number: 816
-    repo_url: '/GEOIPS/geoips'
+    internal: geoips#816
   date:
     start: 2025-04-29
     finish: 2025-04-29
@@ -133,8 +130,7 @@ enhancement:
     modified:
     - 'geoips/plugins/modules/readers/aws_netcdf.py'
   related-issue:
-    number: 816
-    repo_url: '/GEOIPS/geoips'
+    internal: geoips#816
   date:
     start: 2025-04-25
     finish: 2025-04-25

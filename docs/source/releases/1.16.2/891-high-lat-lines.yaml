@@ -1,0 +1,20 @@
+bug fix:
+- title: 'Fix underfilled lines of longitude for high latitude sectors'
+  description: 'Fixes miscalculations for high latitude sectors under 
+  eqc projections. Now calculates the proper number and range of lines
+  of meridian to create for annotated imagery.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/image_utils/maps.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

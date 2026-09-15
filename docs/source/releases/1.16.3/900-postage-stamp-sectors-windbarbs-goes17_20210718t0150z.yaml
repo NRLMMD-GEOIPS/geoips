@@ -1,0 +1,80 @@
+bug fix:
+- title: 'Add additional tiny sectors to be used in integration tests'
+  description: |
+    To make integration tests more efficient, create a standard set of test sectors that can be used for
+    specific integration test cases. This will include
+    
+    * general full disk test sectors (not dependent on dataset)
+
+      * By convention, all full disk sectors cover the full spatial extent of a geostationary satellite, with varying height/width 
+        as needed (825x800 is a good size to start, resulting in approximately 20km resolution)
+    * general tiny subsector (not dependent on dataset)
+
+      * By convention, all tiny subsectors are 300x300, with varying resolution as needed (3km - 10km)
+    * tiny sectors with specific meteorological / time of day features (tied to specific test dataset)
+
+      * All sectors must include some clouds, some clear sky, some land, and some ocean
+      * edge of scan
+      * daytime
+      * nighttime
+      * terminator
+      * nadir
+      * daytime edge of scan
+      * nighttime edge of scan
+
+    Additionally, add a test script to facilitate producing Google-Earthable geotiff outputs for better
+    evaluation of test sector contents.
+    Updated test scripts to include tiny sectors. 
+    Add to pytests for streamlined testing. 
+        
+    Notes on plugin names
+
+    * Plugin names are of the format
+
+      * test_<satellite>_<proj>_<res>_<OPTIONAL:edge|nadir>_<day|night|terminator>_<OPTIONAL:tc|ar|volc>_<YYYYMMDDTHHMMZ>.yaml
+      * E.g., test_goes16_eqc_3km_edge_day_tc_20200918T1950Z
+    * Parsing sector names is not required, so optional field is fine to include only as needed within the file name.
+    * If we require tracking / using the metadata included in the plugin names, we will add explicit metadata to the plugins themselves 
+      that can be used for sorting / searching the available test plugins
+    * If we want to sort differently than the hard coded plugin name order, we will additionally implement sorting within the CLI based on the plugin 
+      metadata (we just picked a reasonable order for reasonable sorting)
+    * Filenames for individual test sector plugins do NOT have to match the plugin names (to avoid excessively long filenames on disk)
+    * For now, must manually update area_id and name to match exactly, and must manually update both description and docstring to match exactly.  
+      Eventually plugins will be set up to automatically populate area_id and description if they are not set (name and docstring are required), but for now must copy/paste.
+  files:
+    deleted:
+    - 'geoips/plugins/yaml/sectors/integration_tests/test_sectors.sh'
+    moved:
+    - ''
+    added:
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/goes17_20210718T0150Z/test_goes17_eqc_10km_edge_day_20210718T0150Z.yaml'
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/goes17_20210718T0150Z/test_goes17_eqc_10km_edge_night_20210718T0150Z.yaml'
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/goes17_20210718T0150Z/test_goes17_eqc_3km_day_20210718T0150Z.yaml'
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/goes17_20210718T0150Z/test_goes17_eqc_3km_night_20210718T0150Z.yaml'
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/goes17_20210718T0150Z/test_goes17_eqc_3km_terminator_20210718T0150Z.yaml'
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/test_goes17_eqc_3km_nadir.yaml'
+    - 'tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh'
+    - 'tests/integration_tests/tiny_sectors/outputs/test_goes16_eqc_10km_edge_day_20200918T1950Z_Test-Infrared-Day-Only/20200918.195020.goes-16.abi.Test-Infrared-Day-Only.test_goes16_eqc_10km_edge_day_20200918T1950Z.85p11.noaa.10p0.png'
+    - 'tests/integration_tests/tiny_sectors/outputs/test_goes16_eqc_10km_edge_night_20200918T1950Z_Test-Infrared-Night-Only/20200918.195020.goes-16.abi.Test-Infrared-Night-Only.test_goes16_eqc_10km_edge_night_20200918T1950Z.81p88.noaa.10p0.png'
+    - 'tests/integration_tests/tiny_sectors/outputs/test_goes16_eqc_3km_day_20200918T1950Z_Test-Infrared-Day-Only/20200918.195020.goes-16.abi.Test-Infrared-Day-Only.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png'
+    - 'tests/integration_tests/tiny_sectors/outputs/test_goes16_eqc_3km_nadir_Test-Infrared-Day-Night/20200918.195020.goes-16.abi.Test-Infrared-Day-Night.test_goes16_eqc_3km_nadir.100p00.noaa.3p0.png'
+    - 'tests/integration_tests/tiny_sectors/outputs/test_goes16_eqc_3km_night_20200918T1950Z_Test-Infrared-Night-Only/20200918.195020.goes-16.abi.Test-Infrared-Night-Only.test_goes16_eqc_3km_night_20200918T1950Z.100p00.noaa.3p0.png'
+    - 'tests/integration_tests/tiny_sectors/outputs/test_goes16_eqc_3km_terminator_20200918T1950Z_Test-Infrared-Day-Only/20200918.195020.goes-16.abi.Test-Infrared-Day-Only.test_goes16_eqc_3km_terminator_20200918T1950Z.79p45.noaa.3p0.png'
+    - 'tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_10km_edge_day_20210718T0150Z_Test-Infrared-Day-Only/20210718.015031.goes-17.abi.Test-Infrared-Day-Only.test_goes17_eqc_10km_edge_day_20210718T0150Z.96p93.noaa.10p0.png'
+    - 'tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_10km_edge_night_20210718T0150Z_Test-Infrared-Night-Only/20210718.015031.goes-17.abi.Test-Infrared-Night-Only.test_goes17_eqc_10km_edge_night_20210718T0150Z.81p88.noaa.10p0.png'
+    - 'tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_3km_day_20210718T0150Z_Test-Infrared-Day-Only/20210718.015031.goes-17.abi.Test-Infrared-Day-Only.test_goes17_eqc_3km_day_20210718T0150Z.100p00.noaa.3p0.png'
+    - 'tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_3km_nadir_Test-Infrared-Day-Night/20210718.015031.goes-17.abi.Test-Infrared-Day-Night.test_goes17_eqc_3km_nadir.100p00.noaa.3p0.png'
+    - 'tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_3km_night_20210718T0150Z_Test-Infrared-Night-Only/20210718.015031.goes-17.abi.Test-Infrared-Night-Only.test_goes17_eqc_3km_night_20210718T0150Z.100p00.noaa.3p0.png'
+    - 'tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_3km_terminator_20210718T0150Z_Test-Infrared-Day-Only/20210718.015031.goes-17.abi.Test-Infrared-Day-Only.test_goes17_eqc_3km_terminator_20210718T0150Z.51p15.noaa.3p0.png'
+    
+    
+    modified:
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_east_sectors/goes16_20200918T1950Z/test_goes16_eqc_10km_edge_day_20200918T1950Z.yaml'
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_east_sectors/goes16_20200918T1950Z/test_goes16_eqc_10km_edge_night_20200918T1950Z.yaml'
+    - 'tests/example_scripts/global_terminator_satzen.sh'
+    - 'tests/integration_tests/test_integration.py'
+  related-issue:
+    internal: GEOIPS#900
+  date:
+    start: 2025-05-28
+    finish: 2025-10-01

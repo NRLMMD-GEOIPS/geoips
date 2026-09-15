@@ -1,0 +1,84 @@
+interface: sectors
+family: area_definition_static
+name: test_meteosat10_eqc_10km_terminator_20250624T1200Z
+docstring: |
+  MeteoEU subsector, centered at -50 latitude, -63 longitude
+  300x300 at 10km resolution
+  
+  This sector is off the coast of Argentina and the Falkland
+  Islands, containing approximately half ocean and half land pixels.
+
+  This is a very small sector that contains both day-time and night-time
+  data when used with the Meteosat-10 dataset at 20250624T1200Z
+  
+  This *dataset* contains mostly day-time data with night-time
+  data along the southern edge of scan.
+  
+  This *sector* was designed to contain approximately half day-time data
+  along the north-eastern edge of the sector, and a sliver of night-time
+  data through the middle of the sector.
+  
+  The test datasets corresponding to this sector can be found in the
+  test_data_seviri test data repository.
+
+  '''
+  geoips config install test_data_seviri
+  '''
+
+  Note the METEO-EU satellite location refers to the following METEOSAT satellites
+
+  * MSG-3 (aka METEOSAT-10, sensor SEVIRI)
+  * MSG-4 (aka METEOSAT-11, sensor SEVIRI)
+  * MTG-I1 (aka METEOSAT-12, sensor FCI)
+metadata:
+  region:
+    continent: Tests
+    country: x
+    area: MeteoEU
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: test_meteosat10_eqc_10km_terminator_20250624T1200Z
+  description: |
+      MeteoEU subsector, centered at -50 latitude, -63 longitude
+      300x300 at 10km resolution
+      
+      This sector is off the coast of Argentina and the Falkland
+      Islands, containing approximately half ocean and half land pixels.
+
+      This is a very small sector that contains both day-time and night-time
+      data when used with the Meteosat10 dataset at 20250624T1200Z
+      
+      This *dataset* contains mostly day-time data with night-time
+      data along the southern edge of scan.
+      
+      This *sector* was designed to contain approximately half day-time data
+      along the north-eastern edge of the sector, and a sliver of night-time
+      data through the middle of the sector.
+
+      The test datasets corresponding to this sector can be found in the
+      test_data_seviri test data repository.
+    
+      '''
+      geoips config install test_data_seviri
+      '''
+
+      Note the METEO-EU satellite location refers to the following METEOSAT satellites
+    
+      * MSG-3 (aka METEOSAT-10, sensor SEVIRI)
+      * MSG-4 (aka METEOSAT-11, sensor SEVIRI)
+      * MTG-I1 (aka METEOSAT-12, sensor FCI)
+  projection:
+    a: 6371228.0
+    lat_0: -50 
+    lon_0: -63
+    proj: eqc
+    units: m
+  resolution:
+    - 10000
+    - 10000
+  shape:
+    height: 300
+    width: 300
+  center: [0, 0]

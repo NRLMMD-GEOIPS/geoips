@@ -1,0 +1,31 @@
+aid_type: BEST
+bounding_box:
+  image_height: 1400
+  image_width: 1400
+  maxlat: 12.39502596032627
+  maxlon: 137.79502596032629
+  minlat: -0.19502596032627142
+  minlon: 125.20497403967376
+  pixel_height_m: 1000.0
+  pixel_width_m: 1000.0
+  proj4_string: +R=6371228 +lat_0=6.1 +lat_ts=0 +lon_0=131.5 +no_defs +proj=eqc +type=crs
+    +units=m +x_0=0 +y_0=0
+clat: 6.1
+clon: 131.5
+deck_line: WP, 99, 2025042812,   , BEST,   0,  61N, 1315E,  15, 1008, DB,   0,    ,    0,    0,    0,    0,    0,    0,
+  100,   0,   0,   W,   0,    ,   0,   0,     INVEST,  ,
+final_storm_name: INVEST
+invest_number: 99
+parser_name: bdeck_parser
+pressure: 1008.0
+product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2025/WP/WP992025.2025042800/png_clean/TB165/aws/20250428_114913_WP992025_mwr_aws_TB165_15kts_43p06_1p0-clean.png
+sector_type: tc
+source_filename: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp992025.dat
+source_sector_file: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp992025.dat
+storm_basin: WP
+storm_name: INVEST
+storm_num: 99
+storm_start_datetime: 2025-04-28 00:00:00
+storm_year: 2025
+synoptic_time: 2025-04-28 12:00:00
+vmax: 15.0

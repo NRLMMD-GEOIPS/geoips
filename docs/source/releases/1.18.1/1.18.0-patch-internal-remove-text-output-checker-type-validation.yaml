@@ -1,0 +1,18 @@
+bug fixes:
+- title: Remove validation of text file format during output checking
+  description: |
+    'correct_file_format' only needs to be used when attempting to auto-detect an output
+    checker, it should not be used to validate the correct format when actually running
+    the 'outputs_match' method.  We are assuming when we get to the 'outputs_match'
+    method that we know the files are of the correct format, and we can just compare.
+    This allows using an explicit output checker with the --output_checker_name argument,
+    without actually attempting to validate the format.
+  files:
+    modified:
+    - geoips/plugins/classes/output_checkers/text.py
+  related-issue:
+    internal: geoips#1029 - 1.18.0 updates
+  date:
+    start: 2026-03-11
+    finish: 2026-03-11
+

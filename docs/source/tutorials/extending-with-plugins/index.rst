@@ -17,4 +17,6 @@ Extending GeoIPS with New Plugins
     product_default
     product/index
     static_sector/index
+    dynamic_sector/index
     reader
+    reader-walkthrough

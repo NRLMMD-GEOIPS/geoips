@@ -1,0 +1,27 @@
+interface: sectors
+family: area_definition_static
+name: global_200km_longlat
+docstring: "Global 200km sector, EPSG:4326 projection, 100x200"
+metadata:
+  region:
+    continent: Global
+    country: x
+    area: x
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: global_200km_longlat
+  description: "Global 200km Sector, EPSG:4326 projection, 100x200"
+  projection:
+    proj: longlat
+    lat_0: 0
+    lon_0: 0
+    datum: "WGS84"
+  shape:
+    height: 100
+    width: 200
+  # Units are degrees, so xy in degrees not meters
+  area_extent:
+    lower_left_xy: [-180, -90]
+    upper_right_xy: [180, 90]

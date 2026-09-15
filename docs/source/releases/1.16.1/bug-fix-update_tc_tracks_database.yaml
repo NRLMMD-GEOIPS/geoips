@@ -13,7 +13,7 @@ bug fix:
     modified:
     - 'geoips/commandline/update_tc_tracks_database.py'
   related-issue:
-    internal: GEOIPS#54
+    internal: geoips#54
   date:
     start: 2025-05-23
     finish: 2025-06-03

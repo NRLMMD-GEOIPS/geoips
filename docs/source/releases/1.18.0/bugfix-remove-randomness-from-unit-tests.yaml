@@ -1,0 +1,22 @@
+bug fix:
+- title: 'Fix randomness in unit tests and disable ami_netcdf test'
+  description: |
+    This fixes randomness in unit tests by using a fixed number of seeds. This allows
+    use of multiple CPU when running the tests. Also disables the ami_netcdf test
+    because it takes a ridiculous amount of time.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/unit_tests/commandline/test_log_setup.py'
+    - 'tests/unit_tests_long/plugins/modules/readers/reader_dataset_variable_mappings.yaml'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

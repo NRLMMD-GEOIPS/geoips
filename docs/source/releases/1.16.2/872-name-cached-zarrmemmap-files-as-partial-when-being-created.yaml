@@ -1,0 +1,24 @@
+bug fix:
+- title: 'Name cached zarr/memmap files as partial when being created'
+  description: |
+    Need to assign cache filenames a temporary name when being generated in order to
+    prevent any concurrent geoips calls from reading in an incomplete cache. Cache files
+    that are in the process of being generated have ".partial" appended to the end of
+    the cached filename. If a concurrent geoips procflow finds a "partial" cache file,
+    the procflow will check for a specified period (30 seconds by default) to see if the
+    partial cache is replaced with the final and complete cache. If the partial cache is
+    not replaced in this time frame, the procflow will raise a custom
+    CacheNotFoundError.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/abi_netcdf.py'
+    - 'geoips/plugins/modules/readers/utils/geostationary_geolocation.py'
+  date:
+    start: 2025-06-02
+    finish: 2025-06-02

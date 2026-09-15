@@ -10,11 +10,12 @@ from os.path import exists
 from os.path import basename
 from os import getpid
 from datetime import datetime
-from pyaml_env import parse_config
+from geoips_yaml_utils import parse_config
 
 from geoips.commandline.args import check_command_line_args
+from geoips.errors import PluginError
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.utils.memusg import PidLog
+from geoips.utils.memusg.memusg_tracker import PidLog
 
 from geoips.geoips_utils import output_process_times
 from geoips.dev.product import (
@@ -69,7 +70,7 @@ from geoips.plugins.modules.procflows.single_source import (
 )
 
 # Moved to top-level errors module, fixing issue #67
-from geoips.errors import CoverageError, PluginError
+from geoips.errors import CoverageError
 
 PMW_NUM_PIXELS_X = 1400
 PMW_NUM_PIXELS_Y = 1400
@@ -85,7 +86,7 @@ name = "config_based"
 
 # get geoips version
 try:
-    geoips_version = gpaths["GEOIPS_VERS"]
+    geoips_version = gpaths["GEOIPS_VERSION"]
 except KeyError:
     LOG.warning("No geoips system defined, setting geoips version to 0.0.0")
     geoips_version = "0.0.0"
@@ -102,6 +103,7 @@ def update_output_dict_from_command_line_args(output_dict, command_line_args=Non
     final_output_dict = output_dict.copy()
     for cmdline_fld_name in [
         "filename_formatter_kwargs",
+        "product_spec_override",
         "metadata_filename_formatter_kwargs",
     ]:
         # Skip fields that are NOT in command_line_args
@@ -358,6 +360,9 @@ def get_sectored_read(
     # the data.  Just skip those.  We need a better method for handling this generally,
     # but for now skip IndexErrors.
     except IndexError as resp:
+        LOG.exception("%s SKIPPING no coverage for %s", resp, area_def)
+        return {}
+    except CoverageError as resp:
         LOG.error("%s SKIPPING no coverage for %s", resp, area_def)
         return {}
     return xobjs
@@ -725,19 +730,19 @@ def get_area_defs_from_available_sectors(
     Returns
     -------
     dict
-        Dictionary of required area_defs, with area_def.description as the dictionary
+        Dictionary of required area_defs, with area_def.area_id as the dictionary
         keys. Based on YAML config-specified available_sectors, and command
         line args
 
     Notes
     -----
-    * Each area_def.description key has one or more "sector_types" associated with it.
+    * Each area_def.area_id key has one or more "sector_types" associated with it.
     * Each sector_type dictionary contains the actual "requested_sector_dict"
       from the YAML config, and the actual AreaDefinition object that was
       returned.
 
-        * ``area_defs[area_def.description][sector_type]['requested_sector_dict']``
-        * ``area_defs[area_def.description][sector_type]['area_def']``
+        * ``area_defs[area_def.area_id][sector_type]['requested_sector_dict']``
+        * ``area_defs[area_def.area_id][sector_type]['area_def']``
     """
     area_defs = {}
 
@@ -792,16 +797,16 @@ def get_area_defs_from_available_sectors(
             # sector_types attached to it. Ie, we may have different sizes/resolutions
             # for the same region, so we want a dictionary of sector_types
             # within the dictionary of area_defs
-            if area_def.description not in area_defs:
+            if area_def.area_id not in area_defs:
                 # Store the actual sector_dict and area_def in the dictionary
-                area_defs[area_def.description] = {
+                area_defs[area_def.area_id] = {
                     sector_type: {
                         "requested_sector_dict": sector_dict,
                         "area_def": area_def,
                     }
                 }
             else:
-                area_defs[area_def.description][sector_type] = {
+                area_defs[area_def.area_id][sector_type] = {
                     "requested_sector_dict": sector_dict,
                     "area_def": area_def,
                 }
@@ -830,7 +835,7 @@ def call(fnames, command_line_args=None):
     ss_pid = getpid()
     pid_track = PidLog(ss_pid, logstr="MEMUSG")
 
-    LOG.interactive("GEOIPS_VERS {}".format(geoips_version))
+    LOG.interactive("GEOIPS_VERSION {}".format(geoips_version))
 
     process_datetimes = {}
     process_datetimes["overall_start"] = datetime.utcnow()
@@ -856,6 +861,7 @@ def call(fnames, command_line_args=None):
         "product_db",
         "product_db_writer_override",
         "store_checkpoint_statistics",
+        "write_stats_to_json",
         "output_file_list_fname",
     ]
 
@@ -904,6 +910,14 @@ def call(fnames, command_line_args=None):
         presector_data = not bool(config_dict["no_presectoring"])
     else:
         presector_data = True
+
+    if command_line_args.get("disable_nan_array_removal"):
+        disable_nan_array_removal = command_line_args["disable_nan_array_removal"]
+    elif "disable_nan_array_removal" in config_dict:
+        disable_nan_array_removal = bool(config_dict["disable_nan_array_removal"])
+    else:
+        disable_nan_array_removal = True
+
     if command_line_args.get("output_checker_kwargs") is not None:
         output_checker_kwargs = command_line_args["output_checker_kwargs"]
     else:
@@ -979,6 +993,7 @@ def call(fnames, command_line_args=None):
     # elif "fuse_self_register_source" in config_dict:
     #     bg_self_register_source = config_dict["fuse_self_register_source"]
 
+    product_db = False
     if command_line_args.get("product_db"):
         product_db = command_line_args["product_db"]
         store_checkpoint_stats = command_line_args["store_checkpoint_statistics"]
@@ -986,22 +1001,45 @@ def call(fnames, command_line_args=None):
         product_db = config_dict["product_db"]
         store_checkpoint_stats = config_dict.get("store_checkpoint_statistics", False)
 
-    else:
-        product_db = False
+    write_stats_to_json = False
+    store_checkpoint_stats = False
+    if command_line_args.get("write_stats_to_json"):
+        write_stats_to_json = command_line_args["write_stats_to_json"]
+        store_checkpoint_stats = command_line_args["store_checkpoint_statistics"]
+    elif "write_stats_to_json" in config_dict:
+        write_stats_to_json = config_dict["write_stats_to_json"]
+        store_checkpoint_stats = config_dict.get("store_checkpoint_statistics", False)
 
     if command_line_args.get("product_db_writer_override"):
         for sector, database_writer in command_line_args[
             "product_db_writer_override"
         ].items():
+            # If a sector specified in the command line product_db_writer_override
+            # is not defined in the procflow config, just ignore it.  Allows specifying
+            # supported sector overrides for multiple procflow configs in the same
+            # command line override.
+            if sector not in config_dict["available_sectors"]:
+                continue
             sector_settings = config_dict["available_sectors"][sector]
+            # If the actual database_writer was specified in the command line override,
+            # update here.
             if database_writer.get("product_database_writer"):
+                LOG.info(
+                    "OVERRIDING product_database_writer with "
+                    f"{database_writer['product_database_writer']}"
+                )
                 sector_settings["product_database_writer"] = database_writer[
                     "product_database_writer"
                 ]
+            # If the database_writer_kwargs were specified in the command line override,
+            # update here.
             if database_writer.get("product_database_writer_kwargs"):
                 for key, val in database_writer[
                     "product_database_writer_kwargs"
                 ].items():
+                    LOG.info(
+                        f"OVERRIDING product_database_writer_kwargs {key} with {val}"
+                    )
                     sector_settings["product_database_writer_kwargs"][key] = val
 
     if command_line_args.get("composite_output_kwargs_override"):
@@ -1029,12 +1067,23 @@ def call(fnames, command_line_args=None):
             raise ValueError("Need to set both $GEOIPS_DB_URI")
 
     pid_track.track_resource_usage(logstr="MEMUSG", verbose=False, key="READ METADATA")
-    reader_plugin = readers.get_plugin(config_dict["reader_name"])
+    if command_line_args.get("reader_name"):
+        reader_plugin = readers.get_plugin(command_line_args.get("reader_name"))
+    else:
+        reader_plugin = readers.get_plugin(config_dict["reader_name"])
     LOG.interactive(
         "Reading metadata from datasets using reader '%s'...", reader_plugin.name
     )
     reader_kwargs = remove_unsupported_kwargs(reader_plugin, reader_kwargs)
     xobjs = reader_plugin(fnames, metadata_only=True, **reader_kwargs)
+    # Store a copy of the xobjs metadata. If resampled_read or sectored_read are true,
+    # and we encounter a sector with no coverage, the xobjs variable will be clobbered
+    # with an empty dictionary due to the get_sectored_read function. This will break
+    # the area defintion sector_type loop, since the next iteration will be unable to
+    # compile the list of all_source_names, since it looks at the xobjs variable. When
+    # the get_sectored_read function experiences a CoverageError and returns an empty
+    # dict, we will reset xobjs with xobjs_meta.
+    xobjs_meta = xobjs.copy()
     pid_track.track_resource_usage(logstr="MEMUSG", verbose=False, key="READ METADATA")
     source_name = xobjs["METADATA"].source_name
 
@@ -1181,6 +1230,7 @@ def call(fnames, command_line_args=None):
                     key=f"SECTORED READ: {adef_key};{sector_type}",
                 )
                 if not xobjs:
+                    xobjs = xobjs_meta
                     continue
             if resampled_read:
                 pid_track.track_resource_usage(
@@ -1210,6 +1260,7 @@ def call(fnames, command_line_args=None):
                     key=f"RESAMPLED READ: {adef_key};{sector_type}",
                 )
                 if not xobjs:
+                    xobjs = xobjs_meta
                     continue
 
             pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
@@ -1293,22 +1344,35 @@ def call(fnames, command_line_args=None):
             else:
                 pad_sect_xarrays = xobjs
 
-            pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
-
-            # See what variables are left after sectoring (could lose some due to
-            # day/night)
-            all_vars = []
-            for key, xobj in pad_sect_xarrays.items():
-                # Double check the xarray object actually contains data
-                for var in list(xobj.variables.keys()):
-                    if xobj[var].count() > 0:
-                        all_vars.append(var)
+            pid_track.print_mem_usg(logstr="AFTER SECTOR ADJUSTERS", verbose=False)
+            if not disable_nan_array_removal:
+                all_vars = []
+                for key, xobj in pad_sect_xarrays.items():
+                    # Double check the xarray object actually contains data. Could lose
+                    # some due to day/night masking, etc.
+                    for var in list(xobj.variables.keys()):
+                        if xobj[var].count() > 0:
+                            all_vars.append(var)
+                        pid_track.print_mem_usg(
+                            logstr=f"AFTER CHECKING VAR {var} FOR ALL NAN",
+                            verbose=False,
+                        )
+                pid_track.print_mem_usg(
+                    logstr="AFTER CHECKING ALL VARS FOR ALL NAN", verbose=False
+                )
+            else:
+                LOG.info("SKIPPING array validation!  Disabled at command line!")
+                all_vars = []
+                for key, xobj in pad_sect_xarrays.items():
+                    curr_vars = list(xobj.variables.keys())
+                    all_vars += curr_vars
+                    LOG.info(f"Adding all variables from dataset '{key}': '{curr_vars}")
 
             # If we didn't get any data, continue to the next sector_type
             if len(pad_sect_xarrays) == 0:
                 LOG.interactive(
                     "SKIPPING no pad_area_def pad_sect_xarrays returned for %s",
-                    area_def.description,
+                    area_def.area_id,
                 )
                 continue
 
@@ -1326,7 +1390,7 @@ def call(fnames, command_line_args=None):
             ):
                 LOG.interactive(
                     "SKIPPING duplicate area_def, out of time range, for %s",
-                    area_def.description,
+                    area_def.area_id,
                 )
                 continue
 
@@ -1398,10 +1462,14 @@ def call(fnames, command_line_args=None):
             # Must adjust the area definition AFTER sectoring xarray (to get valid
             # start/end time
             sector_adjuster = None
+            sector_adjuster_kwargs = {}
             if "sector_adjuster" in config_dict["available_sectors"][sector_type]:
                 sector_adjuster = config_dict["available_sectors"][sector_type][
                     "sector_adjuster"
                 ]
+                sector_adjuster_kwargs = config_dict["available_sectors"][
+                    sector_type
+                ].get("sector_adjuster_kwargs", {})
 
             adadj_fnames = []
             if sector_adjuster:
@@ -1454,7 +1522,7 @@ def call(fnames, command_line_args=None):
                     if len(sect_xarrays) == 0:
                         LOG.interactive(
                             "SKIPPING no area_def sect_xarrays returned for %s",
-                            area_def.description,
+                            area_def.area_id,
                         )
                         continue
                     if (
@@ -1469,6 +1537,7 @@ def call(fnames, command_line_args=None):
                             config_dict["available_sectors"][sector_type][
                                 "adjust_variables"
                             ],
+                            **sector_adjuster_kwargs,
                         )
                     else:
                         LOG.interactive("Adjusting sector with '%s'", sector_adjuster)
@@ -1479,6 +1548,7 @@ def call(fnames, command_line_args=None):
                             config_dict["available_sectors"][sector_type][
                                 "adjust_variables"
                             ],
+                            **sector_adjuster_kwargs,
                         )
                 else:
                     # AMSU-b specifically needs full swath width... Need a way to
@@ -1495,6 +1565,7 @@ def call(fnames, command_line_args=None):
                             config_dict["available_sectors"][sector_type][
                                 "adjust_variables"
                             ],
+                            **sector_adjuster_kwargs,
                         )
                     else:
                         LOG.interactive("Adjusting sector with '%s'", sector_adjuster)
@@ -1505,6 +1576,7 @@ def call(fnames, command_line_args=None):
                             config_dict["available_sectors"][sector_type][
                                 "adjust_variables"
                             ],
+                            **sector_adjuster_kwargs,
                         )
 
                 cpath = set_comparison_path(
@@ -1514,7 +1586,27 @@ def call(fnames, command_line_args=None):
                     command_line_args=command_line_args,
                 )
                 final_products = initialize_final_products(final_products, cpath)
-                final_products[cpath]["files"] += adadj_fnames
+                final_products[cpath]["files"] += [
+                    x["sect_adj_output_file"] for x in adadj_fnames
+                ]
+                if product_db:
+                    for adjout in adadj_fnames:
+                        sect_adj_output_dict = {
+                            "requested_sector_type": sector_type,
+                            "output_formatter": adjout["output_formatter"],
+                        }
+                        product_added = write_to_database(
+                            adjout["sect_adj_output_file"],
+                            adjout["product"],
+                            sect_xarrays["METADATA"],
+                            config_dict["available_sectors"],
+                            sect_adj_output_dict,
+                            geoips_version,
+                            coverage=None,
+                            area_def=area_def,
+                            config_dict=config_dict,
+                        )
+                        final_products[cpath]["database writes"] += [product_added]
 
                 LOG.info(
                     "\n\n\n\nAFTER ADJUSTMENT area definition: %s\n\n\n\n", area_def
@@ -1531,36 +1623,60 @@ def call(fnames, command_line_args=None):
             # the data. Do NOT sector if we are using a reader_defined or self_register
             # area_def - that indicates we are going to use all of the data we have, so
             # we will not sector
-            if area_def.sector_type not in ["reader_defined", "self_register"]:
+            if area_def.sector_type in ["reader_defined", "self_register"]:
                 LOG.interactive(
-                    "Sectoring self register xarrays for area_def '%s'",
-                    area_def.description,
+                    "NOT sectoring xarrays for reader_defined or self_register "
+                    "sector_types. area_def '%s' type %s, presector %s",
+                    area_def.area_id,
+                    area_def.sector_type,
+                    presector_data,
+                )
+                sect_xarrays = pad_sect_xarrays
+            elif not presector_data:
+                LOG.interactive(
+                    "NOT sectoring xarrays, presector_data not requested. "
+                    "area_def '%s' type %s, presector %s",
+                    area_def.area_id,
+                    area_def.sector_type,
+                    presector_data,
+                )
+                sect_xarrays = pad_sect_xarrays
+            elif presector_data:
+                LOG.interactive(
+                    "Sectoring xarrays for area_def '%s', presectoring requested. "
+                    "type '%s', presector '%s'",
+                    area_def.area_id,
+                    area_def.sector_type,
+                    presector_data,
                 )
                 pid_track.track_resource_usage(
                     logstr="MEMUSG",
                     verbose=False,
-                    key=f"SECTOR SELF REGISTERED: {adef_key};{sector_type}",
+                    key=f"SECTOR AREA_DEF: {adef_key};{sector_type}",
                 )
-                if presector_data:
-                    # window start/end time override hours before/after sector time.
-                    sect_xarrays = sector_xarrays(
-                        pad_sect_xarrays,
-                        area_def,
-                        varlist=curr_variables,
-                        hours_before_sector_time=6,
-                        hours_after_sector_time=9,
-                        drop=True,
-                        window_start_time=window_start_time,
-                        window_end_time=window_end_time,
-                    )
-                else:
-                    sect_xarrays = pad_sect_xarrays
+                # window start/end time override hours before/after sector time.
+                sect_xarrays = sector_xarrays(
+                    pad_sect_xarrays,
+                    area_def,
+                    varlist=curr_variables,
+                    hours_before_sector_time=6,
+                    hours_after_sector_time=9,
+                    drop=True,
+                    window_start_time=window_start_time,
+                    window_end_time=window_end_time,
+                )
                 pid_track.track_resource_usage(
                     logstr="MEMUSG",
                     verbose=False,
-                    key=f"SECTOR SELF REGISTERED: {adef_key};{sector_type}",
+                    key=f"SECTOR AREA_DEF: {adef_key};{sector_type}",
                 )
             else:
+                LOG.interactive(
+                    "NOT sectoring xarrays for area_def '%s' type %s, presector %s",
+                    area_def.area_id,
+                    area_def.sector_type,
+                    presector_data,
+                )
                 sect_xarrays = pad_sect_xarrays
 
             pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
@@ -1570,7 +1686,7 @@ def call(fnames, command_line_args=None):
             if len(sect_xarrays) == 0:
                 LOG.interactive(
                     "SKIPPING no area_def sect_xarrays returned for %s",
-                    area_def.description,
+                    area_def.area_id,
                 )
                 continue
 
@@ -1736,7 +1852,7 @@ def call(fnames, command_line_args=None):
                         if product_db:
                             for fprod in curr_output_products:
                                 LOG.interactive(
-                                    "GEOIPS_VERS writing to db {}".format(
+                                    "GEOIPS_VERSION writing to db {}".format(
                                         geoips_version
                                     )
                                 )
@@ -1764,7 +1880,10 @@ def call(fnames, command_line_args=None):
                         verbose=False,
                         key=f"GET ALGORITHM XARRAY: {rkey_base}",
                     )
-                    if output_fmt_plugin.family == "xarray_data":
+                    if (
+                        output_fmt_plugin.family == "xarray_data"
+                        and area_def.sector_type not in ["self_register"]
+                    ):
                         # If we're saving out intermediate data file, write out
                         # pad_area_def.
                         if product_name not in pad_alg_xarrays:
@@ -1985,7 +2104,13 @@ def call(fnames, command_line_args=None):
                             else:
                                 rgb_var = None
                             alg_xarray = combine_preproc_xarrays_with_alg_xarray(
-                                pre_proc, alg_xarray, rgb_var=rgb_var
+                                pre_proc,
+                                alg_xarray,
+                                rgb_var=rgb_var,
+                                covg_plugin=covg_plugin,
+                                covg_varname=covg_varname,
+                                area_def=area_def,
+                                covg_args=covg_args,
                             )
                             comp_covg = covg_plugin(
                                 alg_xarray, covg_varname, area_def, **covg_args
@@ -2099,16 +2224,18 @@ def call(fnames, command_line_args=None):
     failed_compares = {}
     for cpath in final_products:
         if cpath != "no_comparison":
-            from geoips.interfaces.module_based.output_checkers import output_checkers
+            from geoips.interfaces.class_based.output_checkers import output_checkers
 
+            checker_override = command_line_args["output_checker_name"]
             for output_product in final_products[cpath]["files"]:
-                plugin_name = output_checkers.identify_checker(output_product)
+                plugin_name = output_checkers.identify_checker(
+                    output_product, checker_override
+                )
                 output_checker = output_checkers.get_plugin(plugin_name)
                 kwargs = {}
                 if output_checker.name in output_checker_kwargs:
                     kwargs = output_checker_kwargs[output_checker.name]
                 curr_retval = output_checker(
-                    output_checker,
                     cpath,
                     [output_product],
                     **kwargs,
@@ -2135,6 +2262,13 @@ def call(fnames, command_line_args=None):
         elif cpath != "no_comparison":
             LOG.info("SUCCESSFUL COMPARISON DIR: %s\n", cpath)
             successful_comparison_dirs = successful_comparison_dirs + 1
+        for filename in final_products[cpath]["files"]:
+            LOG.interactive(
+                "    \u001b[34mCONFIGSUCCESS\033[0m %s",
+                filename,
+            )
+            if filename in final_products[cpath]["database writes"]:
+                LOG.interactive("    DATABASESUCCESS %s", filename)
         for filename in final_products[cpath]["files"]:
             LOG.interactive(
                 "    \u001b[34mCONFIGSUCCESS\033[0m %s",
@@ -2182,7 +2316,7 @@ def call(fnames, command_line_args=None):
                     )
 
     mem_usage_stats = pid_track.print_mem_usg(logstr="MEMUSG", verbose=True)
-    LOG.interactive("READER_NAME: %s", config_dict["reader_name"])
+    LOG.interactive("READER_NAME: %s", reader_plugin.name)
     num_products = sum(
         [len(final_products[cpath]["files"]) for cpath in final_products]
     )
@@ -2201,42 +2335,76 @@ def call(fnames, command_line_args=None):
     LOG.interactive("NUM_SUCCESSFUL_COMPARISON_DIRS: %s", successful_comparison_dirs)
     LOG.interactive("NUM_FAILED_COMPARISON_DIRS: %s", failed_comparison_dirs)
     output_process_times(process_datetimes, num_jobs)
-    LOG.interactive("GEOIPS_VERS {}".format(geoips_version))
-    if product_db:
-        all_sectors_use_tcdb = all(
-            [
-                config_dict["available_sectors"][x].get("tcdb")
-                for x in config_dict["available_sectors"].keys()
-            ]
-        )
-        if (
-            command_line_args.get("tcdb")
-            or command_line_args.get("trackfiles")
-            or all_sectors_use_tcdb
-        ):
-            sector_type = "dynamic_tc"
-        else:
-            sector_type = "static"
-        procflow_id = pid_track.own_pid
-        if store_checkpoint_stats:
-            checkpoint_stats = pid_track.checkpoint_usage_stats()
-        else:
-            checkpoint_stats = None
-        write_stats_to_database(
-            procflow_name="config_based",
-            platform=xobjs["METADATA"].platform_name.lower(),
-            geoips_vers=geoips_version,
-            source=xobjs["METADATA"].source_name,
-            product="multi",
-            sector_type=sector_type,
-            process_times=process_datetimes,
-            num_products_created=num_products,
-            num_products_deleted=len(removed_products),
-            resource_usage_dict=mem_usage_stats,
-            output_config=command_line_args["output_config"],
-            procflow_id=procflow_id,
-            checkpoints_resource_usage_dict=checkpoint_stats,
+    LOG.interactive("GEOIPS_VERSION {}".format(geoips_version))
+
+    # Pretty much everything below here is for recording processing statistics
+    procflow_id = pid_track.own_pid
+    sector_uses_trackfile = [
+        config_dict["available_sectors"][x].get("trackfile_parser")
+        for x in config_dict["available_sectors"].keys()
+    ]
+    # Attempt to determine if procflow only processed dynamic TC sectors, static
+    # sectors, or both.
+    if (
+        command_line_args.get("tcdb")
+        or command_line_args.get("trackfiles")
+        or all(sector_uses_trackfile)
+    ):
+        sector_type = "dynamic_tc"
+    elif (
+        command_line_args.get("tcdb")
+        or command_line_args.get("trackfiles")
+        or any(sector_uses_trackfile)
+    ):
+        sector_type = "mixed"
+    else:
+        sector_type = "static"
+    # This procflow_metadata dictionary is passed to the print_mem_usg and
+    # checkpoint_usage_stats and written to a json file is write_to_json is True
+    procflow_metadata = {
+        "procflow": "config_based",
+        "platform": xobjs["METADATA"].platform_name.lower(),
+        "geoips_version": geoips_version,
+        "source": xobjs["METADATA"].source_name,
+        "product": "multi",
+        "sector_type": sector_type,
+        "process_times": process_datetimes,
+        "num_products_created": num_products,
+        "num_products_deleted": len(removed_products),
+        "output_config": command_line_args["output_config"],
+        "procflow_id": procflow_id,
+    }
+    mem_usage_stats = pid_track.print_mem_usg(
+        logstr="MEMUSG",
+        verbose=True,
+        write_to_json=write_stats_to_json,
+        metadata=procflow_metadata,
+    )
+    if store_checkpoint_stats:
+        checkpoint_stats = pid_track.checkpoint_usage_stats(
+            write_to_json=write_stats_to_json, metadata=procflow_metadata
         )
     else:
-        LOG.interactive("NO PRODDB GEOIPS_VERS {}".format(geoips_version))
+        checkpoint_stats = None
+    if product_db:
+        try:
+            write_stats_to_database(
+                procflow_name=procflow_metadata["procflow"],
+                platform=procflow_metadata["platform"],
+                geoips_vers=procflow_metadata["geoips_version"],
+                source=procflow_metadata["source"],
+                product="multi",
+                sector_type=procflow_metadata["sector_type"],
+                process_times=procflow_metadata["process_datetimes"],
+                num_products_created=procflow_metadata["num_products_created"],
+                num_products_deleted=procflow_metadata["num_products_deleted"],
+                resource_usage_dict=mem_usage_stats,
+                output_config=procflow_metadata["output_config"],
+                procflow_id=procflow_metadata["procflow_id"],
+                checkpoints_resource_usage_dict=checkpoint_stats,
+            )
+        except KeyError as e:
+            LOG.error("KeyError - could not write stats to database: %s", e)
+    else:
+        LOG.interactive("NO PRODDB GEOIPS_VERSION {}".format(geoips_version))
     return retval

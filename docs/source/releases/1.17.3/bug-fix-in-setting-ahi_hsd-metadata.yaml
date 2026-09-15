@@ -1,0 +1,17 @@
+bug fix:
+- title: 'Bug fix in setting ahi_hsd metadata'
+  description: |
+    Need to slice first dimension of array returned from numpy.frombuffer when storing
+    the 'scan_shift_amount' and 'ob_time_line_number'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/ahi_hsd.py'
+  date:
+    start: 2026-01-23
+    finish: 2026-01-23

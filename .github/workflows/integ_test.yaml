@@ -1,0 +1,43 @@
+name: Integration Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: integ-test-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  integ-test-editable:
+    if: >-
+      github.event_name == 'workflow_dispatch'
+      || github.event.pull_request.draft == false
+    name: integ-test (editable=true)
+    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@main
+    with:
+      pip_editable: true
+      continue_on_plugins_integ_error: true
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+      docker_token: ${{ secrets.DOCKER_TOKEN }}
+
+#  integ-test-non-editable:
+#    needs: integ-test-editable
+#    name: integ-test (editable=false)
+#    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@main
+#    with:
+#      pip_editable: false
+#      continue_on_plugins_integ_error: true
+#    secrets:
+#      token: ${{ secrets.GITHUB_TOKEN }}
+#      docker_token: ${{ secrets.DOCKER_TOKEN }}

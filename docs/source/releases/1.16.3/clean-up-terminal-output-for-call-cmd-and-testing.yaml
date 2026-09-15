@@ -1,0 +1,115 @@
+testing and installation:
+- title: 'Update call_cmd to explicitly request to use_print or use_logging, rather than toggle with use_logging'
+  description: |
+    Previously we just passed in use_logging, and if it was true we printed each line of
+    the command output via LOG commands, and if it was false, we printed to the
+    screen with print commands.  Sometimes we don't want to print to the screen
+    at all (if we ONLY want to write to the log file), so allow requesting both
+    use_print and use_logging separately so we can turn both off if we want.
+    This makes for much nicer pytest output...
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/geoips_utils.py'
+  date:
+    start: 2025-08-13
+    finish: 2025-08-14
+- title: 'Print TIME and LOGFILE in check_requirements run_command when exclusively redirecting to log file'
+  description: |
+    If we are only writing output to a log file and not printing or teeing
+    to the terminal, include both the current time and the logfile name
+    to the terminal prior to calling the command.  This allows more easily
+    identifying and reviewing the current log output, as well as quickly
+    seeing how long a given command has been running.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'setup/check_system_requirements.sh'
+  date:
+    start: 2025-08-13
+    finish: 2025-08-14
+testing:
+- title: 'Turn off log and print output in pytest-based integration testing'
+  description: |
+    To avoid ALL output from a command getting printed to the screen when
+    a test fails (since it all gets redirected to a log file), use the
+    new use_print and use_logging arguments to call_cmd to turn off both
+    print and log.  Previously the LOG output didn't end up going to the
+    terminal, I don't know why it started going to the terminal, but this
+    ensures we don't print ANYTHING directly to the terminal when we are
+    redirecting the pytest output to logs.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/integration_tests/test_integration.py'
+  date:
+    start: 2025-08-13
+    finish: 2025-08-14
+- title: 'Replace -s with --capture=no, make a note that I think we want -s and --tb=short for integration tests but not unit tests'
+  description: |
+    Since interactive_pytest.sh ensures all command output is redirected to logs
+    for full review, keep the output to the terminal minimal.
+    I don't think this applies for unit tests, since we only get the output
+    pytest wants to give us from those, but we may want to shorten it up
+    in the future if we feel we're getting too much spam to the terminal.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/utils/interactive_pytest.sh'
+  date:
+    start: 2025-08-13
+    finish: 2025-08-14
+- title: 'More informative pytest-based integration test log filenames'
+  description: |
+    Include the basename of the current script in the log filename, as well as arguments.
+    Also, ls -lthr the full log directory with every log.
+
+    Also include UTC timestamp between each command within pytest.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/integration_tests/test_integration.py'
+  date:
+    start: 2025-08-14
+    finish: 2025-08-25
+- title: 'Print the interactive log directory from interactive_pytest.sh up front'
+  description: |
+    Since the log filename doesn't print until the pytest call is complete, print out
+    the logdir up front so people can go look for the latest log.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/utils/interactive_pytest.sh'
+  date:
+    start: 2025-08-14
+    finish: 2025-08-14

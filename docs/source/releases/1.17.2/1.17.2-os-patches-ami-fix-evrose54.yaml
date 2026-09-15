@@ -1,0 +1,23 @@
+bug fix:
+- title: '1.17.2 ami_netcdf bug fix patch'
+  description: |
+    The 1.17.2 release introduced a small bug which made the
+    tests/unit_tests_long/plugins/modules/readers/test_readers.py ami_netcdf reader test
+    fail. This was caused by the new implementation of satellite zenith angle masking.
+    Reverting to the previous mechanics solved this. This still supports dynamic
+    satzen masking which the new release implemented. Also, updated the 'get_test_files'
+    function to use the new test_data_ami dataset rather than the ami data found in the
+    test_data_noaa_aws dataset. The data is the exact same.
+
+    Additionally, added registered_plugins.yaml to the .gitignore.
+  files:
+    modified:
+      - .gitignore
+      - geoips/plugins/modules/readers/ami_netcdf.py
+      - tests/integration_tests/full_install.sh
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 01/12/26
+    finish: 01/13/26

@@ -1,0 +1,18 @@
+bug fix:
+- title: 'Graceful exit if product name is not specified in single source run '
+  description: 'The error issued when a product is omitted is long and non-specific. The Commandline script should detect this and issue a sensible error to tell the user to add a Product.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'docs/source/releases/latest/1118-CLI-single-source-missing-product-name.yaml'
+    modified:
+    - 'geoips/commandline/args.py'
+  related-issue:
+    number: 1118
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: August 14, 2025
+    finish: today

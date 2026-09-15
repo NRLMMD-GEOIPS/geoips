@@ -18,7 +18,7 @@ import brassy.actions.build_release_notes as brassy_build
 import brassy.utils.CLI  # noqa # because of a brassy bug; will be fixed in next vers
 from rich.logging import RichHandler
 from rich.traceback import install as install_rich_tracebacks
-from rich.logging import Console
+from rich.console import Console
 from rich.progress import Progress
 import rich_argparse
 import pygit2
@@ -137,15 +137,10 @@ def parse_args_with_argparse():
             )
             if not package_path:
                 raise ModuleNotFoundError
-            pygit2.Repository(package_path)
-            args.repo_path = package_path
         except ModuleNotFoundError as e:
             raise e(f"Could not automatically find repo_path for {args.package_name}.")
-        except pygit2.GitError:
-            raise pygit2.GitError(
-                "Could not automatically find usable repo_path for "
-                f"{args.package_name}. Found {package_path} but it is not a git repo"
-            )
+        validate_path_exists_and_is_git_repo(package_path)
+        args.repo_path = package_path
 
     if not args.output_dir:
         output_dir = os.getenv("GEOIPS_DOCSDIR", None)
@@ -220,9 +215,15 @@ def validate_path_exists_and_is_git_repo(repo_path, logger=logging.getLogger(__n
         raise FileNotFoundError
     try:
         pygit2.Repository(repo_path)
-    except pygit2.GitError as e:
-        logger.critical(f"{repo_path} is not a valid git repo")
-        raise e
+    except pygit2.GitError:
+        # Handles edge case for permissions error where package_path
+        # is not owned by root. Not as robust as Repository class
+        # constructor, but still better then looking for
+        # ".git" folder. This is also somewhat slower
+        # so is good idea to use Repository constructor and then
+        # handle edge case here.
+        if not pygit2.discover_repository(repo_path):
+            logger.exception(f"{repo_path} is not a valid git repo")
 
 
 def validate_package_is_installed(package_name, logger=logging.getLogger(__name__)):
@@ -548,12 +549,15 @@ def build_module_apidocs_with_sphinx(
     Exception
         If the sphinx-apidoc command fails.
     """
+    v2alpha1_path = os.path.join(module_path, "pydantic_models", "v2alpha1")
     arguments = [
         "--no-toc",
         "-o",  # flag for output path
         apidoc_build_path,  # output path
         module_path,  # module path
         "*/lib/*",  # exclude path
+        v2alpha1_path,  # Exclude path
+        os.path.join(v2alpha1_path, "*"),  # Exclude path
     ]
     # See https://github.com/sphinx-doc/sphinx/issues/8664
     # and https://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html
@@ -681,7 +685,7 @@ def build_release_notes_with_brassy(
     releases_dir : str
         The path to the main directory containing individual release directories.
     license_url : str
-        The URL pointing to the license or distribution statement for the release notes.
+        The URL pointing to the license statement for the release notes.
     log : logging.Logger, optional
         Logger instance used for logging debug and warning messages. By default,
         uses a logger with the module's name.
@@ -691,7 +695,7 @@ def build_release_notes_with_brassy(
     Notes
     -----
     Each subdirectory in `releases_dir` is assumed to correspond to a release version.
-    This function generates a header file containing a distribution statement that
+    This function generates a header file containing license information that
     includes `license_url`. For each release directory, an `.rst` file with the
     release notes is created and processed by `build_release_note_from_dir_with_brassy`.
     The function will ignore directories named "upcoming" and log a warning.
@@ -737,6 +741,7 @@ def build_release_notes_with_brassy(
                     f"Skipping release dir {release_dir}"
                     "because it's version is 'upcoming'"
                 )
+                continue
             log.debug(f"Setting version of {release_filename} to {release_version}")
             build_release_note_from_dir_with_brassy(
                 release_dir, release_filename, release_version, header_file.name

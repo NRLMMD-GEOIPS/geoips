@@ -1,0 +1,18 @@
+documentation:
+- title: 'Update Order-Based Procflow documentation'
+  description: 'Align the OBP workflow example with the latest changes'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'docs/dev/order_based_procflow.rst'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

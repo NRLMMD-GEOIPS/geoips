@@ -57,7 +57,7 @@ class TestGeoipsDescribePlugin(BaseCliTest):
                                     self.random_generator.random() < self.rand_threshold
                                 )
                                 if do_describe_plugin or idx == 0:
-                                    combined_name = f"{plugin_name}.{subplg_name}"
+                                    combined_name = f"{plugin_name}:{subplg_name}"
                                     self._cmd_list.append(
                                         base_args + [alias, combined_name],
                                     )
@@ -121,7 +121,7 @@ class TestGeoipsDescribePlugin(BaseCliTest):
             ]
             if interface_name == "products":
                 expected_outputs.append("source_names")
-            elif interface_name in interfaces.module_based_interfaces:
+            elif interface_name in interfaces.class_based_interfaces:
                 expected_outputs.append("signature")
             for output_item in expected_outputs:
                 assert f"{output_item}:" in output

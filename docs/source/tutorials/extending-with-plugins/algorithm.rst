@@ -11,114 +11,78 @@ Extend GeoIPS with a new Algorithm
 To extend GeoIPS with a new ``algorithm`` plugin, first follow the :ref:`instructions for
 setting up a plugin package<plugin-development-setup>`.
 
-Module plugins are required to have several top-level variables:
-    * name
-    * interface
-    * family
-    * docstring
+In GeoIPS 2.0, algorithms are **class-based** plugins: a Python class that subclasses the
+algorithm base class and sets three class attributes:
 
-Please see documentation for
-:ref:`additional info on GeoIPS required attributes<required-attributes>`
+* ``interface``
+* ``family``
+* ``name``
+
+See :ref:`writing-class-based-plugins` for the full class-based plugin contract, and
+:ref:`the algorithm interface <algorithm_functionality>` for the argument model. If you are
+migrating a 1.x module-based algorithm, see :ref:`converting-module-to-class`.
 
 Creating an Algorithm
 ---------------------
 
-The following steps will teach you how to create a custom algorithm plugin. First off,
-change directories to your algorithms directory.
+The following steps teach you how to create a custom algorithm plugin. Change directories
+to your package's ``classes`` algorithm directory:
+
 ::
 
-    cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/modules/algorithms
+    cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/classes/algorithms
 
-Create a file called ``my_cloud_depth.py`` (see below). To convert this algorithm to
-my_cloud_depth you'll need to update the ``docstring`` (multiline string at the top
-of the file) and update the ``name`` to ``my_cloud_depth``.
+Create a file called ``my_cloud_depth.py``. A class-based algorithm subclasses
+``BaseAlgorithmPlugin``, sets ``interface``/``family``/``name``, and implements a
+``call`` method. The ``call`` method is where the data manipulation happens; GeoIPS invokes
+it for you (directly, or as a step in an :ref:`OBP workflow <order-based-processing>`).
 
-Copy and paste the code block below into ``my_cloud_depth.py``
+The complete plugin looks like this:
 
-.. code-block:: python
+.. literalinclude:: examples/my_cloud_depth.py
+   :language: python
+   :lines: 4-
 
-    """Cloud depth product.
+A few things to note:
 
-    Difference of cloud top height and cloud base height.
-    """
-    import logging
-    from xarray import DataArray
+* The class name follows the ``<Name><Interface>Plugin`` convention
+  (``MyCloudDepthAlgorithmPlugin``).
+* ``family`` (here ``xarray_to_xarray``) determines the call signature and how GeoIPS
+  converts data into and out of your plugin. To see the arguments each family expects, see
+  the `algorithm base class
+  <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/interfaces/class_based/algorithms.py>`_.
+* ``variables`` is ordered — it matches the order you define variables in your product
+  plugin, so ``variables[0]`` and ``variables[1]`` are cloud top height and cloud base
+  height respectively.
+* You can add as many keyword arguments as you need, provided your product supplies them.
+* The module ends with ``PLUGIN_CLASS = MyCloudDepthAlgorithmPlugin``. This tells the
+  plugin registry (``pluginify``) which class in the file is the plugin to register.
 
-    LOG = logging.getLogger(__name__)
+After adding the plugin, rebuild the plugin registries so GeoIPS can find it:
 
-    interface = "algorithms"
-    family = "xarray_to_xarray"
-    name = "my_cloud_depth"
-    # Conventionally matches the name of the plugin definition file, but can be anything
-    # that does not contain hyphens.
+.. code-block:: bash
 
-Each module-based plugin is required to have a ``call`` function. This is how geoips
-will interact with the module-based plugins. See below for the call signature of the
-my_cloud_depth.py plugin. To see a list of required arguments for each algorithm family,
-see this `link <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/interfaces/module_based/algorithms.py>`_.
+    geoips config create-registries
+    geoips list algorithms          # confirm my_cloud_depth appears
+    geoips describe alg my_cloud_depth
 
-As for keyword arguments (kwargs), you can create as many as you want provided you include
-them in your product and are needed for your algorithm.
+.. note::
 
-Copy and paste this code into your algorithm file (feel free to remove the comments).
+   The plugin above is a real, tested example. It lives at
+   ``docs/source/tutorials/extending-with-plugins/examples/my_cloud_depth.py`` and is
+   imported and executed by ``tests/unit_tests/docs/test_tutorial_examples.py``, so this
+   tutorial's code stays runnable.
 
-.. code-block:: python
+Using your algorithm
+--------------------
 
-    def call(
-        xobj, # Xarray dataset holding xarrays
-        variables, # list of required input variables for algorithm.
-                   # Note: Python lists are ordered, so you can count on
-                   # your list of variables being in the order in which you
-                   # define them in your product plugin variables
-        product_name,
-        output_data_range,  # Range of values that your algorithm will output
-        scale_factor,  # Adding a scale factor here for use in converting input meters to output kilometers
-        min_outbounds="crop",
-        max_outbounds="crop",
-        norm=False,
-        inverse=False,
-    ):
-        """My cloud depth product algorithm manipulation steps."""
+Algorithms are not used on their own — they are one step of a larger product. If you have
+already created a Product in the :ref:`Products<create-a-product>` section, revisit your
+:ref:`My-Cloud-Depth product definition<cloud-depth-product>` to reference the algorithm you
+just created. The product (or the workflow that includes it) supplies the ``variables``,
+``output_data_range``, and ``scale_factor`` arguments your ``call`` method expects.
 
-This is where the actual data manipulation occurs. Make sure to index the variable
-list to the order of the variables you defined in your product, then make the
-following changes.
-
-Add the code block below to your ``call`` function. This is how cloud-depth will be
-calculated.
-
-.. code-block:: python
-
-    cth = xobj[variables[0]]
-    cbh = xobj[variables[1]]
-
-    out = (cth - cbh) * scale_factor
-
-    from geoips.data_manipulations.corrections import apply_data_range
-
-    data = apply_data_range(
-        out,
-        min_val=output_data_range[0],
-        max_val=output_data_range[1],
-        min_outbounds=min_outbounds,
-        max_outbounds=max_outbounds,
-        norm=norm,
-        inverse=inverse,
-    )
-    xobj[product_name] = DataArray(data)
-
-    return xobj
-
-If you have already created a Product defined in the :ref:`Products<create-a-product>`
-section, we should revisit our :ref:`My-Cloud-Depth product definition<cloud-depth-product>`
-to use the algorithm we just created. Note: If you haven't yet created this product, see the
-:ref:`Products<create-a-product>` section.
-
-If you are using this page as more of a guideline for how to create an algorithm plugin,
-it should be noted that *algorithms are useless on their own*. This goes for other plugins
-too, like colormappers, interpolators, etc. These are just sub-components of a larger
-plugin, that being a Product, which fully defines the process of how to create a Product
-via GeoIPS.
-
-In other words, you should implement your product in a fashion similar to what is done
-in the :ref:`My-Cloud-Depth product definition<cloud-depth-product>`.
+Your algorithm then runs as part of an :ref:`Order-Based Processing workflow
+<order-based-processing>`, either directly (``geoips run order_based <workflow> <files>``)
+or via a product step. The same class can also be called from a Python script — see
+:ref:`scripting-guide`.

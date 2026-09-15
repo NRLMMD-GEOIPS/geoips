@@ -1,0 +1,29 @@
+bug fix:
+- title: 'Assorted minor bug fixes.'
+  description: |
+    * 1.16.0 release note had start after finish date, broke build_docs.sh.
+    * sector resolution should be number not integer in jsonschema
+    * Include 'not disabled' by default in all interactive_pytest.sh commands
+
+      * Explicitly request 'disabled' tests.
+    * Minor change to the 3 geotiff outputs (not visible to the naked eye, amsr2, ami,
+      viirs)
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'docs/source/releases/1.16.0/946-handle-singular-and-plural-forms-of-plugins-cleanly.yaml'
+    - 'geoips/schema/sectors/specs/area_definition.yaml'
+    - 'tests/utils/interactive_pytest.sh'
+    - 'tests/outputs/amsr2.global_20km_longlat.89H-Physical.cogeotiff/20200518.062048.gcom-w1.amsr2.89H-Physical.global_20km_longlat.18p37.star.20p0.tif'
+    - 'tests/outputs/ami.tc.WV.geotiff/20231208_030032_SH032024_ami_GK-2A_WV_115kts_100p00_1p0.tif'
+    - 'tests/outputs/viirsday.global.Night-Vis-IR.cogeotiff_rgba/20210209.074210.noaa-20.viirs.Night-Vis-IR.global_cylindrical.2p00.NASA.20p0.tif'
+  related-issue:
+    internal: geoips#959 - 1.17.2 bug fixes
+  date:
+    start: 2025-10-30
+    finish: 2025-11-18

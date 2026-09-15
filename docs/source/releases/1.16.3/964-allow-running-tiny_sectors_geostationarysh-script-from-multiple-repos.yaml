@@ -1,0 +1,176 @@
+bug fix:
+- title: 'Add standard non-dataset-specific tiny sectors for goes_east and goes_west'
+  description: |
+    There are 2 types of tiny sectors - dataset-specific and satellite-specific.  The
+    satellite specific tiny sectors do not depend on a specific dataset, so should
+    be named generically (not specifically goes16, goes18, etc), and should only be
+    defined once (do not redefine the satellite-specific tiny sectors in plugin repos).
+
+    General tiny sectors include
+
+    * test_satellite_eqc_3km_landocean.yaml (was _subsector, renamed _landocean to be more specific)
+    * test_satellite_eqc_3km_nadir.yaml (can be same as landocean, if nadir has land/ocean pixels)
+    * test_satellite_longlat_50km_fulldisk.yaml
+  files:
+    deleted:
+    - 'goeswest not goes17 tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_3km_nadir_Test-Infrared-Day-Night/20210718.015031.goes-17.abi.Test-Infrared-Day-Night.test_goes17_eqc_3km_nadir.100p00.noaa.3p0.png'
+    moved:
+    - 'test_goeseast_eqc_3km_nadir.yaml <- geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_east_sectors/test_goes16_eqc_3km_nadir.yaml'
+    - 'test_goeseast_longlat_50km_fulldisk.yaml <- geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_east_sectors/test_goes16_longlat_20km_fulldisk.yaml'
+    - 'test_goeswest_eqc_3km_landocean.yaml <- NOTE THIS WAS ACTUALLY INITIALLY A GOES WEST SECTOR LABELED AS GOES16 geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/test_goes16_eqc_3km_subsector'
+    - 'test_goeswest_eqc_3km_nadir.yaml <- NOTE THIS ACTUALLY INITIALLY POINTED OVER GOES EAST COLUMBIA BUT WAS LABELED AS GOES17 geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/test_goes17_eqc_3km_nadir.yaml'
+    - '20200918.195020.goes-16.abi.Test-Infrared-Day-Night.test_goeseast_eqc_3km_landocean.100p00.noaa.3p0.png <- tests/integration_tests/tiny_sectors/outputs/test_goeseast_eqc_3km_landocean_Test-Infrared-Day-Night/20200918.195020.goes-16.abi.Test-Infrared-Day-Night.test_goes16_eqc_3km_nadir.100p00.noaa.3p0.png'
+    added:
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_east_sectors/test_goeseast_eqc_3km_landocean.yaml'
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_east_sectors/test_goeseast_eqc_3km_nadir.yaml'
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_east_sectors/test_goeseast_longlat_50km_fulldisk.yaml'
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/test_goeswest_eqc_3km_landocean.yaml'
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/test_goeswest_eqc_3km_nadir.yaml'
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/test_goeswest_longlat_50km_fulldisk.yaml'
+    - 'tests/integration_tests/tiny_sectors/outputs/test_goeseast_eqc_3km_nadir_Test-Infrared-Day-Night/20200918.195020.goes-16.abi.Test-Infrared-Day-Night.test_goeseast_eqc_3km_nadir.100p00.noaa.3p0.png'
+    - 'tests/integration_tests/tiny_sectors/outputs/test_goeseast_longlat_50km_fulldisk_Test-Infrared-Day-Night/20200918.195020.goes-16.abi.Test-Infrared-Day-Night.test_goeseast_longlat_50km_fulldisk.97p56.noaa.0p0.png'
+    - 'tests/integration_tests/tiny_sectors/outputs/test_goeswest_eqc_3km_landocean_Test-Infrared-Day-Night/20210718.015031.goes-17.abi.Test-Infrared-Day-Night.test_goeswest_eqc_3km_landocean.100p00.noaa.3p0.png'
+    - 'tests/integration_tests/tiny_sectors/outputs/test_goeswest_eqc_3km_nadir_Test-Infrared-Day-Night/20210718.015031.goes-17.abi.Test-Infrared-Day-Night.test_goeswest_eqc_3km_nadir.100p00.noaa.3p0.png'
+    - 'tests/integration_tests/tiny_sectors/outputs/test_goeswest_longlat_50km_fulldisk_Test-Infrared-Day-Night/20210718.015031.goes-17.abi.Test-Infrared-Day-Night.test_goeswest_longlat_50km_fulldisk.97p56.noaa.0p0.png'
+    modified:
+    - ''
+  related-issue:
+    internal: GEOIPS#964
+  date:
+    start: 2025-10-08
+    finish: 2025-10-09
+- title: 'Replace asterisk in pytest log outputs with -'
+  description: |
+    Asterisk in filename makes CTRL-click in VSCode not work.  Best to not have
+    special characters in the filenames anyway, so just replace any asterisks found
+    with - in log filename.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'tests/integration_tests/test_tiny_sectors_geoips.py'
+    modified:
+    - 'tests/integration_tests/test_integration.py'
+  related-issue:
+    internal: GEOIPS#964
+  date:
+    start: 2025-10-07
+    finish: 2025-10-08
+- title: 'Separate test_integration.py and test_tiny_sectors_geoips.py'
+  description: |
+    Since there are so many tiny sectors, separate them out into their own integration
+    test script.
+
+    I think we should have a separate tiny sector test script in every plugin repo
+    that contains tiny sectors as well, so this will make it more clear how to
+    organize / define the tiny sector tests in plugin repos.
+
+    The tiny sector integration test script contains
+
+    * OPTIONAL marker, no comparison to "correct" imagery
+
+      * global_terminator_satzen.sh calls which spit out day, night, both products
+        for each specific dataset, with null and 70 sat zen cutoff.  This is helpful
+        for evaluating what data actually exists within a given dataset.
+    * OPTIONAL marker, no comparison to correct imagery
+
+      * geoips test sector --overlay commands for every tiny sector defined in the
+        current repo, just spits out the overlay image output for each sector.
+
+    * REQUIRED marker, comparison against correct imagery checked into the repo
+
+      * tiny_sectors_geostationary.sh call for each tiny sector defined within the
+        current repo.  This includes both non-dataset-specific test sectors, as
+        well as dataset-specific test sectors.  Plugin repos should only have
+        dataset-specific test sectors.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'tests/integration_tests/test_tiny_sectors_geoips.py'
+    modified:
+    - 'tests/integration_tests/test_integration.py'
+  related-issue:
+    internal: GEOIPS#964
+  date:
+    start: 2025-10-09
+    finish: 2025-10-09
+- title: 'Pass reponame into test_geostationary_sectors.sh so we can compare test outputs in the correct repo'
+  description: |
+    Previously hard coded to check test outputs in geoips/tests/outputs, update to
+    pass in repo_name so we compare test outputs in repo_name/tests/outputs.
+
+    Update test_integration.py to pass in geoips reponame, as well as test_geostationary_sectors.sh
+    to use repo_name.
+
+    Also replace asterisk in any log filename with - in interactive pytests.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh'
+    - 'tests/integration_tests/test_integration.py'
+  related-issue:
+    internal: GEOIPS#964
+  date:
+    start: 2025-10-07
+    finish: 2025-10-08
+- title: 'Add product-name-base argument to global_terminator_satzen script'
+  description: |
+    Pass product-name-base argument to global_terminator_satzen script, and use it
+    to set an environment variable that is then used in the satzen.yaml procflow
+    config to define the requested products for a given dataset.
+
+    Allows specifying additional Test-Infrared products for use with datasets that may
+    not have the standard Infrared channel.  This was used to create
+    Test-Infrared-ABI-B13-Day-Night, -Day-Only, Night-Only products to allow running
+    Infrared low res tiny sectors for the geocolor goes-18 test dataset, which did
+    NOT have B14BT variable available.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/example_scripts/global_terminator_satzen.sh'
+    - 'tests/example_scripts/satzen.yaml'
+  related-issue:
+    internal: GEOIPS#964
+  date:
+    start: 2025-10-07
+    finish: 2025-10-08
+- title: 'Add ABI B13 Infrared Day/Night integration test products'
+  description: |
+    Since the geocolor goes-18 test dataset does NOT contain B14, we can't use the
+    standard Test-Infrared-Day-Night, etc integration test products.  Create an
+    ABI B13 specific version of the Test products to allow running efficient low
+    resolution integration tests using that dataset.
+   
+    This involved adding a Test-Infrared-ABI-B13 version to each integration test
+    product YAML, just for ABI.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/yaml/products/integration_tests/Test-Infrared-Day-Night.yaml'
+    - 'geoips/plugins/yaml/products/integration_tests/Test-Infrared-Day-Only.yaml'
+    - 'geoips/plugins/yaml/products/integration_tests/Test-Infrared-Night-Only.yaml'
+  related-issue:
+    internal: GEOIPS#964
+  date:
+    start: 2025-10-08
+    finish: 2025-10-09

@@ -1,0 +1,127 @@
+bug fix:
+- title: 'Allow passing satellite_zenith_angle_cutoff into geostationary readers.'
+  description: |
+    Previously all geostationary readers except for FCI had hard coded satellite
+    zenith angle cutoffs (85 for Himawari, 75 for others). Add kwarg to all
+    geostationary readers to allow passing in a value for masking all variables
+    based on satellite zenith angle.
+
+    Satellite zenith angle masking could also be handled within product/algorithm,
+    but this will at least allow NOT masking based on satellite zenith angle within
+    the readers, which will actually allow the satellite zenith angle cutoffs specified
+    within the algorithms to be valid..
+
+    NOTE satellite_zenith_angle_cutoff kwarg should NOT be explicitly included in
+    geoips/interfaces/module_based/readers.py, since it is included in kwargs
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/abi_netcdf.py'
+    - 'geoips/plugins/modules/readers/ahi_hsd.py'
+    - 'geoips/plugins/modules/readers/ami_netcdf.py'
+    - 'geoips/plugins/modules/readers/fci_netcdf.py'
+    - 'geoips/plugins/modules/readers/seviri_hrit.py'
+    - 'geoips/interfaces/module_based/readers.py'
+  related-issue:
+    internal: geoips#928 - add satellite_zenith_angle_cutoff kwarg to geo readers.
+  date:
+    start: 2025-08-14
+    finish: 2025-08-14
+- title: 'flake8 fix in amsua_mhs_mirs.py reader, white space around operator'
+  description: |
+    I don't know why this did not previously fail.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/amsua_mhs_mirs.py'
+  date:
+    start: 2025-08-14
+    finish: 2025-08-14
+- title: 'Allow reader_name as command line argument, and do not require definition within procflow config'
+  description: |
+    Previously reader_name had to be defined within the procflow configs, and would not
+    be used if passed in command line for config based procflow.
+
+    Update config_based.py to allow passing reader from the command line, which will
+    override the reader_name if defined in procflow config.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/procflows/config_based.py'
+  date:
+    start: 2025-08-14
+    finish: 2025-08-18
+- title: 'Add example test script and procflow config for testing satellite zenith cutoffs'
+  description: |
+    Pass new satellite_zenith_angle_cutoff of null to reader, to allow masking at
+    either 70 or null from the algorithm specifications in the procflow config.
+
+    Produce all of the new Infrared Day Only, Night Only, and Day/Night products for
+    sample datasets for each of the geostationary satellites.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'tests/example_scripts/global_terminator_satzen.sh'
+    - 'tests/example_scripts/satzen.yaml'
+    modified:
+    - ''
+  date:
+    start: 2025-08-14
+    finish: 2025-08-19
+- title: 'Add diagnostic Infrared Day Only, Night Only, and Day/Night products for geostationary sensors'
+  description: |
+    To allow easily evaluating day/night boundary and coverage for geostationary
+    satellite datasets, create Infrared Day Only, Night Only, and Day/Night products.
+    Use low resolution infrared for faster run times.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'geoips/plugins/yaml/product_defaults/visir/Infrared-Day-Night.yaml'
+    - 'geoips/plugins/yaml/product_defaults/visir/Infrared-Day-Only.yaml'
+    - 'geoips/plugins/yaml/product_defaults/visir/Infrared-Night-Only.yaml'
+    modified:
+    - 'geoips/plugins/yaml/products/abi.yaml'
+    - 'geoips/plugins/yaml/products/ahi.yaml'
+    - 'geoips/plugins/yaml/products/ami.yaml'
+    - 'geoips/plugins/yaml/products/fci.yaml'
+    - 'geoips/plugins/yaml/products/seviri.yaml'
+  date:
+    start: 2025-08-14
+    finish: 2025-08-19
+- title: 'Update a few of the test scripts to include some test data file name formatting information'
+  description: |
+    So it is easier to tell what satellite, etc each dataset is from, include additional
+    information in the wildcard string for the test data file names.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    modified:
+    - 'tests/scripts/ahi.tc.WV.geotiff.sh'
+    - 'tests/scripts/ami.static.Infrared.imagery_clean.sh'
+    - 'tests/scripts/seviri.WV-Upper.no_self_register.unprojected_image.sh'
+  date:
+    start: 2025-08-14
+    finish: 2025-08-19

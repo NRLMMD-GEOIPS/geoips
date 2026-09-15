@@ -8,6 +8,11 @@
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 
+# Include metadata tc output for this test, since it is an invest storm and we
+# want to verify complete metadata generation for an invest. We don't need to include
+# metadata output for all of the AWS test scripts, we'll just include it
+# in two test scripts - one with metadata_default (165) and one with metadata_tc (180).
+
 run_procflow \
     $GEOIPS_TESTDATA_DIR/test_data_arctic_weather_satellite/data/20250428/W_NO-KSAT-Tromso%2CSAT%2CAWS1-MWR-1B-RAD_C_OHB__20250428133939*.nc \
     --procflow single_source \
@@ -15,6 +20,8 @@ run_procflow \
     --product_name TB180 \
     --filename_formatter tc_clean_fname  \
     --output_formatter imagery_clean \
+    --metadata_filename_formatter metadata_default_fname \
+    --metadata_output_formatter metadata_tc \
     --tc_spec_template tc_web \
     --trackfile_parser bdeck_parser \
     --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp992025.dat \

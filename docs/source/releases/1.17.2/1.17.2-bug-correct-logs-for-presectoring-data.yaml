@@ -1,0 +1,19 @@
+bug fixes:
+  - title: Correct logs for pre-sectoring data in config-based procflow.
+    description: |
+      Previously the logs identified the pre-sectoring option within config-based
+      procflow as "SELF REGISTERED". Update logs to include a log statement for cases
+      of no pre-sectoring, as well as updating the pre-sectoring logs to indicate
+      SECTOR AREA_DEF rather than SECTOR SELF REGISTER (since self registering actually
+      uses NO pre-sectoring).
+
+      No actual change to the logic, just clarifying the log outputs and simplifying
+      the conditional.
+    files:
+      modified:
+        - "geoips/plugins/modules/procflows/config_based.py"
+    date:
+      start: 2025-11-17
+      finish: 2025-11-17
+    related-issue:
+      internal: geoips#959 - 1.17.2 updates

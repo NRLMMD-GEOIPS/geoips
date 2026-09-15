@@ -1,12 +1,12 @@
 output_config_type: single_source
 reader_name: abi_netcdf
-filenames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_noaa_aws/data/goes16/20200918/1950/*
+filenames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
 resampled_read: True
 
 available_sectors:
   static:
     sector_list:
-      - goes_east
+      - test_goes16_eqc_3km_night_20200918T1950Z
   tc:
     trackfile_parser: bdeck_parser
     trackfiles:
@@ -16,7 +16,7 @@ available_sectors:
 outputs:
   static:
     requested_sector_type: static
-    output_formatter: imagery_annotated
+    output_formatter: imagery_clean
     filename_formatters: ["geoips_fname"]
     remove_duplicates: null
     product_names:
@@ -26,10 +26,10 @@ outputs:
         exclude_platforms:
           - goes-17
     minimum_coverage: 25
-    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.<output>.<product>.imagery_annotated.low_memory
+    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.<output>.<product>.imagery_clean.low_memory
   tc:
     requested_sector_type: tc
-    output_formatter: imagery_annotated
+    output_formatter: imagery_clean
     filename_formatters: ["tc_fname"]
     metadata_filename_formatters:
       tc_fname: metadata_default_fname
@@ -50,4 +50,4 @@ outputs:
       IR-BD: 0
     feature_annotator: tc_pmw
     gridline_annotator: tc_pmw
-    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.<output>.<product>.imagery_annotated.low_memory
+    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.<output>.<product>.imagery_clean.low_memory

@@ -1,0 +1,40 @@
+installation:
+- title: 'Move CARTOPY_DATA_DIR to GEOIPS_ANCILDAT'
+  description: |
+    Have CARTOPY_DATA_DIR default to GEOIPS_ANCILDAT for easier bundling/sharing of all
+    ancillary datasets.  Previously was in GEOIPS_DEPENDENCIES_DIR, which also includes
+    built packages, etc.
+
+    Define GEOIPS_ANCILDAT as well, defaulting to GEOIPS_DEPENDENCIES_DIR/ancildat
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'setup/config_geoips'
+  related-issue:
+    number: 861
+  date:
+    start: 2025-06-18
+    finish: 2025-07-09
+- title: 'Support creating brassy changelogs in both GEOIPS_PACKAGES_DIR and GEOIPS_TESTDATA_DIR'
+  description: |
+    Update create_brassy_changelog helper function to automatically generate appropriate
+    release note for either GEOIPS_PACKAGES_DIR or GEOIPS_TESTDATA_DIR
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'setup/config_geoips'
+  related-issue:
+    number: 861
+  date:
+    start: 2025-06-18
+    finish: 2025-07-09

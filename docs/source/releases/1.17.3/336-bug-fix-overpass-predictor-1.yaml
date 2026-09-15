@@ -1,0 +1,30 @@
+bug fix:
+- title: 'Properly filter ingested TLEs using a satellite prediction list'
+  description: |
+    The check_tle_name_to_passed_names function under geoips.sector_utils.overpass_predictor
+    checks if a given satellite TLE is in the list of satellites that we want to predict
+    an overpass. If the check is true the TLEs are loaded into memory for use downstream.
+    The logic in the function was too simple and simply checked if a TLE name contained a
+    matching string from the list of satellites we want to predict. This resulted in false
+    positives. For example,
+    check_tle_name_to_passed_names(tle_name="COSMOS 2586", satellite_names_list=["SMOS"])
+    would return True, since "COSMOS 2586" contained the string "SMOS". The logic has been
+    updated to ensure full string matching, so the above example now returns False.
+
+    For every TLE and satellite name, we split the strings by " (", and remove
+    the right parenthesis (if present). This allows us to check two satellite names
+    if provided in the TLE file. For example, take OCEANSAT-3, which has the following
+    name in the file downloaded from celestrak: "EOS-6 (OCEANSAT-3)". Splitting the
+    names allows us to check if "EOS-6" OR "OCEANSAT-3" are in the satellite_names_list.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/sector_utils/overpass_predictor.py'
+  date:
+    start: 2026-01-06
+    finish: 2026-01-06

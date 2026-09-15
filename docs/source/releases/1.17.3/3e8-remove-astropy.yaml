@@ -1,0 +1,23 @@
+bug fix:
+- title: 'Removed astropy usage in readers.'
+  description: 'Removed astropy dependencies in readers to simplify installation.
+  Usage of astropy was mainly for converting TAI time to UTC, now readers adjust
+  manually. Astropy also relied on pulling external ancillary data for converting
+  the time.'
+  files:
+    deleted:
+    - 'tests/outputs/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs/20230524_235200_WP022023_ascat_metop-c_wind-ambiguities_135kts_50p08_1p1.png'
+    - 'tests/outputs/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs/20230524_235304_WP022023_ascat_metop-c_windbarbs_135kts_39p90_0p7.png'
+    moved:
+    - 'tests/outputs/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs/20230524_235051_WP022023_ascat_metop-c_wind-ambiguities_135kts_50p08_1p1.png.yaml'
+    - 'tests/outputs/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs/20230524_235259_WP022023_ascat_metop-c_windbarbs_135kts_39p90_0p7.png.yaml'
+    added:
+    - 'tests/outputs/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs/20230524_235259_WP022023_ascat_metop-c_windbarbs_135kts_39p90_0p7.png'
+    - 'tests/outputs/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs/20230524_235051_WP022023_ascat_metop-c_wind-ambiguities_135kts_50p08_1p1.png'
+    modified:
+    - 'geoips/plugins/modules/readers/atms_hdf5.py'
+    - 'geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py'
+    - 'pyproject.toml'
+  date:
+    start: 2026-02-03
+    finish: 2026-02-03

@@ -1,0 +1,63 @@
+testing:
+  - title: "Himawari-8 20200405T0000Z terminator tiny test sector"
+    description: |
+      Create terminator tiny sector for himawari-8 20200405T0000Z test dataset.
+      Used for potential test scripts that are dependent on day/night data.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - "geoips/plugins/yaml/sectors/integration_tests/geostationary/himawari_sectors/himawari8_20200405T0000Z/test_himawari8_eqc_10km_terminator_20200405T0000Z.yaml"
+        - "tests/integration_tests/tiny_sectors/outputs/test_himawari8_eqc_10km_terminator_20200405T0000Z_Test-AHI-B13-Day-Only/20200405.000000.himawari-8.ahi.Test-AHI-B13-Day-Only.test_himawari8_eqc_10km_terminator_20200405T0000Z.75p94.jma.10p0.png"
+      modified:
+        - "tests/integration_tests/test_tiny_sectors_geoips.py"
+    related-issue:
+      internal: geoips#998
+    date:
+      start: 2025-11-21
+      finish: 2025-12-04
+  - title: "Himawari general land ocean tiny test sector"
+    description: |
+      Use the standard geoips tiny test sector test_himawari_eqc_3km_landocean
+      for the geoips tiny test scripts.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - "geoips/plugins/yaml/sectors/integration_tests/geostationary/ahi_sectors/test_himawari_eqc_3km_landocean.yaml"
+        - "tests/integration_tests/tiny_sectors/outputs/test_himawari_eqc_3km_landocean_Test-AHI-B13-Day-Only/20200405.000000.himawari-8.ahi.Test-AHI-B13-Day-Only.test_himawari_eqc_3km_landocean.100p00.jma.3p0.png"
+      modified:
+        - "tests/integration_tests/test_tiny_sectors_geoips.py"
+    related-issue:
+      internal: geoips#998
+    date:
+      start: 2025-11-21
+      finish: 2025-12-04
+  - title: "Allow producing geotiff tiny sector output along with imagery_clean by env var request"
+    description: |
+      If GEOIPS_CREATE_TINY_SECTOR_TEST_GEOTIFF_OUTPUTS is set, create a geotiff
+      tiny sector output as well as the imagery_clean comparison output. This is
+      for reference only, and not generally required for regular integration tests.
+
+      Remove the old un-referenced test_geoips_run.sh script, since you can
+      now produce the geotiff outputs from the tiny_sectors_geostationary.sh
+      script.
+    files:
+      deleted:
+        - ""
+      moved:
+        - "geoips/plugins/yaml/sectors/integration_tests/test_geoips_run.sh"
+      added:
+        - ""
+      modified:
+        - "tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh"
+        - "tests/integration_tests/test_tiny_sectors_geoips.py"
+    related-issue:
+      internal: geoips#998
+    date:
+      start: 2025-11-21
+      finish: 2025-12-04

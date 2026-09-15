@@ -1,0 +1,18 @@
+area_def_invalid_type:
+  description: "Invalid type for 'area_def' (expects string, got int)"
+  key: area_def
+  val: 15
+  cls: CoverageCheckerArgumentsModel
+  err_str: Input should be a valid string
+variable_name_invalid_type:
+  description: "Invalid type for 'variable_name' (expects string, got int)"
+  key: variable_name
+  val: 15
+  cls: CoverageCheckerArgumentsModel
+  err_str: Input should be a valid string
+radius_km_invalid_type:
+  description: "Invalid type for 'radius_km' (expects int, got string)"
+  key: radius_km
+  val: "test"
+  cls: CoverageCheckerArgumentsModel
+  err_str: Input should be a valid number

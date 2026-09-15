@@ -1,0 +1,24 @@
+enhancement:
+- title: 'Trackfile parsers now specify and return allowed aid types'
+  description: |
+    Trackfile parsers now return a list of allowed aid types. The list of allowed aid
+    types gets passed to the remove_duplicate_storm_positions_and_unsupported_aid_types
+    (formerly remove_duplicate_storm_positions) to filter down the parsed trackfiles.
+
+    Added new f-deck parser provided by Tim Olander from CIMSS.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'geoips/plugins/modules/sector_metadata_generators/fdeck_parser.py'
+    modified:
+    - 'geoips/plugins/modules/procflows/single_source.py'
+    - 'geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py'
+    - 'geoips/sector_utils/tc_tracks.py'
+    - 'geoips/sector_utils/tc_tracks_database.py'
+    - 'geoips/sector_utils/utils.py'
+  date:
+    start: 2025-07-21
+    finish: 2025-07-21

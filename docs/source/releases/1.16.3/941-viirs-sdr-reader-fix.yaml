@@ -1,0 +1,21 @@
+enhancement:
+- title: 'VIIRS SDR HDF5 Native Reader and HNCC product'
+  description: 'Created a true native HDF5 reader for VIIRS SDR data, added the 
+  high near constant contrast product. Migrated the legacy satpy SDR reader.'
+  files:
+    deleted:
+    - 'tests/outputs/viirs.static.visible.imagery_clean/20240925.043006.NOAA-21.viirs.Visible.se_asia.7p30.NOAA.1p0.png'
+    moved:
+    - ''
+    added:
+    - 'docs/source/releases/latest/941-viirs-sdr-reader-fix.yaml'
+    - 'geoips/plugins/modules/algorithms/visir/HNear_Constant_Contrast.py'
+    - 'geoips/plugins/modules/readers/viirs_sdr_satpy_hdf5.py'
+    - 'geoips/plugins/yaml/product_defaults/visir/HNCC.yaml'
+    - 'tests/outputs/viirs.static.visible.imagery_clean/20240925.043043.NOAA-21.viirs.Visible.se_asia.7p33.NOAA.1p0.png'
+    modified:
+    - 'geoips/plugins/modules/readers/viirs_sdr_hdf5.py'
+    - 'geoips/plugins/yaml/products/viirs.yaml'
+  date:
+    start: 2025-09-15
+    finish: null

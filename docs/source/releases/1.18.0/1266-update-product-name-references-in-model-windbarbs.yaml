@@ -1,0 +1,19 @@
+documentation:
+- title: 'Update product name references in model_windbarbs'
+  description: 'Remove stale references to product_name and update the docs accordingly.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'docs/source/releases/latest/1266-update-product-name-references-in-model-windbarbs.yaml'
+    modified:
+    - 'geoips/plugins/modules/algorithms/model/model_channel.py'
+    - 'geoips/plugins/modules/algorithms/model/model_windbarbs.py'
+  related-issue:
+    number: 1265
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 03-12-2026
+    finish: 03-12-2026

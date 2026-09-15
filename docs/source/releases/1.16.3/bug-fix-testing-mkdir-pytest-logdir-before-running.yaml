@@ -1,0 +1,16 @@
+bug fix testing:
+- title: 'Ensure we mkdir on logs/integration before attempting to run integration tests'
+  description: |
+    If the integration test log directory does not exist, pytest will never run. 
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/utils/interactive_pytest.sh'
+  date:
+    start: 2025-09-03
+    finish: 2025-09-03

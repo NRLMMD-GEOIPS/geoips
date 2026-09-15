@@ -11,7 +11,7 @@ from importlib.util import spec_from_file_location, module_from_spec
 from os.path import exists
 from pathlib import Path
 
-import yaml
+import geoips_yaml_utils as yaml
 
 from geoips.commandline.geoips_command import GeoipsExecutableCommand
 from geoips import interfaces
@@ -131,7 +131,7 @@ class GeoipsValidate(GeoipsExecutableCommand):
                         plugin = yaml.safe_load(fo)
                 interface_name = plugin["interface"]
                 plugin_name = plugin["name"]
-        except AttributeError or KeyError:
+        except (AttributeError, KeyError):
             # Report such error.
             err_str = f"Plugin found at {fpath} doesn't have 'interface' and/or "
             err_str += "'name' attribute[s]. This plugin is invalid."

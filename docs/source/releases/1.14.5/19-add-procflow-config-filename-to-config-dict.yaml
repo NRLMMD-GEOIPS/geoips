@@ -13,11 +13,10 @@ enhancement:
     modified:
     - 'geoips/plugins/modules/procflows/config_based.py'
   related-issue:
-    internal: GEOIPS#19
+    internal: geoips_db#19
   date:
     start: 2025-02-22
     finish: 2025-02-22
-enhancement:
 - title: 'Add realtime test option for running current'
   description: |
     Allow setting up realtime test scripts to run on current datasets.
@@ -34,11 +33,10 @@ enhancement:
     modified:
     - 'tests/utils/get_realtime_test_args.sh'
   related-issue:
-    internal: GEOIPS#19
+    internal: geoips_db#19
   date:
     start: 2025-02-22
     finish: 2025-02-22
-enhancement:
 - title: 'Switch default vimrc colorscheme to a light theme, default'
   description: 'Use light by default, not dark'
   files:
@@ -51,7 +49,7 @@ enhancement:
     modified:
     - 'setup/bash_setup/vimrc_ale'
   related-issue:
-    internal: GEOIPS#19
+    internal: geoips_db#19
   date:
     start: 2025-02-22
     finish: 2025-02-22
@@ -72,7 +70,7 @@ bug fix:
     modified:
     - 'tests/unit_tests/commandline/test_geoips_list_unit_tests.py'
   related-issue:
-    internal: GEOIPS#19
+    internal: geoips_db#19
   date:
     start: 2025-02-24
     finish: 2025-02-24

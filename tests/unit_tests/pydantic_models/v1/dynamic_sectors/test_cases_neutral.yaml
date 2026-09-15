@@ -1,0 +1,11 @@
+#cspell:ignore ~emplate
+docstring_missing_period:
+  key: docstring
+  val: Template for TC Web products
+  cls: PluginModel
+  err_str: Description must start with a letter / number and endwith a period.
+docstring_invalid_first_character:
+  key: docstring
+  val: ~emplate for TC Web products.
+  cls: PluginModel
+  err_str: Description must start with a letter / number and endwith a period.

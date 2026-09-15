@@ -12,7 +12,7 @@ enhancement:
     modified:
     - 'geoips/plugins/modules/readers/ewsg_netcdf.py'
   related-issue:
-    internal: GEOIPS#747
+    internal: geoips#747
   date:
     start: 2025-02-05
     finish: 2025-02-05

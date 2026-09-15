@@ -19,7 +19,7 @@ enhancement:
     - 'geoips/plugins/modules/readers/ewsg_netcdf.py'
     - 'geoips/plugins/modules/readers/seviri_hrit.py'
   related-issue:
-    number: 794
+    internal: geoips#794
   date:
     start: 2025-04-15
     finish: 2025-04-15

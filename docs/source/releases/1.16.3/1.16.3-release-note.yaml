@@ -1,0 +1,111 @@
+documentation:
+- title: Add release note for version 1.16.3
+  description: |
+    Release note on release branch to force tag/release, package/publish,
+    and deploy docs.
+
+    Additionally add any updated files from geoips_ci/sync
+  files:
+    added:
+    - docs/source/releases/latest/1.16.3-release-note.yaml
+    modified:
+    - geoips_ci/sync updated files
+  date:
+    start: 2025-10-07
+    finish: 2025-10-07
+  related-issue:
+    internal: geoips#959 - 1.16.3 updates
+- title: Update upcoming and tagged versions
+  description: |
+
+    * Tagged version: 1.16.3
+    * Upcoming version: 1.17.1
+  files:
+    modified:
+    - .github/versions/tagged_version
+    - .github/versions/upcoming_version
+  date:
+    start: 2025-10-07
+    finish: 2025-10-07
+  related-issue:
+    internal: geoips#959 - 1.16.3 updates
+- title: Add realtime_setup supported doc sections, and note how to add additional optional sections to documentation layout
+  description: |
+    Additional documentation sections must be added both in docs/docs-sections.yaml as
+    well as in docs/source/_templates/index.template.rst.
+  files:
+    modified:
+    - 'docs/docs-sections.yaml'
+    - 'docs/source/_templates/index.template.rst'
+  date:
+    start: 2025-10-07
+    finish: 2025-10-07
+  related-issue:
+    internal: geoips#959 - 1.16.3 updates
+bug fix:
+- title: Release note updates required to get build_docs.sh to pass.
+  description: |
+    Apparently we had not run build_docs.sh in a while.
+  files:
+    modified:
+    - 'docs/source/releases/1.16.3/900-postage-stamp-sectors-windbarbs-goes17_20210718t0150z.yaml'
+    - 'docs/source/releases/1.16.3/937-handle-poorly-formatted-archived-bdeck-files.yaml'
+  date:
+    start: 2025-10-07
+    finish: 2025-10-07
+  related-issue:
+    internal: geoips#959 - 1.16.3 updates
+- title: build docs updates for template_basic_plugin deploy pages.
+  description: |
+    * build_docs.sh Must write to repopath, not $GEOIPS_PACKAGES_DIR/pkgname. The
+      build works either way, but deploy_pages.sh does not find the html to push
+      if it is not in the repopath. Output location does not matter otherwise.
+  files:
+    modified:
+    - 'docs/build_docs.sh'
+  date:
+    start: 2025-10-14
+    finish: 2025-10-14
+  related-issue:
+    internal: geoips#959 - 1.16.3 updates
+- title: build docs bug fix for broken links on main documentation index.html
+  description: |
+    * index.template.rst api link should be PKGNAME_api, not just api. The main link
+      to the api was broken in all documentation builds (geoips, template_basic_plugin,
+      and all other plugin package documentation).  The link at the top to the
+      api was correct, just not the main link in the center of the default page.
+    * Note the required pages are getting-started/index.html, PKGNAME_api/index.html,
+      and releases/index.html, based on the hard coded links in index.rst.html. 
+      getting-started is currently NOT listed under a required section in docs-sections,
+      but we will leave it that way for now since, while it does result in a broken
+      link in the documentation if it is not included, if we move it to the required
+      section it will break ALL plugin repo doc builds until we add
+      getting-started/index.rst to every plugin repo (currently NO plugin repos have
+      getting-started/index.rst, only PKGNAME_api and releases). We will want to
+      be entirely sure we have landed on the desired required documentation layout
+      for all plugin repos before updating the docs structure for all repos.
+  files:
+    modified:
+    - 'docs/source/_templates/index.template.rst'
+    - 'docs/docs-sections.yaml'
+  date:
+    start: 2025-10-14
+    finish: 2025-10-14
+  related-issue:
+    internal: geoips#959 - 1.16.3 updates
+testing:
+- title: Add new optional, sample_output, and tiny_sector pytest markers, and required/optional interactive pytest args
+  description: |
+    * mark tiny_sector integration tests with tiny_sector, optional, and integration
+    * mark geoips test sector --overlay integration tests with optional and tiny sector and sample_output
+    * mark global example script integration tests with optional and sample_output
+  files:
+    modified:
+    - 'pytest.ini'
+    - 'tests/integration_tests/test_tiny_sectors_geoips.py'
+    - 'tests/utils/interactive_pytest.sh'
+  date:
+    start: 2025-10-07
+    finish: 2025-10-07
+  related-issue:
+    internal: geoips#959 - 1.16.3 updates

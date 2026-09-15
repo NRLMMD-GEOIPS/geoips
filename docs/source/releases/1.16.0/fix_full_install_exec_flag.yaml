@@ -1,0 +1,12 @@
+bug fix:
+- title: 'Make full_install executable.'
+  description: 'This makes full_install.sh executable. At some point it lost the exec flag. This adds it back. It was the only shell script with this issue.'
+  files:
+    modified:
+    - 'tests/integration_tests/full_install.sh'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: today
+    finish: today

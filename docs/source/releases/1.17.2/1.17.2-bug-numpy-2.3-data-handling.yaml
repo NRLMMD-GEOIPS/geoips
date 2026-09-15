@@ -1,0 +1,73 @@
+bug fixes:
+- title: 'Add numpy representer to yaml.safe_load to ensure numpy types can be written to YAML outputs'
+  description: |
+    As of NumPy 2.3, NumPy scalar types (e.g., np.float64, np.int64) are no longer
+    automatically treated as native Python types by yaml.safe_dump, since numpy
+    types are no longer subclasses of native Python types as of 2.3. This code
+    explicitly registers custom representers to convert numpy types to standard Python
+    types for YAML serialization.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/sector_utils/yaml_utils.py'
+  related-issue:
+    internal: geoips#959 - 1.17.2 bug fixes
+  date:
+    start: 2025-10-29
+    finish: 2025-10-30
+- title: Use pandas to_pydatetime on return from to_datetime for numpy 2.3 upgrade
+  description: |
+    * EWS-G pandas to_pydatetime vs to_datetime
+  files:
+    modified:
+    - "geoips/plugins/modules/readers/ewsg_netcdf.py"
+  date:
+    start: 2025-11-06
+    finish: 2025-11-06
+  related-issue:
+    internal: geoips#959 - 1.17.2 bug fixes
+- title: Update indexing in fci reader for numpy 2.3 
+  description: |
+    Updated indexing for NumPy 2.3 compatibility in FCI reader.
+    Old code `Lv[line_inds, sample_inds]` fails with 2D indexers.
+    Use xarray's `.isel()` with labeled DataArrays to preserve elementwise indexing
+    and maintain xarray structure (dims, coordinates, and methods) under NumPy 2.3+.
+  files:
+    modified:
+    - "geoips/plugins/modules/readers/fci_netcdf.py"
+  date:
+    start: 2025-11-07
+    finish: 2025-11-08
+  related-issue:
+    internal: geoips#959 - 1.17.2 bug fixes
+- title: Fix NumPy 2.3 attribute serialization in xarray.to_netcdf
+  description: |
+    Resolved a TypeError caused by NumPy 2.3’s stricter dtype enforcement when writing
+    Dataset and Variable attributes to NetCDF files. Attributes containing non-primitive
+    types such as dicts, lists, NumPy scalars, or datetimes are now automatically converted
+    to JSON-safe strings prior to serialization. This prevents errors such as
+    "TypeError: illegal data type for attribute ... got O" and
+    "TypeError: Object of type int32 is not JSON serializable" when calling
+    `xarray.to_netcdf()` with metadata containing Python or NumPy objects.
+
+    Maintained custom handling for area_definitions.
+
+    Additionally, logging updates to both config based and xarray_utils/data.py,
+    printing additional information for composited datasets (including coverage
+    for each file included in the composite, as well as the currently merged
+    data).
+  files:
+    modified:
+    - "geoips/plugins/modules/output_formatters/netcdf_xarray.py"
+    - "geoips/plugins/modules/procflows/config_based.py"
+    - "geoips/xarray_utils/data.py"
+  date:
+    start: 2025-11-08
+    finish: 2025-11-08
+  related-issue:
+    internal: geoips#959 - 1.17.2 bug fixes

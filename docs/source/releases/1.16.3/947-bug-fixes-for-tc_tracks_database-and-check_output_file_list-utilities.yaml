@@ -1,0 +1,24 @@
+bug fix:
+- title: 'Bug fixes for tc_tracks_database and check_output_file_list utilities'
+  description: |
+    Raise the new FileFormatError if parsing a trackfile raises an IndexError due bad
+    formatting. This should be uncommon, but will help with debugging.
+
+    Search and replace for references to TCPRIVATEWWW in output file lists from
+    real-time tests.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/errors.py'
+    - 'geoips/sector_utils/tc_tracks_database.py'
+    - 'tests/utils/check_output_file_list.sh'
+  related-issue:
+    internal: GEOIPS#947
+  date:
+    start: 2025-09-24
+    finish: 2025-09-24

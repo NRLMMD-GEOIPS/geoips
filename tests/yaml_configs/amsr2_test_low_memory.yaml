@@ -25,7 +25,7 @@ outputs:
     compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/amsr2.<output>.<product>.imagery_annotated_over_Infrared-Gray
     metadata_filename_formatters:
         tc_fname: metadata_default_fname
-    metadata_output_formatter: metadata_tc
+    metadata_output_formatter: metadata_default
     product_spec_override:
       all:
         filename_coverage_checker:

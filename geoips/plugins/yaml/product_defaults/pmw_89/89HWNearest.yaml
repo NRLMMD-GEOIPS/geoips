@@ -11,8 +11,8 @@ spec:
         output_data_range: [220.0, 280.0]
         min_outbounds: crop
         max_outbounds: crop
-        norm: null
-        inverse: null
+        norm: false
+        inverse: false
   mtif_type: pmw
   colormapper:
     plugin:

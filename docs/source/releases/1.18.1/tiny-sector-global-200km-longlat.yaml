@@ -1,0 +1,12 @@
+testing:
+- title: 'Creating tiny sector for testing'
+  description: |
+    Add new global_200km_longlat sector for integration testing.
+  files:
+    added:
+    - 'geoips/plugins/yaml/sectors/integration_tests/global_200km_longlat.yaml'
+  related-issue:
+    internal: geoips#1033 - low res global tiny sector
+  date:
+    start: 2026-02-27
+    finish: 2026-03-02

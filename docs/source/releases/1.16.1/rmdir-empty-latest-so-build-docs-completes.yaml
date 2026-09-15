@@ -13,7 +13,7 @@ bug fix:
     modified:
     - 'docs/build_docs.sh'
   related-issue:
-    internal: GEOIPS#861
+    internal: geoips#861
   date:
     start: 2025-06-04
     finish: 2025-06-04
