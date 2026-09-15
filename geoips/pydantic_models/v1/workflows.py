@@ -905,18 +905,27 @@ class WorkflowSpecModel(FrozenModel):
             steps = cls.expand_steps(plugin.get("spec"), info)["steps"]
 
         for key, value in override_args.items():
-            if isinstance(value, dict):
+            # Try the dict form
+            try:
                 # occurs for override arguments formatted like such
                 # step_id:
                 #   argument_name: value
                 for argument_name, argument_value in value.items():
                     steps[key]["arguments"][argument_name] = argument_value
-            else:
+            except AttributeError:
+                # Try the dot-notation form
                 # dot-notation overrides
                 # I.e. arguments:
                 #        step_id.argument_name: value
-                step_id, argument_name = key.split(".")
-                steps[step_id]["arguments"][argument_name] = value
+                try:
+                    step_id, argument_name = key.split(".")
+                    steps[step_id]["arguments"][argument_name] = value
+                except (AttributeError, ValueError):
+                    raise ValueError(
+                        f"Error: unable to parse {key}. Expected format should follow "
+                        r"either overrides = {step_id: {argument_name: argument_value}}"
+                        r" or overrides = {step_id.argument_name: argument_value}."
+                    )
 
         if _inputs and kind == "workflow":
             for step_id, step in steps.items():
@@ -925,6 +934,10 @@ class WorkflowSpecModel(FrozenModel):
                     "gridline_annotator",
                     "colormapper",
                 ]:
+                    # if _inputs has been provided and is not a step that implicitly has
+                    # no dependencies, set those here. This is useful when expanding a
+                    # product or a workflow step that in itself depends on parent
+                    # steps out of scope.
                     steps[step_id]["depends_on"] = _inputs
                     break
 

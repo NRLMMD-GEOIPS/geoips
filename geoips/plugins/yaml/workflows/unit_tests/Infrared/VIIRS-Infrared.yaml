@@ -32,7 +32,7 @@ spec:
       kind: workflow
       name: output-imagery-annotated
       # depends_on: [infrared_colormap, apply_single_channel, sector]
-      depend_on: [_input]
+      depends_on: [_input]
       arguments:
         apply_imagery_annotated:
           product_name: Infrared
