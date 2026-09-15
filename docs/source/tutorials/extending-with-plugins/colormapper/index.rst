@@ -114,7 +114,7 @@ class-based plugin, it subclasses its interface base class, sets the
 
     import logging  # optional... but be kind to everyone and provide some logging info please
 
-    from geoips.interfaces.class_based.colormappers import BaseColormapperPlugin
+    from geoips.interfaces.class_based.bases.colormappers import BaseColormapperPlugin
 
     LOG = logging.getLogger(__name__)
 
@@ -217,7 +217,7 @@ what you need for your own colormap.
     """Module containing colormap for colorful cloud height products."""
     import logging
 
-    from geoips.interfaces.class_based.colormappers import BaseColormapperPlugin
+    from geoips.interfaces.class_based.bases.colormappers import BaseColormapperPlugin
 
     LOG = logging.getLogger(__name__)
 

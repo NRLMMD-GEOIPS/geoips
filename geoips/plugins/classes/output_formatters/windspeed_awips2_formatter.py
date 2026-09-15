@@ -3,7 +3,9 @@
 
 """Routines for writing SMAP or SMOS windspeed data in AWIPS2 compatible format."""
 
-from geoips.interfaces.class_based.output_formatters import BaseOutputFormatterPlugin
+from geoips.interfaces.class_based.bases.output_formatters import (
+    BaseOutputFormatterPlugin,
+)
 
 import logging
 from pathlib import Path

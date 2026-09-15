@@ -3,7 +3,7 @@
 
 """Geoips plugin for driving pyresample Gaussian interpolation."""
 
-from geoips.interfaces.class_based.interpolators import BaseInterpolatorPlugin
+from geoips.interfaces.class_based.bases.interpolators import BaseInterpolatorPlugin
 
 import logging
 

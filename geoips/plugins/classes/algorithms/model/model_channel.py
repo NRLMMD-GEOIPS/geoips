@@ -6,7 +6,7 @@
 This algorithm expects one model variable/channel for a single channel image.
 """
 
-from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
+from geoips.interfaces.class_based.bases.algorithms import BaseAlgorithmPlugin
 
 import logging
 import numpy as np
