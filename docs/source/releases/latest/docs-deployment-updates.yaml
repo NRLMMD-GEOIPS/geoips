@@ -1,0 +1,33 @@
+documentation:
+- title: 'Update sphinx configuration and add support file creation utils for versioned docs'
+  description: >
+    Implements the changes necessary in sphinx configuration to enable the
+    `pydata-sphinx-theme`'s version switcher (with versions corresponding to either the
+    minor version family, i.e., `vX.Y`, or `dev`, with an added symlink of `stable` to
+    whatever the latest minor version family subdirectory is). Then, also adds a python
+    script for creating the support files for versioned docs deployement: the
+    `versions.json` configuration file (a single file which all versions of the doc
+    point at to define the version switcher dropdown), the `stable` symlink, and
+    optional index.html and 404.html files to handle redirects (which are not
+    necessary when the CI env variable `$UNVERSIONED_URL_STRATEGY` is set to "copy", or
+    left as default when `$DOCS_BUILD_STRATEGY` is set to "versioned-rebuild"). Also
+    sets the deploy-docs workflow to run not just on release, but on update to main
+    (which serves to update the `dev` docs). These changes are intended to be
+    considered in conjunction with https://github.com/NRLMMD-GEOIPS/geoips_ci/pull/86/,
+    which makes the necessary modifications to the CI to build and deploy multiple
+    versions of the docs at once (and renders unnecessary the `deploy_pages.sh` script,
+    hence its deletion here).
+  files:
+    deleted:
+    - 'docs/deploy_pages.sh'
+    added:
+    - 'docs/create_support_files.py'
+    modified:
+    - '.github/workflows/deploy-docs.yaml'
+    - 'docs/source/_templates/sphinx_conf.template.py'
+  related-issue:
+    number: 1480
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
+  date:
+    start: '2026-08-21'
+    finish: null
