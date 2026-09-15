@@ -1,0 +1,39 @@
+enhancement:
+- title: 'OBP CLI Updates'
+  description: |
+    Updates to v1 workflow models and 'geoips run order_based <workflow_name>' /
+    'geoips test workflow <workflow_name>' CLI commands. Updates include refactoring
+    the 'test' section of a workflow and adding support for overrides in workflow
+    plugins. These can be specified in the test section of a workflow or at the command
+    line via '-[Ss]', '-[Kk]', '-[Gg]' flags via the 'geoips run order_based' command.
+    In order to apply overrides, GeoIPS will fully expand a workflow plugin, replace
+    relevant portions of the workflow with the contents specified as an override, then
+    revalidate the modified workflow.
+
+    Added documentation and fixed failing unit tests as well. New unit tests to come for
+    new functionality added.
+  files:
+    modified:
+      - docs/dev/running_order_based_procflow.rst
+      - docs/source/concepts/functionality/command-line/index.rst
+      - geoips/commandline/ancillary_info/cmd_instructions.yaml
+      - geoips/commandline/geoips_command.py
+      - geoips/commandline/geoips_run.py
+      - geoips/commandline/geoips_test.py
+      - geoips/interfaces/class_based_plugin.py
+      - geoips/interfaces/yaml_based/workflows.py
+      - geoips/plugins/modules/procflows/order_based.py
+      - geoips/plugins/yaml/workflows/unit_tests/test_bad_test_section.yaml
+      - geoips/plugins/yaml/workflows/unit_tests/test_product.yaml
+      - geoips/pydantic_models/v1/output_checkers.py
+      - geoips/pydantic_models/v1/workflows.py
+      - tests/unit_tests/commandline/test_geoips_run.py
+      - tests/unit_tests/commandline/test_geoips_test_workflow.py
+      - tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_bad.yaml
+      - tests/unit_tests/pydantic_models/v1/utils.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
