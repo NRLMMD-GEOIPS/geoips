@@ -25,7 +25,7 @@ export GEOIPS_VERSION=`cat $GEOIPS_CONFIG_PATH/../.github/versions/tagged_versio
 # will not be fully defined appropriately.
 
 if [[ -z "$GEOIPS_CONDA_ENV_NAME" ]]; then
-    export GEOIPS_CONDA_ENV_NAME=geoips_conda
+    export GEOIPS_CONDA_ENV_NAME=geoips
 fi
 
 if [[ -z "$GEOIPS_BASEDIR" ]]; then
@@ -38,7 +38,7 @@ fi
 
 # This is the only *required* environment variable - all output goes here.
 if [[ -z "$GEOIPS_OUTDIRS" ]]; then
-    export GEOIPS_OUTDIRS=$GEOIPS_BASEDIR/geoips_outdirs_test
+    export GEOIPS_OUTDIRS=$GEOIPS_BASEDIR/outdirs
 fi
 
 if [[ -z "$GEOIPS_PERSISTENT_DATA_DIRS" ]]; then
@@ -47,7 +47,7 @@ fi
 
 # This is only used for finding test data within the test scripts - not used within python at all
 if [[ -z "$GEOIPS_TESTDATA_DIR" ]]; then
-    export GEOIPS_TESTDATA_DIR=$GEOIPS_PERSISTENT_DATA_DIRS/test_data
+    export GEOIPS_TESTDATA_DIR=$GEOIPS_BASEDIR/test_data
 fi
 
 # Only re-set GEOIPS_LOGGING_LEVEL to info if it is not set already.
@@ -57,7 +57,7 @@ fi
 
 # This directory should ONLY contain geoips packages - it is used in geoips/filenames/base_paths.py
 # to set up the list of available geoips packages / repos.
-export GEOIPS_PACKAGES_DIR=$GEOIPS_BASEDIR/geoips_packages
+export GEOIPS_PACKAGES_DIR=$GEOIPS_BASEDIR/packages
 
 # This directory contains external packages, system installs, etc
 # Not required for GeoIPS runtime
