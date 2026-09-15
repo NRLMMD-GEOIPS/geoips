@@ -24,6 +24,44 @@ from geoips.pydantic_models.v1 import workflows
 """Test to validate a product definition."""
 
 
+def test_product_step_id_clean_names_joined_with_underscore():
+    """Test _product_step_id() sanitizes and joins segments with underscores."""
+    assert workflows._product_step_id(["mwr", "TB180"]) == "mwr_TB180"
+
+
+def test_product_step_id_dash_in_segment_replaced():
+    """Test _product_step_id() replaces dashes with underscores."""
+    assert workflows._product_step_id(["mwr", "TB325-1"]) == "mwr_TB325_1"
+
+
+def test_product_step_id_dash_in_name_replaced():
+    """Test _product_step_id() replaces dash in a multi-word product name."""
+    assert workflows._product_step_id(["sgli", "IR-RGB"]) == "sgli_IR_RGB"
+
+
+def test_product_step_id_multiple_non_identifier_chars_replaced():
+    """Test _product_step_id replaces multiple non-identifier characters with _."""
+    assert workflows._product_step_id(["pkg", "A.B-C"]) == "pkg_A_B_C"
+
+
+def test_product_step_id_single_segment_no_change():
+    """Test _product_step_id returns a single clean segment unchanged."""
+    assert workflows._product_step_id(["reader"]) == "reader"
+
+
+def test_product_step_id_result_is_valid_python_identifier():
+    """Test _product_step_id meets str.isidentifier() for varied product names."""
+    cases = [
+        ["mwr", "TB325-1"],
+        ["sgli", "IR-RGB"],
+        ["abi", "Infrared"],
+        ["pkg", "A.B-C"],
+    ]
+    for name in cases:
+        result = workflows._product_step_id(name)
+        assert result.isidentifier(), f"{result!r} is not a valid identifier"
+
+
 def test_bad_get_plugin_types_missing_types(valid_plugin_kinds):
     """Test get_plugin_kinds call to check there are no missing plugin kinds."""
     assert not (

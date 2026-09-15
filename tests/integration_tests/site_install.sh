@@ -25,6 +25,10 @@ fi
 # Includes base_install, plus cartopy shapefiles, .vscode repo, and all test data repos required to run tests in geoips repo
 . $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh
 
+# Ensure this gets cloned locally for development purposes.
+# Basic functionality via pypi pip install tested with base install, so allow local
+# editable install here.
+. $check source_repo pluginify $test_exit $install_script
 . $check source_repo data_fusion $test_exit $install_script
 . $check source_repo geoips_clavrx $test_exit $install_script
 . $check source_repo geoips_plugin_example $test_exit $install_script
@@ -86,3 +90,6 @@ if [[ "$skip_create_registries" == "true" ]]; then
 else
     . $check run_command "geoips config create-registries"
 fi
+
+. $check run_command "python $GEOIPS_PACKAGES_DIR/geoips_clavrx/geoips_clavrx/clavrx/install_clavrx.py --pseg --pass_if_exists"
+. $check run_command "python $GEOIPS_PACKAGES_DIR/geoips_clavrx/geoips_clavrx/clavrx/get_ancildata_static.py --pass_if_exists"

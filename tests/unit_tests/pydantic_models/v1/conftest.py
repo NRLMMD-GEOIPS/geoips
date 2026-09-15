@@ -6,6 +6,9 @@
 # cspell:ignore knmi
 # cspell:ignore wfabba
 # cspell:ignore ewsg
+# cspell:ignore cbar
+# cspell:ignore gpaths
+# cspell:ignore TCWW
 
 # Third-Party Libraries
 import pytest
@@ -55,7 +58,7 @@ def valid_reader_arguments_model_data(file_generated_from_pytest_fixture):
         "variables": ["None"],
         "metadata_only": True,
         "self_register": "LOW",
-        "fnames": [file_generated_from_pytest_fixture],
+        "filenames": [file_generated_from_pytest_fixture],
     }
 
 
@@ -190,10 +193,18 @@ def valid_output_checker_arguments(file_generated_from_pytest_fixture):
 
 
 @pytest.fixture
+def valid_output_formatter_arguments():
+    """Fixture providing valid data OutputFormatterArgumentsModel tests."""
+    return {
+        "append": False,
+    }
+
+
+@pytest.fixture
 def valid_workflow_spec_model_data():
     """Fixture providing valid data testing WorkflowSpecModel fields."""
     return {
-        "global_arguments": {
+        "globals": {
             "presector": False,
             "product_db": True,
             "product_db_writer": "postgres_database",

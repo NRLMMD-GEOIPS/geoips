@@ -10,6 +10,8 @@ from geoips.interfaces.base import BaseClassInterface
 class BaseTitleFormatterPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS title_formatter plugins."""
 
+    data_tree = False
+
     pass
 
 

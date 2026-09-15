@@ -15,7 +15,6 @@ documentation:
     finish: 2026-02-07
   related-issue:
     internal: geoips#1029 - 1.17.3 updates
-documentation:
 - title: Update upcoming and tagged versions
   description: |
 

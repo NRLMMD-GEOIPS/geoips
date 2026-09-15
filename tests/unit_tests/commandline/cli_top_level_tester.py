@@ -422,9 +422,8 @@ class BaseCliTest(abc.ABC):
             self.check_error(args, error)
         else:
             print(output)
-            # if caplog was provided and logging statements were caught, add those to
+            # If caplog was provided and logging statements were caught, add those to
             # output.
             if caplog and len(caplog.text):
                 output += caplog.text
-
             self.check_output(args, output)

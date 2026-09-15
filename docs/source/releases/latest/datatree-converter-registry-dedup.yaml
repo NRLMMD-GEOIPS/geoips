@@ -1,0 +1,22 @@
+refactor:
+- title: 'Route DataTreeDitto reverse conversion through the shared converter_registry'
+  description: |
+    DataTreeDitto previously kept its own ``_converters`` dict in sync with the
+    shared ``converter_registry`` by hand, and its reverse (Dataset -> original)
+    conversion dispatched off that private dict. ``_convert_from_dataset`` now
+    resolves the ``_ditto_original_type`` against ``converter_registry`` and
+    delegates the conversion to it, so there is a single source of truth for
+    converter dispatch. ``datatree_converters`` now registers each converter
+    through the one ``register_converter`` call site (which populates both the
+    shared registry and the backward-compatible ``_converters`` mirror), removing
+    the duplicated direct registrations.
+  files:
+    modified:
+    - geoips/utils/types/datatree_ditto.py
+    - geoips/utils/types/datatree_converters.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

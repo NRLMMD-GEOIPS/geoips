@@ -57,7 +57,7 @@ class TestGeoipsDescribePlugin(BaseCliTest):
                                     self.random_generator.random() < self.rand_threshold
                                 )
                                 if do_describe_plugin or idx == 0:
-                                    combined_name = f"{plugin_name}.{subplg_name}"
+                                    combined_name = f"{plugin_name}:{subplg_name}"
                                     self._cmd_list.append(
                                         base_args + [alias, combined_name],
                                     )

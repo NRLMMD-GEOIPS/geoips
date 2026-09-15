@@ -1,0 +1,14 @@
+installation:
+- title: Allow piped calls to run_command
+  description: |
+    If there is a pipe character in the passed command, call with bash -c and set -o pipefail.
+    This should not change operation of non-piped commands, and piped commands did not
+    previously work at all.
+  files:
+    modified:
+    - setup/check_system_requirements.sh
+  related-issue:
+    internal: geoips#1029 - 1.18.2 updates
+  date:
+    start: 2026-05-15
+    finish: 2026-05-15

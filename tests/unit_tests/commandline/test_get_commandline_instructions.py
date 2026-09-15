@@ -7,6 +7,7 @@ import os
 from os.path import dirname, exists
 
 import pytest
+import shutil
 import tempfile
 
 from geoips.utils.cache_files import get_cached_json
@@ -55,8 +56,9 @@ def test_instruction_cases(dir_name):
             f"{cmd_dir}/cmd_instructions.yaml",
             cache_dir=cache_dir,
         )
-        # Ensure that a key error is raised
-        GeoipsCLI(cmd_instructions=cmd_instructions)
+        # Ensure that a key error is raised for improperly formatted instructions
+        with pytest.raises(KeyError):
+            GeoipsCLI(cmd_instructions=cmd_instructions)
     elif "missing" in dir_name:
         if dir_name == "json_missing":
             cmd_instructions = get_cached_json(cmd_yaml, cache_dir=cache_dir)
@@ -66,8 +68,4 @@ def test_instruction_cases(dir_name):
                 get_cached_json(cmd_yaml, cache_dir=cache_dir)
 
     # Clean up
-    try:
-        os.remove(cmd_json)
-    except FileNotFoundError:
-        pass
-    os.rmdir(cache_dir)
+    shutil.rmtree(cache_dir, ignore_errors=True)

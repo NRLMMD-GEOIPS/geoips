@@ -1,0 +1,20 @@
+documentation:
+- title: 'Update DataTree spec implementation status and procflow interface docstring'
+  description: |
+    Update the Implementation Status block in ``docs/dev/datatree-spec.md`` to
+    reflect that split/join execution and static multi-sector (SBP) processing
+    are now implemented (with dynamic sectors and ``when:`` still deferred), and
+    that DataTree converter dispatch uses a single shared registry. The
+    ``ProcflowsInterface`` docstring is corrected to describe the class-based
+    ``order_based`` procflow and to drop the reference to a non-existent
+    ``overlay`` procflow.
+  files:
+    modified:
+    - docs/dev/datatree-spec.md
+    - geoips/interfaces/class_based/procflows.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

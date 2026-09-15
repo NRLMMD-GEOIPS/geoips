@@ -17,7 +17,6 @@ enhancement:
   date:
     start: 2025-02-22
     finish: 2025-02-22
-enhancement:
 - title: 'Add realtime test option for running current'
   description: |
     Allow setting up realtime test scripts to run on current datasets.
@@ -38,7 +37,6 @@ enhancement:
   date:
     start: 2025-02-22
     finish: 2025-02-22
-enhancement:
 - title: 'Switch default vimrc colorscheme to a light theme, default'
   description: 'Use light by default, not dark'
   files:

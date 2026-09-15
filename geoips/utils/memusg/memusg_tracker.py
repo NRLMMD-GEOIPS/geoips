@@ -191,11 +191,14 @@ class PidLog:
         """Print verbose resouce usage."""
         usage_dict = {}
         vmem_percent = psutil.virtual_memory().percent
+        print_logstr = self.logstr
+        if logstr:
+            print_logstr = f"{self.logstr} {logstr}"
         LOG.info(
             "virtual perc: %s on %s %s",
             str(vmem_percent),
             str(socket.gethostname()),
-            self.logstr,
+            print_logstr,
         )
         #
 
@@ -204,7 +207,7 @@ class PidLog:
             "swap perc:    %s on %s %s",
             str(swap_percent),
             str(socket.gethostname()),
-            self.logstr,
+            print_logstr,
         )
 
         if len(self.usage_dict["overall"]["unique_set_size"]) > 0:
@@ -218,14 +221,14 @@ class PidLog:
             "highest ram:    %s on %s %s",
             str(ram_usg),
             str(socket.gethostname()),
-            self.logstr,
+            print_logstr,
         )
 
         LOG.info(
             "highest rss:      %s on %s %s",
             str(highest),
             str(socket.gethostname()),
-            self.logstr,
+            print_logstr,
         )
 
         if verbose:
@@ -454,6 +457,10 @@ class PidLog:
         for stat, val in max_stat.items():
             gran_usg_dict[key][f"max_{stat}"] = val
 
+        print_logstr = self.logstr
+        if logstr:
+            print_logstr = f"{self.logstr} {logstr}"
+
         ram_usg = max_stat["unique_set_size"]
         highest = max_stat["res_set_size"]
         if show_log and not checkpoint:
@@ -462,35 +469,35 @@ class PidLog:
                 key,
                 str(vmem_percent),
                 str(socket.gethostname()),
-                self.logstr,
+                print_logstr,
             )
             LOG.info(
                 "%s: swap perc:    %s on %s %s",
                 key,
                 str(swap_percent),
                 str(socket.gethostname()),
-                self.logstr,
+                print_logstr,
             )
             LOG.info(
                 "%s: highest ram:    %s on %s %s",
                 key,
                 str(ram_usg),
                 str(socket.gethostname()),
-                self.logstr,
+                print_logstr,
             )
             LOG.info(
                 "%s: highest rss:      %s on %s %s",
                 key,
                 str(highest),
                 str(socket.gethostname()),
-                self.logstr,
+                print_logstr,
             )
             LOG.info(
                 "%s: elapsed runtime (seconds):    %s on %s %s",
                 key,
                 str(elapsed_time),
                 str(socket.gethostname()),
-                self.logstr,
+                print_logstr,
             )
 
             if verbose:

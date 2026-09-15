@@ -71,6 +71,7 @@ def call_cmd(
     use_logging=True,
     use_print=False,
     pipe=False,
+    cwd=None,
 ):
     """Call command using subprocess.run, and log to specified log file if requested."""
     if output_log_fname and not os.path.exists(os.path.dirname(output_log_fname)):
@@ -104,6 +105,7 @@ def call_cmd(
             stdout_newline_replace_val=stdout_newline_replace_val,
             use_logging=use_logging,
             use_print=use_print,
+            cwd=cwd,
         )
     return retval, stdout, stderr
 
@@ -114,9 +116,12 @@ def call_cmd_pipe(
     stdout_newline_replace_val=None,
     use_logging=True,
     use_print=False,
+    cwd=None,
 ):
     """Call command using Popen, and log to specified log file if requested."""
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    p = subprocess.Popen(
+        cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=cwd
+    )
     stdout = []
     stderr = []
 
@@ -690,7 +695,7 @@ def merge_nested_dicts(dest, src, in_place=True, replace=False):
         return final_dest
 
 
-def expose_geoips_commands(pkg_name=None, _test_log=None):
+def expose_geoips_commands(pkg_name=None, _test_log=None, column_width=None):
     """Expose a list of commands that operate in the GeoIPS environment.
 
     Where, these commands are defined under 'pyproject.toml:[tool.poetry.scripts]',
@@ -705,6 +710,9 @@ def expose_geoips_commands(pkg_name=None, _test_log=None):
     _test_log: logging.Logger (default = None)
         - If provided, use this logger instead. This is added as an optional argument
           so we can check the output of this command for our Unit Tests.
+    column_width: int (default = None)
+        - If provided, use explicit column width for table.  By default, use
+          get_terminal_size().columns // 2
     """
     pkg_name, log = _get_pkg_name_and_logger(pkg_name, _test_log)
     # Get a list of console_script entrypoints specific to the provided package
@@ -717,6 +725,12 @@ def expose_geoips_commands(pkg_name=None, _test_log=None):
     log.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
     log.interactive(f"Available {pkg_name.title()} Commands")
     log.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
+    # Default to terminal size divided by 2
+    maxcolwidths = get_terminal_size().columns // 2
+    # If specified, use passed in column_width (used for testing to ensure console
+    # script names do not wrap when checking the output for each console script).
+    if column_width:
+        maxcolwidths = column_width
     if eps:
         table_data = [[ep.name, ep.value] for ep in eps]
         # Log the commands found in a tabular fashion
@@ -725,7 +739,7 @@ def expose_geoips_commands(pkg_name=None, _test_log=None):
                 table_data,
                 headers=["Command Name", "Command Path"],
                 tablefmt="rounded_grid",
-                maxcolwidths=get_terminal_size().columns // 2,
+                maxcolwidths=maxcolwidths,
             )
         )
         # Otherwise let the user know that there were not commands found for this

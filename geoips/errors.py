@@ -5,8 +5,6 @@
 
 from pluginify.errors import PluginError  # NOQA ; used in various imports
 
-from yaml.constructor import ConstructorError
-
 
 class GeoipsError(Exception):
     """Base class for all GeoIPS-specific exceptions.
@@ -73,7 +71,74 @@ class CliError(Exception):
     pass
 
 
-class DuplicateKeyError(ConstructorError, GeoipsError):
-    """Raised when a YAML mapping contains duplicate keys."""
+class ConfigError(GeoipsError):
+    """Raise exception on GeoIPS configuration error.
+
+    Used for invalid configuration files, plugin config registration
+    problems, and environment-variable collisions.
+    """
+
+    pass
+
+
+# ── DataTree / Workflow Domain Exceptions ─────────────────────────────────
+
+
+class WorkflowSpecError(GeoipsError):
+    """Workflow YAML fails pydantic validation.
+
+    Raised when the YAML structure, field types, or required values do not
+    conform to the workflow specification.
+    """
+
+    pass
+
+
+class PluginResolutionError(GeoipsError):
+    """A plugin ``name:`` reference in a step cannot be resolved.
+
+    Raised when ``PluginRegistry.get_plugin(kind, name)`` returns no result
+    for a given (kind, name) pair referenced in a workflow YAML.
+    """
+
+    pass
+
+
+class DependencyCycleError(GeoipsError):
+    """The ``depends_on`` graph contains a directed cycle.
+
+    Raised during workflow validation when steps form a circular dependency
+    chain that cannot be topologically sorted.
+    """
+
+    pass
+
+
+class DataTreeSchemaError(GeoipsError):
+    """Required attributes or child nodes are missing from a DataTree.
+
+    Raised by the workflow runner when an output DataTree fails structural
+    invariants (e.g., a step node missing required attrs).
+    """
+
+    pass
+
+
+class RetentionConfigError(GeoipsError):
+    """Conflicting or invalid retention settings.
+
+    Raised when a workflow's retention policy combined with per-step ``keep``
+    flags creates an unresolvable configuration.
+    """
+
+    pass
+
+
+class BoundaryIOError(GeoipsError):
+    """Reader or output_formatter I/O failure.
+
+    Raised when a boundary step (reader or output_formatter) fails to read
+    from or write to disk.
+    """
 
     pass

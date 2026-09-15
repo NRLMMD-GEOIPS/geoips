@@ -8,9 +8,9 @@
 Get to know the GeoIPS Readers
 ******************************
 
-GeoIPS readers are module-based plugins that create a method of reading in many types of
+GeoIPS readers are class-based plugins that create a method of reading in many types of
 satellite derived data. This doesn't mean you cannot create other types of data readers
-too, such as .csv, .xls, etc. GeoIPS is primarly used as a package for Geo-informational
+too, such as .csv, .xls, etc. GeoIPS is primarily used as a package for Geo-informational
 data, however if you purpose in a plugin that reads different types of data, the world
 is your oyster.
 
@@ -60,8 +60,9 @@ The variables defined in the product above directly correlate to the variables c
 in the Xarray after being processed by the reader. If you changed those variables name
 in your product, it wouldn't work!
 
-As with any GeoIPS plugin, a reader is required to define the top level attributes
-``interface``, ``family``, and ``docstring``.
+As with any class-based GeoIPS plugin, a reader is required to define the class attributes
+``interface``, ``family``, and ``name`` (and a class ``docstring``). See
+:ref:`writing-class-based-plugins` for the full contract.
 
 Please see documentation for
 :ref:`additional info on GeoIPS required attributes<required-attributes>`,
@@ -69,16 +70,16 @@ Please see documentation for
 Reader Structure Overview
 -------------------------
 
-A GeoIPS reader is module-based, and therefore must have a ``call`` function, as do all
-other module-based plugins. Readers generallly also have one or several ``read functions``,
-that exist outside of the call function. Optionally, a reader can also include ``utility
-functions`` that perform some kind of operation on inputs. We will discuss each of each
+A GeoIPS reader is a class-based plugin, and therefore must have a ``call`` method, as do
+all other class-based plugins. Readers generally also have one or several ``read
+functions``, defined as methods on the reader class. Optionally, a reader can also include
+``utility functions`` that perform some kind of operation on inputs. We will discuss each
 of these in further detail now.
 
-* The ``call`` function.
-    * The call function is the main driver of a GeoIPS reader. It accepts the keyword
+* The ``call`` method.
+    * The call method is the main driver of a GeoIPS reader. It accepts the keyword
       arguments (kwargs) that contain the list of files to be read, and a handful of
-      instructions that adust how the reader functions.
+      instructions that adjust how the reader functions.
 
 * Reader functions
     * Populate Xarrays with data from the files themselves. They technically are
@@ -94,16 +95,35 @@ of these in further detail now.
     * Unit testing to help test conformity and validity of the reader and test data.
       For more details see :ref:`unit_tests`.
 
-See below for an example of all three functions signatures in action.
+See below for the class structure with all three kinds of functions in action. The reader
+subclasses ``BaseReaderPlugin``, sets ``interface``/``family``/``name``, implements
+``call`` and its read functions as methods, and declares ``PLUGIN_CLASS`` at the bottom.
 
 .. code-block:: python
 
-    def convert_epoch_to_datetime64(time_array, use_shape=None):  # Utility Function
+    from geoips.interfaces.class_based.readers import BaseReaderPlugin
 
-    def read_atms_file(fname, xarray_atms):  # Read Function
 
-    def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=None):  # Call Function, with
-    important kwargs
+    def convert_epoch_to_datetime64(time_array, use_shape=None):  # Utility function (module-level)
+        ...
+
+
+    class MyAtmsReaderPlugin(BaseReaderPlugin):
+        """Read My ATMS data."""
+
+        interface = "readers"
+        family = "standard"
+        name = "my_atms"
+
+        def call(self, fnames, metadata_only=False, chans=None, area_def=None,
+                 self_register=None):  # main entry point, with important kwargs
+            ...
+
+        def read_atms_file(self, fname, xarray_atms):  # read function (method)
+            ...
+
+
+    PLUGIN_CLASS = MyAtmsReaderPlugin
 
 There are a few keypoints of the call function that should be talked about. First off,
 is the metadata required by GeoIPS that is associated with your data. Mainly, there are
@@ -137,7 +157,7 @@ and ease of use in the future. See below for an example of invoking a read funct
 
     xarray_objs = {}
     for fname in fnames:
-        xarray_objs[basename(fname)] = read_xarray_netcdf(fname)  # The read function is invoked here
+        xarray_objs[basename(fname)] = self.read_xarray_netcdf(fname)  # read function invoked via self
 
     xarray_objs["METADATA"] = list(xarray_objs.vallues())[0][[]]
     """Different approach to the above code section that reads data and then sets the metadata afterward"""
@@ -154,7 +174,7 @@ along to GeoIPS. However, as with any piece of code, there are some challenges t
 should be aware of.
 
 The first challenge are 1-Dimensional (1D) Variables. It's ok if your variables are 1D,
-so long as *all of them* are 1D. You may need to do some array manipulatoin to get
+so long as *all of them* are 1D. You may need to do some array manipulation to get
 everthing even! This is a common issue particularly with time arrays.
 
 Another issue is time formatting. For example ``TAI93``, ``UTC``, ``binary string``,
