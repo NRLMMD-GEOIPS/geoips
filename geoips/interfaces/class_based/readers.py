@@ -9,6 +9,7 @@ import warnings
 from datetime import datetime
 from os.path import basename
 from pathlib import Path
+from typing import ClassVar, Mapping, List, Literal
 
 import numpy as np
 import xarray as xr
@@ -25,6 +26,7 @@ from geoips.plugins.classes.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
     AutoGenError,
 )
+from geoips.pydantic_models.v1.bases import FrozenModel
 
 LOG = logging.getLogger(__name__)
 
@@ -168,6 +170,70 @@ class ChannelList(object):
         return cls(cls.reader, chans, cls.readable_channels)
 
 
+class ChannelInformationModel(FrozenModel):
+    """A mapping of a sensor's resolutions to the channels read under that resolution."""  # NOQA
+
+    resolution_type: ClassVar = Literal["LOW", "MED", "HIGH", "ANY"]
+    resolutions: List[Literal["LOW", "MED", "HIGH", "ANY"]]
+    channels: Mapping[Literal["LOW", "MED", "HIGH", "ANY"], List[str]]
+    channel_units: Mapping[str, List[Literal["Rad", "Ref", "BT"]]]
+    channel_descriptions: Mapping[str, str]
+
+
+class ChannelInformation(dict):
+    """A mapping of a sensor's resolutions to the channels read under that resolution."""  # NOQA
+
+    _resolution_type = Literal["LOW", "MED", "HIGH", "ANY"]
+    _resolutions_type = List[_resolution_type]
+    _channels_type = Mapping[_resolution_type, List[str]]
+    _channel_units_type = Mapping[str, List[Literal["Rad", "Ref", "BT"]]]
+    _channel_descriptions_type = Mapping[str, str]
+
+    unit_mapping = {
+        "Rad": "Radiance",
+        "Ref": "Reflectance",
+        "BT": "Brightness Temperature",
+    }
+
+    def __init__(
+        self,
+        resolutions: _resolutions_type,
+        channels: _channels_type,
+        channel_units: _channel_units_type,
+        channel_descriptions: _channel_descriptions_type,
+    ):
+        """Initialize the ChannelInformation object.
+
+        Parameters
+        ----------
+        resolutions : List[Literal["LOW", "MED", "HIGH", "ANY"]]
+            The resolutions supported by a sensor.
+        channels : Mapping[resolution, List[str]]
+            The channels that can be read for a certain resolution.
+        channel_units : Mapping[str, List[Literal["Rad", "Ref", "BT"]]]
+            A mapping of channels and the units that can be provided for each channel.
+        channel_descriptions : Mapping[str, str]
+            A mapping of channels and their corresponding descriptions.
+        """
+        self._channel_information = ChannelInformationModel(
+            resolutions=resolutions,
+            channels=channels,
+            channel_units=channel_units,
+            channel_descriptions=channel_descriptions,
+        )
+
+        self.channel_information = {}
+
+        for res in self._channel_information.resolutions:
+            self.channel_information[res] = {}
+            for chan in self._channel_information.channels[res]:
+                for unit in self._channel_information.channel_units[chan]:
+                    desc = self._channel_information.channel_descriptions[chan]
+                    self.channel_information[res][
+                        f"{chan}{unit}"
+                    ] = f"{desc} [{res}-Resolution, {self.unit_mapping[unit]}]"
+
+
 class BaseReaderPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS reader plugins."""
 
@@ -204,9 +270,12 @@ class BaseReaderPlugin(BaseClassPlugin, abstract=True):
         """All channels that can be read by this reader plugin."""
         if not hasattr(self, "_readable_channels"):
             self._readable_channels = set()
-            for channels in self._get_channel_listing().values():
-                for chan in channels:
-                    self._readable_channels.add(chan)
+            if not hasattr(self, "CHANNEL_INFORMATION"):
+                for channels in self._get_channel_listing().values():
+                    for chan in channels:
+                        self._readable_channels.add(chan)
+            else:
+                self._readable_channels = self.CHANNEL_INFORMATION
 
         return self._readable_channels
 
