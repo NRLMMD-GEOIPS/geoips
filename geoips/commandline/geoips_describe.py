@@ -196,6 +196,17 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
             self._output_dictionary_highlighted(plugin_entry)
         else:
             plugin_entry = interface_registry[plugin_name]
+
+            if interface.name == "readers":
+                readable_channels = interface.get_plugin(plugin_name).readable_channels
+                readable_channels = (
+                    readable_channels if len(readable_channels) else "Unknown"
+                )
+                if isinstance(readable_channels, set):
+                    readable_channels = list(readable_channels)
+
+                plugin_entry["readable_channels"] = readable_channels
+
             self._output_dictionary_highlighted(plugin_entry)
 
     def describe_family(self, args):
