@@ -9,7 +9,7 @@ import warnings
 from datetime import datetime
 from os.path import basename
 from pathlib import Path
-from typing import ClassVar, Mapping, List, Literal
+from typing import Mapping, List, Literal
 
 import numpy as np
 import xarray as xr
@@ -173,7 +173,6 @@ class ChannelList(object):
 class ChannelInformationModel(FrozenModel):
     """A mapping of a sensor's resolutions to the channels read under that resolution."""  # NOQA
 
-    resolution_type: ClassVar = Literal["LOW", "MED", "HIGH", "ANY"]
     resolutions: List[Literal["LOW", "MED", "HIGH", "ANY"]]
     channels: Mapping[Literal["LOW", "MED", "HIGH", "ANY"], List[str]]
     channel_units: Mapping[str, List[Literal["Rad", "Ref", "BT"]]]
