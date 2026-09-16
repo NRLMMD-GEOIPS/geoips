@@ -3,7 +3,7 @@
 
 """Filename formatter for TC-specific text windspeed outputs."""
 
-from geoips.interfaces.class_based.filename_formatters import (
+from geoips.interfaces.class_based.bases.filename_formatters import (
     BaseFilenameFormatterPlugin,
 )
 

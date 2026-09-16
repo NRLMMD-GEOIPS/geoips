@@ -1,7 +1,7 @@
 [tool.poetry]
 # required ones
 name = "geoips"                                          # geoips package available at the root of the project
-version = "0.0.0"                                        # 0.0.0 will be auto-updated with poetry dynamic versioning!
+version = "2.0.0a0.post8.dev0"                                        # 0.0.0 will be auto-updated with poetry dynamic versioning!
 description = "Geolocated Information Processing System"
 authors = ["GeoIPS <geoips@nrlmry.navy.mil>"]
 

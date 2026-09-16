@@ -3,7 +3,7 @@
 
 """Module containing wave height colormap with transitions at 0,2,4,6,8."""
 
-from geoips.interfaces.class_based.colormappers import BaseColormapperPlugin
+from geoips.interfaces.class_based.bases.colormappers import BaseColormapperPlugin
 
 import logging
 

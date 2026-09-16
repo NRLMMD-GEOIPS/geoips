@@ -3,7 +3,9 @@
 
 """Matplotlib-based clean image output."""
 
-from geoips.interfaces.class_based.output_formatters import BaseOutputFormatterPlugin
+from geoips.interfaces.class_based.bases.output_formatters import (
+    BaseOutputFormatterPlugin,
+)
 
 import logging
 

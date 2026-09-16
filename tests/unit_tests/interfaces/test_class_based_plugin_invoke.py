@@ -12,7 +12,7 @@ import numpy as np
 import xarray as xr
 
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.bases.readers import BaseReaderPlugin
 from geoips.scripting import RetentionPolicy, initialize_script_tree
 from geoips.utils.types.script_datatree import attach_plugin_result
 

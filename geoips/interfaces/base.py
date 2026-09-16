@@ -6,7 +6,7 @@
 # cspell:ignore refjs
 
 import logging
-
+from importlib import import_module
 from importlib.resources import files
 from pathlib import Path
 import jsonschema
@@ -21,6 +21,7 @@ from pluginify.interfaces.base import (  # NOQA: F401
     BaseYamlPlugin,
 )  # imports used elsewhere in GeoIPS
 
+from geoips.utils.types.partial_lexeme import Lexeme
 import geoips_yaml_utils as yaml
 from geoips.errors import PluginError
 
@@ -247,6 +248,43 @@ class BaseClassInterface(pluginify_base_class):
     """
 
     apiVersion = "geoips/v1"
+
+    def _get_plugin_class(self):
+        """Get the 'plugin_class' for a class-based interface.
+
+        'plugin_class' tells the interface of the plugin being loaded what parent class
+        to construct the object from.
+
+        Returns
+        -------
+        plugin_class : Object
+            The base plugin class for any plugin that falls under this interface.
+        """
+        import_str = f"geoips.interfaces.class_based.bases.{self.name}"
+
+        interface_camel_case = "".join(
+            [part.title() for part in Lexeme(self.name).singular.split("_")]
+        )
+
+        try:
+            plugin_module = import_module(import_str)
+        except ImportError:
+            raise ImportError(
+                f"Error: unable to import module {import_str}. Please insure this "
+                "exists before continuing."
+            )
+
+        plugin_class_name = f"Base{interface_camel_case}Plugin"
+
+        try:
+            plugin_class = getattr(plugin_module, plugin_class_name)
+        except AttributeError:
+            raise AttributeError(
+                f"Error: {import_str} has no object named {plugin_class_name}. "
+                "Please create it before continuing."
+            )
+
+        return plugin_class
 
 
 class BaseYamlInterface(pluginify_base_yaml):

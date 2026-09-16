@@ -7,7 +7,7 @@ Given desired center lat/lon, projection, resolution, and shape, return a
 valid pyresample area definition object.
 """
 
-from geoips.interfaces.class_based.sector_spec_generators import (
+from geoips.interfaces.class_based.bases.sector_spec_generators import (
     BaseSectorSpecGeneratorPlugin,
 )
 

@@ -3,7 +3,7 @@
 
 """Matplotlib-based windbarb clean image output (no overlays or backgrounds)."""
 
-from geoips.interfaces.class_based.output_formatters import (
+from geoips.interfaces.class_based.bases.output_formatters import (
     WindbarbOutputFormatterPlugin,
 )
 
