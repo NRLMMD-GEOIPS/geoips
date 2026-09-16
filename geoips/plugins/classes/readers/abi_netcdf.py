@@ -97,60 +97,65 @@ class AbiNetcdfReaderPlugin(BaseAbiReaderPlugin):
         "longitude",
     ]
     CHANNEL_INFORMATION = ChannelInformation(
-        resolutions=["LOW", "MED", "HIGH"],
-        channels={
-            "LOW": [
-                "B04",
-                "B06",
-                "B07",
-                "B08",
-                "B09",
-                "B10",
-                "B11",
-                "B12",
-                "B13",
-                "B14",
-                "B15",
-                "B16",
-            ],
-            "MED": ["B01", "B02", "B05"],
-            "HIGH": ["B03"],
-        },
-        channel_units={
-            "B04": ["Rad", "Ref"],
-            "B06": ["Rad", "Ref"],
-            "B07": ["Rad", "BT"],
-            "B08": ["Rad", "BT"],
-            "B09": ["Rad", "BT"],
-            "B10": ["Rad", "BT"],
-            "B11": ["Rad", "BT"],
-            "B12": ["Rad", "BT"],
-            "B13": ["Rad", "BT"],
-            "B14": ["Rad", "BT"],
-            "B15": ["Rad", "BT"],
-            "B16": ["Rad", "BT"],
-            "B01": ["Rad", "Ref"],
-            "B02": ["Rad", "Ref"],
-            "B05": ["Rad", "Ref"],
-            "B03": ["Rad", "Ref"],
-        },
-        channel_descriptions={
-            "B04": "1.37um Near-IR Cirrus",
-            "B06": "2.2um Near-IR Cloud Particle Size",
-            "B07": "3.9um IR Shortwave Window",
-            "B08": "6.2um IR Upper-level tropospheric water vapor",
-            "B09": "6.9um IR Mid-level water vapor",
-            "B10": "7.3um IR Lower-level Water Vapor",
-            "B11": "8.4um IR Cloud-top phase",
-            "B12": "9.6um IR Ozone",
-            "B13": "10.3um IR Clean IR Longwave Window",
-            "B14": "11.2um IR IR Longwave window",
-            "B15": "12.3um IR Dirty Longwave Window",
-            "B16": "13.3um IR CO2 Longwave infrared",
-            "B01": "0.47um Vis Blue",
-            "B02": "0.64um Vis Red",
-            "B05": "1.6um Near-IR Snow/Ice",
-            "B03": "0.86um Near-IR Veggie",
+        channel_info={
+            "LOW": {
+                "B04": {
+                    "units": ["Rad", "Ref"],
+                    "description": "1.37um Near-IR Cirrus",
+                },
+                "B06": {
+                    "units": ["Rad", "Ref"],
+                    "description": "2.2um Near-IR Cloud Particle Size",
+                },
+                "B07": {
+                    "units": ["Rad", "BT"],
+                    "description": "3.9um IR Shortwave Window",
+                },
+                "B08": {
+                    "units": ["Rad", "BT"],
+                    "description": "6.2um IR Upper-level tropospheric water vapor",
+                },
+                "B09": {
+                    "units": ["Rad", "BT"],
+                    "description": "6.9um IR Mid-level water vapor",
+                },
+                "B10": {
+                    "units": ["Rad", "BT"],
+                    "description": "7.3um IR Lower-level Water Vapor",
+                },
+                "B11": {
+                    "units": ["Rad", "BT"],
+                    "description": "8.4um IR Cloud-top phase",
+                },
+                "B12": {"units": ["Rad", "BT"], "description": "9.6um IR Ozone"},
+                "B13": {
+                    "units": ["Rad", "BT"],
+                    "description": "10.3um IR Clean IR Longwave Window",
+                },
+                "B14": {
+                    "units": ["Rad", "BT"],
+                    "description": "11.2um IR IR Longwave window",
+                },
+                "B15": {
+                    "units": ["Rad", "BT"],
+                    "description": "12.3um IR Dirty Longwave Window",
+                },
+                "B16": {
+                    "units": ["Rad", "BT"],
+                    "description": "13.3um IR CO2 Longwave infrared",
+                },
+            },
+            "MED": {
+                "B01": {"units": ["Rad", "Ref"], "description": "0.47um Vis Blue"},
+                "B02": {"units": ["Rad", "Ref"], "description": "0.64um Vis Red"},
+                "B05": {
+                    "units": ["Rad", "Ref"],
+                    "description": "1.6um Near-IR Snow/Ice",
+                },
+            },
+            "HIGH": {
+                "B03": {"units": ["Rad", "Ref"], "description": "0.86um Near-IR Veggie"}
+            },
         },
     ).channel_information
     ALL_CHANS = {

@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Mapping, List, Literal
 
 import numpy as np
+from pydantic import Field
 import xarray as xr
 from xarray import concat, Dataset
 
@@ -170,23 +171,32 @@ class ChannelList(object):
         return cls(cls.reader, chans, cls.readable_channels)
 
 
+class IndividualChannelInfoModel(FrozenModel):
+    """A model providing all of the input information to describe a channel in detail."""  # NOQA
+
+    units: List[Literal["Rad", "Ref", "BT"]] = Field(
+        ..., description="What units this channel can be converted to by the reader."
+    )
+    description: str = Field(..., description="The description of this channel.")
+
+
 class ChannelInformationModel(FrozenModel):
     """A mapping of a sensor's resolutions to the channels read under that resolution."""  # NOQA
 
-    resolutions: List[Literal["LOW", "MED", "HIGH", "ANY"]]
-    channels: Mapping[Literal["LOW", "MED", "HIGH", "ANY"], List[str]]
-    channel_units: Mapping[str, List[Literal["Rad", "Ref", "BT"]]]
-    channel_descriptions: Mapping[str, str]
+    channel_info: Mapping[
+        Literal["LOW", "MED", "HIGH", "ANY"],
+        Mapping[str, IndividualChannelInfoModel],
+    ] = Field(
+        ...,
+        description=(
+            r"The mapping of {resolution: {channel: {units: [], description: ''}}} for "
+            "a given sensor. See type hints for more information."
+        ),
+    )
 
 
 class ChannelInformation(dict):
     """A mapping of a sensor's resolutions to the channels read under that resolution."""  # NOQA
-
-    _resolution_type = Literal["LOW", "MED", "HIGH", "ANY"]
-    _resolutions_type = List[_resolution_type]
-    _channels_type = Mapping[_resolution_type, List[str]]
-    _channel_units_type = Mapping[str, List[Literal["Rad", "Ref", "BT"]]]
-    _channel_descriptions_type = Mapping[str, str]
 
     unit_mapping = {
         "Rad": "Radiance",
@@ -196,38 +206,31 @@ class ChannelInformation(dict):
 
     def __init__(
         self,
-        resolutions: _resolutions_type,
-        channels: _channels_type,
-        channel_units: _channel_units_type,
-        channel_descriptions: _channel_descriptions_type,
+        channel_info: Mapping[
+            Literal["LOW", "MED", "HIGH", "ANY"],
+            Mapping[str, IndividualChannelInfoModel],
+        ],
     ):
         """Initialize the ChannelInformation object.
 
         Parameters
         ----------
-        resolutions : List[Literal["LOW", "MED", "HIGH", "ANY"]]
-            The resolutions supported by a sensor.
-        channels : Mapping[resolution, List[str]]
-            The channels that can be read for a certain resolution.
-        channel_units : Mapping[str, List[Literal["Rad", "Ref", "BT"]]]
-            A mapping of channels and the units that can be provided for each channel.
-        channel_descriptions : Mapping[str, str]
-            A mapping of channels and their corresponding descriptions.
+        channel_info : Mapping[Literal["LOW", "MED", "HIGH", "ANY"], Mapping[str, IndividualChannelInfoModel]]  # NOQA
+            The input channel information dictionary to construct a ChannelInformation
+            object from. Should be a mapping of resolution: channels: channel_info.
+            See type hints for more information.
         """
         self._channel_information = ChannelInformationModel(
-            resolutions=resolutions,
-            channels=channels,
-            channel_units=channel_units,
-            channel_descriptions=channel_descriptions,
-        )
+            channel_info=channel_info
+        ).model_dump()["channel_info"]
 
         self.channel_information = {}
 
-        for res in self._channel_information.resolutions:
+        for res in self._channel_information:
             self.channel_information[res] = {}
-            for chan in self._channel_information.channels[res]:
-                for unit in self._channel_information.channel_units[chan]:
-                    desc = self._channel_information.channel_descriptions[chan]
+            for chan in self._channel_information[res]:
+                for unit in self._channel_information[res][chan]["units"]:
+                    desc = self._channel_information[res][chan]["description"]
                     self.channel_information[res][
                         f"{chan}{unit}"
                     ] = f"{desc} [{res}-Resolution, {self.unit_mapping[unit]}]"
