@@ -205,7 +205,7 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
                 if isinstance(readable_channels, set):
                     readable_channels = list(readable_channels)
 
-                plugin_entry["readable_channels"] = readable_channels
+                plugin_entry["Readable Resolutions and Channels"] = readable_channels
 
             self._output_dictionary_highlighted(plugin_entry)
 

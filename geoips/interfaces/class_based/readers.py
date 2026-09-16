@@ -177,7 +177,11 @@ class IndividualChannelInfoModel(FrozenModel):
     units: List[Literal["Rad", "Ref", "BT"]] = Field(
         ..., description="What units this channel can be converted to by the reader."
     )
+    wavelength: float = Field(
+        ..., description="The wavelength of the channel specified in micrometers."
+    )
     description: str = Field(..., description="The description of this channel.")
+    common_usage: str = Field(None, description="Common use cases for this channel.")
 
 
 class ChannelInformationModel(FrozenModel):
@@ -189,8 +193,9 @@ class ChannelInformationModel(FrozenModel):
     ] = Field(
         ...,
         description=(
-            r"The mapping of {resolution: {channel: {units: [], description: ''}}} for "
-            "a given sensor. See type hints for more information."
+            r"The mapping of {resolution: {channel: {units: [], wavelength: float, "
+            r"description: ''}}} for a given sensor. See type hints for more "
+            "information."
         ),
     )
 
@@ -199,9 +204,9 @@ class ChannelInformation(dict):
     """A mapping of a sensor's resolutions to the channels read under that resolution."""  # NOQA
 
     unit_mapping = {
-        "Rad": "Radiance",
-        "Ref": "Reflectance",
-        "BT": "Brightness Temperature",
+        "Rad": "Radiance (W/(sr * m^2))",
+        "Ref": "Reflectance (%)",
+        "BT": "Brightness Temperature (C | K)",
     }
 
     def __init__(
@@ -210,6 +215,7 @@ class ChannelInformation(dict):
             Literal["LOW", "MED", "HIGH", "ANY"],
             Mapping[str, IndividualChannelInfoModel],
         ],
+        resolution_mapping: Mapping[Literal["LOW", "MED", "HIGH", "ANY"], str] = None,
     ):
         """Initialize the ChannelInformation object.
 
@@ -219,6 +225,10 @@ class ChannelInformation(dict):
             The input channel information dictionary to construct a ChannelInformation
             object from. Should be a mapping of resolution: channels: channel_info.
             See type hints for more information.
+        resolution_mapping : Mapping[Literal["LOW", "MED", "HIGH", "ANY"], str], Optional  # NOQA
+            A mapping of the resolution name to the geospatial resolution that
+            key represents. By default this value is None and nothing extra will be
+            added to channel_information in that instance.
         """
         self._channel_information = ChannelInformationModel(
             channel_info=channel_info
@@ -227,13 +237,25 @@ class ChannelInformation(dict):
         self.channel_information = {}
 
         for res in self._channel_information:
-            self.channel_information[res] = {}
+            if resolution_mapping:
+                res_str = f"{res}[{resolution_mapping[res]}]"
+            else:
+                res_str = res
+            self.channel_information[res_str] = {}
             for chan in self._channel_information[res]:
                 for unit in self._channel_information[res][chan]["units"]:
                     desc = self._channel_information[res][chan]["description"]
-                    self.channel_information[res][
+                    common_usage = self._channel_information[res][chan]["common_usage"]
+                    wavelength = self._channel_information[res][chan]["wavelength"]
+
+                    if not common_usage:
+                        common_usage = ""
+                    else:
+                        common_usage = f" | common_usage: {common_usage}"
+
+                    self.channel_information[res_str][
                         f"{chan}{unit}"
-                    ] = f"{desc} [{res}-Resolution, {self.unit_mapping[unit]}]"
+                    ] = f"{wavelength}um {desc} {self.unit_mapping[unit]}{common_usage}"
 
 
 class BaseReaderPlugin(BaseClassPlugin, abstract=True):

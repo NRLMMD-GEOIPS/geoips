@@ -1,7 +1,7 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-# cspell:ignore invf glle
+# cspell:ignore invf glle, gpaths, gvar, MEMUSG,
 
 """Standard GeoIPS xarray dictionary based ABI NetCDF data reader."""
 
@@ -101,63 +101,98 @@ class AbiNetcdfReaderPlugin(BaseAbiReaderPlugin):
             "LOW": {
                 "B04": {
                     "units": ["Rad", "Ref"],
-                    "description": "1.37um Near-IR Cirrus",
+                    "description": "Near-IR Cirrus",
+                    "wavelength": 1.37,
                 },
                 "B06": {
                     "units": ["Rad", "Ref"],
-                    "description": "2.2um Near-IR Cloud Particle Size",
+                    "description": "Near-IR Cloud Particle Size",
+                    "wavelength": 2.2,
                 },
                 "B07": {
                     "units": ["Rad", "BT"],
-                    "description": "3.9um IR Shortwave Window",
+                    "description": "IR Shortwave Window",
+                    "wavelength": 3.9,
                 },
                 "B08": {
                     "units": ["Rad", "BT"],
-                    "description": "6.2um IR Upper-level tropospheric water vapor",
+                    "description": "IR Upper-level tropospheric water vapor",
+                    "wavelength": 6.2,
                 },
                 "B09": {
                     "units": ["Rad", "BT"],
-                    "description": "6.9um IR Mid-level water vapor",
+                    "description": "IR Mid-level water vapor",
+                    "wavelength": 6.9,
                 },
                 "B10": {
                     "units": ["Rad", "BT"],
-                    "description": "7.3um IR Lower-level Water Vapor",
+                    "description": "IR Lower-level Water Vapor",
+                    "wavelength": 7.3,
                 },
                 "B11": {
                     "units": ["Rad", "BT"],
-                    "description": "8.4um IR Cloud-top phase",
+                    "description": "IR Cloud-top phase",
+                    "wavelength": 8.4,
                 },
-                "B12": {"units": ["Rad", "BT"], "description": "9.6um IR Ozone"},
+                "B12": {
+                    "units": ["Rad", "BT"],
+                    "description": "IR Ozone",
+                    "wavelength": 9.6,
+                },
                 "B13": {
                     "units": ["Rad", "BT"],
-                    "description": "10.3um IR Clean IR Longwave Window",
+                    "description": "IR Clean IR Longwave Window",
+                    "wavelength": 10.3,
                 },
                 "B14": {
                     "units": ["Rad", "BT"],
-                    "description": "11.2um IR IR Longwave window",
+                    "description": "IR IR Longwave window",
+                    "wavelength": 11.2,
                 },
                 "B15": {
                     "units": ["Rad", "BT"],
-                    "description": "12.3um IR Dirty Longwave Window",
+                    "description": "IR Dirty Longwave Window",
+                    "wavelength": 12.3,
                 },
                 "B16": {
                     "units": ["Rad", "BT"],
-                    "description": "13.3um IR CO2 Longwave infrared",
+                    "description": "IR CO2 Longwave infrared",
+                    "wavelength": 13.3,
                 },
             },
             "MED": {
-                "B01": {"units": ["Rad", "Ref"], "description": "0.47um Vis Blue"},
-                "B02": {"units": ["Rad", "Ref"], "description": "0.64um Vis Red"},
+                "B01": {
+                    "units": ["Rad", "Ref"],
+                    "description": "0.47um Vis Blue",
+                    "wavelength": 0.47,
+                },
+                "B02": {
+                    "units": ["Rad", "Ref"],
+                    "description": "0.64um Vis Red",
+                    "wavelength": 0.64,
+                },
                 "B05": {
                     "units": ["Rad", "Ref"],
                     "description": "1.6um Near-IR Snow/Ice",
+                    "wavelength": 1.6,
                 },
             },
             "HIGH": {
-                "B03": {"units": ["Rad", "Ref"], "description": "0.86um Near-IR Veggie"}
+                "B03": {
+                    "units": ["Rad", "Ref"],
+                    "description": "0.86um Near-IR Veggie",
+                    "wavelength": 0.86,
+                    # "common_usage": "Vegetation",
+                }
             },
         },
+        resolution_mapping={
+            "LOW": "5424x5424",
+            "MED": "10848x10848",
+            "HIGH": "21696x21696",
+        },
     ).channel_information
+
     ALL_CHANS = {
         "LOW": [
             "B04Rad",
@@ -221,7 +256,7 @@ class AbiNetcdfReaderPlugin(BaseAbiReaderPlugin):
         """
         Check that all input metadata are from the same image time.
 
-        Performs cheks on platform_ID, instrument_type, processing_level, and times.
+        Performs checks on platform_ID, instrument_type, processing_level, and times.
         If these are all equal, returns True.
         If any differ, returns False.
         """
