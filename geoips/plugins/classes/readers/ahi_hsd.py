@@ -75,7 +75,7 @@ class AhiHsdReaderPlugin(BaseReaderPlugin):
         "Error": -999.8,
         "Out_Of_Valid_Range": -999.7,
         "Root_Test": -999.6,
-        "Unitialized": -9999.9,
+        "Uninitialized": -9999.9,
     }
 
     DATASET_INFO = {

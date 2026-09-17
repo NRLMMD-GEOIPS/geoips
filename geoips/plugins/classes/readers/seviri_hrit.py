@@ -16,7 +16,11 @@ Notes
   (decompressed) filenames, so built in filename dependence by using satpy.
 """
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin, ChannelList
+from geoips.interfaces.class_based.readers import (
+    BaseReaderPlugin,
+    ChannelList,
+    ChannelInformation,
+)
 
 # Python Standard Libraries
 import os
@@ -236,30 +240,105 @@ class SeviriHritReaderPlugin(BaseReaderPlugin):
         "satellite_azimuth_angle",
     ]
 
-    _readable_channels = [
-        "B01Rad",
-        "B01Ref",  # VIS0.6 Cloud mapping
-        "B02Rad",
-        "B02Ref",  # VIS0.8 Vegetation index
-        "B03Rad",
-        "B03Ref",  # NIR1.6 Cloud / snow discrimination
-        "B04Rad",
-        "B04BT",  # IR3.9  Atmospheric window
-        "B05Rad",
-        "B05BT",  # IR6.2  Water vapour channel (Upper atmosphere)
-        "B06Rad",
-        "B06BT",  # IR7.3  Water vapour channel (Lower atmosphere)
-        "B07Rad",
-        "B07BT",  # IR8.7  Atmospheric window
-        "B08Rad",
-        "B08BT",  # IR9.7  Ozone channel
-        "B09Rad",
-        "B09BT",  # IR10.8 Atmospheric window
-        "B10Rad",
-        "B10BT",  # IR12.0 Atmospheric window
-        "B11Rad",
-        "B11BT",
-    ]  # IR13.4 Carbon dioxide channel
+    readable_channels = ChannelInformation(
+        channel_info={
+            "LOW": {
+                "B01": {
+                    "wavelength": 0.635,
+                    "units": ["Rad", "Ref"],
+                    "description": "Vis Red",
+                    "usage": (
+                        "Cloud detection, surface visibility, land / vegetation "
+                        "monitoring"
+                    ),
+                },
+                "B02": {
+                    "wavelength": 0.81,
+                    "units": ["Rad", "Ref"],
+                    "description": "Near-IR Veggie",
+                    "usage": (
+                        "Land surfaces, vegetation tracking, cloud / aerosol analysis"
+                    ),
+                },
+                "B03": {
+                    "wavelength": 1.64,
+                    "units": ["Rad", "Ref"],
+                    "description": "Near-IR Snow/Ice",
+                    "usage": (
+                        "Snow / cloud discrimination, phase of cloud particles (ice vs."
+                        " water)"
+                    ),
+                },
+                "B04": {
+                    "wavelength": 3.92,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Shortwave Window",
+                    "usage": (
+                        "Fire/burn scar detection, fog, low cloud imaging at night"
+                    ),
+                },
+                "B05": {
+                    "wavelength": 6.25,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Upper-level tropospheric water vapor",
+                    "usage": (
+                        "Upper tropospheric water vapour, high-level atmospheric winds"
+                    ),
+                },
+                "B06": {
+                    "wavelength": 7.35,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Lower-level tropospheric Water Vapor",
+                    "usage": (
+                        "Lower-tropospheric water vapour, atmospheric motion vectors"
+                    ),
+                },
+                "B07": {
+                    "wavelength": 8.70,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Cloud-top phase",
+                    "usage": (
+                        "Cloud microphysics, surface properties, split-window "
+                        "combinations"
+                    ),
+                },
+                "B08": {
+                    "wavelength": 9.66,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Ozone",
+                    "usage": "Atmospheric ozone monitoring and tracking",
+                },
+                "B09": {
+                    "wavelength": 10.8,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Longwave Window",
+                    "usage": "Atmospheric window, surface and cloud-top temperatures",
+                },
+                "B10": {
+                    "wavelength": 12.0,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Dirty Longwave Window",
+                    "usage": (
+                        "Split-window sea surface temperature (SST) and low-level "
+                        "moisture"
+                    ),
+                },
+                "B11": {
+                    "wavelength": 13.4,
+                    "units": ["Rad", "BT"],
+                    "description": "IR CO2 Longwave Infrared",
+                    "usage": (
+                        "Carbon dioxide absorption, cloud top height, air mass "
+                        "stability analysis"
+                    ),
+                },
+            },
+        },
+        resolution_mapping={
+            "LOW": "5500x5500 | 3km",
+            # "HIGH": "22000x22000 | 1km",
+        },
+    ).channel_information
 
     @staticmethod
     def _chan_exception_func(name):

@@ -172,7 +172,7 @@ class FciNetcdfReaderPlugin(BaseReaderPlugin):
                 "B16": {
                     "wavelength": 13.300,
                     "units": ["Rad", "BT"],
-                    "description": "IR CO2 Longwave infrared",
+                    "description": "IR CO2 Longwave Infrared",
                     "usage": (
                         "Cloud-top height assignments and carbon dioxide absorption "
                         "estimation"
