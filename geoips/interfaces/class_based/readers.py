@@ -181,7 +181,7 @@ class IndividualChannelInfoModel(FrozenModel):
         ..., description="The wavelength of the channel specified in micrometers."
     )
     description: str = Field(..., description="The description of this channel.")
-    common_usage: str = Field(None, description="Common use cases for this channel.")
+    usage: str = Field(None, description="Common use cases for this channel.")
 
 
 class ChannelInformationModel(FrozenModel):
@@ -204,9 +204,9 @@ class ChannelInformation(dict):
     """A mapping of a sensor's resolutions to the channels read under that resolution."""  # NOQA
 
     unit_mapping = {
-        "Rad": "Radiance (W/(sr * m^2))",
-        "Ref": "Reflectance (%)",
-        "BT": "Brightness Temperature (C | K)",
+        "Rad": "Radiance (W/(sr * m²))",
+        "Ref": "Reflectance (%, [0, 100])",
+        "BT": "Brightness Temperature (°K)",
     }
 
     def __init__(
@@ -245,17 +245,17 @@ class ChannelInformation(dict):
             for chan in self._channel_information[res]:
                 for unit in self._channel_information[res][chan]["units"]:
                     desc = self._channel_information[res][chan]["description"]
-                    common_usage = self._channel_information[res][chan]["common_usage"]
+                    usage = self._channel_information[res][chan]["usage"]
                     wavelength = self._channel_information[res][chan]["wavelength"]
 
-                    if not common_usage:
-                        common_usage = ""
+                    if not usage:
+                        usage = ""
                     else:
-                        common_usage = f" | common_usage: {common_usage}"
+                        usage = f" | usage: {usage}"
 
                     self.channel_information[res_str][
                         f"{chan}{unit}"
-                    ] = f"{wavelength}um {desc} {self.unit_mapping[unit]}{common_usage}"
+                    ] = f"{wavelength}μm {desc} {self.unit_mapping[unit]}{usage}"
 
 
 class BaseReaderPlugin(BaseClassPlugin, abstract=True):
