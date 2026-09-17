@@ -3,7 +3,7 @@
 
 """Standard GeoIPS xarray dictionary based FCI NetCDF data reader."""
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.readers import BaseReaderPlugin, ChannelInformation
 
 from datetime import datetime, timedelta
 import logging
@@ -115,6 +115,165 @@ class FciNetcdfReaderPlugin(BaseReaderPlugin):
         ],
     }
 
+    readable_channels = ChannelInformation(
+        channel_info={
+            "LOW": {
+                "B09": {
+                    "wavelength": 3.800,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Shortwave Window",
+                    "usage": (
+                        "Fire / hotspot detection featuring an extended dynamic range "
+                        "for active blazes, alongside fog delineation at night"
+                    ),
+                },
+                "B10": {
+                    "wavelength": 6.300,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Upper-level tropospheric water vapor",
+                    "usage": (
+                        "Upper-tropospheric water vapor content and wind vector "
+                        "tracking"
+                    ),
+                },
+                "B11": {
+                    "wavelength": 7.350,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Lower-level Water Vapor",
+                    "usage": "Lower-level water vapor, winds and SO2",
+                },
+                "B12": {
+                    "wavelength": 8.700,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Cloud-top phase",
+                    "usage": "Cloud phase identification and sulfur dioxide tracking",
+                },
+                "B13": {
+                    "wavelength": 9.660,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Ozone",
+                    "usage": "Atmospheric ozone layer observation",
+                },
+                "B14": {
+                    "wavelength": 10.500,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Clean Longwave Window",
+                    "usage": "Cloud-top and land / sea surface temperatures",
+                },
+                "B15": {
+                    "wavelength": 12.300,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Dirty Longwave Window",
+                    "usage": (
+                        "Split-window atmospheric humidity corrections and low-level "
+                        "moisture tracking"
+                    ),
+                },
+                "B16": {
+                    "wavelength": 13.300,
+                    "units": ["Rad", "BT"],
+                    "description": "IR CO2 Longwave infrared",
+                    "usage": (
+                        "Cloud-top height assignments and carbon dioxide absorption "
+                        "estimation"
+                    ),
+                },
+            },
+            "MED": {
+                "B01": {
+                    "wavelength": 0.444,
+                    "units": ["Rad", "Ref"],
+                    "description": "Vis Blue",
+                    "usage": "Coastal water, aerosols, and basic vegetation mapping",
+                },
+                "B02": {
+                    "wavelength": 0.510,
+                    "units": ["Rad", "Ref"],
+                    "description": "Vis Green",
+                    "usage": "General aerosol and vegetation tracking",
+                },
+                "B03": {
+                    "wavelength": 0.640,
+                    "units": ["Rad", "Ref"],
+                    "description": "Vis Red",
+                    "usage": "Cloud and surface tracking, atmospheric winds",
+                },
+                "B04": {
+                    "wavelength": 0.865,
+                    "units": ["Rad", "Ref"],
+                    "description": "Near-IR Veggie",
+                    "usage": "Vegetation boundaries and cloud masking",
+                },
+                "B05": {
+                    "wavelength": 0.914,
+                    "units": ["Rad", "Ref"],
+                    "description": "Low-Level Water Vapor Absorption",
+                    "usage": "Total precipitable water and low-level cloud features",
+                },
+                "B06": {
+                    "wavelength": 1.380,
+                    "units": ["Rad", "Ref"],
+                    "description": "Near-IR Cirrus",
+                    "usage": "Thin cirrus cloud detection",
+                },
+                "B07": {
+                    "wavelength": 1.610,
+                    "units": ["Rad", "Ref"],
+                    "description": "Near-IR Snow / Ice",
+                    "usage": (
+                        "Cloud phase (ice vs. water) and snow/cloud discrimination"
+                    ),
+                },
+                "B08": {
+                    "wavelength": 2.250,
+                    "units": ["Rad", "Ref"],
+                    "description": "Near-IR Cloud Particle Size",
+                    "usage": "Particle size evaluation and active fire monitoring.",
+                },
+                "HRB09": {
+                    "wavelength": 3.800,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Shortwave Window",
+                    "usage": (
+                        "Fire / hotspot detection featuring an extended dynamic range "
+                        "for active blazes, alongside fog delineation at night"
+                    ),
+                },
+                "HRB14": {
+                    "wavelength": 10.500,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Clean Longwave Window",
+                    "usage": "Cloud-top and land / sea surface temperatures",
+                },
+            },
+            "HIGH": {
+                "HRB03": {
+                    "wavelength": 0.640,
+                    "units": ["Rad", "Ref"],
+                    "description": "Vis Red",
+                    "usage": "Cloud and surface tracking, atmospheric winds",
+                },
+                "HRB08": {
+                    "wavelength": 2.250,
+                    "units": ["Rad", "Ref"],
+                    "description": "Near-IR Cloud Particle Size",
+                    "usage": "Particle size evaluation and active fire monitoring.",
+                },
+                "HRB14": {
+                    "wavelength": 0.63914,
+                    "units": ["Rad", "BT"],
+                    "description": "Vis Red",
+                    "usage": "Clouds, fog, insolation, winds",
+                },
+            },
+        },
+        resolution_mapping={
+            "LOW": "5568x5568 | 2km",
+            "MED": "11136x11136 | 1km",
+            "HIGH": "22272x22272 | 0.5km",
+        },
+    ).channel_information
+
     BAND_MAP = {
         "B01Ref": "vis_04",
         "B01Rad": "vis_04",
@@ -150,6 +309,8 @@ class FciNetcdfReaderPlugin(BaseReaderPlugin):
         "B16Rad": "ir_133",
         "HRB03Ref": "vis_06_hr",
         "HRB03Rad": "vis_06_hr",
+        "HRB08Ref": "nir_22_hr",
+        "HRB08Rad": "nir_22_hr",
         "HRB09BT": "ir_38_hr",
         "HRB09Rad": "ir_38_hr",
         "HRB14BT": "ir_105_hr",
