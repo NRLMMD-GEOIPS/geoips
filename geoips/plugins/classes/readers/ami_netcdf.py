@@ -3,7 +3,7 @@
 
 """Standard GeoIPS xarray dictionary based GeoKOMPSAT AMI NetCDF data reader."""
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.readers import BaseReaderPlugin, ChannelInformation
 
 # Python Standard Libraries
 from datetime import datetime, timedelta
@@ -66,7 +66,7 @@ class AmiNetcdfReaderPlugin(BaseReaderPlugin):
         "Conditional": -999.8,
         "Out_Of_Valid_Range": -999.7,
         "No_Value": -999.6,
-        "Unitialized": -9999.9,
+        "Uninitialized": -9999.9,
     }
 
     ALL_GEO_VARS = [
@@ -77,6 +77,118 @@ class AmiNetcdfReaderPlugin(BaseReaderPlugin):
         "latitude",
         "longitude",
     ]
+
+    readable_channels = ChannelInformation(
+        channel_info={
+            "LOW": {
+                "NR013": {
+                    "wavelength": 1.38,
+                    "units": ["Rad", "Ref"],
+                    "description": "Near-IR Cirrus",
+                    "usage": "Thin cirrus cloud detection",
+                },
+                "NR016": {
+                    "wavelength": 1.61,
+                    "units": ["Rad", "Ref"],
+                    "description": "Near-IR Snow / Ice",
+                    "usage": "Snow / cloud phase discrimination ",
+                },
+                "SW038": {
+                    "wavelength": 3.830,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Shortwave Window",
+                    "usage": "For, low clouds at night, fire",
+                },
+                "WV063": {
+                    "wavelength": 6.241,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Upper-level tropospheric water vapor",
+                    "usage": "Upper-level tropospheric moisture",
+                },
+                "WV069": {
+                    "wavelength": 6.952,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Mid-level water vapor",
+                    "usage": "Mid-tropospheric moisture / winds",
+                },
+                "WV073": {
+                    "wavelength": 7.344,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Lower-level Water Vapor",
+                    "usage": "Lower-tropospheric moisture",
+                },
+                "IR087": {
+                    "wavelength": 8.592,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Cloud-top phase",
+                    "usage": "Total precipitable water, SO₂",
+                },
+                "IR096": {
+                    "wavelength": 9.625,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Ozone",
+                    "usage": "Atmospheric ozone monitoring",
+                },
+                "IR105": {
+                    "wavelength": 10.403,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Clean Longwave Window",
+                    "usage": "Surface / cloud temperature",
+                },
+                "IR112": {
+                    "wavelength": 11.212,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Longwave Window",
+                    "usage": "General cloud / surface temperature",
+                },
+                "IR123": {
+                    "wavelength": 12.364,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Dirty Longwave Window",
+                    "usage": "Split-window low-level moisture",
+                },
+                "IR133": {
+                    "wavelength": 13.31,
+                    "units": ["Rad", "BT"],
+                    "description": "IR CO2 Longwave infrared",
+                    "usage": "Cloud top height and pressure",
+                },
+            },
+            "MED": {
+                "VI004": {
+                    "wavelength": 0.47,
+                    "units": ["Rad", "Ref"],
+                    "description": "Vis Blue",
+                    "usage": "Aerosol / ocean color, vegetation",
+                },
+                "VI005": {
+                    "wavelength": 0.51,
+                    "units": ["Rad", "Ref"],
+                    "description": "Vis Green",
+                    "usage": "Vegetation, green land / water",
+                },
+                "VI008": {
+                    "wavelength": 0.856,
+                    "units": ["Rad", "Ref"],
+                    "description": "Near-IR Veggie",
+                    "usage": "Biomass, land / cloud boundaries",
+                },
+            },
+            "HIGH": {
+                "VI006": {
+                    "wavelength": 0.64,
+                    "units": ["Rad", "BT"],
+                    "description": "Vis Red",
+                    "usage": "Daytime clouds, surface / vegetation",
+                },
+            },
+        },
+        resolution_mapping={
+            "LOW": "5500x5500 | 2km",
+            "MED": "11000x11000 | 1km",
+            "HIGH": "22000x22000 | 0.5km",
+        },
+    ).channel_information
 
     DATASET_INFO = {
         "MED": ["VI004", "VI005", "VI008"],
@@ -280,7 +392,7 @@ class AmiNetcdfReaderPlugin(BaseReaderPlugin):
         """
         Check that all input metadata are from the same image time.
 
-        Performs cheks on satellite_name, instrument_name, observation_mode, and time.
+        Performs checks on satellite_name, instrument_name, observation_mode, and time.
         If these are all equal, returns True.
         If any differ, returns False.
         """

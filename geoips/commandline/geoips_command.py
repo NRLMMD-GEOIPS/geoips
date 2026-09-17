@@ -520,7 +520,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
         plugin_entry: dict
             - The dictionary of info for a certain plugin in the plugin registry.
         """
-        yaml_text = yaml.dump(dict_entry, default_flow_style=False)
+        yaml_text = yaml.dump(dict_entry, default_flow_style=False, allow_unicode=True)
         print()
         for line in yaml_text.split("\n"):
             # Color the keys in cyan and values in yellow

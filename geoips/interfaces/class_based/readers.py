@@ -9,8 +9,10 @@ import warnings
 from datetime import datetime
 from os.path import basename
 from pathlib import Path
+from typing import Mapping, List, Literal
 
 import numpy as np
+from pydantic import Field
 import xarray as xr
 from xarray import concat, Dataset
 
@@ -25,6 +27,7 @@ from geoips.plugins.classes.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
     AutoGenError,
 )
+from geoips.pydantic_models.v1.bases import FrozenModel
 
 LOG = logging.getLogger(__name__)
 
@@ -39,10 +42,274 @@ with import_optional_dependencies(loglevel="info"):
 LOG = logging.getLogger(__name__)
 
 
+class Chan(object):
+    """Channel class."""
+
+    def __init__(self, name, readable_channels, _exception_func=None):
+        """Initialize Chan object.
+
+        Parameters
+        ----------
+        name : str
+            The name of the channel.
+        readable_channels : set[str]
+            A set of channels able to be read. 'name' must be one of the items in that
+            set.
+        _exception_func : Callable, optional
+            A function to be called prior to finishing initializing this class. Can be
+            any callable that raises an exception if a certain condition is not met.
+        """
+        self._readable_channels = readable_channels
+
+        if _exception_func:
+            _exception_func(name)
+
+        if name not in self._readable_channels:
+            raise ValueError("Unknown channel name: {}".format(name))
+
+        self._name = name
+        self._band = name[0:3]
+        self._type = name[3:]
+
+    @property
+    def name(self):
+        """Name property."""
+        return self._name
+
+    @property
+    def band(self):
+        """Band property."""
+        return self._band
+
+    @property
+    def band_num(self):
+        """Band number property."""
+        return int(self._band[1:])
+
+    @property
+    def type(self):
+        """Type property."""
+        return self._type
+
+
+class ChannelList(object):
+    """ChannelList Class.
+
+    Implements a generic container for channels (variables) able to be read in by any
+    given reader.
+    """
+
+    def __init__(self, reader_name, chans, readable_channels, _exception_func=None):
+        """Initialize ChanList object.
+
+        Parameters
+        ----------
+        reader_name : str
+            The name of the reader that has implemented this channel list.
+        chans : set[str]
+            The set of channels requested to be read.
+        readable_channels : set[str]
+            The set of accepted channels that the reader is able to read.
+        _exception_func : Callable, optional
+            A function to be called prior to finishing initializing this class. Can be
+            any callable that raises an exception if a certain condition is not met.
+        """
+        chans = set(chans)
+
+        self._info = {
+            "chans": [
+                Chan(chan, readable_channels, _exception_func=_exception_func)
+                for chan in chans
+            ]
+        }
+        self._info["reader"] = reader_name
+        self._info["readable_channels"] = set(readable_channels)
+        self._info["names"] = list(set([chan.name for chan in self.chans]))
+        self._info["bands"] = list(set([chan.band for chan in self.chans]))
+        self._info["types"] = list(set([chan.type for chan in self.chans]))
+
+    @property
+    def reader(self):
+        """Reader property.
+
+        Returns the name of the reader that implements this channel list.
+        """
+        return self._info["reader"]
+
+    @property
+    def readable_channels(self):
+        """Readable Channels property.
+
+        Returns a set of channel names that are able to be read by reader plugin
+        'reader'.
+        """
+        return self._info["readable_channels"]
+
+    @property
+    def chans(self):
+        """Chans property."""
+        return self._info["chans"]
+
+    @property
+    def names(self):
+        """Names property."""
+        return self._info["names"]
+
+    @property
+    def bands(self):
+        """Bands property."""
+        return self._info["bands"]
+
+    @classmethod
+    def _all_types_for_bands(cls, bands):
+        """List all types for bands."""
+        chans = set()
+        for chan in cls.readable_channels:
+            for band in bands:
+                if band in chan:
+                    chans.add(chan)
+        return cls(cls.reader, chans, cls.readable_channels)
+
+
+class IndividualChannelInfoModel(FrozenModel):
+    """A model providing all of the input information to describe a channel in detail."""  # NOQA
+
+    units: List[Literal["Rad", "Ref", "BT"]] = Field(
+        ..., description="What units this channel can be converted to by the reader."
+    )
+    wavelength: float = Field(
+        ..., description="The wavelength of the channel specified in micrometers."
+    )
+    description: str = Field(..., description="The description of this channel.")
+    usage: str = Field(None, description="Common use cases for this channel.")
+
+
+class ChannelInformationModel(FrozenModel):
+    """A mapping of a sensor's resolutions to the channels read under that resolution."""  # NOQA
+
+    channel_info: Mapping[
+        Literal["LOW", "MED", "HIGH", "ANY"],
+        Mapping[str, IndividualChannelInfoModel],
+    ] = Field(
+        ...,
+        description=(
+            r"The mapping of {resolution: {channel: {units: [], wavelength: float, "
+            r"description: ''}}} for a given sensor. See type hints for more "
+            "information."
+        ),
+    )
+
+
+class ChannelInformation(dict):
+    """A mapping of a sensor's resolutions to the channels read under that resolution."""  # NOQA
+
+    unit_mapping = {
+        "Rad": "Radiance (W/(sr * m²))",
+        "Ref": "Reflectance (%, [0, 100])",
+        "BT": "Brightness Temperature (°K)",
+    }
+
+    def __init__(
+        self,
+        channel_info: Mapping[
+            Literal["LOW", "MED", "HIGH", "ANY"],
+            Mapping[str, IndividualChannelInfoModel],
+        ],
+        resolution_mapping: Mapping[Literal["LOW", "MED", "HIGH", "ANY"], str] = None,
+    ):
+        """Initialize the ChannelInformation object.
+
+        Parameters
+        ----------
+        channel_info : Mapping[Literal["LOW", "MED", "HIGH", "ANY"], Mapping[str, IndividualChannelInfoModel]]  # NOQA
+            The input channel information dictionary to construct a ChannelInformation
+            object from. Should be a mapping of resolution: channels: channel_info.
+            See type hints for more information.
+        resolution_mapping : Mapping[Literal["LOW", "MED", "HIGH", "ANY"], str], Optional  # NOQA
+            A mapping of the resolution name to the geospatial resolution that
+            key represents. By default this value is None and nothing extra will be
+            added to channel_information in that instance.
+        """
+        self._channel_information = ChannelInformationModel(
+            channel_info=channel_info
+        ).model_dump()["channel_info"]
+
+        self.channel_information = {}
+
+        for res in self._channel_information:
+            if resolution_mapping:
+                res_str = f"{res}[{resolution_mapping[res]}]"
+            else:
+                res_str = res
+            self.channel_information[res_str] = {}
+            for chan in self._channel_information[res]:
+                for unit in self._channel_information[res][chan]["units"]:
+                    desc = self._channel_information[res][chan]["description"]
+                    usage = self._channel_information[res][chan]["usage"]
+                    wavelength = self._channel_information[res][chan]["wavelength"]
+
+                    if not usage:
+                        usage = ""
+                    else:
+                        usage = f" | usage: {usage}"
+
+                    self.channel_information[res_str][
+                        f"{chan}{unit}"
+                    ] = f"{wavelength}μm {desc} {self.unit_mapping[unit]}{usage}"
+
+
 class BaseReaderPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS reader plugins."""
 
     data_tree = False
+
+    def _get_channel_listing(self):
+        """Retrieve the readable channel listing for this reader plugin.
+
+        Goes in order of priority, implemented ALL_CHANS attribute, then DATASET_INFO
+        attribute.
+
+        Returns
+        -------
+        channel_listing : dict[str, List]
+            A listing of channels mapped by their resolution that can be read by this
+            reader.
+        """
+        channel_listing = {}
+        if hasattr(self, "ALL_CHANS"):
+            channel_listing = self.ALL_CHANS
+        elif hasattr(self, "BAND_MAP"):
+            channel_listing = {"channels": list(self.BAND_MAP.keys())}
+        elif hasattr(self, "DATASET_INFO"):
+            channel_listing = self.DATASET_INFO
+        elif hasattr(self, "varnames"):
+            channel_listing = {"channels": list(self.varnames.values())}
+        elif hasattr(self, "VARLIST"):
+            channel_listing = {"channels": self.VARLIST}
+
+        return channel_listing
+
+    @property
+    def readable_channels(self):
+        """All channels that can be read by this reader plugin."""
+        if not hasattr(self, "_readable_channels"):
+            self._readable_channels = set()
+            for channels in self._get_channel_listing().values():
+                for chan in channels:
+                    self._readable_channels.add(chan)
+
+        return self._readable_channels
+
+    @readable_channels.setter
+    def readable_channels(self, value):
+        """Set the value of readable channels to a new value.
+
+        Parameters
+        ----------
+        value : Any
+            The new value of readable_channels.
+        """
+        self._readable_channels = value
 
     def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Strip injected upstream data for legacy (family-bearing) readers.
