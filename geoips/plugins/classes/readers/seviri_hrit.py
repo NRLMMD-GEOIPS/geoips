@@ -335,8 +335,8 @@ class SeviriHritReaderPlugin(BaseReaderPlugin):
             },
         },
         resolution_mapping={
-            "LOW": "5500x5500 | 3km",
-            # "HIGH": "22000x22000 | 1km",
+            "LOW": "3712x3712 | 3km",
+            # "HIGH": "11136x5568 | 1km",
         },
     ).channel_information
 
