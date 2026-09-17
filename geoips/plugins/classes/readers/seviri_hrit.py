@@ -85,6 +85,31 @@ class SeviriHritReaderPlugin(BaseReaderPlugin):
         "Off_Of_Disk": -999.9,
     }
 
+    _good_names = [
+        "B01Rad",
+        "B01Ref",  # VIS0.6 Cloud mapping
+        "B02Rad",
+        "B02Ref",  # VIS0.8 Vegetation index
+        "B03Rad",
+        "B03Ref",  # NIR1.6 Cloud / snow discrimination
+        "B04Rad",
+        "B04BT",  # IR3.9  Atmospheric window
+        "B05Rad",
+        "B05BT",  # IR6.2  Water vapour channel (Upper atmosphere)
+        "B06Rad",
+        "B06BT",  # IR7.3  Water vapour channel (Lower atmosphere)
+        "B07Rad",
+        "B07BT",  # IR8.7  Atmospheric window
+        "B08Rad",
+        "B08BT",  # IR9.7  Ozone channel
+        "B09Rad",
+        "B09BT",  # IR10.8 Atmospheric window
+        "B10Rad",
+        "B10BT",  # IR12.0 Atmospheric window
+        "B11Rad",
+        "B11BT",
+    ]  # IR13.4 Carbon dioxide channel
+
     VIS_CALIB = {
         "msg1": {"B01": 65.2296, "B02": 73.0127, "B03": 62.3715, "B12": 78.7599},
         "msg2": {"B01": 65.2065, "B02": 73.1869, "B03": 61.9923, "B12": 79.0113},
@@ -856,7 +881,7 @@ class SeviriHritReaderPlugin(BaseReaderPlugin):
             chlist = ChannelList(
                 self.name,
                 list(set(chans) - set(self.geolocation_variable_names)),
-                self._readable_channels,
+                self._good_names,
                 self._chan_exception_func,
             )
             for chan in chlist.chans:
@@ -870,8 +895,8 @@ class SeviriHritReaderPlugin(BaseReaderPlugin):
         else:
             chlist = ChannelList(
                 self.name,
-                self._readable_channels,
-                self._readable_channels,
+                self._good_names,
+                self._good_names,
                 self._chan_exception_func,
             )._all_types_for_bands(dfs.keys())
 
