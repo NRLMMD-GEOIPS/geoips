@@ -321,7 +321,17 @@ class WorkflowsInterface(BaseYamlInterface):
         for key, value in steps.items():
             new_steps[key] = value
 
-            if key == target_key:
+            if key == target_key or target_key.startswith(key):
+                key_split = list(target_key.split("."))
+                key_range = len(key_split)
+                if key_range > 1:
+                    for idx in range(0, key_range - 1):
+                        key_split.insert(idx + 1, "spec")
+                        key_split.insert(idx + 2, "steps")
+
+                    for sid in key_split[:-1]:
+                        new_steps = new_steps.setdefault(sid, {})
+
                 new_steps[new_key] = dict(new_value)
                 inserted = True
 
@@ -377,7 +387,9 @@ class WorkflowsInterface(BaseYamlInterface):
         checker_step["arguments"] = {"compare_path": compare_path}
         if threshold is not None:
             checker_step["arguments"]["threshold"] = threshold
-        checker_step["depends_on"] = [target_key]
+        # commenting out as this line is always added after an output formatter step.
+        # by default the previous step will be the dependency of the output checker step
+        # checker_step["depends_on"] = [target_key]
         checker_step["kind"] = "output_checker"
 
         if "name" not in checker_step:
@@ -415,7 +427,18 @@ class WorkflowsInterface(BaseYamlInterface):
                 oc_step_name = f"output_checker{count + 1}"
 
                 try:
-                    target_step = steps[key]
+                    current = deepcopy(steps)
+                    key_split = list(key.split("."))
+                    key_range = len(key_split) - 1
+
+                    for idx in range(0, key_range):
+                        key_split.insert(idx + 1, "spec")
+                        key_split.insert(idx + 2, "steps")
+
+                    for sid in key_split:
+                        current = current[sid]
+
+                    target_step = current
                 except KeyError:
                     raise KeyError(f"Could not find key '{key}' for insertion.")
 
