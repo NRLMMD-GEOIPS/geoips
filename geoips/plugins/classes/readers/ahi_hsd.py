@@ -98,6 +98,7 @@ class AhiHsdReaderPlugin(BaseReaderPlugin):
     }
     ROIS = {"LOW": 3000, "MED": 2000, "HIGH": 1000}
     SAMPLE_DISTANCE_KM = {"LOW": 2, "MED": 1, "HIGH": 0.5}
+
     readable_channels = ChannelInformation(
         channel_info={
             "LOW": {
@@ -151,7 +152,7 @@ class AhiHsdReaderPlugin(BaseReaderPlugin):
                     "wavelength": 9.6372,
                     "units": ["Rad", "BT"],
                     "description": "IR Ozone",
-                    "usage": "	Total ozone, turbulence, winds",
+                    "usage": "Total ozone, turbulence, winds",
                 },
                 "B13": {
                     "wavelength": 10.4073,
@@ -218,6 +219,7 @@ class AhiHsdReaderPlugin(BaseReaderPlugin):
             "HIGH": "22000x22000 | 0.5km",
         },
     ).channel_information
+
     ALL_CHANS = {
         "LOW": [
             "B05Rad",
