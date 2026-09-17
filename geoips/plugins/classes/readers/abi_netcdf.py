@@ -96,7 +96,7 @@ class AbiNetcdfReaderPlugin(BaseAbiReaderPlugin):
         "latitude",
         "longitude",
     ]
-    CHANNEL_INFORMATION = ChannelInformation(
+    readable_channels = ChannelInformation(
         channel_info={
             "LOW": {
                 "B04": {
@@ -141,12 +141,12 @@ class AbiNetcdfReaderPlugin(BaseAbiReaderPlugin):
                 },
                 "B13": {
                     "units": ["Rad", "BT"],
-                    "description": "IR Clean IR Longwave Window",
+                    "description": "IR Clean Longwave Window",
                     "wavelength": 10.3,
                 },
                 "B14": {
                     "units": ["Rad", "BT"],
-                    "description": "IR IR Longwave window",
+                    "description": "IR Longwave window",
                     "wavelength": 11.2,
                 },
                 "B15": {
@@ -163,33 +163,33 @@ class AbiNetcdfReaderPlugin(BaseAbiReaderPlugin):
             "MED": {
                 "B01": {
                     "units": ["Rad", "Ref"],
-                    "description": "0.47um Vis Blue",
+                    "description": "Vis Blue",
                     "wavelength": 0.47,
                 },
                 "B02": {
                     "units": ["Rad", "Ref"],
-                    "description": "0.64um Vis Red",
+                    "description": "Vis Red",
                     "wavelength": 0.64,
                 },
                 "B05": {
                     "units": ["Rad", "Ref"],
-                    "description": "1.6um Near-IR Snow/Ice",
+                    "description": "Near-IR Snow/Ice",
                     "wavelength": 1.6,
                 },
             },
             "HIGH": {
                 "B03": {
                     "units": ["Rad", "Ref"],
-                    "description": "0.86um Near-IR Veggie",
+                    "description": "Near-IR Veggie",
                     "wavelength": 0.86,
                     # "common_usage": "Vegetation",
                 }
             },
         },
         resolution_mapping={
-            "LOW": "5424x5424",
-            "MED": "10848x10848",
-            "HIGH": "21696x21696",
+            "LOW": "5424x5424 | 2km",
+            "MED": "10848x10848 | 1km",
+            "HIGH": "21696x21696 | 0.5km",
         },
     ).channel_information
 

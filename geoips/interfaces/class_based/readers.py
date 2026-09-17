@@ -294,14 +294,22 @@ class BaseReaderPlugin(BaseClassPlugin, abstract=True):
         """All channels that can be read by this reader plugin."""
         if not hasattr(self, "_readable_channels"):
             self._readable_channels = set()
-            if not hasattr(self, "CHANNEL_INFORMATION"):
-                for channels in self._get_channel_listing().values():
-                    for chan in channels:
-                        self._readable_channels.add(chan)
-            else:
-                self._readable_channels = self.CHANNEL_INFORMATION
+            for channels in self._get_channel_listing().values():
+                for chan in channels:
+                    self._readable_channels.add(chan)
 
         return self._readable_channels
+
+    @readable_channels.setter
+    def readable_channels(self, value):
+        """Set the value of readable channels to a new value.
+
+        Parameters
+        ----------
+        value : Any
+            The new value of readable_channels.
+        """
+        self._readable_channels = value
 
     def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Strip injected upstream data for legacy (family-bearing) readers.

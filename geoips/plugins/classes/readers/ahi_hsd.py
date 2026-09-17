@@ -3,7 +3,7 @@
 
 """Advanced Himawari Imager Data Reader."""
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.readers import BaseReaderPlugin, ChannelInformation
 
 # cspell:ignore BADVALS, FLDK, GEOLL, GSICS, adname, calib, cfac, currchan, dsname
 # cspell:ignore sclunit, nprocs, gvars, nseg, segs
@@ -98,6 +98,101 @@ class AhiHsdReaderPlugin(BaseReaderPlugin):
     }
     ROIS = {"LOW": 3000, "MED": 2000, "HIGH": 1000}
     SAMPLE_DISTANCE_KM = {"LOW": 2, "MED": 1, "HIGH": 0.5}
+    readable_channels = ChannelInformation(
+        channel_info={
+            "LOW": {
+                "B05": {
+                    "wavelength": 1.61,
+                    "units": ["Rad", "Ref"],
+                    "description": "Near-IR Snow/Ice",
+                },
+                "B06": {
+                    "wavelength": 2.267,
+                    "units": ["Rad", "Ref"],
+                    "description": "Near-IR Cloud Particle Size",
+                },
+                "B07": {
+                    "wavelength": 3.8853,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Shortwave Window",
+                },
+                "B08": {
+                    "wavelength": 6.2429,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Upper-level tropospheric water vapor",
+                },
+                "B09": {
+                    "wavelength": 6.9410,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Mid-level water vapor",
+                },
+                "B10": {
+                    "wavelength": 7.3467,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Lower-level Water Vapor",
+                },
+                "B11": {
+                    "wavelength": 8.5926,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Cloud-top phase",
+                },
+                "B12": {
+                    "wavelength": 9.6372,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Ozone",
+                },
+                "B13": {
+                    "wavelength": 10.4073,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Clean Longwave Window",
+                },
+                "B14": {
+                    "wavelength": 11.2395,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Longwave Window",
+                },
+                "B15": {
+                    "wavelength": 12.3806,
+                    "units": ["Rad", "BT"],
+                    "description": "IR Dirty Longwave Window",
+                },
+                "B16": {
+                    "wavelength": 13.2807,
+                    "units": ["Rad", "BT"],
+                    "description": "IR CO2 Longwave infrared",
+                },
+            },
+            "MED": {
+                "B01": {
+                    "wavelength": 0.47063,
+                    "units": ["Rad", "Ref"],
+                    "description": "Vis Blue",
+                },
+                "B02": {
+                    "wavelength": 0.51000,
+                    "units": ["Rad", "Ref"],
+                    "description": "Vis Green",
+                },
+                "B04": {
+                    "wavelength": 0.85670,
+                    "units": ["Rad", "Ref"],
+                    "description": "Near-IR Veggie",
+                },
+            },
+            "HIGH": {
+                "B03": {
+                    "wavelength": 0.63914,
+                    "units": ["Rad", "BT"],
+                    "description": "Vis Red",
+                },
+            },
+        },
+        resolution_mapping={
+            "LOW": "5500x5500 | 2km",
+            "MED": "11000x11000 | 1km",
+            "HIGH": "22000x22000 | 0.5km",
+        },
+    ).channel_information
     ALL_CHANS = {
         "LOW": [
             "B05Rad",
