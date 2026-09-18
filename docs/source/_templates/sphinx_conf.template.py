@@ -171,14 +171,14 @@ html_theme_options = {
     "navigation_with_keys": False,
     "footer_end": ["geoips_footer"],
     "github_url": "https://github.com/NRLMMD-GEOIPS/PKGNAME",
-    "navbar_start": ["navbar-logo", "version-switcher"],
+    "navbar_start": ["navbar-logo", "version-switcher"],  # REVIEW (If not building versioned docs, this line can be changed/removed)
     "navbar_end": ["theme-switcher", "navbar-icon-links"],
     "logo": {
         "image_light": "_static/geoips_logo.png",
         "image_dark": "_static/geoips_logo.png",
     },
     "switcher": {
-        "json_url": "https://nrlmmd-geoips.github.io/geoips/versions.json",
+        "json_url": "https://nrlmmd-geoips.github.io/geoips/versions.json",  # REVIEW (Change URL as needed if version-switcher included above)
         "version_match": docs_version,
     }
 }
