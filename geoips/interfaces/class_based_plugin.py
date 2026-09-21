@@ -53,8 +53,6 @@ LOG = logging.getLogger(__name__)
 
 
 # To do:
-# - __repr__()
-# - __str__()
 # - tokenize() - Call from _post_call if tokenize=True
 # - Converter to/from dict of xarray - Probably pure, accept data and family name
 # - Converter to/from data_tree
@@ -703,6 +701,67 @@ class BaseClassPlugin(ABC):
         else:
             self.module_name = "Unknown."
             self.module_path = "Unknown."
+
+    def _display_fields(self):
+        """Collect the fields used by `__repr__` and `__str__`, in a stable order.
+
+        The `package` entry is derived from `module_name`, which the plugin registry
+        builds as the package name followed by the plugin's dotted module path. A
+        plugin created without a module reports a package of 'Unknown'.
+
+        Any field whose attribute is missing, or is not a non-empty string, is left out
+        rather than reported as empty.
+
+        Returns
+        -------
+        dict
+            - A mapping of field name to field value.
+        """
+        fields = {}
+        for field_name in ("name", "interface"):
+            field_value = getattr(self, field_name, None)
+            if isinstance(field_value, str) and field_value:
+                fields[field_name] = field_value
+
+        module_name = getattr(self, "module_name", None)
+        if isinstance(module_name, str) and module_name:
+            fields["package"] = module_name.split(".")[0]
+
+        return fields
+
+    def __repr__(self):
+        """Class BaseClassPlugin repr method.
+
+        Returns a single-line representation of the plugin, such as
+        `ReadersPlugin(name='abi_netcdf', interface='readers', package='geoips')`.
+        """
+        rendered_fields = ", ".join(
+            f"{field_name}={field_value!r}"
+            for field_name, field_value in self._display_fields().items()
+        )
+        return f"{self.__class__.__name__}({rendered_fields})"
+
+    def __str__(self):
+        """Class BaseClassPlugin str method.
+
+        Returns a short description of the plugin, such as
+        `abi_netcdf (readers plugin from geoips)`.
+        """
+        fields = self._display_fields()
+        plugin_name = fields.get("name")
+        if not plugin_name:
+            # Without a name there is nothing human-readable to report, so fall back to
+            # the full representation.
+            return self.__repr__()
+
+        interface_name = fields.get("interface")
+        description = f"{interface_name} plugin" if interface_name else "plugin"
+
+        package_name = fields.get("package")
+        if package_name:
+            description = f"{description} from {package_name}"
+
+        return f"{plugin_name} ({description})"
 
     def __init_subclass__(cls, *, abstract=False, **kwargs) -> None:
         """
