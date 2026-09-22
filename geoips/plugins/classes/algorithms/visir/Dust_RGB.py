@@ -9,7 +9,7 @@ This algorithm expects three visible reflectances for an RGB image:
 * Blue SEVIRI B09BT
 """
 
-from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
+from geoips.interfaces.class_based.bases.algorithms import BaseAlgorithmPlugin
 
 import logging
 

@@ -3,7 +3,9 @@
 
 """Full NetCDF output format, writing out all channels in full dataset."""
 
-from geoips.interfaces.class_based.output_formatters import NetcdfOutputFormatterPlugin
+from geoips.interfaces.class_based.bases.output_formatters import (
+    NetcdfOutputFormatterPlugin,
+)
 
 import logging
 

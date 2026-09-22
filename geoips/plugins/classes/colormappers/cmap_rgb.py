@@ -3,7 +3,7 @@
 
 """Module containing matplotlib information for RGB or RGBA imagery."""
 
-from geoips.interfaces.class_based.colormappers import BaseColormapperPlugin
+from geoips.interfaces.class_based.bases.colormappers import BaseColormapperPlugin
 
 import logging
 

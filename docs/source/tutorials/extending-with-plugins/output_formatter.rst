@@ -102,7 +102,7 @@ CLAVR-x data in a specific netcdf format. Copy and paste the code below into tha
   """My NetCDF output format."""
   import logging
 
-  from geoips.interfaces.class_based.output_formatters import NetcdfOutputFormatterPlugin
+  from geoips.interfaces.class_based.bases.output_formatters import NetcdfOutputFormatterPlugin
 
   LOG = logging.getLogger(__name__)
 
