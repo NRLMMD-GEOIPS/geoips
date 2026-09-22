@@ -74,7 +74,10 @@ class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
         kwargs["input_xarray"] = input_xarray
         kwargs.setdefault("output_xarray", xr.Dataset())
         if kwargs.get("varlist") is None:
-            kwargs["varlist"] = list(input_xarray.variables.keys())
+            kwargs["varlist"] = [
+                v for v in input_xarray.data_vars
+                if input_xarray[v].dtype.kind in ("f", "i", "u")
+            ]
 
         return kwargs
 
