@@ -10,6 +10,7 @@ bug fix:
     - ''
     modified:
     - 'geoips/interfaces/class_based/interpolators.py'
+    - 'geoips/plugins/yaml/workflows/tests/mimic_coarse_static_tpw_cimss_imagery_annotated.yaml'
   related-issue:
     number: 1505
     repo_url: ''
