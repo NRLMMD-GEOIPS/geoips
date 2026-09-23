@@ -1,0 +1,20 @@
+bug fix:
+- title: 'Fix interpolator varlist to exclude non-numeric variables'
+  description: 'Drop variables from the varlist that are not numeric (float, int, unsigned int) to prevent errors during interpolation.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/interfaces/class_based/interpolators.py'
+    - 'geoips/plugins/yaml/workflows/tests/mimic_coarse_static_tpw_cimss_imagery_annotated.yaml'
+    - 'tests/unit_tests/interfaces/class_based/test_interpolator.py'
+  related-issue:
+    number: 1505
+    repo_url: ''
+  date:
+    start: null
+    finish: null
