@@ -10,6 +10,7 @@ marked as expected failures (``xfail``) when the requied test data is unavailabl
 
 # Python Standard Libraries
 from datetime import datetime, timezone
+import os
 from pathlib import Path
 import shlex
 
@@ -68,7 +69,7 @@ def _run_obp_workflow(workflow_name, fail_on_missing_data):
     cmd = shlex.split(f"geoips test wf {workflow_name}")
 
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%d.%H%M%S")
-    import os
+
     log_fname = (
         f"{os.environ['GEOIPS_OUTDIRS']}/logs/pytests/integration"
         f"/{timestamp}.{workflow_name}.log"
@@ -89,3 +90,26 @@ def _run_obp_workflow(workflow_name, fail_on_missing_data):
             f"OBP workflow '{workflow_name}' failed (exit {retval}).\n"
             f"Log: {log_fname}\n{summary}"
         )
+
+
+@pytest.mark.full
+@pytest.mark.integration
+@pytest.mark.parametrize("workflow_name", seviri_workflow_names)
+def test_obp_seviri_workflow(workflow_name, fail_on_missing_data):
+    """Run SEVIRI OBP workflow end-to-end via ``geoips test wf``.
+
+    Parameters
+    ----------
+    workflow_name : str
+        Registered workflow plugin name.
+    fail_on_missing_data : bool
+        Whether to hard-fail when test data is unavailable.
+
+    Raises
+    ------
+    FileNotFoundError
+        If test data is missing and ``fail_on_missing_data`` is True.
+    RuntimeError
+        If the workflow exits non-zero.
+    """
+    _run_obp_workflow(workflow_name, fail_on_missing_data)
