@@ -1,0 +1,18 @@
+bug fix:
+- title: 'Fix interpolator varlist to exclude non-numeric variables'
+  description: 'Drop variables from the varlist that are not numeric (float, int, unsigned int) to prevent errors during interpolation.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/interfaces/class_based/interpolators.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
