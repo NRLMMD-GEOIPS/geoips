@@ -20,6 +20,20 @@ import pytest
 from geoips.geoips_utils import call_cmd
 from geoips.interfaces import workflows
 
+seviri_workflow_names = [
+    "seviri_airmass_imagery_clean",
+    "seviri_convective_storms_imagery_clean",
+    "seviri_day_microphys_summer_imagery_clean",
+    "seviri_day_microphys_winter_imagery_clean",
+    "seviri_day_solar_imagery_clean",
+    "seviri_dust_rgb_imagery_clean",
+    "seviri_natural_color_imagery_clean",
+    "seviri_night_microphys_imagery_clean",
+    "seviri_volcanic_ash_imagery_clean",
+    "seviri_wv_upper_no_self_register_unprojected_image",
+]
+
+
 def _run_obp_workflow(workflow_name, fail_on_missing_data):
     """Load a workflow plugin and run it using ``geoips test wf``.
 
