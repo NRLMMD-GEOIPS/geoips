@@ -7,3 +7,71 @@ Each test loads a workflow plugin, checks that test data is available, and
 runs the workflow end-to-end using ``geoips test wf <workflow_name>``.  Tests are
 marked as expected failures (``xfail``) when the requied test data is unavailable.
 """
+
+# Python Standard Libraries
+from datetime import datetime, timezone
+from pathlib import Path
+import shlex
+
+# Third-party Libraries
+import pytest
+
+# GeoIPS Libraries
+from geoips.geoips_utils import call_cmd
+from geoips.interfaces import workflows
+
+def _run_obp_workflow(workflow_name, fail_on_missing_data):
+    """Load a workflow plugin and run it using ``geoips test wf``.
+
+    Parameters
+    ----------
+    workflow_name : str
+        Registered workflow plugin name.
+    fail_on_missing_data : bool
+        If True, hard-fail when test data files are missing.
+        If False, xfail instead.
+
+    Raises
+    ------
+    FileNotFoundError
+        If test data is missing and ``fail_on_missing_data`` is True.
+    RuntimeError
+        If the ``geoips test wf`` command exits non-zero.
+    """
+    workflow_plugin_object = workflows.get_plugin(workflow_name)
+    filenames = workflow_plugin_object["test"]["filenames"]
+
+    missing_filenames = [fname for fname in filenames if not Path(fname).exists()]
+    if missing_filenames:
+        msg = (
+            f"OBP workflow '{workflow_name}' missing {len(missing_filenames)} of "
+            f"{len(filenames)} test data files. First missing: {missing_filenames[0]}"
+        )
+        if fail_on_missing_data:
+            raise FileNotFoundError(msg)
+        pytest.xfail(msg)
+
+    cmd = shlex.split(f"geoips test wf {workflow_name}")
+
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d.%H%M%S")
+    import os
+    log_fname = (
+        f"{os.environ['GEOIPS_OUTDIRS']}/logs/pytests/integration"
+        f"/{timestamp}.{workflow_name}.log"
+    )
+
+    retval, stdout_list, stderr_list = call_cmd(
+        cmd,
+        output_log_fname=log_fname,
+        use_logging=False,
+        use_print=False,
+        pipe=True,
+    )
+
+    if retval != 0:
+        combined = ("".join(stdout_list) + "".join(stderr_list)).strip()
+        summary = "\n".join(combined.splitlines()[-25:])
+        raise RuntimeError(
+            f"OBP workflow '{workflow_name}' failed (exit {retval}).\n"
+            f"Log: {log_fname}\n{summary}"
+        )
