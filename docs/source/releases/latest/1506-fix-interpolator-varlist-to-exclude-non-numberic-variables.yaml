@@ -11,7 +11,7 @@ bug fix:
     modified:
     - 'geoips/interfaces/class_based/interpolators.py'
   related-issue:
-    number: null
+    number: 1505
     repo_url: ''
   date:
     start: null
