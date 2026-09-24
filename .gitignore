@@ -221,6 +221,3 @@ geoips_test_data
 
 # Claude Code local configuration and skills
 .claude/
-
-# generated from TEMP_interface_rename_map.html by build_map_pdf.py
-docs/dev/spec_plans/*.pdf
