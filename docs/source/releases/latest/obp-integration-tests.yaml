@@ -1,4 +1,4 @@
-feature:
+test:
 - title: 'Add OBP Integration Tests for Workflow Validation'
   description: ''
   files:
