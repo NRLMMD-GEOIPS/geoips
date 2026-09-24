@@ -21,6 +21,11 @@ import pytest
 from geoips.geoips_utils import call_cmd
 from geoips.interfaces import workflows
 
+ami_workflow_names = [
+    "ami_static_infrared_imagery_clean",
+    "ami_static_visible_imagery_clean",
+]
+
 seviri_workflow_names = [
     "seviri_airmass_imagery_clean",
     "seviri_convective_storms_imagery_clean",
@@ -92,11 +97,14 @@ def _run_obp_workflow(workflow_name, fail_on_missing_data):
         )
 
 
+all_workflow_names = ami_workflow_names + seviri_workflow_names
+
+
 @pytest.mark.full
 @pytest.mark.integration
-@pytest.mark.parametrize("workflow_name", seviri_workflow_names)
-def test_obp_seviri_workflow(workflow_name, fail_on_missing_data):
-    """Run SEVIRI OBP workflow end-to-end via ``geoips test wf``.
+@pytest.mark.parametrize("workflow_name", all_workflow_names)
+def test_obp_workflow(workflow_name, fail_on_missing_data):
+    """Run OBP workflow end-to-end via ``geoips test wf``.
 
     Parameters
     ----------
@@ -112,4 +120,5 @@ def test_obp_seviri_workflow(workflow_name, fail_on_missing_data):
     RuntimeError
         If the workflow exits non-zero.
     """
+
     _run_obp_workflow(workflow_name, fail_on_missing_data)
