@@ -7,7 +7,8 @@ feature:
     moved:
     - ''
     added:
-    - ''
+    - 'docs/source/releases/latest/obp-integration-tests.yaml'
+    - 'tests/integration_tests/test_obp_workflows.py'
     modified:
     - ''
   related-issue:
