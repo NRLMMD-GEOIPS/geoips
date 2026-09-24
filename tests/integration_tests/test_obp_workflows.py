@@ -120,5 +120,4 @@ def test_obp_workflow(workflow_name, fail_on_missing_data):
     RuntimeError
         If the workflow exits non-zero.
     """
-
     _run_obp_workflow(workflow_name, fail_on_missing_data)
