@@ -1,6 +1,6 @@
 test:
 - title: 'Add OBP Integration Tests for Workflow Validation'
-  description: ''
+  description: 'Introduce integration tests for OBP workflows to ensure correct functionality and data flow between workflow steps.'
   files:
     deleted:
     - ''
