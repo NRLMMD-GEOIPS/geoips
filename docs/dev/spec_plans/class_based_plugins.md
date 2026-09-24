@@ -285,33 +285,26 @@ GeoIPS v2.0.0 MUST continue to support legacy Products, legacy run scripts, and 
 
 **Permanent conversion.** GeoIPS MUST provide a conversion script as the migration path. It performs the same semantic conversion as the runtime path, but materializes the Workflow so it can replace the Product. Runtime conversion and the script MUST share one canonical conversion engine or be proven behaviorally identical: given the same Product and configuration they MUST produce equivalent Workflows, with no divergence in conversion rules, validation, warnings, or deprecation handling.
 
-**Procflows.** The procflows interface is deleted and OBP becomes the only way GeoIPS runs. OBP is the execution model rather than a procflow, so `order_based` ceases to exist as a registered procflow along with the rest of the interface. No legacy procflow implementation is retained. Legacy behavior is reproduced through the runtime conversion above: a Product is converted into a Workflow whose shape is determined by the Product's family, and OBP runs that Workflow to produce what the corresponding legacy procflow would have produced. That reproduction MUST be evidenced by the integration tests in [v2.0.0 Legacy Compatibility Test Baseline](#65-v200-legacy-compatibility-test-baseline). The conversion is transitional and MUST be removed with the legacy entry points it serves rather than becoming an accidental permanent API.
+**Procflows.** The procflows interface MUST be removed, and OBP MUST become the only way GeoIPS runs. OBP is the execution model rather than a procflow, so `order_based` ceases to exist as a registered procflow along with the rest of the interface. No legacy procflow implementation is retained. All procflow behavior MUST be reproduced through the runtime conversion above: a Product is converted into a Workflow whose shape is determined by the Product's family, and OBP runs that Workflow to produce what the corresponding legacy procflow would have produced. That reproduction MUST be evidenced by the integration tests in [v2.0.0 Legacy Compatibility Test Baseline](#65-v200-legacy-compatibility-test-baseline). The conversion is transitional and MUST be removed with the legacy entry points it serves rather than becoming an accidental permanent API.
 
 This constraint guides both the target *Specifications* and deprecation strategy:
 
-- The *Specifications* MUST identify behavior required by legacy Products and run scripts, separately from internal legacy-procflow behavior that may be retired.
-- A v2.0.0 implementation MAY use existing procflows, OBP, or compatibility adapters, as long as supported legacy entry points continue to work as specified.
-- Internal procflow APIs MAY be deprecated without promising indefinite direct support, but removal MUST NOT break the supported user-facing compatibility boundary.
-- Removing a legacy procflow implementation, and later removing the converter that temporarily accepted its calls, are gated on the conditions in [Legacy Implementation and Converter Removal Gates](#64-legacy-implementation-and-converter-removal-gates). A compatibility adapter MUST NOT become an accidental permanent API.
+- The *Specifications* MUST identify behavior required by legacy Products and run scripts, separately from the internal legacy-procflow behavior being removed.
+- The procflows MUST be removed, and all of their behavior MUST be reproduced by internal conversion to Workflows. Their removal MUST NOT break the supported user-facing compatibility boundary.
+- Removing a legacy procflow implementation, and later removing the CLI argument mapping that temporarily accepted its calls, are gated on the conditions in [Legacy Implementation and Converter Removal Gates](#64-legacy-implementation-and-converter-removal-gates). A compatibility adapter MUST NOT become an accidental permanent API.
 - Any proposed change that could alter accepted Product definitions, run-script inputs, CLI behavior, processing results, metadata, outputs, or failure behavior MUST be identified as a compatibility risk and reviewed explicitly.
 
 ### 6.4. Legacy Implementation and Converter Removal Gates
 
-Existing legacy procflow implementations MUST NOT be removed until all of the following conditions are satisfied:
+Existing legacy procflows MUST NOT be removed until all of the following conditions are satisfied:
 
-- automatic legacy-procflow-call-to-Workflow conversion is implemented
+- legacy procflow calls execute through OBP, by CLI argument mapping and Product conversion
 - every supported legacy call form and argument is mapped or produces a deliberate, documented migration error
 - all core and official-package compatibility tests pass through the converted OBP path
 - scientific results, required metadata, expected artifact contents, filenames, exit behavior, and other contractual outputs are equivalent
-- Product runtime conversion and the persistent Product conversion script produce equivalent Workflows through the shared canonical conversion behavior
-- official-package coverage has corresponding Workflow and CLI tests
 - actionable warnings and migration instructions are available
-- the group-approved warning window has elapsed
-- every retained behavior has an OBP equivalent
-- known differences are fixed or approved as changes to the v2.0.0 contract
-- conversion failures provide sufficient diagnostics and an approved recovery path
 
-Removing a legacy procflow implementation does not automatically remove its runtime compatibility converter. Later removal of Product and procflow-call converters requires:
+Support for CLI calls will raise deprecation warnings but will continue to operate through runtime conversion as described in other sections. These are different mechanisms: the Product converter is a conversion routine the CLI calls, while procflow-call support is argument mapping that translates `geoips run --procflow ...` arguments into their OBP equivalents. Later removal of the Product converter and the legacy CLI argument mapping requires:
 
 - official repositories contain no legacy Products or procflow calls except deliberate compatibility/removal fixtures
 - conversion tooling has been available for the approved migration period
@@ -322,7 +315,11 @@ Removing a legacy procflow implementation does not automatically remove its runt
 
 The compatibility matrix includes every current integration test from the core `geoips` package and every official GeoIPS plugin package, including `data_fusion`, `geoips_clavrx`, and all other packages identified by the official package inventory. Do not use a hand-selected subset merely because some packages duplicate interfaces or procflows exercised elsewhere.
 
-The inventory phase will discover and record the complete official package set, all legacy run scripts and Products exercised by their integration tests, required test datasets, entry procflows, expected artifacts, comparison outputs, and runtime conversion paths. Tests passing when the baseline is established are release-blocking compatibility cases unless an explicit deprecation or approved compatibility decision removes them from the v2.0.0 contract. Missing infrastructure or unavailable test data must be tracked rather than silently excluding an official package.
+The inventory phase will discover and record the complete official package set, all legacy run scripts and Products exercised by their integration tests, required test datasets, entry procflows, expected artifacts, comparison outputs, and runtime conversion paths. Tests passing when the baseline is established MUST be treated as release-blocking compatibility cases unless an explicit deprecation or approved compatibility decision removes them from the v2.0.0 contract. Missing infrastructure or unavailable test data must be tracked rather than silently excluding an official package.
+
+The baseline MUST cover every legacy CLI invocation form with its full argument set — `geoips run <procflow>`, `geoips run --procflow <procflow>`, the `run_procflow` and `data_fusion_procflow` executables, and the `ob` and `obp` aliases — because the compatibility constraint freezes arguments rather than only call forms.
+
+`run_procflow` and `data_fusion_procflow` MUST become thin wrappers around `geoips run` that raise a deprecation warning. Test scripts MUST NOT invoke them; scripts that do MUST be migrated to `geoips run`, leaving those two forms verified by dedicated compatibility cases rather than by the integration suite at large.
 
 ### 6.6. Argument Standardization and Conduits
 
@@ -816,7 +813,7 @@ No schedule is approved merely by being entered in the register. Conversely, an 
 - [ ] Register legacy Products and Product-to-Workflow runtime conversion as related but distinct deprecations with coordinated migration and removal criteria.
 - [ ] Specify the automated Product-to-Workflow conversion script, its inputs, generated Workflow output, validation, overwrite/idempotency behavior, diagnostics, and tests.
 - [ ] Require the conversion script and runtime conversion to use the same canonical conversion engine and add equivalence tests for representative Products.
-- [ ] Inventory legacy procflow call forms that the planned runtime procflow-to-Workflow converter must accept while existing procflows remain available.
+- [ ] Inventory legacy procflow call forms and the OBP arguments each one maps to.
 - [ ] Register legacy procflow calls and automatic procflow-to-Workflow conversion as related but distinct deprecations with coordinated migration and removal criteria.
 - [ ] Inventory conduit bindings, positional alias mappings, interface hook translations, explicit-argument precedence, and fallback/default behavior.
 - [ ] Compare direct-dependency collection with candidate latest-relevant-step semantics and create conformance-gap issues only after the target behavior is approved.
