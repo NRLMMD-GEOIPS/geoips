@@ -6,13 +6,13 @@ labels: v2-spec-gap, plugin-specs, v2.0
 ---
 
 <!--
-Set the assignee and the v2.0.0 milestone using GitHub's own fields rather than
-recording them below. Add the release-blocking label if this gap blocks the release.
+Set assignee and the v2.0.0 milestone in GitHub's own fields, not below.
+Add the release-blocking label if this gap blocks the release.
 -->
 
 ## Specification requirement
 
-<!-- Link to the requirement in the specification. -->
+<!-- Link to the requirement in the *Specification*. -->
 
 ## Scope
 
@@ -20,11 +20,11 @@ recording them below. Add the release-blocking label if this gap blocks the rele
 
 ## Gap type
 
-<!-- One of: missing | divergent | ambiguous | obsolete | test-or-documentation-only -->
+<!-- One of: missing | divergent | ambiguous | intentionally deferred -->
 
 ## Alpha behavior
 
-<!-- What the current implementation and tests actually do. -->
+<!-- What the implementation and its tests do today. -->
 
 ## Evidence
 
@@ -37,13 +37,19 @@ recording them below. Add the release-blocking label if this gap blocks the rele
 ## Legacy entry-point impact
 
 <!-- Legacy Products, run scripts, outputs, or users that could regress.
-     State "none" explicitly rather than omitting this. -->
+     State "none"; do not omit this. -->
 
 ## Proposed resolution
 
-<!-- Required code, test, or documentation change.
-     "Not yet determined" is acceptable at filing time. -->
+<!-- Code, test, or documentation change required.
+     "Not yet determined" is acceptable at filing. -->
 
 ## Release-blocking rationale
 
 <!-- Why this does or does not block v2.0.0. Apply the label to match. -->
+
+## Disposition
+
+<!-- Leave empty while open. A gap closes only as resolved or waived.
+     Resolved: link the closing change.
+     Waived: name the release authority and the reason. -->
