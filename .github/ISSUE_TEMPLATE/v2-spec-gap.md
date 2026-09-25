@@ -20,7 +20,8 @@ Add the release-blocking label if this gap blocks the release.
 
 ## Gap type
 
-<!-- One of: missing | divergent | ambiguous | intentionally deferred -->
+<!-- One of: missing | divergent | ambiguous | obsolete | test-or-documentation-only.
+     A difference deferred past v2.0.0 keeps its type and is marked not release-blocking. -->
 
 ## Alpha behavior
 

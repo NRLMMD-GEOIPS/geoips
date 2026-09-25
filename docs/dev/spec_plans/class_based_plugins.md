@@ -2,13 +2,13 @@
 
 ## 1. Purpose and Scope
 
-This document plans and tracks the class-based plugin *Specifications*. They are normative target-state documents for GeoIPS v2.0.0, not descriptions of the alpha implementation. Use this document to pick the next unit of work, record decisions, and hold scope.
+This document plans and tracks the class-based plugin *Specifications*. They are normative target-state documents for GeoIPS v2.0.0, not descriptions of the alpha implementation.
 
 ### 1.1. Deliverables
 
-1. A base *Specification* for `BaseClassInterface` and `BaseClassPlugin`. It covers attributes, methods, subclass requirements, validation and registration, lifecycle hooks, native-data/DataTree conversion, OBP integration, and conduits.
+1. A base *Specification* for `BaseClassInterface` and `BaseClassPlugin` ([§8.1](#81-base-class-page)).
 2. One page per registered class-based interface, with tested examples from real plugins.
-3. A deprecation *Specification* and register. The register holds existing and new deprecations with rationale, migration guidance, milestones, and owners.
+3. A deprecation *Specification* and register ([§11.2](#112-deprecation-entry)).
 4. A conformance-gap issue for every confirmed difference between the alpha implementation and the contract, aggregated through a v2.0.0 milestone. Gap types are missing, divergent, ambiguous, obsolete, and test-or-documentation-only. A difference deferred past v2.0.0 is filed the same way and marked not release-blocking.
 5. A standardized argument vocabulary. Noncanonical legacy arguments live in conduits or adapters and sit on a deprecation path.
 6. The datatree-spec changes in [§13](#13-datatree-spec-reconciliation).
@@ -28,12 +28,12 @@ Unless a later decision adds them:
 
 The key words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, and **MAY** in this document and the *Specifications* are to be interpreted as described in BCP 14, [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119) and [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174), when, and only when, they appear in all capitals.
 
-These words mark normative v2.0.0 requirements only. **MUST** and **MUST NOT** are absolute. **SHOULD** and **SHOULD NOT** permit exceptions, and the *Specification* MUST state or link the consequence of an exception. **MAY** marks optional behavior, and the *Specification* MUST define how implementations that take the option interoperate with those that do not. Do not use **SHALL**, **REQUIRED**, **RECOMMENDED**, or **OPTIONAL**. Lowercase forms carry ordinary meaning. Planning steps, examples, alpha observations, and post-v2.0.0 work use ordinary language. Every keyword names its subject and an observable behavior. A keyword never adds emphasis or marks a task step.
+These words mark normative v2.0.0 requirements only. **MUST** and **MUST NOT** are absolute. **SHOULD** and **SHOULD NOT** permit exceptions, and the *Specification* MUST state or link the consequence of an exception. **MAY** marks optional behavior, and the *Specification* MUST define how implementations that take the option interoperate with those that do not. Do not use **SHALL**, **REQUIRED**, **RECOMMENDED**, or **OPTIONAL**. Lowercase forms carry ordinary meaning. Every keyword names its subject and an observable behavior. A keyword never adds emphasis or marks a task step.
 
 ## 3. Records
 
 1. ***Specifications*** state what v2.0.0 MUST provide, directly. A short compatibility note may identify transitional behavior. Remediation belongs in gap issues and the register. A current limitation MUST NOT silently weaken the contract.
-2. **Conformance-gap issues** record each confirmed difference between a requirement and the alpha implementation. A gap never adjusts the contract. If the requirement is right, the gap is work the implementation owes. If the requirement is wrong, only *Specification* approval changes it. Each gap uses the [issue template](#111-conformance-gap-issue), carries the `v2-spec-gap` label, and is classified release-blocking or not. A gap closes only as resolved or as waived by the release authority. The effort is incomplete while a blocking gap is open. Milestone workflow and blocking criteria are Phase 0 work.
+2. **Conformance-gap issues** record each confirmed difference between a requirement and the alpha implementation. A wrong requirement changes only by *Specification* approval. Each gap uses the [issue template](#111-conformance-gap-issue), carries the `v2-spec-gap` label, and is classified release-blocking or not. A gap closes only as resolved or as waived by the release authority. Milestone workflow and blocking criteria are Phase 0 work.
 3. **Deprecation register.** The target design MUST use a central, machine-readable registry in the core package as the authoritative inventory. The registry holds typed pydantic records, and a `warn_deprecated(deprecation_id, ...)` helper resolves stable IDs and issues consistent warnings. Compatibility code stays near what it adapts but MUST reference a registry entry. Tooling SHOULD generate deprecation tables and reports from the registry. Manual maintenance MAY substitute only under automated validation against the registry. External packages MUST NOT mutate or extend the registry.
 4. **Datatree spec reconciliation**, [§13](#13-datatree-spec-reconciliation).
 
@@ -63,7 +63,7 @@ Output formatter steps are non-data-bearing. They perform side effects and recor
 
 Identity metadata such as `start_datetime`, `end_datetime`, source, platform, and projection distinguishes similar datasets. `step_id` paths keep same-`dataset_id` reader outputs distinct before an explicit join. Every dataset node MUST carry `start_datetime` and `end_datetime`, meaning the data collection or valid time.
 
-GeoIPS does not judge whether data are scientifically appropriate to combine. Operators MUST validate the structural requirements of their declared operation. They MUST NOT impose a generic scientific-compatibility policy unless an interface *Specification* permits one. Join operators MUST validate dimension and coordinate compatibility, and the join *Specification* MUST define the checks and the error raised. Join operators MAY check conflicting declared units. If they do, the *Specification* MUST say whether a conflict warns or errors.
+Operators MUST validate the structural requirements of their declared operation. They MUST NOT impose a generic scientific-compatibility policy unless an interface *Specification* permits one. Join operators MUST validate dimension and coordinate compatibility, and the join *Specification* MUST define the checks and the error raised. Join operators MAY check conflicting declared units. If they do, the *Specification* MUST say whether a conflict warns or errors.
 
 ### 4.6. Provenance and Retention
 
@@ -75,11 +75,9 @@ Retention provenance records four things: the workflow-level policy, the explici
 
 Unit metadata lives in the `units` variable attribute, with UDUNITS-2 notation preferred. In v2.0.0 a variable MAY carry it. GeoIPS neither requires nor validates it, so consumers handle its absence. `long_name` and `standard_name` are likewise optional. All three become requirements once GeoIPS handling can meet them. Shared vocabulary, validation, inference, and automatic conversion are v2.1-or-later work. Their absence MUST NOT create v2.0.0 gaps.
 
-### 4.8. Dimensions and Composition
+### 4.8. Dimensions
 
 No dimension is universally mandatory, including `latitude`, `longitude`, and `time`. Datasets carry only the dimensions their variables represent. Scalar acquisition information stays metadata, and GeoIPS adds no length-one dimensions in anticipation of composition. `start_datetime` and `end_datetime` record the span a dataset covers. A `time` coordinate, where present, records each element's time as read from the source and may be scalar or per-scanline. Neither is derived from the other.
-
-A composition operator such as a join creates a new dimension along a declared axis, for example time, height, ensemble member, or source. It defines how metadata become coordinate values and rejects inputs that lack structurally required information. An input need not carry a `time` axis when the value composed from it is scalar.
 
 ### 4.9. Family and `data_tree` Migration
 
@@ -100,7 +98,7 @@ A composition operator such as a join creates a new dimension along a declared a
 | Data variable | `/<step_id>/<dataset_id>.data_vars["wind_speed"]` |
 | Coordinate | `/<step_id>/<dataset_id>.coords["latitude"]` |
 
-A `step_id` is the case-sensitive identifier a workflow assigns to a step. A `dataset_id` names one coordinate-compatible group within a step by resolution, projection, shape, operation result, or any distinguishing combination. Both MUST be valid Python identifiers, so `shape_5424x5424` is valid and `5424x5424` is not. The *Specifications* MUST reference the project's shared identifier validation and MUST NOT define a competing validator. `_input` is the data-injection dependency token and MUST NOT name a step.
+A `step_id` is the case-sensitive identifier a workflow assigns to a step. A `dataset_id` names one coordinate-compatible group within a step by resolution, projection, shape, operation result, or any distinguishing combination. Both MUST be valid Python identifiers. The *Specifications* MUST reference the project's shared identifier validation and MUST NOT define a competing validator. `_input` is the data-injection dependency token and MUST NOT name a step.
 
 Paths begin with `/`. Bracket notation quotes keys, and angle brackets mark placeholders. The notation is descriptive, not executable. Example tokens use the `blake2b:` prefix. The SplitOperators *Specification* defines notation under split-operator branches.
 
@@ -113,15 +111,15 @@ GeoIPS v2.0.0 MUST continue to support legacy Products, legacy run scripts, and 
 - `geoips run <procflow>` reproduces the named procflow.
 - `run_procflow` and `data_fusion_procflow` accept the older `--procflow <procflow>` form.
 
-Only the third works today. Bare `geoips run` prints usage (`commandline_interface.py:182-187`). `geoips run --procflow` raises `NotImplementedError` (`:194`). `support_legacy_procflows()` rewrites the legacy executables to `geoips run <procflow>` (`:209-222`).
+Only the third works today. Bare `geoips run` prints usage (`commandline_interface.py:182-187`). `geoips run --procflow` raises `NotImplementedError` (`:194`). `support_legacy_procflows()` rewrites the legacy executables to `geoips run <procflow>` (`:209-222`). File this paragraph as a gap in Phase 2 and delete it here.
 
-`run_procflow` and `data_fusion_procflow` MUST become thin wrappers around `geoips run` that raise a deprecation warning. The promise covers these entry points and their supported outcomes. Procflow internals, Products, and call forms are not permanent public APIs.
+`run_procflow` and `data_fusion_procflow` MUST become thin wrappers around `geoips run` that raise a deprecation warning. The promise covers these entry points and their supported outcomes. Procflow internals, Products, and call forms are not permanent public APIs. Preserve an internal procflow API only where user-facing support depends on it and no replacement exists.
 
-**Products** are deprecated and MUST continue to work. GeoIPS MUST convert a Product into a Workflow at runtime. The generated Workflow MUST preserve the Product's supported processing intent and user-visible results, subject to documented deprecations. GeoIPS MUST also provide a conversion script that materializes the same Workflow as the migration path. The script and the runtime conversion MUST share one engine or be proven behaviorally identical. They MUST produce equivalent Workflows from the same Product and configuration, with no divergence in rules, validation, warnings, or deprecation handling.
+**Products** are deprecated and MUST continue to work. GeoIPS MUST convert a Product into a Workflow at runtime. The generated Workflow MUST preserve the Product's supported processing intent and user-visible results, subject to documented deprecations. GeoIPS MUST also provide a conversion script that materializes the same Workflow as the migration path. The script and the runtime conversion MUST share one engine or be proven behaviorally identical, producing equivalent Workflows from the same Product and configuration with no divergence in rules, validation, warnings, or deprecation handling.
 
 **Procflows.** The procflows interface MUST be removed, and OBP MUST become the only way GeoIPS runs. No procflow implementation is retained, and OBP is not itself a registered procflow. All procflow behavior MUST be reproduced through runtime Product conversion, shaped by the Product's family, and MUST be evidenced by the [baseline tests](#413-compatibility-test-baseline). `order_based`, `ob`, and `obp` MUST remain accepted as deprecated aliases for bare `geoips run`. They warn on use and MUST NOT resolve through the plugin registry. Where a legacy name is accepted as the first positional argument, the *Specifications* MUST define how it is disambiguated from a Workflow name.
 
-The runtime conversion and every other compatibility adapter MUST NOT become permanent APIs. The conversion goes away with the entry points it serves. The *Specifications* MUST identify the behavior legacy Products and run scripts require separately from the internal procflow behavior being removed. Removing the procflows MUST NOT break that boundary. Any change that could alter accepted Product definitions, run-script inputs, CLI behavior, results, metadata, outputs, or failure behavior MUST be identified as a compatibility risk and reviewed explicitly.
+The runtime conversion and every other compatibility adapter MUST NOT become permanent APIs. The conversion goes away with the entry points it serves. The *Specifications* MUST identify the behavior legacy Products and run scripts require separately from the internal procflow behavior being removed. Any change that could alter accepted Product definitions, run-script inputs, CLI behavior, results, metadata, outputs, or failure behavior MUST be identified as a compatibility risk and reviewed explicitly.
 
 One identified risk concerns generated subcommands. `geoips/commandline/geoips_describe.py` and `geoips_list.py` generate `geoips describe <interface>` and `geoips list <interface>` per entry in `geoips.interfaces.__all__`. Each rename in [§5.1](#51-terminology-and-rename-map) therefore renames two subcommands, and removing `procflows` deletes two. The rename map's deprecation rule covers kinds only. The *Specifications* MUST state, per renamed interface, whether the old subcommand is aliased with a warning or removed, and what `geoips describe procflows` and `geoips list procflows` do afterward.
 
@@ -144,7 +142,7 @@ Two mechanisms carry the transition. Runtime Product conversion is the routine t
 
 ### 4.13. Compatibility Test Baseline
 
-The matrix includes every current integration test from core `geoips` and from every official plugin package, including `data_fusion`, `geoips_clavrx`, and all others the inventory identifies. Do not subset because packages exercise the same interfaces. The inventory records the package set, the run scripts and Products each test exercises, required datasets, entry procflows, expected artifacts, comparison outputs, and conversion paths. Tests passing at baseline are release-blocking unless a deprecation or an approved decision removes them. The inventory tracks missing infrastructure and unavailable data and never silently excludes a package. The baseline covers every legacy invocation form with its full argument set. Test scripts should invoke `geoips run` and leave the executables to dedicated compatibility cases.
+The matrix includes every current integration test from core `geoips` and from every official plugin package, including `data_fusion`, `geoips_clavrx`, and all others the inventory identifies. Do not subset because packages exercise the same interfaces. The inventory records the package set, the run scripts and Products each test exercises, required datasets, entry procflows, expected artifacts, comparison outputs, and conversion paths. Tests passing at baseline are release-blocking unless a deprecation or an approved decision removes them. The inventory tracks missing infrastructure and unavailable data and never silently excludes a package. Test scripts should invoke `geoips run` and leave the executables to dedicated compatibility cases.
 
 **Recorded conflict.** `docs/source/functionality/command-line/index.rst:587` and `docs/source/getting-started/migrating-to-2.0.md:20, :40` document a `geoips legacy run` wrapper. No such subcommand exists. The top-level commands at `geoips/commandline/commandline_interface.py:38-47` are Config, Describe, Expand, List, Run, Test, Tree, and Validate. Legacy support is `sys.argv` rewriting in `support_legacy_procflows()` (`:157`). The inventory MUST resolve whether the wrapper is planned, abandoned, or a documentation error before the baseline is fixed. Route the correction through Phase 6.
 
@@ -152,21 +150,15 @@ The matrix includes every current integration test from core `geoips` and from e
 
 A conduit is a compatibility argument-wiring adapter. The conduit registry maps an upstream plugin kind to two things: the downstream keyword existing plugins expect, and an extractor that obtains the value from the upstream node. This lets OBP call bespoke signatures such as `xarray_obj`, `area_def`, `mpl_colors_info`, and `output_filenames`. Further layers alias a conduit keyword to a legacy parameter. `data`, `input_xarray`, and `xobj` alias `xarray_obj`, and `output_fnames` aliases `output_filenames`.
 
-For every argument, the *Specifications* distinguish four things: the semantic argument, its canonical v2.0.0 name, its conduit source, extraction, and precedence, and its legacy aliases or interface-specific translations. Conduits and aliases MUST NOT be documented as synonymous. A legacy name or adapter MUST be retired only when its compatibility role has a validated replacement. The registry may shrink as plugins migrate. Conduits are core-only, so external packages MUST NOT mutate, replace, or register entries. Observable binding behavior is the public contract. Registry location, helper names, and mechanics are private.
+Conduits and aliases MUST NOT be documented as synonymous. A legacy name or adapter MUST be retired only when its compatibility role has a validated replacement. Conduits are core-only, so external packages MUST NOT mutate, replace, or register entries. Observable binding behavior is the public contract. Registry location, helper names, and mechanics are private.
 
 Every argument a plugin accepts MUST be suppliable explicitly. A conduit derives a value only when the caller supplies none. A plugin accepts the same inputs however it is invoked. An interface's type conversion applies whether the value arrives from a step, a conduit, or a direct call. An explicit argument takes precedence over a derived one. Each derived argument has exactly one authorized upstream kind. If an argument appears derivable from several kinds, the grouping or plugin model MUST be reconsidered rather than adding cross-kind precedence. `depends_on`, implicit conduit selection, missing-source, and unused-result semantics are not approved ([§6.1](#61-depends_on-and-conduit-resolution)).
 
-**Canonical names.** Each standardized value gets one canonical name and semantic contract, used in new APIs, schemas, examples, and documentation. Legacy names stay out of future-facing signatures. Conduits, aliases, or normalization hooks accept them instead. Every noncanonical accepted name is registered as a deprecation with its affected plugins, mechanism, replacement, warning, and removal criteria. It is removed only after Products and run scripts can be translated and the approved window has elapsed.
+**Canonical names.** Each standardized value gets one canonical name and semantic contract, used in new APIs, schemas, examples, and documentation. Legacy names stay out of future-facing signatures. Conduits, aliases, or normalization hooks accept them instead. Every noncanonical accepted name is registered as a deprecation ([§11.2](#112-deprecation-entry)). It is removed only after Products and run scripts can be translated and the approved window has elapsed.
 
-Standardization MUST cover meaning, cardinality, type, units, default, and precedence. Similar names MUST NOT be merged unless they carry the same semantic value. Aliases MUST NOT silently accept ambiguous combinations, and the *Specification* MUST define conflict detection and precedence. Canonicalization MUST avoid churn. Established abbreviations stay canonical when unambiguous. A rename corrects a substantive inconsistency rather than modernizing a spelling, and its benefit MUST justify the migration cost. Names are uniform across interfaces and families for the same value. Different names are permitted only for values that differ in semantics, units, cardinality, lifecycle, or upstream kind, and the [matrix](#113-canonical-argument-matrix) MUST record the distinction.
+Standardization MUST cover meaning, cardinality, type, units, default, and precedence. Similar names MUST NOT be merged unless they carry the same semantic value. Aliases MUST NOT silently accept ambiguous combinations, and the *Specification* MUST define conflict detection and precedence. Canonicalization MUST avoid churn. Established abbreviations stay canonical when unambiguous. A rename corrects a substantive inconsistency rather than modernizing a spelling, and its benefit MUST justify the migration cost. Different names across interfaces and families are permitted only for values that differ in semantics, units, cardinality, lifecycle, or upstream kind, and the [matrix](#113-canonical-argument-matrix) MUST record the distinction.
 
-**Compatibility pivot.** Argument compatibility runs through the canonical contract in three stages:
-
-1. Ingress normalization. Deprecated caller names from scripts, workflows, Products, or CLI conversion become canonical and emit their registered warning.
-2. Canonical resolution and validation of explicit and derived values.
-3. Legacy invocation adaptation. A core adapter translates canonical arguments to an unmigrated plugin's parameter names immediately before the call.
-
-Both translations MUST share one mapping. Caller input warns. Internal adaptation does not, though a plugin's migration status may raise a developer-facing warning or a gap. Workflows, conduits, validation, scripting state, and documentation stay canonical. Only the final boundary passes legacy parameters, and only to unmigrated plugins. Canonical and deprecated forms supplied together raise a conflict error. Output and DataTree conversion stay separate from argument-name translation.
+Legacy-to-canonical and canonical-to-legacy translations MUST share one mapping. Canonical and deprecated forms supplied together raise a conflict error. Argument-name translation stays separate from output and DataTree conversion. The three-stage pivot that implements this is specified on the base-classes page ([§8.1](#81-base-class-page)).
 
 ## 5. Interfaces
 
@@ -174,21 +166,21 @@ Both translations MUST share one mapping. Caller input warns. Internal adaptatio
 
 The terminology is proposed, not yet committed. A **Plugin** is today's class-based plugin: Python that implements behavior. A **PluginConfig** is today's YAML-based plugin: a declaration that configures a Plugin. Every PluginConfig interface maps to exactly one Plugin interface. Several PluginConfig interfaces may share one Plugin interface, and a Plugin needs no PluginConfig. Two choices are committed. The writer config is `WriterConfigs`. `FeatureAnnotators` and `GridlineAnnotators` are retained as `WriterFeatureConfigs` and `WriterGridlineConfigs`, which `WriterConfigs` references rather than absorbs, so one annotator definition serves several writers.
 
-The table covers every registered interface except the three deferred dynamic-sector interfaces ([§6.3](#63-dynamic-sector-consolidation)), plus three proposed PluginConfig interfaces. Verify it against runtime discovery before treating it as final. The inventory also records deprecated, transitional, internal-only, and excluded interfaces. A step's `kind` is the singular of the interface name ([§8.2](#82-interface-page)).
+The table covers every registered interface except the three deferred dynamic-sector interfaces ([§6.3](#63-dynamic-sector-consolidation)), plus three proposed PluginConfig interfaces. Verify it against runtime discovery before treating it as final. A step's `kind` is the singular of the interface name ([§8.2](#82-interface-page)).
 
 | # | Current | Type | New | → Plugin | → PluginConfig | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | `algorithms` | Plugin | `algorithms` | `Algorithms` | **`AlgorithmConfigs`** | Gains row 19 |
-| 2 | `colormappers` | Plugin | **`colormaps`** | **`Colormaps`** | **`ColormapConfigs`** | Gains row 20 |
+| 1 | `algorithms` | Plugin | `algorithms` | `Algorithms` | **`AlgorithmConfigs`** | |
+| 2 | `colormappers` | Plugin | **`colormaps`** | **`Colormaps`** | **`ColormapConfigs`** | |
 | 3 | `coverage_checkers` | Plugin | `coverage_checkers` | `CoverageCheckers` | none | |
 | 4 | `databases` | Plugin | **`reporters`** | **`Reporters`** | none | Reports results outward. The database is an implementation detail |
-| 5 | `filename_formatters` | Plugin | `filename_formatters` | `FilenameFormatters` | none | Possible future `FilenameFormatterConfigs` |
+| 5 | `filename_formatters` | Plugin | `filename_formatters` | `FilenameFormatters` | none | |
 | 6 | `interpolators` | Plugin | `interpolators` | `Interpolators` | none | |
 | 7 | `output_checkers` | Plugin | `output_checkers` | `OutputCheckers` | none | |
-| 8 | `output_formatters` | Plugin | **`writers`** | **`Writers`** | **`WriterConfigs`** | Gains row 21 |
+| 8 | `output_formatters` | Plugin | **`writers`** | **`Writers`** | **`WriterConfigs`** | |
 | 9 | `procflows` | Plugin | none | none | none | Retired for OBP. `procflow` is removed as a kind, not redirected |
-| 10 | `readers` | Plugin | `readers` | `Readers` | none | Possible future `ReaderConfigs` |
-| 11 | `title_formatters` | Plugin | `title_formatters` | `TitleFormatters` | none | Possible future `TitleFormatterConfigs` |
+| 10 | `readers` | Plugin | `readers` | `Readers` | none | |
+| 11 | `title_formatters` | Plugin | `title_formatters` | `TitleFormatters` | none | |
 | 12 | `validators` | Plugin | `validators` | `Validators` | none | |
 | 13 | `feature_annotators` | PluginConfig | **`writer_feature_configs`** | `Writers` | **`WriterFeatureConfigs`** | Referenced by `WriterConfigs` |
 | 14 | `gridline_annotators` | PluginConfig | **`writer_gridline_configs`** | `Writers` | **`WriterGridlineConfigs`** | As row 13 |
@@ -202,13 +194,13 @@ The table covers every registered interface except the three deferred dynamic-se
 
 Rows 17 and 18 reassign a name. `sectors` and `workflows` register PluginConfig interfaces today and would register the new Plugin instead, with the existing interface moving to `sector_configs` or `workflow_configs`. Aliasing the old kind to the new one handles every other rename but not these, because `kind: workflow` would be ambiguous. Row 17 therefore needs a deliberate answer in the register. Row 18 waits on [§6.1](#61-depends_on-and-conduit-resolution) and on the inventory establishing whether `class_based/workflow.py` is registered. The `Workflows` Plugin MUST NOT be specified before then. Products and ProductDefaults reach `Workflows` through conversion and keep their names, because renaming a compatibility surface defeats it.
 
-Current kinds stay accepted and raise a deprecation warning, except `procflow`, which is removed. Every rename produces a register entry with old kind, new kind, warning, and schedule. Row 9 produces a removal entry. No rename lands without an entry.
+Current kinds stay accepted and raise a deprecation warning. No rename lands without a register entry carrying old kind, new kind, warning, and schedule. Row 9 gets a removal entry instead.
 
 ### 5.2. Split and Join Operators
 
 v2.0.0 adds `SplitOperators` and `JoinOperators`. Neither is implemented. `split` and `join` are reserved scaffolding kinds. `SCAFFOLD_KINDS` (`geoips/pydantic_models/v1/workflows.py:66`) accepts them during validation and defers them to orchestration rather than registry resolution. Registering them as interfaces changes their kind and brings plugin resolution, argument models, registry entries, and Lexeme naming with it. The *Specifications* state that transition. Both produce data-bearing steps and belong in the coverage matrix, and missing implementation is tracked as gaps.
 
-Split operators reorganize data into declared branches. Join operators combine inputs and may construct dimensions. Both follow [§4.2](#42-metadata) through [§4.5](#45-dataset-identity-and-scientific-compatibility). A join along time takes each input's `start_datetime` as the `time` value and carries the `start_datetime` and `end_datetime` pair in a `time_bnds` bounds variable. This follows the CF bounds convention and preserves each observation's interval, since a full-disk scan spans minutes. The joined extent is the minimum and maximum across inputs. Two cases are left to the JoinOperators *Specification*. Inputs that already carry `time` make the operation a concatenation with different validation, and a mixed set likely warrants rejection. Overlapping extents are legitimate, for example a mesoscale sector inside a full disk, but produce a non-monotonic `time` that silently breaks xarray selection. Names, branch semantics, dataset naming, metadata propagation, errors, retention, and migration from the scaffolding kinds are deliverables of their *Specifications*, not prerequisites of this plan.
+Split operators reorganize data into declared branches. Join operators combine inputs and may construct dimensions. Both follow [§4.2](#42-metadata) through [§4.5](#45-dataset-identity-and-scientific-compatibility). A join creates a new dimension along a declared axis, for example time, height, ensemble member, or source. It defines how metadata become coordinate values and rejects inputs that lack structurally required information. An input need not carry a `time` axis when the value composed from it is scalar. A join along time takes each input's `start_datetime` as the `time` value and carries the `start_datetime` and `end_datetime` pair in a `time_bnds` bounds variable. This follows the CF bounds convention and preserves each observation's interval, since a full-disk scan spans minutes. The joined extent is the minimum and maximum across inputs. Two cases are left to the JoinOperators *Specification*. Inputs that already carry `time` make the operation a concatenation with different validation, and a mixed set likely warrants rejection. Overlapping extents are legitimate, for example a mesoscale sector inside a full disk, but produce a non-monotonic `time` that silently breaks xarray selection. Names, branch semantics, dataset naming, metadata propagation, errors, retention, and migration from the scaffolding kinds are deliverables of their *Specifications*, not prerequisites of this plan.
 
 ## 6. Tabled Topics
 
@@ -223,7 +215,7 @@ Once decided:
 3. Compare with OBP validation, implicit `depends_on` injection, topological ordering, and upstream collection.
 4. Evaluate a DAG model in which omitted dependencies create implicit edges to the most recent step each conduit requires, and explicit `depends_on` replaces only same-kind automatic sources.
 5. Determine how required conduits are declared so the DAG composes before runtime.
-6. Define unused-result warnings and missing-conduit errors.
+6. Define unused-result warnings and missing-conduit errors, including whether results retained as workflow outputs count as unused.
 7. File gaps and update the *Specifications*.
 
 Evidence so far: OBP defaults a missing `depends_on` to the previous step and collects only resolved nodes. A two-sector check gave `second` implicitly and `first` for `depends_on: ["first"]`. That does not establish per-conduit behavior.
@@ -252,7 +244,7 @@ Three Plugin interfaces cover dynamic sectors as sequential stages of one operat
 | `sector_spec_generators` | `call(area_id, long_description, clat, clon, projection, pixel_width, pixel_height, num_samples, num_lines)` | Build an `AreaDefinition` from center and shape |
 | `sector_adjusters` | none recorded | Adjust an existing sector |
 
-Against consolidating now: the call sites are in `single_source.py`, `config_based.py`, and `sector_utils/`, which is procflow code scheduled for deletion. One candidate shape is a `DynamicSectors` Plugin per source type whose `call()` runs the whole pipeline, with the config supplying trackfile, projection, resolution, shape, and adjustment. `tc` and `volc` become plugin names and `area_definition` an internal step. Core has four metadata generators (families `tc` and `volc`) and one spec generator (`area_definition`). Nothing in core, `recenter_tc`, or `data_fusion` implements `sector_adjusters`, though procflows and CLI help reference it. Confirm it is vestigial against other packages first. Until the team decides, the three keep their names and stay out of the rename map.
+Against consolidating now: the call sites are in `single_source.py`, `config_based.py`, and `sector_utils/`, which is procflow code scheduled for deletion. One candidate shape is a `DynamicSectors` Plugin per source type whose `call()` runs the whole pipeline, with the config supplying trackfile, projection, resolution, shape, and adjustment. `tc` and `volc` become plugin names and `area_definition` an internal step. Core has four metadata generators (families `tc` and `volc`) and one spec generator (`area_definition`). Nothing in core, `recenter_tc`, or `data_fusion` implements `sector_adjusters`, though procflows and CLI help reference it. Confirm it is vestigial against other packages first.
 
 ### 6.4. Deprecation Approval and Timing
 
@@ -290,7 +282,7 @@ Style conventions, chosen to survive the reStructuredText migration:
 
 ## 8. Page Outlines
 
-Create each page as its outline plus an empty reference-links section, then fill it incrementally. Answer every heading. Where one does not apply, write "Not applicable" and a one-sentence reason, because silence is indistinguishable from an unanswered question.
+Create each page as its outline plus an empty reference-links section, then fill it incrementally. Answer every heading. Where one does not apply, write "Not applicable" and a one-sentence reason.
 
 ### 8.1. Base-Class Page
 
@@ -300,7 +292,7 @@ Create each page as its outline plus an empty reference-links section, then fill
 4. `BaseClassInterface` contract: attributes, methods, discovery and validation
 5. `BaseClassPlugin` contract: required and inherited attributes, required subclass methods, inherited public methods, lifecycle hooks and invocation sequence
 6. DataTree and native-data conversion
-7. OBP integration and conduits
+7. OBP integration and conduits, including the three-stage compatibility pivot (ingress normalization of deprecated caller names, which warns, then canonical resolution and validation, then legacy adaptation at the final invocation boundary only, which does not warn)
 8. Registration and lookup
 9. Minimal example
 10. Validation and failure modes
@@ -312,18 +304,18 @@ Create each page as its outline plus an empty reference-links section, then fill
 
 1. **Overview.** Purpose, and the cases a plugin author would write one for.
 2. **Normative language.** The [§2](#2-requirement-language) notice, verbatim.
-3. **Plugin kind.** The `kind` a workflow step gives to invoke this interface. It is the singular of the registered interface name under the shared Lexeme pluralization rules, one snake_case token such as `output_formatter`. The page MUST state its kind and MUST NOT define a competing naming rule.
+3. **Plugin kind.** The `kind` a workflow step gives to invoke this interface, per the [§12.1](#121-phase-0-documentation-architecture) rule. The page MUST state its kind and MUST NOT define a competing naming rule.
 4. **Step classification.** Data-bearing or not, the semantic result that makes it so, and whether the current representation conforms.
 5. **Prerequisites.** Upstream steps, dataset nodes, and metadata that must exist first.
 6. **Data produced.** What the step adds, replaces, or removes. How variables group into datasets and how `dataset_id` values are chosen. Whether input groups are preserved, split, merged, replaced, or removed. Input and output types outside the DataTree wrapper.
 7. **Dataset identity metadata.** What distinguishes one of this interface's datasets from another.
 8. **Dimensions.** Which dimensions its datasets carry, create, or remove.
-9. **Units.** Where variables carry `units`, the required input and output units, whether plugins require, preserve, convert, or ignore unit metadata, and any unit-related arguments. Shared handling is v2.1-or-later work.
+9. **Units.** Where variables carry `units`, the required input and output units, whether plugins require, preserve, convert, or ignore unit metadata, and any unit-related arguments.
 10. **CF conformance.** Any divergence, with its reason.
 11. **Retention.** Retention behavior for this interface's data.
 12. **Arguments.** Positional and keyword arguments with defaults and required status. Which name is canonical and which are deprecated compatibility inputs.
 13. **Conduits and aliases.** Each conduit's source, binding, precedence, missing-value behavior, and example. Which names are bindings, legacy aliases, or interface-specific translations, each marked deprecated.
-14. **Family and `data_tree` status.** Position on the [migration axis](#49-family-and-data_tree-migration). Each plugin still carrying a `family`, with its signature, deprecation status, gap, and register entry.
+14. **Family and `data_tree` status.** Per [§4.9](#49-family-and-data_tree-migration), with each remaining family's call signature.
 15. **Lifecycle and conversion.** Hooks defined or overridden, and interface-specific conversion around `call()`.
 16. **Required plugin implementation.** Attributes, methods, base class, and registration. Distinguish the interface-level base class from family scaffolding and shared helpers.
 17. **Errors and validation.** Exceptions, validation rules, and failure modes.
@@ -332,7 +324,7 @@ Create each page as its outline plus an empty reference-links section, then fill
 20. **Conformance status.** Each alpha divergence linked to its gap. Known limitations and open questions.
 21. **Examples.** At least one, or why none is appropriate. Links to representative production plugins.
 22. **See also.**
-23. **Reference links.** The code, tests, documentation, issues, and plugins that support the page, listed from the first commit. Never fill a heading with unsupported claims.
+23. **Reference links.** The code, tests, documentation, issues, and plugins that support the page.
 
 ### 8.3. Deprecation Page
 
@@ -353,15 +345,13 @@ Draft `docs/source/devguide/deprecations.md` first, with this outline:
 13. Examples
 14. Reference links
 
-Approval authority and warning windows may stay pending without blocking the registry and warning mechanics.
-
 ## 9. Working Method
 
 Per page:
 
 1. Create the skeleton ([§8](#8-page-outlines)).
 2. Build an evidence map per section from source classes, tests, registry information, existing docs, and representative plugins.
-3. Resolve contract questions. Record ambiguities in the page or a tabled topic rather than presenting inferred behavior as settled. Decide the v2.0.0 behavior rather than copying accidental alpha behavior.
+3. Resolve contract questions. Record ambiguities in the page or a tabled topic rather than presenting inferred behavior as settled.
 4. Draft one coherent section group at a time.
 5. Add or verify examples from real plugins. Test code where practical, and say when an example is illustrative.
 6. Review terminology and links against canonical terms.
@@ -378,7 +368,7 @@ Per page:
 
 Requirements and minimal examples stay understandable within the page. External packages supplement a requirement and never serve as its sole evidence. Link a tag or commit where exact source matters. Add a small tested example to `geoips_plugin_example` where no durable one exists. An external example supports the v2 behavior, is verified, uses public or synthetic inputs, and shows the target contract. Maintainer identity and archival status do not affect eligibility. Private packages and local copies are not references.
 
-**Evidence rules.** The approved v2.0.0 design is authoritative. Code and tests evidence alpha behavior and conformance, not the contract. Unapproved target behavior is an open decision, and neither current behavior nor a preferred alternative is normative. Supplement source reading with runtime introspection, especially for inherited signatures and registry discovery. Trace inherited behavior into `pluginify`, and do not attribute it to GeoIPS unqualified. Mention internal helpers only where authors must understand their effects. Do not infer a deprecation deadline from a comment or warning. Record a candidate as a [§11.2](#112-deprecation-entry) entry with approval pending, and put it through the same review as existing deprecations. When code, tests, and docs disagree, record the conflict before choosing. Use `{ref}` for internal references, and use source links only where source detail helps. Every factual claim traces to code, tests, a document, or a recorded decision.
+**Evidence rules.** Code and tests evidence alpha behavior and conformance, not the contract. Unapproved target behavior is an open decision. Supplement source reading with runtime introspection, especially for inherited signatures and registry discovery. Trace inherited behavior into `pluginify`, and do not attribute it to GeoIPS unqualified. Mention internal helpers only where authors must understand their effects. Do not infer a deprecation deadline from a comment or warning. Record a candidate as a [§11.2](#112-deprecation-entry) entry with approval pending, and put it through the same review as existing deprecations. When code, tests, and docs disagree, record the conflict before choosing. Use source links only where source detail helps the reader. Every factual claim traces to code, tests, a document, or a recorded decision.
 
 ## 10. Definition of Done
 
@@ -418,15 +408,10 @@ Requirements and minimal examples stay understandable within the page. External 
 | Dependencies/risks | Ecosystem impact and prerequisites for removal |
 | Migration readiness | Product-to-workflow and script-to-CLI replacement status and exit criteria |
 | Related bridge lifecycle | Transitional converter or adapter introduction, support, and retirement |
-| Argument role | Semantic argument, canonical name, conduit binding, alias, or translation |
-| Authorized upstream kind | The one kind permitted to provide a derived value |
-| Canonical replacement | Standardized name and full semantic contract |
-| Ingress translation | Deprecated caller name to canonical name, with warning ID |
-| Invocation translation | Canonical name to an unmigrated plugin's parameter |
-| Conflict behavior | Result when canonical and deprecated names are both supplied |
+| Argument mapping | For argument deprecations: the role (conduit binding, alias, or translation), the ingress and invocation translations with warning ID, and the conflict behavior when both names are supplied |
 | Status | Candidate, proposed, approved, warning, removed, withdrawn, or complete |
 
-Entering a schedule does not approve it. A runtime warning with no recorded migration path and schedule is an incomplete deprecation and must be resolved before this effort is complete.
+A runtime warning with no recorded migration path and schedule is an incomplete deprecation and must be resolved before this effort is complete.
 
 ### 11.3. Canonical Argument Matrix
 
@@ -434,20 +419,20 @@ The matrix lives at `docs/source/devguide/plugin-specifications/canonical-argume
 
 ## 12. Execution Phases
 
-Status: this plan is complete, [§13](#13-datatree-spec-reconciliation) is drafting, and no phase has started. Status values are Not started, Outline, Researching, Drafting, Reviewing, Blocked, and Complete.
+Status: this plan is complete, [§13](#13-datatree-spec-reconciliation) is drafting, and no phase has started.
 
 ### 12.1. Phase 0: Documentation Architecture
 
 Done: page location and naming, base-page structure, expand-versus-link, and MyST format ([§7](#7-documentation-location-and-format)). BCP 14 conventions ([§2](#2-requirement-language)). The family and `data_tree` axis ([§4.9](#49-family-and-data_tree-migration)). Open:
 
 - [ ] Canonical terms. "Data-bearing," "non-data-bearing," and "argument conduit" are fixed. "Returned data tree" and "family" are not.
-- [ ] The `kind` resolution rule. A kind is the singular of a registered interface name, class-based and YAML-based alike. The reserved kinds `split` and `join` bypass resolution.
+- [ ] The `kind` resolution rule (proposed). A kind is the singular of a registered interface name, class-based and YAML-based alike. The reserved kinds `split` and `join` bypass resolution.
 - [ ] One rule, set here, classifying the classes under `geoips/interfaces/class_based/bases/` as either family scaffolding (deprecated compatibility, registered) or shared implementation reuse (outside scope).
-- [ ] The argument vocabulary and the [matrix](#113-canonical-argument-matrix). A block on new plugins or examples introducing noncanonical names without an approved change.
+- [ ] The argument vocabulary and the [matrix](#113-canonical-argument-matrix) (columns proposed in §11.3). A block on new plugins or examples introducing noncanonical names without an approved change.
 - [ ] Gap labels, milestone workflow, and release-blocking criteria.
 - [ ] The deprecation lifecycle, warning and migration-documentation requirements, and exceptions process. Notice periods, milestones, and approval authority stay pending [§6.4](#64-deprecation-approval-and-timing).
-- [ ] The registry design: stable IDs, lookup and warning helpers, and validation linking compatibility code to entries.
-- [ ] Measurable readiness criteria for removing direct legacy-procflow support: conversion tooling, OBP parity, validation, ecosystem adoption, and an agreed window.
+- [ ] The registry design (proposed in [§3](#3-records) item 3).
+- [ ] Measurable thresholds for the [§4.12](#412-removal-gates) gates.
 - [ ] Documentation ownership boundaries, by extending `docs/source/architecture/documentation/where-to-put.rst`.
 - [ ] The validation commands every page runs, confirmed as real invocations. Candidates are `./docs/build_docs.sh . geoips`, `geoips lint`, and the cspell configuration.
 - [ ] Adoption of the [§7](#7-documentation-location-and-format) style conventions.
@@ -459,7 +444,7 @@ Done: page location and naming, base-page structure, expand-versus-link, and MyS
 - [ ] Create the page from [§8.3](#83-deprecation-page).
 - [ ] Inventory existing warning helpers, deprecation modules, adapters, release notes, and tests.
 - [ ] Specify `DeprecationRecord`, the registry, stable IDs, `warn_deprecated()`, and how distributed sites reference entries. Define validation, testing, and generation requirements.
-- [ ] Compare with the implementation, open gaps, and seed the register. Make no runtime changes.
+- [ ] Compare with the implementation, open gaps, and seed the register.
 
 **Exit:** interface pages can register deprecations without inventing page-specific tracking.
 
@@ -471,7 +456,7 @@ Done: page location and naming, base-page structure, expand-versus-link, and MyS
 - [ ] Inventory existing deprecation warnings, shims, deprecated arguments, families, and interfaces across code, tests, release notes, and docs.
 - [ ] Document the current and target Product-to-Workflow conversion path. Register Product conversion and procflow-call conversion as distinct deprecations with coordinated removal criteria. Specify the conversion script (inputs, output, validation, idempotency, diagnostics, tests) and its equivalence tests.
 - [ ] Inventory procflow call forms and their OBP arguments. Inventory conduit bindings, aliases, translations, precedence, and fallbacks. Inventory ingress and invocation adapters and confirm one shared mapping.
-- [ ] Run the [§6.1](#61-depends_on-and-conduit-resolution) investigation once the team decides, and specify the approved semantics, including whether retained workflow outputs count as unused.
+- [ ] Run the [§6.1](#61-depends_on-and-conduit-resolution) investigation once the team decides, and specify the approved semantics.
 - [ ] Map every accepted argument to a canonical argument, a justified interface-specific one, or a deprecation candidate. Flag any argument derivable from several kinds.
 - [ ] Build the coverage matrix: source, tests, docs, examples, and intended page per interface, with a reason for each exclusion.
 
@@ -479,7 +464,6 @@ Done: page location and naming, base-page structure, expand-versus-link, and MyS
 
 ### 12.4. Phase 3: Base Classes
 
-- [ ] Map inherited `pluginify` behavior separately from GeoIPS behavior.
 - [ ] Classify each `BaseClassInterface` and `BaseClassPlugin` attribute and method as required, optional, inherited, internal, overrideable, or prohibited from override.
 - [ ] Document the invocation sequence, hooks, conversion, metadata propagation, scripting, and conduit handling. Specify universal provenance and retention per [§4.2](#42-metadata) and [§4.6](#46-provenance-and-retention).
 - [ ] Compare garbage collection with `/<step_id>/<dataset_id>` storage and open gaps.
@@ -504,7 +488,7 @@ Work in batches by data flow and validate one page at a time:
 - [ ] Coverage checkers, validators, output checkers.
 - [ ] Databases.
 
-For each page, apply [§9](#9-working-method) and [§10](#10-definition-of-done). Verify arguments and conduits from code and tests. Update the coverage matrix. Preserve internal procflow APIs only where user-facing support depends on them and no replacement exists. Write one release note per pull request under `docs/source/releases/latest/`.
+For each page, apply [§9](#9-working-method) and [§10](#10-definition-of-done), and update the coverage matrix. Write one release note per pull request under `docs/source/releases/latest/`.
 
 **Exit:** every interface has a validated page or an approved exclusion.
 
@@ -519,8 +503,7 @@ For each page, apply [§9](#9-working-method) and [§10](#10-definition-of-done)
 ### 12.8. Phase 7: Final Review
 
 - [ ] The full build, link check, and spelling check pass.
-- [ ] Names, signatures, families, and defaults are verified against code. Examples and plugin links work.
-- [ ] Every requirement has a conformance result, and every mismatch has a gap. No page misses a heading.
+- [ ] [§9](#9-working-method) and [§10](#10-definition-of-done) hold for every page.
 - [ ] Terminology, deprecation language, and path notation are consistent across pages.
 - [ ] Maintainers approve the contract, blocking decisions, schedules, migration strategy, and unresolved claims.
 - [ ] The release authority has resolved or waived every blocking gap. Every pull request carried its release note.
@@ -565,7 +548,7 @@ This section records the changes to `docs/source/devguide/datatree-spec.md`, app
 
 ### 13.3. Cross-References
 
-The datatree spec should point at the plan rather than restate it in two places. For dimensions, point at [§4.8](#48-dimensions-and-composition). For identity and join validation, point at [§4.5](#45-dataset-identity-and-scientific-compatibility). §4.5 (:387) and §8.3 (:980) already fix the `split` and `join` argument shape, the `conflict` default (`error`, :444), and `strategy` (:986-992). Keep that text and defer the validation contract to the operator *Specifications* ([§5.2](#52-split-and-join-operators)).
+The datatree spec should point at the plan rather than restate it in two places. For dimensions, point at [§4.8](#48-dimensions). For identity and join validation, point at [§4.5](#45-dataset-identity-and-scientific-compatibility). §4.5 (:387) and §8.3 (:980) already fix the `split` and `join` argument shape, the `conflict` default (`error`, :444), and `strategy` (:986-992). Keep that text and defer the validation contract to the operator *Specifications* ([§5.2](#52-split-and-join-operators)).
 
 ### 13.4. Open Questions
 
@@ -581,7 +564,7 @@ This document was drafted with AI assistance and approved at summary level. Clai
 
 The [§13](#13-datatree-spec-reconciliation) line citations were checked against `datatree-spec.md` and the source at `864712f`. They hold until either changes.
 
-Two things are decided and not to be re-litigated. An earlier four-tier class hierarchy was wrong, and the Phase 0 classification rule replaces it. A `CBP-READERS-014`-style requirement-ID scheme was dropped, because the gap template's requirement field and heading anchors give stable targets. One thing is outstanding. The compatibility pivot in [§4.14](#414-arguments-and-conduits) is implementation detail and a candidate to move to the base-classes page.
+Two things are decided and not to be re-litigated. An earlier four-tier class hierarchy was wrong, and the Phase 0 classification rule replaces it. A `CBP-READERS-014`-style requirement-ID scheme was dropped, because the gap template's requirement field and heading anchors give stable targets.
 
 ## 15. References
 
