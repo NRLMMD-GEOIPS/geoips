@@ -38,11 +38,11 @@ ENV CFLAGS="-Wno-incompatible-pointer-types"
 # Single apt pass: add unstable source first, then one update + install.
 RUN echo "deb http://deb.debian.org/debian/ unstable main contrib non-free" \
       > /etc/apt/sources.list.d/unstable.list \
-    && apt-get update \
+    && apt-get update --error-on=any \
     && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
-         git wget libopenblas-dev g++ make gfortran libeccodes-dev \
-         -t unstable gdal-bin libgdal-dev \
+        git wget libopenblas-dev g++ make gfortran libeccodes-dev \
+        gdal-bin/unstable libgdal-dev/unstable \
     && rm -rf /var/lib/apt/lists/* \
     && pip install --no-cache-dir uv
 
