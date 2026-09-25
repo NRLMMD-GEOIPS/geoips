@@ -87,16 +87,16 @@ No dimension is universally mandatory, including `latitude`, `longitude`, and `t
 
 *Specifications* use absolute descriptive paths over the hierarchy `workflow root -> step DataTree -> dataset node -> variables and coordinates`. The dataset level differs from datatree spec §5.1, which places data on the step node ([§13.2](#132-corrections) item 1).
 
-| Component | Notation |
-| --- | --- |
-| Workflow root | `/` |
-| Workflow attribute | `/.attrs["workflow_name"]` |
-| Step DataTree | `/<step_id>` |
-| Step attribute | `/<step_id>.attrs["plugin_name"]` |
-| Dataset node | `/<step_id>/<dataset_id>` |
-| Dataset attribute | `/<step_id>/<dataset_id>.attrs["source_name"]` |
-| Data variable | `/<step_id>/<dataset_id>.data_vars["wind_speed"]` |
-| Coordinate | `/<step_id>/<dataset_id>.coords["latitude"]` |
+| Component          | Notation                                          |
+| ------------------ | ------------------------------------------------- |
+| Workflow root      | `/`                                               |
+| Workflow attribute | `/.attrs["workflow_name"]`                        |
+| Step DataTree      | `/<step_id>`                                      |
+| Step attribute     | `/<step_id>.attrs["plugin_name"]`                 |
+| Dataset node       | `/<step_id>/<dataset_id>`                         |
+| Dataset attribute  | `/<step_id>/<dataset_id>.attrs["source_name"]`    |
+| Data variable      | `/<step_id>/<dataset_id>.data_vars["wind_speed"]` |
+| Coordinate         | `/<step_id>/<dataset_id>.coords["latitude"]`      |
 
 A `step_id` is the case-sensitive identifier a workflow assigns to a step. A `dataset_id` names one coordinate-compatible group within a step by resolution, projection, shape, operation result, or any distinguishing combination. Both MUST be valid Python identifiers. The *Specifications* MUST reference the project's shared identifier validation and MUST NOT define a competing validator. `_input` is the data-injection dependency token and MUST NOT name a step.
 
@@ -168,29 +168,29 @@ The terminology is proposed, not yet committed. A **Plugin** is today's class-ba
 
 The table covers every registered interface except the three deferred dynamic-sector interfaces ([§6.3](#63-dynamic-sector-consolidation)), plus three proposed PluginConfig interfaces. Verify it against runtime discovery before treating it as final. A step's `kind` is the singular of the interface name ([§8.2](#82-interface-page)).
 
-| # | Current | Type | New | → Plugin | → PluginConfig | Notes |
-| --- | --- | --- | --- | --- | --- | --- |
-| 1 | `algorithms` | Plugin | `algorithms` | `Algorithms` | **`AlgorithmConfigs`** | |
-| 2 | `colormappers` | Plugin | **`colormaps`** | **`Colormaps`** | **`ColormapConfigs`** | |
-| 3 | `coverage_checkers` | Plugin | `coverage_checkers` | `CoverageCheckers` | none | |
-| 4 | `databases` | Plugin | **`reporters`** | **`Reporters`** | none | Reports results outward. The database is an implementation detail |
-| 5 | `filename_formatters` | Plugin | `filename_formatters` | `FilenameFormatters` | none | |
-| 6 | `interpolators` | Plugin | `interpolators` | `Interpolators` | none | |
-| 7 | `output_checkers` | Plugin | `output_checkers` | `OutputCheckers` | none | |
-| 8 | `output_formatters` | Plugin | **`writers`** | **`Writers`** | **`WriterConfigs`** | |
-| 9 | `procflows` | Plugin | none | none | none | Retired for OBP. `procflow` is removed as a kind, not redirected |
-| 10 | `readers` | Plugin | `readers` | `Readers` | none | |
-| 11 | `title_formatters` | Plugin | `title_formatters` | `TitleFormatters` | none | |
-| 12 | `validators` | Plugin | `validators` | `Validators` | none | |
-| 13 | `feature_annotators` | PluginConfig | **`writer_feature_configs`** | `Writers` | **`WriterFeatureConfigs`** | Referenced by `WriterConfigs` |
-| 14 | `gridline_annotators` | PluginConfig | **`writer_gridline_configs`** | `Writers` | **`WriterGridlineConfigs`** | As row 13 |
-| 15 | `product_defaults` | PluginConfig | `product_defaults` | `Workflows` | retained | Deprecated. Converts to a `WorkflowConfig` at runtime. Target Plugin pending row 18 |
-| 16 | `products` | PluginConfig | `products` | `Workflows` | retained | As row 15 |
-| 17 | `sectors` | PluginConfig | **`sector_configs`** | **new `Sectors`** | **`SectorConfigs`** | Name reassignment. Static sectors only |
-| 18 | `workflows` | PluginConfig | deferred | `Workflows` | `WorkflowConfigs` | Deferred per [§6.1](#61-depends_on-and-conduit-resolution). Same shape as row 17 if it proceeds. Names are candidates |
-| 19 | none | PluginConfig | **`algorithm_configs`** | `Algorithms` | **`AlgorithmConfigs`** | Declarative algorithms, as the RGB configs in [#1484](https://github.com/NRLMMD-GEOIPS/geoips/pull/1484) |
-| 20 | none | PluginConfig | **`colormap_configs`** | `Colormaps` | **`ColormapConfigs`** | |
-| 21 | none | PluginConfig | **`writer_configs`** | `Writers` | **`WriterConfigs`** | References rows 13 and 14 |
+| #   | Current               | Type         | New                           | → Plugin             | → PluginConfig              | Notes                                                                                                                 |
+| --- | --------------------- | ------------ | ----------------------------- | -------------------- | --------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| 1   | `algorithms`          | Plugin       | `algorithms`                  | `Algorithms`         | **`AlgorithmConfigs`**      |                                                                                                                       |
+| 2   | `colormappers`        | Plugin       | **`colormaps`**               | **`Colormaps`**      | **`ColormapConfigs`**       |                                                                                                                       |
+| 3   | `coverage_checkers`   | Plugin       | `coverage_checkers`           | `CoverageCheckers`   | none                        |                                                                                                                       |
+| 4   | `databases`           | Plugin       | **`reporters`**               | **`Reporters`**      | none                        | Reports results outward. The database is an implementation detail                                                     |
+| 5   | `filename_formatters` | Plugin       | `filename_formatters`         | `FilenameFormatters` | none                        |                                                                                                                       |
+| 6   | `interpolators`       | Plugin       | `interpolators`               | `Interpolators`      | none                        |                                                                                                                       |
+| 7   | `output_checkers`     | Plugin       | `output_checkers`             | `OutputCheckers`     | none                        |                                                                                                                       |
+| 8   | `output_formatters`   | Plugin       | **`writers`**                 | **`Writers`**        | **`WriterConfigs`**         |                                                                                                                       |
+| 9   | `procflows`           | Plugin       | none                          | none                 | none                        | Retired for OBP. `procflow` is removed as a kind, not redirected                                                      |
+| 10  | `readers`             | Plugin       | `readers`                     | `Readers`            | none                        |                                                                                                                       |
+| 11  | `title_formatters`    | Plugin       | `title_formatters`            | `TitleFormatters`    | none                        |                                                                                                                       |
+| 12  | `validators`          | Plugin       | `validators`                  | `Validators`         | none                        |                                                                                                                       |
+| 13  | `feature_annotators`  | PluginConfig | **`writer_feature_configs`**  | `Writers`            | **`WriterFeatureConfigs`**  | Referenced by `WriterConfigs`                                                                                         |
+| 14  | `gridline_annotators` | PluginConfig | **`writer_gridline_configs`** | `Writers`            | **`WriterGridlineConfigs`** | As row 13                                                                                                             |
+| 15  | `product_defaults`    | PluginConfig | `product_defaults`            | `Workflows`          | retained                    | Deprecated. Converts to a `WorkflowConfig` at runtime. Target Plugin pending row 18                                   |
+| 16  | `products`            | PluginConfig | `products`                    | `Workflows`          | retained                    | As row 15                                                                                                             |
+| 17  | `sectors`             | PluginConfig | **`sector_configs`**          | **new `Sectors`**    | **`SectorConfigs`**         | Name reassignment. Static sectors only                                                                                |
+| 18  | `workflows`           | PluginConfig | deferred                      | `Workflows`          | `WorkflowConfigs`           | Deferred per [§6.1](#61-depends_on-and-conduit-resolution). Same shape as row 17 if it proceeds. Names are candidates |
+| 19  | none                  | PluginConfig | **`algorithm_configs`**       | `Algorithms`         | **`AlgorithmConfigs`**      | Declarative algorithms, as the RGB configs in [#1484](https://github.com/NRLMMD-GEOIPS/geoips/pull/1484)              |
+| 20  | none                  | PluginConfig | **`colormap_configs`**        | `Colormaps`          | **`ColormapConfigs`**       |                                                                                                                       |
+| 21  | none                  | PluginConfig | **`writer_configs`**          | `Writers`            | **`WriterConfigs`**         | References rows 13 and 14                                                                                             |
 
 Rows 17 and 18 reassign a name. `sectors` and `workflows` register PluginConfig interfaces today and would register the new Plugin instead, with the existing interface moving to `sector_configs` or `workflow_configs`. Aliasing the old kind to the new one handles every other rename but not these, because `kind: workflow` would be ambiguous. Row 17 therefore needs a deliberate answer in the register. Row 18 waits on [§6.1](#61-depends_on-and-conduit-resolution) and on the inventory establishing whether `class_based/workflow.py` is registered. The `Workflows` Plugin MUST NOT be specified before then. Products and ProductDefaults reach `Workflows` through conversion and keep their names, because renaming a compatibility surface defeats it.
 
@@ -238,11 +238,11 @@ Either rename needs a register entry. No YAML plugin carries these keys, so a re
 
 Three Plugin interfaces cover dynamic sectors as sequential stages of one operation. The proposal consolidates them into `DynamicSectors` with `DynamicSectorConfigs`. The interfaces are not understood well enough to commit.
 
-| Interface | Signature | Stage |
-| --- | --- | --- |
-| `sector_metadata_generators` | `call(trackfile_name, allowed_aid_types=None)` | Parse a trackfile into storm metadata |
-| `sector_spec_generators` | `call(area_id, long_description, clat, clon, projection, pixel_width, pixel_height, num_samples, num_lines)` | Build an `AreaDefinition` from center and shape |
-| `sector_adjusters` | none recorded | Adjust an existing sector |
+| Interface                    | Signature                                                                                                    | Stage                                           |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------- |
+| `sector_metadata_generators` | `call(trackfile_name, allowed_aid_types=None)`                                                               | Parse a trackfile into storm metadata           |
+| `sector_spec_generators`     | `call(area_id, long_description, clat, clon, projection, pixel_width, pixel_height, num_samples, num_lines)` | Build an `AreaDefinition` from center and shape |
+| `sector_adjusters`           | none recorded                                                                                                | Adjust an existing sector                       |
 
 Against consolidating now: the call sites are in `single_source.py`, `config_based.py`, and `sector_utils/`, which is procflow code scheduled for deletion. One candidate shape is a `DynamicSectors` Plugin per source type whose `call()` runs the whole pipeline, with the config supplying trackfile, projection, resolution, shape, and adjustment. `tc` and `volc` become plugin names and `area_definition` an internal step. Core has four metadata generators (families `tc` and `volc`) and one spec generator (`area_definition`). Nothing in core, `recenter_tc`, or `data_fusion` implements `sector_adjusters`, though procflows and CLI help reference it. Confirm it is vestigial against other packages first.
 
@@ -286,15 +286,15 @@ Create each page as its outline plus an empty reference-links section, then fill
 
 ### 8.1. Base-Class Page
 
-1. Overview and audience
-2. Normative language
-3. Class hierarchy and division of responsibilities
-4. `BaseClassInterface` contract: attributes, methods, discovery and validation
-5. `BaseClassPlugin` contract: required and inherited attributes, required subclass methods, inherited public methods, lifecycle hooks and invocation sequence
-6. DataTree and native-data conversion
-7. OBP integration and conduits, including the three-stage compatibility pivot (ingress normalization of deprecated caller names, which warns, then canonical resolution and validation, then legacy adaptation at the final invocation boundary only, which does not warn)
-8. Registration and lookup
-9. Minimal example
+01. Overview and audience
+02. Normative language
+03. Class hierarchy and division of responsibilities
+04. `BaseClassInterface` contract: attributes, methods, discovery and validation
+05. `BaseClassPlugin` contract: required and inherited attributes, required subclass methods, inherited public methods, lifecycle hooks and invocation sequence
+06. DataTree and native-data conversion
+07. OBP integration and conduits, including the three-stage compatibility pivot (ingress normalization of deprecated caller names, which warns, then canonical resolution and validation, then legacy adaptation at the final invocation boundary only, which does not warn)
+08. Registration and lookup
+09. Minimal example
 10. Validation and failure modes
 11. Compatibility and deprecations
 12. See also
@@ -302,15 +302,15 @@ Create each page as its outline plus an empty reference-links section, then fill
 
 ### 8.2. Interface Page
 
-1. **Overview.** Purpose, and the cases a plugin author would write one for.
-2. **Normative language.** The [§2](#2-requirement-language) notice, verbatim.
-3. **Plugin kind.** The `kind` a workflow step gives to invoke this interface, per the [§12.1](#121-phase-0-documentation-architecture) rule. The page MUST state its kind and MUST NOT define a competing naming rule.
-4. **Step classification.** Data-bearing or not, the semantic result that makes it so, and whether the current representation conforms.
-5. **Prerequisites.** Upstream steps, dataset nodes, and metadata that must exist first.
-6. **Data produced.** What the step adds, replaces, or removes. How variables group into datasets and how `dataset_id` values are chosen. Whether input groups are preserved, split, merged, replaced, or removed. Input and output types outside the DataTree wrapper.
-7. **Dataset identity metadata.** What distinguishes one of this interface's datasets from another.
-8. **Dimensions.** Which dimensions its datasets carry, create, or remove.
-9. **Units.** Where variables carry `units`, the required input and output units, whether plugins require, preserve, convert, or ignore unit metadata, and any unit-related arguments.
+01. **Overview.** Purpose, and the cases a plugin author would write one for.
+02. **Normative language.** The [§2](#2-requirement-language) notice, verbatim.
+03. **Plugin kind.** The `kind` a workflow step gives to invoke this interface, per the [§12.1](#121-phase-0-documentation-architecture) rule. The page MUST state its kind and MUST NOT define a competing naming rule.
+04. **Step classification.** Data-bearing or not, the semantic result that makes it so, and whether the current representation conforms.
+05. **Prerequisites.** Upstream steps, dataset nodes, and metadata that must exist first.
+06. **Data produced.** What the step adds, replaces, or removes. How variables group into datasets and how `dataset_id` values are chosen. Whether input groups are preserved, split, merged, replaced, or removed. Input and output types outside the DataTree wrapper.
+07. **Dataset identity metadata.** What distinguishes one of this interface's datasets from another.
+08. **Dimensions.** Which dimensions its datasets carry, create, or remove.
+09. **Units.** Where variables carry `units`, the required input and output units, whether plugins require, preserve, convert, or ignore unit metadata, and any unit-related arguments.
 10. **CF conformance.** Any divergence, with its reason.
 11. **Retention.** Retention behavior for this interface's data.
 12. **Arguments.** Positional and keyword arguments with defaults and required status. Which name is canonical and which are deprecated compatibility inputs.
@@ -330,15 +330,15 @@ Create each page as its outline plus an empty reference-links section, then fill
 
 Draft `docs/source/devguide/deprecations.md` first, with this outline:
 
-1. Purpose, scope, and normative language
-2. Principles and compatibility constraints
-3. Lifecycle states
-4. Typed central registry: module layout, `DeprecationRecord`, stable ID format, immutability and core ownership
-5. Required record fields
-6. `warn_deprecated()` API: category and message construction, stack level, repeated-warning behavior
-7. Distributed adapters and normalization
-8. Schedule and migration requirements
-9. Existing versus newly proposed deprecations
+01. Purpose, scope, and normative language
+02. Principles and compatibility constraints
+03. Lifecycle states
+04. Typed central registry: module layout, `DeprecationRecord`, stable ID format, immutability and core ownership
+05. Required record fields
+06. `warn_deprecated()` API: category and message construction, stack level, repeated-warning behavior
+07. Distributed adapters and normalization
+08. Schedule and migration requirements
+09. Existing versus newly proposed deprecations
 10. Validation and test requirements
 11. Documentation generation and reporting
 12. Pending governance decisions
@@ -391,25 +391,25 @@ Requirements and minimal examples stay understandable within the page. External 
 
 ### 11.2. Deprecation Entry
 
-| Field | Meaning |
-| --- | --- |
-| Deprecation ID | Stable identifier, for example `CBP-DEP-001` |
-| API/behavior | Argument, keyword, family, interface, method, or compatibility behavior |
-| Discovery class | Previously announced, or newly discovered or proposed |
-| Scope | Affected interfaces, families, plugins, and users |
-| Rationale | Why continued support is undesirable |
-| Replacement | Target API or behavior |
-| Migration strategy | Concrete steps and supporting documentation |
-| Compatibility behavior | What remains accepted and how it is interpreted |
-| Warning strategy | Category, message, trigger point, and test coverage |
-| Schedule | Announcement, warning, removal, and cleanup milestones |
-| Earliest known notice | Release note, warning, issue, or other evidence |
-| Owner and approval | Responsible party, decision authority, and approval state |
-| Dependencies/risks | Ecosystem impact and prerequisites for removal |
-| Migration readiness | Product-to-workflow and script-to-CLI replacement status and exit criteria |
-| Related bridge lifecycle | Transitional converter or adapter introduction, support, and retirement |
-| Argument mapping | For argument deprecations: the role (conduit binding, alias, or translation), the ingress and invocation translations with warning ID, and the conflict behavior when both names are supplied |
-| Status | Candidate, proposed, approved, warning, removed, withdrawn, or complete |
+| Field                    | Meaning                                                                                                                                                                                       |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Deprecation ID           | Stable identifier, for example `CBP-DEP-001`                                                                                                                                                  |
+| API/behavior             | Argument, keyword, family, interface, method, or compatibility behavior                                                                                                                       |
+| Discovery class          | Previously announced, or newly discovered or proposed                                                                                                                                         |
+| Scope                    | Affected interfaces, families, plugins, and users                                                                                                                                             |
+| Rationale                | Why continued support is undesirable                                                                                                                                                          |
+| Replacement              | Target API or behavior                                                                                                                                                                        |
+| Migration strategy       | Concrete steps and supporting documentation                                                                                                                                                   |
+| Compatibility behavior   | What remains accepted and how it is interpreted                                                                                                                                               |
+| Warning strategy         | Category, message, trigger point, and test coverage                                                                                                                                           |
+| Schedule                 | Announcement, warning, removal, and cleanup milestones                                                                                                                                        |
+| Earliest known notice    | Release note, warning, issue, or other evidence                                                                                                                                               |
+| Owner and approval       | Responsible party, decision authority, and approval state                                                                                                                                     |
+| Dependencies/risks       | Ecosystem impact and prerequisites for removal                                                                                                                                                |
+| Migration readiness      | Product-to-workflow and script-to-CLI replacement status and exit criteria                                                                                                                    |
+| Related bridge lifecycle | Transitional converter or adapter introduction, support, and retirement                                                                                                                       |
+| Argument mapping         | For argument deprecations: the role (conduit binding, alias, or translation), the ingress and invocation translations with warning ID, and the conflict behavior when both names are supplied |
+| Status                   | Candidate, proposed, approved, warning, removed, withdrawn, or complete                                                                                                                       |
 
 A runtime warning with no recorded migration path and schedule is an incomplete deprecation and must be resolved before this effort is complete.
 
@@ -516,29 +516,29 @@ This section records the changes to `docs/source/devguide/datatree-spec.md`, app
 
 ### 13.1. Propagations
 
-| Plan requirement | Datatree spec sections |
-| --- | --- |
-| Root holds only step children and workflow attrs ([§4.3](#43-workflow-root-and-dataset-nodes)) | §5.1 |
-| One dataset node per coordinate-compatible group ([§4.3](#43-workflow-root-and-dataset-nodes)) | §5.1 shows data on the step node. Define the term in §5 |
-| Retention on `/<step_id>/<dataset_id>` ([§4.6](#46-provenance-and-retention)) | §10.4, §10.5 |
-| Retention provenance records policy, request, state, and reason ([§4.6](#46-provenance-and-retention)) | §5.4 carries only `gc_status`. §10.7 |
+| Plan requirement                                                                                                      | Datatree spec sections                                                                                                                       |
+| --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Root holds only step children and workflow attrs ([§4.3](#43-workflow-root-and-dataset-nodes))                        | §5.1                                                                                                                                         |
+| One dataset node per coordinate-compatible group ([§4.3](#43-workflow-root-and-dataset-nodes))                        | §5.1 shows data on the step node. Define the term in §5                                                                                      |
+| Retention on `/<step_id>/<dataset_id>` ([§4.6](#46-provenance-and-retention))                                         | §10.4, §10.5                                                                                                                                 |
+| Retention provenance records policy, request, state, and reason ([§4.6](#46-provenance-and-retention))                | §5.4 carries only `gc_status`. §10.7                                                                                                         |
 | `start_datetime` and `end_datetime` on every dataset node ([§4.5](#45-dataset-identity-and-scientific-compatibility)) | §5.2 defines them only as a root aggregate. Add a dataset-level statement to §5. The aggregate's fate is open ([§13.4](#134-open-questions)) |
-| `execution_start_time` and `execution_end_time` ([§4.6](#46-provenance-and-retention)) | §5.3 `processing_history`, §5.4, and the §3.2 example |
-| Join validation contract ([§4.5](#45-dataset-identity-and-scientific-compatibility)) | §4.5, §8.3 |
-| `source_name`, `platform_name`, and `data_provider` are dataset-node attributes | §5.2 note (:687), §5.4 `/<step_id>.attrs` (:717-719, :728), and §3.2 note (:268) |
-| Interface renames ([§5.1](#51-terminology-and-rename-map)), once committed | Every `kind` token in the examples (`output_formatter` and `colormapper`, about twenty lines) and the §4.4 kind list (:375) |
+| `execution_start_time` and `execution_end_time` ([§4.6](#46-provenance-and-retention))                                | §5.3 `processing_history`, §5.4, and the §3.2 example                                                                                        |
+| Join validation contract ([§4.5](#45-dataset-identity-and-scientific-compatibility))                                  | §4.5, §8.3                                                                                                                                   |
+| `source_name`, `platform_name`, and `data_provider` are dataset-node attributes                                       | §5.2 note (:687), §5.4 `/<step_id>.attrs` (:717-719, :728), and §3.2 note (:268)                                                             |
+| Interface renames ([§5.1](#51-terminology-and-rename-map)), once committed                                            | Every `kind` token in the examples (`output_formatter` and `colormapper`, about twenty lines) and the §4.4 kind list (:375)                  |
 
 ### 13.2. Corrections
 
-1. **Dataset level ambiguous.** The §3.2 example has `/read_abi` holding a `B14BT(xr.Dataset)` node but `/single_channel` holding `B14BT_clipped` directly. §5.1, §5.7, §10.4, and §11.1 read as flat. State the [§4.3](#43-workflow-root-and-dataset-nodes) hierarchy and correct the flat sections.
-2. **`workflows` is YAML-based.** §4.1 (:300) calls it class-based. §4.7 places `Workflow(Plugin)` in the class hierarchy. §15.2 puts it at `class_based/workflow.py`. `geoips/interfaces/__init__.py:53` registers it YAML-based. The §2.2 glossary (:96-97) already separates Workflow (spec) from Workflow (runtime), so build on that. Revise after [§6.1](#61-depends_on-and-conduit-resolution) settles which concept each passage means. Item 12 removes procflows from the same §4.7 block.
-3. **`kind: sectorizer` is not registered.** §3.1 (:194) and the §4.4 `kind` row (:375) list `sectorizer` and omit `sector`. The registered sector interfaces are `sectors` (YAML), `sector_adjusters`, `sector_metadata_generators`, and `sector_spec_generators`. §4.6's `kind: sector` is valid. Fix both sites. The :375 list is also partial, with eleven kinds where the Phase 0 rule yields one per registered interface. `test.kinds` keys are plural (`readers:` at :169 and :357) where the adjacent comment and the rule say singular.
-4. **Variable metadata relaxed.** §5.5 requires `units`, `long_name`, and `standard_name`. GeoIPS sets them in 18, 1, and 2 reader modules respectively and validates none. Enforcing the requirement would open gaps against every reader. All three are optional in v2.0.0 ([§4.7](#47-units)), with no restore date.
-5. **Execution timing keys.** `start_time` and `end_time` sit beside `start_datetime` and `end_datetime` with no stated convention. The §3.2 example lists `start_time` among `source_name` and `wavelength`, where observation time is the natural reading. Rename per [§4.6](#46-provenance-and-retention) in §5.4, the `processing_history` schema, and the example.
-6. **Token prefix.** No change. The abstract's status line stays `dask:`, the runtime prefix (`geoips/utils/types/tokenization.py:21`). The §3.2 and §10.7 examples stay `blake2b:` ([§4.10](#410-datatree-location-notation)). Add one sentence distinguishing the two.
-7. **`depends_on` and `keep` Model Note stale.** Delete :383. It says neither is a field yet, ordering is positional, and per-step retention is unvalidated. The abstract (:27-28) says the opposite. `WorkflowStepDefinitionModel` (`geoips/pydantic_models/v1/workflows.py:352`) has `depends_on` (:372) and `keep` (:389). `class_based/workflow.py:232-237` orders topologically. `_is_kept` (:137-138, :161) honors `keep`. Add §4.4 to the sections touched.
-8. **Workflow-level `outputs:` asserted and denied.** §9.1 (:1002) denies it and the Required/Optional table (:285-292) omits it. Twelve other passages state or depend on it: :28, :75, :102, :125, :235, :296, :465, :534, :1091, :1283, :1316, and :1409. :28 claims it is an implemented pydantic field. [§4.6](#46-provenance-and-retention) keeps `workflow_output` in the retention vocabulary, which presupposes declarable outputs, so correct §9.1 and the table. If the decision becomes `keep: true` alone, record it here and remove `workflow_output` from the plan. `workflows.py:679-713` defines no `outputs` field, and the only one (:1329) is the test-override model. That is a gap, not authority.
-9. **Per-step provenance MUST (:662) versus SHOULD (:710).** Raise :710 to MUST per [§4.2](#42-metadata).
+01. **Dataset level ambiguous.** The §3.2 example has `/read_abi` holding a `B14BT(xr.Dataset)` node but `/single_channel` holding `B14BT_clipped` directly. §5.1, §5.7, §10.4, and §11.1 read as flat. State the [§4.3](#43-workflow-root-and-dataset-nodes) hierarchy and correct the flat sections.
+02. **`workflows` is YAML-based.** §4.1 (:300) calls it class-based. §4.7 places `Workflow(Plugin)` in the class hierarchy. §15.2 puts it at `class_based/workflow.py`. `geoips/interfaces/__init__.py:53` registers it YAML-based. The §2.2 glossary (:96-97) already separates Workflow (spec) from Workflow (runtime), so build on that. Revise after [§6.1](#61-depends_on-and-conduit-resolution) settles which concept each passage means. Item 12 removes procflows from the same §4.7 block.
+03. **`kind: sectorizer` is not registered.** §3.1 (:194) and the §4.4 `kind` row (:375) list `sectorizer` and omit `sector`. The registered sector interfaces are `sectors` (YAML), `sector_adjusters`, `sector_metadata_generators`, and `sector_spec_generators`. §4.6's `kind: sector` is valid. Fix both sites. The :375 list is also partial, with eleven kinds where the Phase 0 rule yields one per registered interface. `test.kinds` keys are plural (`readers:` at :169 and :357) where the adjacent comment and the rule say singular.
+04. **Variable metadata relaxed.** §5.5 requires `units`, `long_name`, and `standard_name`. GeoIPS sets them in 18, 1, and 2 reader modules respectively and validates none. Enforcing the requirement would open gaps against every reader. All three are optional in v2.0.0 ([§4.7](#47-units)), with no restore date.
+05. **Execution timing keys.** `start_time` and `end_time` sit beside `start_datetime` and `end_datetime` with no stated convention. The §3.2 example lists `start_time` among `source_name` and `wavelength`, where observation time is the natural reading. Rename per [§4.6](#46-provenance-and-retention) in §5.4, the `processing_history` schema, and the example.
+06. **Token prefix.** No change. The abstract's status line stays `dask:`, the runtime prefix (`geoips/utils/types/tokenization.py:21`). The §3.2 and §10.7 examples stay `blake2b:` ([§4.10](#410-datatree-location-notation)). Add one sentence distinguishing the two.
+07. **`depends_on` and `keep` Model Note stale.** Delete :383. It says neither is a field yet, ordering is positional, and per-step retention is unvalidated. The abstract (:27-28) says the opposite. `WorkflowStepDefinitionModel` (`geoips/pydantic_models/v1/workflows.py:352`) has `depends_on` (:372) and `keep` (:389). `class_based/workflow.py:232-237` orders topologically. `_is_kept` (:137-138, :161) honors `keep`. Add §4.4 to the sections touched.
+08. **Workflow-level `outputs:` asserted and denied.** §9.1 (:1002) denies it and the Required/Optional table (:285-292) omits it. Twelve other passages state or depend on it: :28, :75, :102, :125, :235, :296, :465, :534, :1091, :1283, :1316, and :1409. :28 claims it is an implemented pydantic field. [§4.6](#46-provenance-and-retention) keeps `workflow_output` in the retention vocabulary, which presupposes declarable outputs, so correct §9.1 and the table. If the decision becomes `keep: true` alone, record it here and remove `workflow_output` from the plan. `workflows.py:679-713` defines no `outputs` field, and the only one (:1329) is the test-override model. That is a gap, not authority.
+09. **Per-step provenance MUST (:662) versus SHOULD (:710).** Raise :710 to MUST per [§4.2](#42-metadata).
 10. **Exception roster overstated.** §12.1 (:1224) says nine classes are "All defined in `geoips/errors.py`". `TokenMismatchError` (:1233) and `JoinConflictError` (:1236) exist nowhere. `errors.py` runs from `GeoipsError` (:9) to `BoundaryIOError` (:137). §15.4 (:1430-1443) lists six, keeping `TokenMismatchError` and dropping `CoverageError`, `BoundaryIOError`, and `JoinConflictError`. Qualify :1224, mark the two as not implemented at :1238, and reconcile the two lists into one roster. Either name `JoinConflictError` as the join error or defer the name to the JoinOperators *Specification*.
 11. **Colormapper `data_tree` unsettled.** :570 annotates `BaseColormapperPlugin` as `data_tree=True` in a hierarchy otherwise reported as implemented. `colormappers.py:16` sets `False`, and `_post_call` (:18-28) wraps. The colormappers page decides. If `True`, mark :570 target-state and file a gap. If `False`, §2.3 (:123) and §6.1 (:797) stop citing colormapper as pass-through. §2.2 is untouched. Do not flip §2.3 or §6.1 first.
 12. **Procflow hierarchy removed** ([§4.11](#411-backward-compatibility)). Delete :572-573, keeping :570, and delete §15.3 (:1412-1428, `OrderBased(BaseProcflowPlugin)`). Revise the abstract (:37), the §2.2 glossary entry (:109), §2.3 step 3 (:119), and the References link (:1451). Point successors at the OBP/Workflow model. Check §4.8 and §15 for remaining `BaseProcflowPlugin` or `procflows` references.
