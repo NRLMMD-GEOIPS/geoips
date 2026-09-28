@@ -6,15 +6,36 @@
 import numpy as np
 import scipy
 import pandas as pd
+import yaml
 
+from geoips import interfaces
 from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
-from geoips.interfaces import algorithm_configs
+from pydantic import BaseModel, ValidationError
+
+from pluginify.errors import PluginError
 
 import logging
 
 import ast
 
 LOG = logging.getLogger(__name__)
+
+class AlgorithmConfigEquationSpec(BaseModel):
+    type: str
+    variables: list[str]
+    expression: str | None = None
+
+class AlgorithmConfigColorSpec(BaseModel):
+    equation: AlgorithmConfigEquationSpec
+    data_range: list[float]
+    gamma: float
+    input_units: str
+    output_units: str
+
+class AlgorithmConfigRecipeSpec(BaseModel):
+    red: AlgorithmConfigColorSpec
+    green: AlgorithmConfigColorSpec
+    blue: AlgorithmConfigColorSpec
 
 
 class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
@@ -157,31 +178,40 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         data : numpy.ndarray
             The resulting dataset after performing the equation.
         """
-        equation_type = equation["type"]
+        equation_type = equation.type
 
         if equation_type == "expression":
             variables = {}
-            for v in equation["variables"]:
+            for v in equation.variables:
                 variables[v] = xobj[v].to_masked_array()
-            return cls.safe_eval(equation["expression"], variables)
+            return cls.safe_eval(equation.expression, variables)
 
         if equation_type == "addition":
             data = (
-                xobj[equation["variables"][0]].to_masked_array()
-                + xobj[equation["variables"][1]].to_masked_array()
+                xobj[equation.variables[0]].to_masked_array()
+                + xobj[equation.variables[1]].to_masked_array()
             )
         elif equation_type == "difference":
             data = (
-                xobj[equation["variables"][0]].to_masked_array()
-                - xobj[equation["variables"][1]].to_masked_array()
+                xobj[equation.variables[0]].to_masked_array()
+                - xobj[equation.variables[1]].to_masked_array()
             )
         else:
-            data = xobj[equation["variables"][0]].to_masked_array()
+            data = xobj[equation.variables[0]].to_masked_array()
 
         return data
 
+    def _get_config_spec(self, anonymous_spec) -> AlgorithmConfigRecipeSpec:
+        # config_name overrides obp_spec if somehow both are provided
+        try:
+            return AlgorithmConfigRecipeSpec.model_validate(anonymous_spec)
+        except ValidationError as e:
+            raise ValueError(
+                f"Invalid recipe spec: {e}"
+            )
+
     def call(
-        self, xobj, config_name=None, obp_spec=None
+        self, xobj, obp_spec
     ):  # NOQA -- xobj is used in the literal eval calls
         """Apply a generic algorithm for rgb recipes.
 
@@ -197,27 +227,19 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         numpy.ndarray
             numpy.ndarray or numpy.MaskedArray of qualitative RGBA image output
         """
-        # config_name overrides obp_spec if somehow both are provided
-        if config_name:
-            config = algorithm_configs.get_plugin(config_name)
-            config_spec = config["spec"]
-        elif obp_spec:
-            config_spec = obp_spec
-        else:
-            raise ValueError(
-                "This algorithm requires either a config_name or an obp_spec argument."
-            )
 
-        red = self.apply_equation(xobj, config_spec["red"]["equation"])
-        grn = self.apply_equation(xobj, config_spec["green"]["equation"])
-        blu = self.apply_equation(xobj, config_spec["blue"]["equation"])
+        config_spec = self._get_config_spec(anonymous_spec=obp_spec)
 
-        input_units_red = config_spec["red"]["input_units"]
-        output_units_red = config_spec["red"]["output_units"]
-        input_units_grn = config_spec["green"]["input_units"]
-        output_units_grn = config_spec["green"]["output_units"]
-        input_units_blu = config_spec["blue"]["input_units"]
-        output_units_blu = config_spec["blue"]["output_units"]
+        red = self.apply_equation(xobj, config_spec.red.equation)
+        grn = self.apply_equation(xobj, config_spec.green.equation)
+        blu = self.apply_equation(xobj, config_spec.blue.equation)
+
+        input_units_red = config_spec.red.input_units
+        output_units_red = config_spec.red.output_units
+        input_units_grn = config_spec.green.input_units
+        output_units_grn = config_spec.green.output_units
+        input_units_blu = config_spec.blue.input_units
+        output_units_blu = config_spec.blue.output_units
 
         # Convert TB from Kevin to Celsius
         from geoips.data_manipulations.conversions import unit_conversion
@@ -234,8 +256,8 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
 
         from geoips.data_manipulations.corrections import apply_data_range, apply_gamma
 
-        data_range = config_spec["red"]["data_range"]
-        gamma = config_spec["red"]["gamma"]
+        data_range = config_spec.red.data_range
+        gamma = config_spec.red.gamma
         red = apply_data_range(
             red,
             min_val=data_range[0],
@@ -247,8 +269,8 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         )  # need inverse option?
         red = apply_gamma(red, gamma)
 
-        data_range = config_spec["green"]["data_range"]
-        gamma = config_spec["green"]["gamma"]
+        data_range = config_spec.green.data_range
+        gamma = config_spec.green.gamma
         grn = apply_data_range(
             grn,
             min_val=data_range[0],
@@ -260,8 +282,8 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         )
         grn = apply_gamma(grn, gamma)
 
-        data_range = config_spec["blue"]["data_range"]
-        gamma = config_spec["blue"]["gamma"]
+        data_range = config_spec.blue.data_range
+        gamma = config_spec.blue.gamma
         blu = apply_data_range(
             blu,
             min_val=data_range[0],
