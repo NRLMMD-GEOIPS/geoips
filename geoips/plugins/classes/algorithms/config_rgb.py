@@ -6,13 +6,10 @@
 import numpy as np
 import scipy
 import pandas as pd
-import yaml
 
-from geoips import interfaces
 from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
 from pydantic import BaseModel, ValidationError
 
-from pluginify.errors import PluginError
 
 import logging
 
@@ -20,19 +17,28 @@ import ast
 
 LOG = logging.getLogger(__name__)
 
+
 class AlgorithmConfigEquationSpec(BaseModel):
+    """Validated spec for a provided expression."""
+
     type: str
     variables: list[str]
     expression: str | None = None
 
+
 class AlgorithmConfigColorSpec(BaseModel):
+    """Validated spec to define each RGB value according to an equation."""
+
     equation: AlgorithmConfigEquationSpec
     data_range: list[float]
     gamma: float
     input_units: str
     output_units: str
 
+
 class AlgorithmConfigRecipeSpec(BaseModel):
+    """Validated spec for each RGB value."""
+
     red: AlgorithmConfigColorSpec
     green: AlgorithmConfigColorSpec
     blue: AlgorithmConfigColorSpec
@@ -206,13 +212,9 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         try:
             return AlgorithmConfigRecipeSpec.model_validate(anonymous_spec)
         except ValidationError as e:
-            raise ValueError(
-                f"Invalid recipe spec: {e}"
-            )
+            raise ValueError(f"Invalid recipe spec: {e}")
 
-    def call(
-        self, xobj, obp_spec
-    ):  # NOQA -- xobj is used in the literal eval calls
+    def call(self, xobj, obp_spec):  # NOQA -- xobj is used in the literal eval calls
         """Apply a generic algorithm for rgb recipes.
 
         Parameters
@@ -227,7 +229,6 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         numpy.ndarray
             numpy.ndarray or numpy.MaskedArray of qualitative RGBA image output
         """
-
         config_spec = self._get_config_spec(anonymous_spec=obp_spec)
 
         red = self.apply_equation(xobj, config_spec.red.equation)
