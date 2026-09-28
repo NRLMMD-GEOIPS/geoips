@@ -22,7 +22,7 @@ class RgbEquation(FrozenModel):
     )
     expression: str | None = Field(
         default=None,
-        description="If the type of expression, this is a string of the expression",
+        description="A string representing the expression to be performed, if needed.",
     )
     variables: List[str] = Field(
         ..., description="The variables needed to perform the equation."
