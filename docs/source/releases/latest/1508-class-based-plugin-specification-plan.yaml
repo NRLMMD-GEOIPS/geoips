@@ -1,0 +1,22 @@
+documentation:
+- title: 'Add the class-based plugin specification plan'
+  description: |
+    Add docs/dev/spec_plans/class_based_plugins.md, the plan for the GeoIPS
+    v2.0.0 class-based plugin Specifications. It records the target-state
+    specification model (DataTree structure, step classification, provenance
+    and retention, units, dimensions, the family and data_tree migration
+    axis, backward compatibility, removal gates, and argument conduits), the
+    interface inventory and rename map, the tabled design topics, the page
+    outlines and definition of done, the execution phases, and the changes
+    owed to the DataTree spec. Also add the v2-spec-gap issue template used
+    to file conformance gaps against the v2.0.0 contract.
+  files:
+    added:
+    - 'docs/dev/spec_plans/class_based_plugins.md'
+    - '.github/ISSUE_TEMPLATE/v2-spec-gap.md'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
