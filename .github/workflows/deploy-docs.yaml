@@ -13,10 +13,14 @@ name: Deploy docs
 #    * deploy docs with geoips/docs/deploy_pages.sh
 
 on:
-  # Triggers the workflow on published release
+  # Triggers the workflow on published release (this will deploy docs to a tagged version and update `stable` redirect)
   release:
     types:
       - published
+  # triggers the workflow on pushes to the default branch (this will update the `dev` docs dir)
+  push:
+    branches:
+      - main
   # Allows run of this workflow manually from the Actions tab
   # Must be merged to default before it will be available to manually run.
   workflow_dispatch:
