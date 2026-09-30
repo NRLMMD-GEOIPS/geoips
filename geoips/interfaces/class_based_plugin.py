@@ -749,7 +749,7 @@ class BaseClassPlugin(ABC):
             return self.__repr__()
 
         interface_name = fields.get("interface")
-        description = f"{interface_name} plugin" if interface_name else "plugin"
+        description = f"{interface_name} plugin" if interface_name else "NoInterface plugin"
 
         package_name = fields.get("package")
         if package_name:
