@@ -699,8 +699,8 @@ class BaseClassPlugin(ABC):
             self.module_name = module.__name__
             self.module_path = module.__file__
         else:
-            self.module_name = "Unknown."
-            self.module_path = "Unknown."
+self.module_name = "UnnamedModule"
+self.module_path = Path("UnsetPath")
 
     def _display_fields(self):
         """Collect the fields used by `__repr__` and `__str__`, in a stable order.
