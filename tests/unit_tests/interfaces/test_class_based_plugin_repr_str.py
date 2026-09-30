@@ -96,7 +96,7 @@ class TestClassBasedPluginInvalidName:
         """
         plugin = _FakeReprPlugin()
         plugin.name = bad_name
-        expected_repr = "_FakeReprPlugin(interface='algorithms', package='Unknown')"
+        expected_repr = "_FakeReprPlugin(interface='algorithms', package='UnnamedModule')"
         assert repr(plugin) == expected_repr
         assert str(plugin) == expected_repr
 
