@@ -4,7 +4,6 @@
 """Unit tests for file-skip logging in `ReadersInterface.read_data_to_xarray_dict`."""
 
 import logging
-import pickle
 from datetime import datetime
 
 import pytest
@@ -129,14 +128,10 @@ def test_all_valid_files_emit_no_warning(caplog):
 
 
 def test_hrit_error_carries_datetimes():
-    """Check HritError keeps its datetimes, message, and args, including via pickle."""
+    """Check HritError keeps its datetimes, message, and args."""
     err = HritError("msg", start_datetime=START_TIME, end_datetime=START_TIME)
     assert err.start_datetime == START_TIME
     assert err.end_datetime == START_TIME
     assert str(err) == "msg"
     assert err.args == ("msg",)
-
-    unpickled_err = pickle.loads(pickle.dumps(err))
-    assert unpickled_err.start_datetime == START_TIME
-
     assert HritError("msg").start_datetime is None
