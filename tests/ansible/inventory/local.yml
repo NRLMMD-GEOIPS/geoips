@@ -46,6 +46,7 @@ all:
       - data_fusion
       - geoips_clavrx
       - geoips_plugin_example
+      - pyrocb
       - recenter_tc
       - template_basic_plugin
 
