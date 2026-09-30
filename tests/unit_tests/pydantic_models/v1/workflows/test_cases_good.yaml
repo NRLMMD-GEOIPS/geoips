@@ -47,3 +47,25 @@ global_variables_temporal_windowing_neither_set:
     window_start_time: null
     window_end_time: null
   cls: WorkflowSpecModel
+step_definition_valid_reader_step_arguments:
+  description: "Reader step with populated reader arguments is accepted."
+  key: steps/read_data/arguments
+  val:
+    area_def:
+      area_id: denver
+      description: City of Denver
+      projection:
+        a: 6371228.0
+        lat_0: 39.73264
+        lon_0: -104.99318
+        proj: eqc
+        units: m
+      resolution:
+        - 250
+        - 250
+      shape: [200, 200]
+      center: [0, 0]
+    variables: ["None"]
+    metadata_only: False
+    self_register: "LOW"
+  cls: WorkflowStepDefinitionModel
