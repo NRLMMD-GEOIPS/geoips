@@ -717,16 +717,10 @@ class BaseClassPlugin(ABC):
         dict
             - A mapping of field name to field value.
         """
-        fields = {}
-        for field_name in ("name", "interface"):
-            field_value = getattr(self, field_name, None)
-            if isinstance(field_value, str) and field_value:
-                fields[field_name] = field_value
-
-        module_name = getattr(self, "module_name", None)
-        if isinstance(module_name, str) and module_name:
-            fields["package"] = module_name.split(".")[0]
-
+        exported_fields = sorted(("name", "interface", "module_name"))
+        fields = {field_name: getattr(self, field_name, None) 
+                      for field_name in exported_fields}
+        fields["package"] = fields["module_name"].split(".")[0] 
         return fields
 
     def __repr__(self):
