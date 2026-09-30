@@ -9,8 +9,7 @@ bug fix:
     `HritError` now takes optional `start_datetime` and `end_datetime` arguments,
     so the wrapper reads the times directly instead of parsing them out of the
     error message. The old parsing crashed with an `IndexError` on most
-    `HritError` messages. A strict / fail-fast mode was left out and will be
-    handled in a separate issue.
+    `HritError` messages.
   files:
     deleted: []
     moved: []
