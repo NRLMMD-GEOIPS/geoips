@@ -33,6 +33,7 @@ enhancement:
     - ''
     added:
     - 'tests/unit_tests/interfaces/test_class_based_plugin_repr_str.py'
+    - 'docs/source/releases/latest/424-adding-repr-and-str-methods.yaml'
     modified:
     - 'geoips/interfaces/class_based_plugin.py'
   related-issue:
