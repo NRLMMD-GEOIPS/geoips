@@ -1,0 +1,39 @@
+feature:
+- title: 'Allow plugin packages to register configuration options'
+  description: |
+    External GeoIPS plugin packages can now register their own configuration
+    settings via the new ``geoips.config_plugins`` entry-point group. Each
+    package exposes a ``geoips.config.ConfigPlugin`` wrapping a pydantic
+    settings model.
+
+    Plugin settings participate in the standard layered precedence
+    (defaults > .geoips.yaml under ``geoips.plugins.<pkg>`` > auto-generated
+    ``GEOIPS_PLUGIN_<PKG>_<FIELD>`` environment variables), are accessed via
+    ``config.plugins.<pkg>``, and are included by ``geoips config create``
+    (with per-plugin header and per-field default comments under ``--all``).
+    ``geoips config validate`` validates plugin sections and warns on unknown
+    settings. Discovery and per-plugin validation are lazy so a misconfigured
+    plugin cannot break importing ``geoips.config``.
+  files:
+    added:
+    - 'docs/source/releases/latest/add-plugin-config-registration.yaml'
+    - 'geoips/config/plugins.py'
+    - 'tests/unit_tests/config/test_plugins.py'
+    - 'tests/unit_tests/config/test_config_cli.py'
+    deleted:
+    - ''
+    moved:
+    - ''
+    modified:
+    - 'geoips/config/__init__.py'
+    - 'geoips/config/config.py'
+    - 'geoips/errors.py'
+    - 'geoips/commandline/geoips_config.py'
+    - 'tests/unit_tests/config/test_env_map_sync.py'
+    - 'docs/source/concepts/configuration/index.rst'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

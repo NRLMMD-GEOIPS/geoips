@@ -1,0 +1,18 @@
+refactor:
+- title: 'Update GeoIPS platform name map in viirs_l2_netcdf reader'
+  description: |
+    Add support for JP2VIIRS (n21), and change name for JPSS/JP1VIIRS from noaa20 to n20
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/viirs_l2_netcdf.py'
+  related-issue:
+    internal: "geoips#1049"
+  date:
+    start: 2026-04-01
+    finish: 2026-04-01

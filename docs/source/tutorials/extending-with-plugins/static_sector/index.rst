@@ -10,9 +10,9 @@ Extend GeoIPS with a new Static Sector
 
 Static Sectors are plugins which tell GeoIPS where the data will be plotted. Static
 Sectors, as their name implies, define a single area and are not generated during
-runtime. Componets like resolution, sector pixel shape, projection, and metadata can 
-all be defined at the user level, providing fine grained control. Both the units and 
-projection type are based off of PROJ definitions, defined here: 
+runtime. Componets like resolution, sector pixel shape, projection, and metadata can
+all be defined at the user level, providing fine grained control. Both the units and
+projection type are based off of PROJ definitions, defined here:
 `projection types <https://proj.org/en/9.3/operations/projections/index.html>`_
 
 In this section, we will be creating a custom static sector that overlays the

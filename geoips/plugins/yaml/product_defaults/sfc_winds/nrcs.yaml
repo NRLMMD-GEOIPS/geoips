@@ -16,8 +16,8 @@ spec:
         output_units: dB
         min_outbounds: crop
         max_outbounds: crop
-        norm: null
-        inverse: null
+        norm: false
+        inverse: false
   mtif_type: nrcs
   colormapper:
     plugin:

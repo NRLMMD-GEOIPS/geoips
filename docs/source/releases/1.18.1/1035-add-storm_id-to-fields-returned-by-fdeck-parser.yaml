@@ -1,0 +1,20 @@
+minor bug fix:
+- title: 'Add storm_id to fields returned by f-deck parser'
+  description: |
+    Import assemble_invest_storm_id and assemble_numbered_storm_id functions from the
+    bdeck parser to create the storm_id. The storm_id is now also returned by the fdeck
+    parser.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/sector_metadata_generators/fdeck_parser.py'
+  related-issue:
+    internal: "geoips#1035"
+  date:
+    start: 2026-03-25
+    finish: 2026-03-25

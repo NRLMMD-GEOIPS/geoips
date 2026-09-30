@@ -1,0 +1,125 @@
+testing:
+- title: Do not wrap console script names during unit tests for geoips expose
+  description: |
+    If console script names wrap in the table output, the tests will fail because
+    it can't find the expected console script.
+
+    Add column_width argument to expose_geoips_commands, and pass in the max len of
+    all console script names from the unit test, to ensure each console script name
+    is included in the output, and not wrapped.
+
+    Note we will later move this from geoips/geoips_utils.py to
+    geoips/commandline/geoips_expose.py, but for now just ensure the tests pass as is.
+  files:
+    modified:
+    - geoips/geoips_utils.py
+    - tests/unit_tests/commandline/test_expose.py
+  related-issue:
+    internal: geoips#1029 - 1.18.2 updates
+  date:
+    start: 2026-05-12
+    finish: 2026-05-12
+installation:
+- title: Always set GEOIPS_REPO_URL to github
+  description: |
+    Remove path-based special cases.
+  files:
+    modified:
+    - setup/config_geoips
+  related-issue:
+    internal: geoips#1029 - 1.18.2 updates
+  date:
+    start: 2026-05-11
+    finish: 2026-05-11
+- title: Disable git prompts by default in config_geoips
+  description: |
+    GIT_ASKPASS="", SSH_ASKPASS="", GIT_TERMINAL_PROMPT=1
+  files:
+    modified:
+    - setup/config_geoips
+  related-issue:
+    internal: geoips#1029 - 1.18.2 updates
+  date:
+    start: 2026-04-29
+    finish: 2026-04-29
+- title: Add gitall command to fully update all repos to  specified branch, if it exists
+  description: |
+    If specified branch does not exist, update to latest on default branch.
+    End on a command that *should* pass for all repos, and print information at the
+    end indicating such, and suggesting a follow on gitall status command to review the
+    final status of all repos (ensure the final gitall pull -p is the final output seen
+    on all repos, since if that fails, it indicates you have modified files locally,
+    so prompt user to check that the gitall pull -p's passed, and to go fix the individual
+    repos if any of the gitall pull's failed.)
+
+    Additionally, redirect all output from gitall commands to logs for reference.
+  files:
+    modified:
+    - setup/bash_setup/gitall
+  related-issue:
+    internal: geoips#1029 - 1.18.2 updates
+  date:
+    start: 2026-04-14
+    finish: 2026-04-14
+- title: Allow writing install logs to specified path
+  description: |
+    If $GEOIPS_INSTALL_LOG_BASEDIR is specified, write install logs there rather than
+    default $GEOIPS_OUTDIRS/logs/install.
+  files:
+    modified:
+    - setup/bash_setup/gitall
+  related-issue:
+    internal: geoips#1029 - 1.18.2 updates
+  date:
+    start: 2026-04-14
+    finish: 2026-04-14
+bug fix:
+- title: Use relative imports for boxplots and dataframe_utils in memusg/plot_json_files.py
+  description: |
+    This import fails for build_docs.py
+  files:
+    modified:
+    - geoips/utils/memusg/plot_json_files.py
+  related-issue:
+    internal: geoips#1029 - 1.18.2 updates
+  date:
+    start: 2026-04-29
+    finish: 2026-04-29
+- title: Include a better error message if partial zarr geolocation file exists
+  description: |
+    If the partial cache file exists, include suggested rm command to remove it before attempting to run again.
+    This allows more easily resolving the error.
+  files:
+    modified:
+    - geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+  related-issue:
+    internal: geoips#1029 - 1.18.2 updates
+  date:
+    start: 2026-04-29
+    finish: 2026-04-29
+- title: Skip undefined sectors in product_database_writer_kwargs
+  description: |
+    Allow specifying sectors from multiple procflow configs available_sectors in
+    product_db_writer_override, so if you specify a sector that does NOT exist in
+    a given procflow config at the command line, it will just skip that sector
+    when looping through all command line specified sectors.
+  files:
+    modified:
+    - geoips/plugins/modules/procflows/config_based.py
+  related-issue:
+    internal: geoips#1029 - 1.18.2 updates
+  date:
+    start: 2026-04-14
+    finish: 2026-04-14
+- title: Update rich Console import for build_docs.py
+  description: |
+    rich.logging import now rich.console. rich.logging has been deprecated since
+    May 2020, so not providing backwards compatible support.
+  files:
+    modified:
+    - docs/build_docs.py
+  related-issue:
+    internal: geoips#1029 - 1.18.2 updates
+  date:
+    start: 2026-04-14
+    finish: 2026-04-14

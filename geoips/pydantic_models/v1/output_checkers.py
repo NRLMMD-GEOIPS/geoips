@@ -14,48 +14,28 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from pydantic import Field, model_validator
+from pydantic import ConfigDict, Field, FilePath
 
 from geoips.pydantic_models.v1.bases import FrozenModel
 
 
-class OutputCheckersArgumentsModel(FrozenModel):
+class OutputCheckerArgumentsModel(FrozenModel):
     """Output Checker spec (specification) format."""
 
-    checker_name: Optional[str] = Field(
-        strict=True,
-        description="The name of the output checker.",
-    )
-    compare_path: Optional[str] = Field(
-        strict=True,
+    model_config = ConfigDict(extra="allow")
+
+    compare_path: FilePath | str = Field(
+        ...,
         description="The path to the comparison file.",
     )
-    output_products: Optional[List[str]] = Field(
-        strict=True,
+    output_products: Optional[List[FilePath] | List[str]] = Field(
+        None,
         description="A list of paths to the output file(s).",
     )
-
-    @model_validator(mode="after")
-    def _if_checker_name_ensure_compare_path(
-        self,
-    ) -> OutputCheckersArgumentsModel:
-        """
-        Ensure compare_path is provided if checker_name is present.
-
-        Returns
-        -------
-        OutputCheckersArgumentsModel
-            The validated instance.
-
-        Raises
-        ------
-        ValueError
-            If checker_name is provided without compare_path.
-        """
-        if self.checker_name is not None and self.compare_path is None:
-            raise ValueError(
-                "A valid file path must be provided in 'compare_path'"
-                "when 'checker_name' is specified."
-            )
-
-        return self
+    threshold: Optional[float] = Field(
+        None,
+        description=(
+            "Threshold for the image comparison. Argument to pixelmatch. Between "
+            "0 and 1, with 0 the most strict comparison, and 1 the most lenient."
+        ),
+    )

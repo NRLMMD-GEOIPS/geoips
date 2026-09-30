@@ -1,0 +1,23 @@
+# roles/system_deps/tasks/main.yml
+#
+# In Docker the OS packages are already installed by the Dockerfile (apt layer).
+# This role verifies they exist so the playbook fails fast if something is missing,
+# rather than blowing up three roles later.
+#
+---
+- name: Verify base commands exist
+  ansible.builtin.command: "{{ item }} --version"
+  loop:
+    - git
+    - python3
+  changed_when: false
+  tags: [base, full, site]
+
+- name: Verify compiler toolchain (needed for fortran plugins)
+  ansible.builtin.command: "{{ item }} --version"
+  loop:
+    - gcc
+    - gfortran
+    - g++
+  changed_when: false
+  tags: [site]

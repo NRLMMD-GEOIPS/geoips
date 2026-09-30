@@ -11,6 +11,8 @@ import numpy
 from pyresample import utils
 import xarray
 
+from geoips.interfaces import readers
+
 LOG = logging.getLogger(__name__)
 
 # scipy.interpolate.griddata requires at least 4 points. Don't bother
@@ -683,14 +685,15 @@ def get_vis_ir_bg(sect_xarray):
     LOG.info("irfnames: %s", irfnames)
     LOG.info("visfnames: %s", visfnames)
     ret_arr = {}
-    from geoips.plugins.modules.readers.geoips_netcdf import read_xarray_netcdf
+
+    rdr = readers.get_plugin("geoips_netcdf")
 
     if irfnames:
-        ir_bg = read_xarray_netcdf(irfnames[0])
+        ir_bg = rdr(irfnames[0])
         ret_arr["IR"] = ir_bg
         ret_arr["METADATA"] = ir_bg[[]]
     if visfnames:
-        vis_bg = read_xarray_netcdf(visfnames[0])
+        vis_bg = rdr(visfnames[0])
         ret_arr["VIS"] = vis_bg
         ret_arr["METADATA"] = vis_bg[[]]
     LOG.info("ret_arr: %s", ret_arr)

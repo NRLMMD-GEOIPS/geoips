@@ -114,6 +114,15 @@ class TextOutputCheckerPlugin(BaseOutputCheckerPlugin):
 
     def _print_rich_diff(self, diff_output: str, file1: str, file2: str):
         """Print diff output using rich formatting."""
+        if len(diff_output) > 10000:
+            LOG.warning(
+                "Diff output too long %s, truncating to only 10000 characters",
+                len(diff_output),
+            )
+            print_diff_output = diff_output[0:10000]
+        else:
+            print_diff_output = diff_output
+
         if USE_RICH and RICH_AVAILABLE:
             # Create a table for file comparison
             table = Table(
@@ -136,9 +145,9 @@ class TextOutputCheckerPlugin(BaseOutputCheckerPlugin):
             )
 
             # Display diff output with syntax highlighting
-            if diff_output.strip():
+            if print_diff_output.strip():
                 syntax = Syntax(
-                    diff_output,
+                    print_diff_output,
                     "diff",
                     theme="monokai",
                     line_numbers=False,
@@ -157,7 +166,7 @@ class TextOutputCheckerPlugin(BaseOutputCheckerPlugin):
             msgs.append("DIFFERENCES FOUND:")
             msgs.append(f"File 1: {file1}")
             msgs.append(f"File 2: {file2}")
-            msgs.append(diff_output)
+            msgs.append(print_diff_output)
             log_with_emphasis(LOG.error, "\n".join(msgs))
 
     def _prompt_user_for_overwrite(self, file1: str, file2: str) -> bool:

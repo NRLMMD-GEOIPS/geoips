@@ -20,7 +20,6 @@ bug fix:
   date:
     start: 2025-07-30
     finish: 2025-07-30
-bug fix:
 - title: 'Print out full path to final output files in addition to env var replaced paths'
   description: |
     For easier CTRL-Click in VSCode, include both full path and env var replaced paths.

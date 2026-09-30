@@ -1,0 +1,15 @@
+bug fix:
+- title: Decrease length of time for validating bdeck formatting from 2 years to 6 months
+  description: |
+    To avoid test failures for relatively new test scripts, consider any deck files
+    older than 6 months as "archived" (allowing tests to skip bad lines, while
+    real-time processing will fail to ensure we resolve formatting errors on new
+    deck files).
+  files:
+    modified:
+    - geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
+  related-issue:
+    internal: geoips#1029 - 1.18.2 updates
+  date:
+    start: 2026-04-14
+    finish: 2026-04-14

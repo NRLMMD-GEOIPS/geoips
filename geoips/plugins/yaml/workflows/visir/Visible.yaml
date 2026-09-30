@@ -25,8 +25,8 @@ spec:
         gamma_list: [1.5]
         sun_zen_correction: true
         max_day_zen: 90
-        inverse: null
-        norm: null
+        inverse: False
+        norm: False
     output_formatter:
       kind: output_formatter
       name: imagery_annotated

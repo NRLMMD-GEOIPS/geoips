@@ -11,8 +11,8 @@ spec:
         output_data_range: [0, 200]
         min_outbounds: crop
         max_outbounds: crop
-        norm: null
-        inverse: null
+        norm: false
+        inverse: false
   mtif_type: image
   colormapper:
     plugin:

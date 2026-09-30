@@ -1,0 +1,22 @@
+testing:
+- title: Standardize test product and product default names
+  description: |
+    Remove Infrared from the test product default names, since these are not infrared
+    specific, and can be used for any test product channel.
+  files:
+    moved:
+    - "renamed:    geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Day-Only.yaml -> geoips/plugins/yaml/product_defaults/integration_tests/Test-Day-Only.yaml"
+    - "renamed:    geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Night-Only.yaml -> geoips/plugins/yaml/product_defaults/integration_tests/Test-Night-Only.yaml"
+    deleted:
+    - "deleted:    geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Day-Night.yaml"
+    modified:
+    - geoips/plugins/yaml/product_defaults/integration_tests/Test-Day-Only.yaml
+    - geoips/plugins/yaml/product_defaults/integration_tests/Test-Night-Only.yaml
+    - geoips/plugins/yaml/products/integration_tests/Test-Day-Only.yaml
+    - geoips/plugins/yaml/products/integration_tests/Test-Night-Only.yaml
+  related-issue:
+    internal: geoips#1029 - 1.18.0 updates
+  date:
+    start: 2026-03-17
+    finish: 2026-03-17
+

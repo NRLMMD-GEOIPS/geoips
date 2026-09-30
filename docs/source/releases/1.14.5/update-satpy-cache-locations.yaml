@@ -22,24 +22,6 @@ enhancement:
   date:
     start: 2025-02-04
     finish: 2025-02-05
-enhancement:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
 deprecation:
 - title: ''
   description: ''

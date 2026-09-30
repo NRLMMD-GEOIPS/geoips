@@ -283,7 +283,7 @@ def add_args(parser, arglist=None, legacy=False):
             nargs="?",
             default=None,
             help="""Specify sector adjuster to be used within processing, located in:
-                            <package>.plugins.modules.sector_adjusters.
+                            <package>.plugins.classes.sector_adjusters.
                                 <myadjuster>.<myadjuster>""",
         )
     if arglist is None or "sector_adjuster_kwargs" in arglist:
@@ -355,7 +355,7 @@ def add_args(parser, arglist=None, legacy=False):
             nargs="?",
             default=None,
             help="""Specify TC trackfile parser to use with trackfiles, located in:
-                            geoips*.plugins.modules.sector_metadata_generators .
+                            geoips*.plugins.classes.sector_metadata_generators .
                                 myparsername.myparsername,
                             The trackfile_parser string should be the parser module
                             name (no .py)""",
@@ -473,7 +473,7 @@ def add_args(parser, arglist=None, legacy=False):
         prod_group.add_argument(
             "--product_spec_override",
             nargs="?",
-            default={},
+            default=None,
             type=literal_eval,
             help="""Specify product spec fields to override the default specifications.
                             Should be formatted as a json dictionary string""",
@@ -636,6 +636,17 @@ def add_args(parser, arglist=None, legacy=False):
             help="""If true, do not pre-sector data prior to running the algorithm.
                     This is less efficient, but allows the original dataset to
                     be passed to the algorithm in full.""",
+        )
+
+    if arglist is None or "disable_nan_array_removal" in arglist:
+        procflow_group.add_argument(
+            "--disable_nan_array_removal",
+            action="store_true",
+            help="""If true, do not remove arrays of all nans before passing to
+                    interpolator or algorithm steps.  This process can be very slow
+                    and use a large amount of memory for large arrays, so allow
+                    turning it off if we know in advance that we do not have to worry
+                    about handling arrays comprised on all nans.""",
         )
 
     if arglist is None or "output_checker_name" in arglist:
@@ -919,7 +930,7 @@ def add_args(parser, arglist=None, legacy=False):
             default=None,
             help="""If --product_db_writer is passed, the specific product
                     database writer will be located in
-                    geoips*.plugins.modules.postgres_database.
+                    geoips*.plugins.classes.postgres_database.
                         mywriter_name.mywriter_name,
                     The writer_name string should be the reader module name
                     (no .py)""",

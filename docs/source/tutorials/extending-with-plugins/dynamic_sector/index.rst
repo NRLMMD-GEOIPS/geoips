@@ -11,19 +11,19 @@ Extend GeoIPS with a new Dynamic Sector
 
 Dynamic Sectors are a geolocated sectors in GeoIPS that contain data that is dynamic
 in time and/or space. Common cases include tropical cyclones, volcanoes, atmospheric
-rivers, wildfires, or dust storms. Several components of GeoIPS help create the dynamic 
+rivers, wildfires, or dust storms. Several components of GeoIPS help create the dynamic
 sectoring capabilities, mainly, the dynamic sector yaml file, track file, track
-file parser, and the dynamic area definition file. 
+file parser, and the dynamic area definition file.
 
 In this example, we will walk through the steps needed to create and implement
-a dynamic sector for the 2022 Tonga Volcano explosion. Current files, code, and 
+a dynamic sector for the 2022 Tonga Volcano explosion. Current files, code, and
 test data is within GeoIPS already.
 
 Creating a Dynamic Sector
 -------------------------
 
-We will create a small dynamic sector to help capture the initial plume 
-from the volcanic explosion. The docstring should contain useful 
+We will create a small dynamic sector to help capture the initial plume
+from the volcanic explosion. The docstring should contain useful
 information for yourself or other users.
 
 .. code-block:: yaml
@@ -46,21 +46,21 @@ information for yourself or other users.
           num_samples: 1400
 
 
-Each component under the spec arguments is similar to the static sector 
+Each component under the spec arguments is similar to the static sector
 arguments. Projection is the desired projection of the dynamic sector, defined
 in PROJ keywords, pixel width and height are the resolution of the dynamic sector,
 and num lines and samples are tied to the shape of the output dynamic sector.
 
-This dyanmic sector works in conjuction with the trackfile and 
-parser to create a dynamic area with the size, and resolution specified 
+This dyanmic sector works in conjuction with the trackfile and
+parser to create a dynamic area with the size, and resolution specified
 by the yaml file.
 
-Creating a Trackfile 
+Creating a Trackfile
 --------------------
 
-Trackfiles within GeoIPS help users specify the dynamic components of the feature of 
+Trackfiles within GeoIPS help users specify the dynamic components of the feature of
 interest, whether it be tied to a bulletin like output, or an output csv. The core
-components of a trackfile should be the latitude, longitude, and time, additional 
+components of a trackfile should be the latitude, longitude, and time, additional
 components could be storm name, scale factor (for dynamic sized sectors), or metadata.
 Trackfile should be easily created from bulletins, notices, or dynamic alerts, that in
 turn get parsed by the trackfile parser.
@@ -75,7 +75,7 @@ A sample trackfile for the tonga volcano could look like:
     -20.545,-175.3925,20220115T0350,TONGA
 
 
-For a more complex example or use case, users should reference the tropical cyclone 
+For a more complex example or use case, users should reference the tropical cyclone
 trackfiles (bdeck_files).
 
 Creating a Trackfile Parser
@@ -83,12 +83,12 @@ Creating a Trackfile Parser
 
 Trackfile parsers translate a trackfile content to a list of dictionary values, which
 in turn gets transformed to a dynamic area definition. Required information parsed
-from the trackfile is latitude, longitude, and time, however users can include 
-additional information if needed. 
+from the trackfile is latitude, longitude, and time, however users can include
+additional information if needed.
 
 To parse the trackfile above, we would create the following code:
 
-.. code-block:: python 
+.. code-block:: python
 
     import pandas as pd
 
@@ -98,7 +98,7 @@ To parse the trackfile above, we would create the following code:
     family = "volc"
     name = "volc_parser"
 
-    
+
     def call(trackfile_name):
         """Parse a sample volcano csv file.
 
@@ -134,38 +134,36 @@ To parse the trackfile above, we would create the following code:
         return all_fields, volcano_name, fields["time"].strftime("%Y"), "BEST"
 
 
-The parser works in tandem with the trackfile, users should have a specific 
-trackfile format, and in turn, a specific trackfile parser. A majority of dynamic 
+The parser works in tandem with the trackfile, users should have a specific
+trackfile format, and in turn, a specific trackfile parser. A majority of dynamic
 features are novel, so the resulting components of it should also be unique.
 
 Creating a Dynamic Area Function
 --------------------------------
 
 After parsing the trackfile, the resulting output gets mapped to sector_utils
-where a pyresample AreaDefinition object is created from the trackfile 
-parsed data. Users should add hooks into sector_utils.tc_tracks to indicate 
-when the specified parser should be used, one method could be checking the 
+where a pyresample AreaDefinition object is created from the trackfile
+parsed data. Users should add hooks into sector_utils.tc_tracks to indicate
+when the specified parser should be used, one method could be checking the
 final_storm_name variable.
 
-Note: This functionality and feature might be refactored in the future to 
+Note: This functionality and feature might be refactored in the future to
 be easier to implement and use.
 
 Using Your Dynamic Sector
 -------------------------
 
-Each component can now be accessed from the CLI and tested with some data.
+Each component can now be accessed from the CLI and tested with some data. Reference your
+dynamic sector in an :ref:`OBP workflow <order-based-processing>` and run it:
 
-.. code-block:: bash 
+.. code-block:: bash
 
-    geoips run single_source \
-        ${GEOIPS_TESTDATA_DIR}/test_data_volc/data/ahi/20220115/* \
-        --reader_name ahi_hsd \
-        --product_name Infrared \
-        --filename_formatter geoips_fname \
-        --output_formatter imagery_annotated \
-        --trackfile_parser volc_parser \
-        --trackfiles $GEOIPS/tests/sectors/volc_csv/tonga_trackfile.csv \
-        --tc_spec_template volc_tonga
+    geoips run order_based volc_tonga_infrared \
+        ${GEOIPS_TESTDATA_DIR}/test_data_volc/data/ahi/20220115/*
+
+The dynamic sector's track-file parser, track file, and spec template are configured on
+the workflow's ``sector`` step. Dynamic-sector support in OBP is still evolving (see the
+note above).
 
 
 

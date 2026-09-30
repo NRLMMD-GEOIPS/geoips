@@ -13,9 +13,9 @@ multiple methods to implement this colormap, and we will present those throughou
 section. This section is also largely informational. We will actually implement
 colormappers in the :ref:`Create New Colormappers Section<create-colormappers>`
 
-The top level attributes
-``interface``, ``family``, and ``docstring``
-are required in every GeoIPS plugin.
+The class attributes
+``interface``, ``family``, and ``name`` (plus a class ``docstring``)
+are required in every class-based GeoIPS plugin.
 
 Please see documentation for
 :ref:`additional info on these GeoIPS required attributes<required-attributes>`
@@ -24,7 +24,7 @@ Using an ASCII Colormap
 -----------------------
 
 The `matplotlib_linear_norm plugin
-<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/modules/colormappers/matplotlib_linear_norm.py>`_
+<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/classes/colormappers/matplotlib_linear_norm.py>`_
 can also leverage ASCII colormap files installed within GeoIPS, installed within a
 plugin package, or stored in an arbitrary location on disk.
 
@@ -102,11 +102,11 @@ Color information can also be specified via a python-based GeoIPS “colormapper
 allowing customization using specific matplotlib commands and utilities. This is the
 most flexible method, and is used largely throughout GeoIPS products. For many examples
 of colormappers that make use of the python-based method, see this `link
-<https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/modules/colormappers>`_.
+<https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/classes/colormappers>`_.
 
 We will now step through a sample colormapper used for ``pmw_89pct``. As with every
-module-based plugin, it's required to have a ``call`` function, as well as those top
-level properites mentioned previously.
+class-based plugin, it subclasses its interface base class, sets the
+``interface``/``family``/``name`` class attributes, and implements a ``call`` method.
 
 .. code-block:: python
 
@@ -114,71 +114,77 @@ level properites mentioned previously.
 
     import logging  # optional... but be kind to everyone and provide some logging info please
 
-    LOG = logging.getLogger(__name)__
+    from geoips.interfaces.class_based.colormappers import BaseColormapperPlugin
 
-    interface = "colormappers"
-    family = "matplotlib"
-    name = "pmw_89pct"
+    LOG = logging.getLogger(__name__)
 
-    # Paremeters are optional... but are useful for setting defaults!
-    def call(data_range=[105, 280], cbar_label="TB (K)"):
+
+    class Pmw89pctColormapperPlugin(BaseColormapperPlugin):
         """Colormap for displaying ~89GHz PMW data for weak TCs."""
 
-        """Here you set the values at which you want the colors to transition, as well
-        as the colors each transition should be associated with. Gradient creation
-        will be handled by GeoIPS."""
-        transition_vals = [
-            (data_range[0], 125),
-            (125, 150),
-            (150, 175),
-            (175, 212),
-            (212, 230),
-            (230, 250),
-            (250, 265),
-            (265, data_range[1]),
-        ]
-        transition_colors = [
-            ("orange", "chocolate"),
-            ("chocolate", "indianred"),
-            ("idianred", "firebrick"),
-            ("firebrick", "red"),
-            ("gold", "yellow"),
-            ("lime", "limegreen"),
-            ("deepskyblue", "blue"),
-            ("navy", "slateblue"),
-        ]
-        ticks = [int(xx[0]) for xx in transition_vals]
+        interface = "colormappers"
+        family = "matplotlib"
+        name = "pmw_89pct"
 
-        min_tb = transiton_vals[0][0]  # You can define these parameters in a number of
-        max_tb = transiton_vals[-1][1] # ways – either in the call function, as values here,
-        tickts = ticks + [int(max_tb)] # or even in the mpl_colors_info section.
+        # Parameters are optional... but are useful for setting defaults!
+        def call(self, data_range=[105, 280], cbar_label="TB (K)"):
+            """Colormap for displaying ~89GHz PMW data for weak TCs."""
 
-        LOG.info("Setting cmap")  # Lines below are where gradients are created
-        from geoips.image_utils.colormap_utils import create_linear_segmented_colormap
-        mpl_cmap = create_linear_segmented_colormap(
-            "89pct_cmap", min_tb, max_tb, transiton_vals, transition_colors
-        )
+            """Here you set the values at which you want the colors to transition, as well
+            as the colors each transition should be associated with. Gradient creation
+            will be handled by GeoIPS."""
+            transition_vals = [
+                (data_range[0], 125),
+                (125, 150),
+                (150, 175),
+                (175, 212),
+                (212, 230),
+                (230, 250),
+                (250, 265),
+                (265, data_range[1]),
+            ]
+            transition_colors = [
+                ("orange", "chocolate"),
+                ("chocolate", "indianred"),
+                ("indianred", "firebrick"),
+                ("firebrick", "red"),
+                ("gold", "yellow"),
+                ("lime", "limegreen"),
+                ("deepskyblue", "blue"),
+                ("navy", "slateblue"),
+            ]
+            ticks = [int(xx[0]) for xx in transition_vals]
 
-        LOG.info("Setting norm")
-        from matplotlib.colors import Normalize  # Optional. You can import any mpl manipulations you want!
-        mpl_norm = Normalize(vmin=data_range[0], vmax=data_range[1])
+            min_tb = transition_vals[0][0]  # You can define these parameters in a number of
+            max_tb = transition_vals[-1][1] # ways – either in the call function, as values here,
+            tickts = ticks + [int(max_tb)] # or even in the mpl_colors_info section.
 
-        cbar_spacing = "proportional"
-        mpl_tick_labels = None
-        mpl_boundaries = None
+            LOG.info("Setting cmap")  # Lines below are where gradients are created
+            from geoips.image_utils.colormap_utils import create_linear_segmented_colormap
+            mpl_cmap = create_linear_segmented_colormap(
+                "89pct_cmap", min_tb, max_tb, transition_vals, transition_colors
+            )
 
-        mpl_colors_info = {
-            "cmap": mpl_cmap,
-            "norm": mpl_norm,  # Scales your values so the colorbar covers the specified range; Optional.
-            "cbar_ticks": ticks,
-            "cbar_tick_labels": mpl_tick_labels,  # Accepts a list of strings as labels.
-            "cbar_label": cbar_label,
-            "boundaries": mpl_boundaries,
-            "cbar_spacing": cbar_spacing,
-            "colorbar": True,
-            "cbar_full_width": True,
-        }
-        return mpl_colors_info
+            LOG.info("Setting norm")
+            from matplotlib.colors import Normalize  # Optional. You can import any mpl manipulations you want!
+            mpl_norm = Normalize(vmin=data_range[0], vmax=data_range[1])
+
+            cbar_spacing = "proportional"
+            mpl_tick_labels = None
+            mpl_boundaries = None
+
+            mpl_colors_info = {
+                "cmap": mpl_cmap,
+                "norm": mpl_norm,  # Scales your values so the colorbar covers the specified range; Optional.
+                "cbar_ticks": ticks,
+                "cbar_tick_labels": mpl_tick_labels,  # Accepts a list of strings as labels.
+                "cbar_label": cbar_label,
+                "boundaries": mpl_boundaries,
+                "cbar_spacing": cbar_spacing,
+                "colorbar": True,
+                "cbar_full_width": True,
+            }
+            return mpl_colors_info
 
 The ``mpl_colors_info`` dictionary is what GeoIPS uses within the matplotlib-based
 utilities and output formatters in order to ensure consistent application of colors, in
@@ -197,9 +203,9 @@ similar to the module shown above, but to your own specifications.
 First off, lets create a new colormappers directory and activate it.
 ::
 
-    mkdir -pv $MY_PKG_DIR/$MY_PKG_NAME/plugins/modules/colormappers
-    touch $MY_PKG_DIR/$MY_PKG_NAME/plugins/modules/colormappers/__init__.py
-    cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/modules/colormappers
+    mkdir -pv $MY_PKG_DIR/$MY_PKG_NAME/plugins/classes/colormappers
+    touch $MY_PKG_DIR/$MY_PKG_NAME/plugins/classes/colormappers/__init__.py
+    cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/classes/colormappers
 
 Now that we have that directory activated, let's create a file called
 ``colorful_cloud_height.py``. Once you have that created, copy and paste the code below
@@ -211,76 +217,85 @@ what you need for your own colormap.
     """Module containing colormap for colorful cloud height products."""
     import logging
 
+    from geoips.interfaces.class_based.colormappers import BaseColormapperPlugin
+
     LOG = logging.getLogger(__name__)
 
-    interface = "colormappers"
-    family = "matplotlib"
-    name = "colorful_cloud_height"
 
-    def call(data_range=[0, 20]):
+    class ColorfulCloudHeightColormapperPlugin(BaseColormapperPlugin):
         """Colorful cloud height colormap."""
 
-        transiton_vals = [
-            (data_range[0], 1),
-            (1, 2),
-            (2, 3),
-            (3, 4),
-            (4, 6),
-            (6, 8),
-            (8, 10),
-            (10, 15),
-            (15, data_range[1]),
-        ]
-         transition_colors = [
-            ("pink", "red"),
-            ("paleturquoise", "teal"),
-            ("plum", "rebeccapurple"),
-            ("yellow", "chartreuse"),
-            ("limegreen", "darkgreen"),
-            ("wheat", "darkorange"),
-            ("darkgray", "black"),
-            ("lightgray", "silver"),
-            ("lightskyblue", "deepskyblue"),
-        ]
+        interface = "colormappers"
+        family = "matplotlib"
+        name = "colorful_cloud_height"
 
-        ticks = [int(xx[0]) for xx in transition_vals]
-        tickts = ticks + [int(data_range[1])]
+        def call(self, data_range=[0, 20]):
+            """Colorful cloud height colormap."""
 
-        LOG.info("Setting cmap")
-        from geoips.image_utils.colormap_utils import create_linear_segmented_colormap
-        mpl_cmap = create_linear_segmented_colormap(
-            "89pct_cmap", data_range[0], data_range[1], transiton_vals, transition_colors
-        )
+            transition_vals = [
+                (data_range[0], 1),
+                (1, 2),
+                (2, 3),
+                (3, 4),
+                (4, 6),
+                (6, 8),
+                (8, 10),
+                (10, 15),
+                (15, data_range[1]),
+            ]
+             transition_colors = [
+                ("pink", "red"),
+                ("paleturquoise", "teal"),
+                ("plum", "rebeccapurple"),
+                ("yellow", "chartreuse"),
+                ("limegreen", "darkgreen"),
+                ("wheat", "darkorange"),
+                ("darkgray", "black"),
+                ("lightgray", "silver"),
+                ("lightskyblue", "deepskyblue"),
+            ]
 
-        LOG.info("Setting norm")
-        from matplotlib.colors import Normalize
-        mpl_norm = Normalize(vmin=data_range[0], vmax=data_range[1])
+            ticks = [int(xx[0]) for xx in transition_vals]
+            tickts = ticks + [int(data_range[1])]
 
-        cbar_spacing = "proportional"
-        mpl_tick_labels = None
-        mpl_boundaries = None
+            LOG.info("Setting cmap")
+            from geoips.image_utils.colormap_utils import create_linear_segmented_colormap
+            mpl_cmap = create_linear_segmented_colormap(
+                "89pct_cmap", data_range[0], data_range[1], transition_vals, transition_colors
+            )
 
-        mpl_colors_info = {
-            "cmap": mpl_cmap,
-            "norm": mpl_norm,
-            "cbar_ticks": ticks,
-            "cbar_tick_labels": mpl_tick_labels,
-            "cbar_label": cbar_label,
-            "boundaries": mpl_boundaries,
-            "cbar_spacing": cbar_spacing,
-            "colorbar": True,
-            "cbar_full_width": True,
-        }
-        return mpl_colors_info
+            LOG.info("Setting norm")
+            from matplotlib.colors import Normalize
+            mpl_norm = Normalize(vmin=data_range[0], vmax=data_range[1])
 
-Now that you've properly created your module-based colormapper, we need to add it to
+            cbar_spacing = "proportional"
+            mpl_tick_labels = None
+            mpl_boundaries = None
+
+            mpl_colors_info = {
+                "cmap": mpl_cmap,
+                "norm": mpl_norm,
+                "cbar_ticks": ticks,
+                "cbar_tick_labels": mpl_tick_labels,
+                "cbar_label": cbar_label,
+                "boundaries": mpl_boundaries,
+                "cbar_spacing": cbar_spacing,
+                "colorbar": True,
+                "cbar_full_width": True,
+            }
+            return mpl_colors_info
+
+
+    PLUGIN_CLASS = ColorfulCloudHeightColormapperPlugin
+
+Now that you've properly created your class-based colormapper, we need to add it to
 ``pyproject.toml``. Modify your this file (found in the top level of your package
 directory) to include the code listed below. Note: if you named your package something
 other than ``cool_plugins``, replace that with your package name.
 ::
 
     [project.entry-points."geoips.colormappers"]
-    colorful_cloud_height = "cool_plugins".plugins.modules.colormappers.colorful_cloud_height"
+    colorful_cloud_height = "cool_plugins.plugins.classes.colormappers.colorful_cloud_height"
 
 Once you've done that, you'll have to reinstall your package since you modified
 ``pyproject.toml``. If you don't reinstall, GeoIPS won't find your new colormapper in
@@ -319,32 +334,18 @@ Copy and paste the code below into your products file, under the ``products`` se
 Create a Script to Visualize Your New Colormapper
 -------------------------------------------------
 
-Now that we have a product that implements our new colormapper, we should create a
-script that visualizes it. Change directories into your /tests/scripts directory, and
-create a file called clavrx.conus_annotated.cloud-base-python-colors.sh . Once you've
-done that, copy and paste the code below into that file.
+Now that we have a product that implements our new colormapper, run it through an
+:ref:`OBP workflow <order-based-processing>`. Create a workflow as in the
+:ref:`Products <create-a-product>` tutorial whose product step is
+``Cloud-Base-Python-Colors``, then run it:
 
 .. code-block:: bash
 
-    run_procflow \
-        $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf \
-        --procflow single_source \
-        --reader_name clavrx_hdf4 \
-        --product_name "Cloud-Base-Python-Colors" \
-        --output_formatter imagery_annotated \
-        --filename_formatter geoips_fname \
-        --minimum_coverage 0 \
-        --sector_list conus
-    ss_retval=$?
-
-Once you've added that code to that file, you can run the script with the command listed
-below.
-::
-
-    $MY_PKG_DIR/tests/scripts/clavrx.conus_annotated.cloud-base-python-colors.sh
+    geoips run order_based cloud_base_python_colors \
+        $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/*.hdf
 
 This will write some log output. If your script succeeded it will end with INTERACTIVE:
-Return Value 0. To view your output, look for a line that says SINGLESOURCESUCCESS. Open
+Return Value 0. To view your output, look for the output image path printed in the log. Open
 the PNG file, it should look like the image below.
 
 .. image:: colorful_cloud_height.png

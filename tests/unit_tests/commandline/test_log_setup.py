@@ -8,52 +8,55 @@ Tests the following functions:
 - add_log_level (by importing geoips.logging)
 """
 
-import pytest
-
 import random
 import string
+
+import pytest
+
 from geoips import logging
 from geoips.commandline.log_setup import log_with_emphasis
 
 LOG = logging.getLogger(__name__)
+NUM_RANDOM_MESSAGES = 20
 
 
-def generate_random_string(length):
+def generate_random_string(rng, length):
     """Generate a random string of length :param length."""
-    return "".join(random.choices(string.ascii_letters, k=length))
+    return "".join(rng.choices(string.ascii_letters, k=length))
 
 
-def insert_word_like_spaces_to_string(string):
+def insert_word_like_spaces_to_string(rng, value):
     """Modify the input string by inserting spaces to make "words" of length 2-8.
 
     Parameters
     ----------
-    str (str):
+    value : str
         The input string to be modified.
 
     Returns
     -------
-    str (str):
+    str
         The modified string with spaces inserted at random locations.
 
     Example
     -------
-    >>> insert_word_like_spaces_to_string("HelloWorld")
-    'He lloW or ld'
+    >>> rng = random.Random(0)
+    >>> insert_word_like_spaces_to_string(rng, "HelloWorld")
+    'Hel oWo ld'
     """
-    loc = random.randint(2, 3)
-    while loc < len(string):
-        string = string[:loc] + " " + string[loc + 1 :]
-        loc += random.randint(2, 8)
-    return string
+    loc = rng.randint(2, 3)
+    while loc < len(value):
+        value = value[:loc] + " " + value[loc + 1 :]
+        loc += rng.randint(2, 8)
+    return value
 
 
-def insert_random_string_randomly(s, length):
+def insert_random_string_randomly(rng, value, length):
     """Insert a randomly generated string of a given length at a random position.
 
     Parameters
     ----------
-    s : str
+    value : str
         The original string into which the random string will be inserted.
     length : int
         The length of the random string to be generated and inserted.
@@ -63,37 +66,34 @@ def insert_random_string_randomly(s, length):
     str
         The modified string with a randomly generated string of length `length`
         inserted at a random position.
-
-    Example
-    --------
-    >>> insert_random_string_randomly("hello", 3)
-    'helXyZlo'
     """
-    position = random.randint(0, len(s) - 1)
-    return s[position:] + generate_random_string(length) + s[position:]
+    position = rng.randint(0, len(value) - 1)
+    return value[:position] + generate_random_string(rng, length) + value[position:]
 
 
-def generate_random_messages(add_long_word=False):
-    """Generate a random amount of messages with random length."""
-    num_messages = 20
-    messages = [
-        insert_word_like_spaces_to_string(
-            generate_random_string(random.randint(5, 110))
-        )
-        for _ in range(num_messages)
-    ]
+def generate_random_message(seed, add_long_word=False):
+    """Generate one deterministic random message from a seed."""
+    rng = random.Random(seed)
+
+    message = insert_word_like_spaces_to_string(
+        rng,
+        generate_random_string(rng, rng.randint(5, 110)),
+    )
+
     if add_long_word:
+        message = insert_random_string_randomly(
+            rng, message, 88
+        )  # insert string 88 chars long
 
-        def f(s):
-            return insert_random_string_randomly(s, 88)  # insert string 88 chars long
-
-        return list(map(f, messages))
-    else:
-        return messages
+    return message
 
 
-@pytest.mark.parametrize("message", generate_random_messages())
-def test_log_with_emphasis(message, caplog, test_all_lines_same_length=True):
+@pytest.mark.parametrize(
+    "seed",
+    range(NUM_RANDOM_MESSAGES),
+    ids=lambda seed: f"seed-{seed}",
+)
+def test_log_with_emphasis(seed, caplog, test_all_lines_same_length=True):
     """Pytest function for testing the output of 'log_with_emphasis'.
 
     The expected output of log_with_emphasis looks similar to this:
@@ -104,6 +104,8 @@ def test_log_with_emphasis(message, caplog, test_all_lines_same_length=True):
     ***************
     """  # noqa: RST212
     # ignoring check because flake8 flags the codeblocks as underlines
+    message = generate_random_message(seed)
+
     caplog.set_level(logging.INFO)
     log_with_emphasis(LOG.info, message)
 
@@ -126,8 +128,12 @@ def test_log_with_emphasis(message, caplog, test_all_lines_same_length=True):
         log_with_emphasis(LOG.info, "")
 
 
-@pytest.mark.parametrize("message", generate_random_messages(add_long_word=True))
-def test_log_with_emphasis_long_word(message, caplog):
+@pytest.mark.parametrize(
+    "seed",
+    range(NUM_RANDOM_MESSAGES),
+    ids=lambda seed: f"seed-{seed}",
+)
+def test_log_with_emphasis_long_word(seed, caplog):
     """Pytest function for testing the output of 'log_with_emphasis'.
 
     The expected output of log_with_emphasis usually looks like this:
@@ -143,11 +149,15 @@ def test_log_with_emphasis_long_word(message, caplog):
     ** hello                                                                         **
     ** howdy                                                                         **
     ** what's up                                                                     **
+    # fmt: off
     ** this is a very long string that we are not going to match at the top or bottom because it really is too long ok I think this is long enough **
+    # fmt: on
     ***********************************************************************************
     """  # noqa: E501,RST212
     # ignoring line length check, and the section underline check because
     # flake8 flags the codeblocks as underlines
+    message = generate_random_message(seed, add_long_word=True)
+
     caplog.set_level(logging.INFO)
     log_with_emphasis(LOG.info, message)
     log_lines = caplog.messages[1 : len(caplog.text) - 1]

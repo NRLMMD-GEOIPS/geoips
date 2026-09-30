@@ -1,0 +1,49 @@
+testing:
+- title: Add additional information on GeoIPS testing / log output control.
+  description: |
+    Note that GEOIPS_TEST_SUPPRESS_FAILED_LOG_CONTENTS env var can be used to display
+    more or less information to the terminal during pytests.
+  files:
+    modified:
+    - docs/source/contribute/testing/running_tests.rst
+  related-issue:
+    internal: geoips#1029 - 1.18.2 updates
+  date:
+    start: 2026-04-29
+    finish: 2026-04-29
+- title: Clarify informative log statements.
+  description: |
+    Update some print statements to make it clear they are informative only, and not
+    indicating current status. E.g.
+
+    * FAILING ON MISSING DATA to WILL FAIL ON MISSING DATA
+    * DUMPING ALL BAD LOG CONTENTS TO TERMINAL to WILL DUMP ALL BAD LOG CONTENTS TO TERMINAL
+
+    Add clarifying outputs to interactive_pytest.sh as well.
+
+    * Print "Final return value: " at the very end.
+    * Replace "Complete" with "Testing complete, summarized interactive_pytest output:"
+    * Note that we typically just always pass 'all' to interactive_pytest, with pytest arguments.
+  files:
+    modified:
+    - tests/integration_tests/test_integration.py
+    - tests/utils/interactive_pytest.sh
+  related-issue:
+    internal: geoips#1029 - 1.18.2 updates
+  date:
+    start: 2026-04-14
+    finish: 2026-04-14
+- title: Add product paths to interactive_pytest output
+  description: |
+    grep both PASSED and FAILED log files for PRODUCTPATH to print all full product
+    paths in the interactive_pytest summary.  This provides a complete list of log
+    files as well as a complete list of produced files at the end of the
+    interactive_pytest.
+  files:
+    modified:
+    - tests/utils/interactive_pytest.sh
+  related-issue:
+    internal: geoips#1029 - 1.18.2 updates
+  date:
+    start: 2026-05-11
+    finish: 2026-05-11

@@ -1,0 +1,37 @@
+feature:
+- title: 'Add YAML-based configuration system that replaces base_paths.py'
+  description: |
+    Introduces a new ``geoips.config`` module with a layered YAML-based
+    configuration system with pydantic-validated settings. Configuration is
+    resolved with priority: environment variables > project-level .geoips.yaml
+    > code defaults.
+
+    The new system replaces the imperative ``PATHS`` dictionary in
+    ``geoips/filenames/base_paths.py``, which is now a shim
+    with deprecation warnings. All existing imports and dict-style access
+    continue to work unchanged.
+  files:
+    added:
+    - 'docs/source/releases/latest/add-layered-yaml-config-system.yaml'
+    - 'geoips/config/__init__.py'
+    - 'geoips/config/config.py'
+    - 'geoips/config/schema.py'
+    - 'geoips/config/yaml_loader.py'
+    - 'tests/unit_tests/config/__init__.py'
+    - 'tests/unit_tests/config/test_config.py'
+    - 'tests/unit_tests/config/test_schema.py'
+    - 'tests/unit_tests/config/test_yaml_loader.py'
+    - 'tests/unit_tests/config/test_env_map_sync.py'
+    deleted:
+    - ''
+    moved:
+    - ''
+    modified:
+    - 'geoips/filenames/base_paths.py'
+    - 'docs/source/concepts/configuration/index.rst'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

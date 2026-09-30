@@ -6,8 +6,9 @@
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
 
-from importlib import resources
 import json
+
+from pluginify.config import REGISTRY_DIRECTORY
 import pytest
 
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
@@ -99,9 +100,10 @@ class TestGeoipsListPlugins(BaseCliTest):
                 # all packages selected, ensure that we found every plugin
                 pkg_names = self.plugin_package_names
             for pkg_name in pkg_names:
-                with open(
-                    str(resources.files(pkg_name) / "registered_plugins.json"), "r"
-                ) as fo:
+                registry_file = REGISTRY_DIRECTORY.joinpath(
+                    f"geoips.plugin_packages/{pkg_name}/registered_plugins.json"
+                )
+                with open(registry_file, "r") as fo:
                     plugin_registry = json.load(fo)
                 for interface_type in ["class_based", "yaml_based"]:
                     # check each type of interface

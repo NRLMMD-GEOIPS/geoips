@@ -39,4 +39,5 @@ if [ ! -e ~/.gitconfig ]; then
     \git config --global alias.lgn "log --name-status --color"
     \git config --global core.excludesfile $HOME/.gitignore
     \git config --global http.postBuffer 524288000
+    \git config --global http.version HTTP/1.1
 fi

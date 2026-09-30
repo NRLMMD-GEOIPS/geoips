@@ -1,0 +1,49 @@
+enhancement:
+- title: 'Implement DataTree runtime for the order-based procflow'
+  description: |
+    Add a DataTree-backed runtime for the order-based procflow (OBP). Workflow
+    execution now produces an xr.DataTree with per-step nodes carrying provenance
+    attrs (output_token, plugin_name, plugin_kind, gc_status). The Workflow
+    composite class uses a Strategy-pattern RetentionPolicy and Kahn's topological
+    sort for step ordering. New pydantic schema fields (depends_on, keep, outputs,
+    retention, defaults) are validated with cycle detection and dangling-output
+    checking. The OrderBased procflow is now a class-based plugin accepting
+    WorkflowPluginModel, WorkflowSpecModel, or dict inputs.
+  files:
+    added:
+    - geoips/interfaces/class_based/workflow.py
+    - geoips/utils/types/datatree_converters.py
+    - geoips/utils/types/tokenization.py
+    - geoips/utils/types/__init__.py
+    modified:
+    - geoips/interfaces/class_based_plugin.py
+    - geoips/interfaces/class_based/algorithms.py
+    - geoips/interfaces/class_based/interpolators.py
+    - geoips/interfaces/class_based/output_formatters.py
+    - geoips/interfaces/class_based/filename_formatters.py
+    - geoips/interfaces/class_based/coverage_checkers.py
+    - geoips/interfaces/class_based/output_checkers.py
+    - geoips/interfaces/class_based/title_formatters.py
+    - geoips/interfaces/class_based/sector_adjusters.py
+    - geoips/interfaces/class_based/sector_spec_generators.py
+    - geoips/interfaces/class_based/sector_metadata_generators.py
+    - geoips/interfaces/class_based/databases.py
+    - geoips/interfaces/class_based/readers.py
+    - geoips/interfaces/class_based/colormappers.py
+    - geoips/interfaces/class_based/procflows.py
+    - geoips/plugins/modules/procflows/order_based.py
+    - geoips/commandline/geoips_run.py
+    - geoips/pydantic_models/v1/workflows.py
+    - geoips/utils/types/datatree_ditto.py
+    - geoips/plugins/yaml/workflows/read_test_v1.yaml
+    - geoips/plugins/yaml/workflows/read_test_v1_coverage_checker.yaml
+    - geoips/plugins/yaml/workflows/read_test_interpolator_v1.yaml
+    - geoips/plugins/yaml/workflows/visir/Infrared.yaml
+    - geoips/plugins/yaml/workflows/unit_tests/test_workflow.yaml
+    - geoips/plugins/yaml/workflows/geostationary_dmw/windbarbs_dmw_high.yaml
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

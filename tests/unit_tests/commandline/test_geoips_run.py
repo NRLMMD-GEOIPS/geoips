@@ -121,23 +121,32 @@ class TestGeoipsRun(BaseCliTest):
         "geoips",
         "run",
         "order_based",
-        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
-        "--workflow",
         "read_test_v1",
+        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
     ]
     obp_args_generated_workflow = [
         "geoips",
         "run",
         "order_based",
-        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
-        "--generated",
         str(
             {
+                "apiVersion": "geoips/v1",
                 "interface": "workflows",
                 "family": "order_based",
                 "name": "generated",
                 "docstring": "Dynamically generated workflow plugin.",
                 "spec": {
+                    "globals": {
+                        "presector": False,
+                        "product_db": False,
+                        "product_db_writer": None,
+                        "product_db_writer_kwargs": None,
+                        "product_name": None,
+                        "reader_defined_area_def": False,
+                        "sector_list": ["Alpha"],
+                        "window_start_time": None,
+                        "window_end_time": None,
+                    },
                     "steps": {
                         "reader": {
                             "kind": "reader",
@@ -149,18 +158,74 @@ class TestGeoipsRun(BaseCliTest):
                             "name": "unprojected_image",
                             "arguments": {"sectors": ["overcast_georing"]},
                         },
-                    }
+                    },
                 },
             }
         ),
+        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
     ]
     obp_args_workflow_path = [
         "geoips",
         "run",
         "order_based",
-        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
-        "--filepath",
         f"{files('geoips') / 'plugins/yaml/workflows/read_test_v1.yaml'}",
+        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
+    ]
+    obp_args_string_step_override = [
+        "geoips",
+        "run",
+        "order_based",
+        "test_product",
+        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
+        "-s",
+        "abi_Infrared.spec.steps.algorithm.output_units=Kelvin",
+        "-s",
+        "reader.area_def=null",
+    ]
+    obp_args_string_kind_override = [
+        "geoips",
+        "run",
+        "order_based",
+        "test_product",
+        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
+        "-k",
+        "readers.satellite_zenith_angle_cutoff=80",
+    ]
+    obp_args_string_global_override = [
+        "geoips",
+        "run",
+        "order_based",
+        "test_product",
+        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
+        "-g",
+        "sector_list=global_cylindrical",
+    ]
+    obp_args_dict_step_override = [
+        "geoips",
+        "run",
+        "order_based",
+        "test_product",
+        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
+        "-S",
+        r'{"abi_Infrared": {"spec": {"steps": {"algorithm": {"output_units": "kelvin"}}}}}',  # NOQA
+    ]
+    obp_args_dict_kind_override = [
+        "geoips",
+        "run",
+        "order_based",
+        "test_product",
+        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
+        "-K",
+        r'{"readers": {"satellite_zenith_angle_cutoff": 80}}',
+    ]
+    obp_args_dict_global_override = [
+        "geoips",
+        "run",
+        "order_based",
+        "test_product",
+        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
+        "-G",
+        r'{"sector_list": "global_cylindrical", "logging_level": "info"}',
     ]
 
     @property
@@ -184,6 +249,12 @@ class TestGeoipsRun(BaseCliTest):
             self._cmd_list.append(self.obp_args_workflow_name)
             self._cmd_list.append(self.obp_args_generated_workflow)
             self._cmd_list.append(self.obp_args_workflow_path)
+            self._cmd_list.append(self.obp_args_string_step_override)
+            self._cmd_list.append(self.obp_args_string_kind_override)
+            self._cmd_list.append(self.obp_args_string_global_override)
+            self._cmd_list.append(self.obp_args_dict_step_override)
+            self._cmd_list.append(self.obp_args_dict_kind_override)
+            self._cmd_list.append(self.obp_args_dict_global_override)
             if "data_fusion" in self.plugin_package_names:
                 # Only add these argument lists if data_fusion is installed
                 self._cmd_list.append(self.geo_args)

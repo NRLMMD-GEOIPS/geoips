@@ -7,7 +7,6 @@ documentation:
    files:
      added:
        - docs/source/releases/latest/1.14.1-release-note.yaml
-documentation:
  - title: Update upcoming and tagged versions
    description: |
      *From GEOIPS#562: 2024-09-25, 1.14.1 updates*

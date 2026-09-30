@@ -16,8 +16,8 @@ spec:
         output_units: degrees
         min_outbounds: crop
         max_outbounds: crop
-        norm: null
-        inverse: null
+        norm: false
+        inverse: false
   mtif_type: angles
   colormapper:
     plugin:

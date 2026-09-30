@@ -74,7 +74,7 @@ class SectorProjection(PermissiveFrozenModel):
             ge=0,
             description=(
                 "Radius of the sphere, given in meters. If used in conjunction with "
-                "``+ellps``, :option:`+R` takes precedence."
+                "``+ellps``, ``+R`` takes precedence."
                 "See https://proj.org/en/stable/usage/ellipsoids.html#ellipsoid-size-parameters "  # NOQA
                 "for more information."
             ),
@@ -85,7 +85,7 @@ class SectorProjection(PermissiveFrozenModel):
         description=(
             "The name of a built-in ellipsoid definition. "
             "See https://proj.org/en/stable/usage/ellipsoids.html#built-in-ellipsoid-definitions "  # NOQA
-            " for more information, or execute :option:`proj -le` for a list of "
+            " for more information, or execute ``proj -le`` for a list of "
             "built-in ellipsoid names. "
             "*Defaults to 'GRS80'.*"
         ),

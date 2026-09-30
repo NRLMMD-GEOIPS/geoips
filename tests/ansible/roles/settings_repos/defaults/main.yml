@@ -1,0 +1,6 @@
+# roles/settings_repos/defaults/main.yml
+# Primary defaults live in inventory/local.yml — these fallbacks exist for standalone role use.
+settings_repos:
+  - .vscode
+  - .github
+  - geoips_ci

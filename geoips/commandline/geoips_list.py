@@ -13,6 +13,7 @@ from os import listdir
 from os.path import basename, exists
 import sys
 
+from pluginify.config import REGISTRY_DIRECTORY
 from tabulate import tabulate
 
 from geoips.commandline.ancillary_info.test_data import test_dataset_dict
@@ -92,9 +93,12 @@ class GeoipsListRegistries(GeoipsExecutableCommand):
             )
 
         for pkg in metadata.entry_points(group=namespace):
-            pkg_path = resources.files(pkg.value)
-            json_path = str(pkg_path / "registered_plugins.json")
-            yaml_path = str(pkg_path / "registered_plugins.yaml")
+            json_path = REGISTRY_DIRECTORY.joinpath(
+                f"geoips.plugin_packages/{pkg.value}/registered_plugins.json"
+            )
+            yaml_path = REGISTRY_DIRECTORY.joinpath(
+                f"geoips.plugin_packages/{pkg.value}/registered_plugins.yaml"
+            )
 
             json_path = json_path if exists(json_path) else "missing"
             yaml_path = yaml_path if exists(yaml_path) else "missing"
@@ -540,9 +544,11 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
         ):
 
             if package_name == "all" or package_name == plugin_package_name:
-                with open(
-                    f"{pkg_path}/{plugin_package_name}/registered_plugins.json", "r"
-                ) as fo:
+                registry_file = REGISTRY_DIRECTORY.joinpath(
+                    f"geoips.plugin_packages/{plugin_package_name}/"
+                    "registered_plugins.json"
+                )
+                with open(registry_file, "r") as fo:
                     pkg_registry = json.load(fo)
             else:
                 continue

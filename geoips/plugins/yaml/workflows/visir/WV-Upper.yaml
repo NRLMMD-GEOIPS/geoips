@@ -18,8 +18,8 @@ spec:
         output_units: celsius
         min_outbounds: crop
         max_outbounds: crop
-        norm: null
-        inverse: null
+        norm: False
+        inverse: False
     output_formatter:
       kind: output_formatter
       name: imagery_annotated

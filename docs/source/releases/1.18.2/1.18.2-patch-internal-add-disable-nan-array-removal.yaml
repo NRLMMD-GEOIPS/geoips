@@ -1,0 +1,44 @@
+efficiency:
+- title: Add more informative print_mem_usg statements
+  description: |
+    Pass pid_track to
+    
+    * get_alg_xarray
+    * process_sectored_data_output
+    * process_xarray_dict_to_output_format
+    
+    as well as add additional specific more informative log strings to all the
+    pid_track.print_memusg calls (identifying where in the code the print statement is).
+  files:
+    modified:
+    - geoips/plugins/modules/procflows/single_source.py
+    - geoips/utils/memusg/memusg_tracker.py
+  related-issue:
+    internal: geoips#1029 - 1.18.2 updates
+  date:
+    start: 2026-04-14
+    finish: 2026-04-14
+- title: Add disable_nan_array_removal argument
+  description: |
+    If true, do not remove arrays of all nans before passing to
+    interpolator or algorithm steps.  This process can be very slow
+    and use a large amount of memory for large arrays, so allow
+    turning it off if we know in advance that we do not have to worry
+    about handling arrays comprised on all nans.
+
+    Allow specifying both command line and in the procflow config for config based,
+    and command line for single source.
+
+    We will want to improve the efficiency of the nan array removal step as well,
+    but still allow disabling it as it always has the potential to be resource
+    intensive.
+  files:
+    modified:
+    - geoips/commandline/args.py
+    - geoips/plugins/modules/procflows/config_based.py
+    - geoips/plugins/modules/procflows/single_source.py
+  related-issue:
+    internal: geoips#1029 - 1.18.2 updates
+  date:
+    start: 2026-04-14
+    finish: 2026-04-14

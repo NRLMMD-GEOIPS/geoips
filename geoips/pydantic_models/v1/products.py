@@ -12,7 +12,7 @@ from __future__ import annotations
 from typing import List, Literal, Union
 
 from pydantic import ConfigDict, Field, model_validator, RootModel
-import yaml
+import geoips_yaml_utils as yaml
 
 from geoips.geoips_utils import merge_nested_dicts
 from geoips.pydantic_models.v1.bases import (

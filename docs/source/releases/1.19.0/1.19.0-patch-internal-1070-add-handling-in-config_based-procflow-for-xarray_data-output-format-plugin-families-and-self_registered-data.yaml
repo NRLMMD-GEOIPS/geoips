@@ -1,0 +1,22 @@
+bug fix:
+- title: 'Do not pad xarray datasets in config_based procflow when the output format plugin family is "xarray_data" and the area_definition is "self_registered"'
+  description: |
+    Check that the area_def is not "self_registered" before padding dataset in config_based procflow.
+    Padding (resectoring) an xarray_dataset will not work if the area_definition is self_registered. 
+    Attempting to pad an xarray_dataset that is self_registered will result in an AttributeError, 
+    since we will have a SwathDefinition on our hands and not an AreaDefinition. SwathDefinitions
+    do not have the 'get_array_indices_from_lonlat' attribute.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/procflows/config_based.py'
+  related-issue:
+    internal: geoips#1070
+  date:
+    start: 2026-05-28
+    finish: 2026-05-28

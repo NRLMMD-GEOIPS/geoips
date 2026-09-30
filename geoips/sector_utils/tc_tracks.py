@@ -304,7 +304,7 @@ def trackfile_to_area_defs(
     trackfile : str
         Full path to trackfile, convert each line into a separate area_def
     trackfile_parser : str
-        Parser to use from plugins.modules.sector_metadata_generators on trackfiles
+        Parser to use from plugins.classes.sector_metadata_generators on trackfiles
 
     Returns
     -------

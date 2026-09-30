@@ -78,8 +78,8 @@ spec:
               output_units: celsius
               min_outbounds: crop
               max_outbounds: crop
-              norm: null
-              inverse: null
+              norm: False
+              inverse: False
         colormapper:
           plugin:
             name: matplotlib_linear_norm

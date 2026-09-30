@@ -1,0 +1,16 @@
+bug fix:
+- title: 'Fix WorkflowStepDefinitionModel.name accepting None due to init=False'
+  description: |
+    The name field on WorkflowStepDefinitionModel was marked init=False with a
+    default of None, causing the value supplied in the YAML to be silently
+    dropped during construction. Validators that read model.name therefore
+    always saw None. Removed init=False and made the typing explicitly nullable.
+  files:
+    modified:
+    - geoips/pydantic_models/v1/workflows.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

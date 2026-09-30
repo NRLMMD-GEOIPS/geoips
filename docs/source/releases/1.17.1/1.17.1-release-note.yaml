@@ -15,7 +15,6 @@ documentation:
     finish: 2025-10-23
   related-issue:
     internal: geoips#959 - 1.17.1 updates
-documentation:
 - title: Update upcoming and tagged versions
   description: |
 

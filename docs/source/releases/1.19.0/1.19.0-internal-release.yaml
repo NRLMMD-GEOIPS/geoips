@@ -1,0 +1,27 @@
+Release Process:
+- title: Add 1.19.0 release note
+  description: |
+    Currently tagged internal version 1.18.2.
+  files:
+    added:
+    - docs/source/releases/1.19.0/1.19.0-internal-release.yaml
+  related-issue:
+    internal: geoips#1067 - 1.19.0 updates
+  date:
+    start: 2026-05-23
+    finish: 2026-05-23
+- title: Update internal and github.com 'tagged_version'
+  description: |
+    Updated 'update_this_release_note' file in geoips repo for the
+    next internal version-
+    1.19.1
+    next github.com version-
+    1.20.0
+  files:
+    modified:
+    - .github/versions/tagged_version
+  related-issue:
+    internal: geoips#1067 - 1.19.0 updates
+  date:
+    start: 2026-05-23
+    finish: 2026-05-23

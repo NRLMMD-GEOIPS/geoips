@@ -1,0 +1,27 @@
+breaking change:
+- title: 'Update handling of sector adjuster output'
+  description: |
+    The recenter_tc sector adjuster was updated to return a list of meta dicts instead of a
+    list of output file names. The dictionaries contain a key named "sect_adj_output_file",
+    which is the full file path for any products produced by recenter_tc (i.e. ARCHER).
+    Need to update config_based and single_source procflows to handle this update.
+
+    The updated output also enables the ability to write sector_adjuster products to the product
+    database. The required hooks were added to the config_based procflow, but not single_source.
+    The single_source procflow was updated to include the list of sector_adjuster products
+    to the final list of products shown at the end of the log.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/procflows/config_based.py'
+    - 'geoips/plugins/modules/procflows/single_source.py'
+  related-issue:
+    internal: "geoips#1047"
+  date:
+    start: 2026-04-01
+    finish: 2026-04-01

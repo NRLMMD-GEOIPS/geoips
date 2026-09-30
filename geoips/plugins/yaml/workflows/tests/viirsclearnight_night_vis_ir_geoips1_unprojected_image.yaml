@@ -1,0 +1,51 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# script migration = done
+# product testing = ongoing
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
+# set of arguments.
+
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: viirsclearnight_night_vis_ir_geoips1_unprojected_image
+docstring: |
+  VIIRS Day/Night Band (DNB) clean-night visible/IR imagery workflow.
+package: geoips
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_viirs/data/npp/20220211/131200/VNP02DNB.A2022042.1312.001.2022042183606.nc
+  outputs:
+    output_formatter:
+      full_test_policy: on_token_mismatch # always | never
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/viirsclearnight.<product>.unprojected_image
+      output_checker_name: image
+spec:
+  globals:
+    product_name: Night-Vis-IR-GeoIPS1
+    reader_defined_area_def: False
+  steps:
+    reader:
+      kind: reader
+      name: viirs_netcdf
+      arguments: 
+        self_register_dataset: DNB
+        self_register_source: viirs
+    viirs_Night_Vis_IR_GeoIPS1:
+      kind: product
+      name: [viirs, Night-Vis-IR-GeoIPS1]
+    filename_formatter:
+      kind: filename_formatter
+      name: geoips_fname
+      depends_on:
+        - viirs_Night_Vis_IR_GeoIPS1.algorithm
+        - viirs_Night_Vis_IR_GeoIPS1.coverage_checker
+    output_formatter:
+      kind: output_formatter
+      name: unprojected_image
+      depends_on:
+        - viirs_Night_Vis_IR_GeoIPS1.algorithm
+        - viirs_Night_Vis_IR_GeoIPS1.colormapper
+        - filename_formatter
