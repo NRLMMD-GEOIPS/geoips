@@ -1,0 +1,28 @@
+bug fix:
+- title: 'Logging files skipped by the class-based readers wrapper'
+  description: |
+    The class-based readers wrapper used to skip bad files without saying
+    anything, which made empty pipeline runs hard to debug. Each skipped file
+    is now logged at INFO with its filename and error, and one WARNING gives
+    the total number of files skipped. If every file gets skipped, the
+    `NoValidFilesError` message now lists the reasons for the first five files.
+    `HritError` now takes optional `start_datetime` and `end_datetime` arguments,
+    so the wrapper reads the times directly instead of parsing them out of the
+    error message. The old parsing crashed with an `IndexError` on most
+    `HritError` messages.
+  files:
+    deleted: []
+    moved: []
+    added:
+    - 'docs/source/releases/latest/1343-bugfix-class-based-readers-wrapper-skips-files.yaml'
+    - 'tests/unit_tests/interfaces/class_based/test_readers_skip_logging.py'
+    modified:
+    - 'geoips/interfaces/class_based/readers.py'
+    - 'geoips/plugins/classes/readers/seviri_hrit.py'
+    - 'geoips/plugins/classes/readers/utils/hrit_reader.py'
+  related-issue:
+    number: 1343
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 2026-09-30
+    finish: 2026-09-30

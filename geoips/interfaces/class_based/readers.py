@@ -6,7 +6,6 @@
 import collections
 import logging
 import warnings
-from datetime import datetime
 from os.path import basename
 from pathlib import Path
 
@@ -590,6 +589,8 @@ class ReadersInterface(BaseClassInterface):
         # all files provided.
         all_file_metadata = []
         updated_fnames = []
+        # (filename, exception) pairs for every file excluded from processing
+        skipped_files = []
         for x in fnames:
             try:
                 all_file_metadata.append(
@@ -600,40 +601,48 @@ class ReadersInterface(BaseClassInterface):
                     )["METADATA"]
                 )
                 updated_fnames += [x]
-            except NoValidFilesError:
+            except NoValidFilesError as e:
                 # If the current file is not valid, just skip this one.
-                # print(f"{str(e)}: No files found, skipping")
+                LOG.info("Skipping file %s: %s: %s", basename(x), type(e).__name__, e)
+                skipped_files.append((x, e))
                 continue
             except (ValueError, HritError) as e:
                 # Value error is raised for 'inconsistent' metadata, or in this case
                 # No appropriate file for the channels selected
-                if isinstance(e, ValueError):
+                if isinstance(e, HritError) and e.start_datetime is not None:
+                    # This occurs from the seviri_hrit reader in
+                    # 'get_top_level_metadata' when the file is missing 'block_2' or
+                    # its projection is not GEOS. The file could still be relevant,
+                    # so use the start and end datetimes attached to the error.
+                    LOG.info(
+                        "File %s raised a recoverable error, still using its "
+                        "start/end datetimes: %s",
+                        basename(x),
+                        e,
+                    )
+                    st = e.start_datetime
+                    et = e.end_datetime
+                else:
+                    LOG.info(
+                        "Excluding file %s: %s: %s", basename(x), type(e).__name__, e
+                    )
+                    skipped_files.append((x, e))
                     st = None
                     et = None
-                else:
-                    """
-                    This occurs from the seviri_hrit reader in 'get_top_level_metadata'
-                    Parse out the start and end datetimes, as this file still could be
-                    Relevant, but is missing 'block_2'. If the set of files all are
-                    missing block_2, or the projection of block_2 is not GEOS, it will
-                    cause an HritError in the for loop before, which doesn't have a try
-                    except statement.
-
-                    Error Format:
-                    f"Unknown projection encountered: {projection}.\n"
-                    f"start_datetime={st.isoformat()}\n"
-                    f"end_datetime={et.isoformat()}"
-                    """
-                    emsg = str(e).split("\n")
-                    # Recreate the datetime objects from the isoformat strings provided
-                    st = datetime.fromisoformat(emsg[1].split("=")[1])
-                    et = datetime.fromisoformat(emsg[2].split("=")[1])
                 # Add st, et as datetimes for the file, nonetheless if they are None
-                # or a valid datetime
+                # or a valid datetime. updated_fnames and all_file_metadata must stay
+                # index-aligned, since start_times is used to mask updated_fnames.
                 all_file_metadata.append(
                     Dataset(attrs=dict(start_datetime=st, end_datetime=et))
                 )
                 updated_fnames += [x]
+        if skipped_files:
+            LOG.warning(
+                "Excluded %s of %s files provided to the reader. "
+                "See INFO-level log messages for per-file reasons.",
+                len(skipped_files),
+                len(fnames),
+            )
         self.start_times = [md.attrs["start_datetime"] for md in all_file_metadata]
         self.end_times = [md.attrs["end_datetime"] for md in all_file_metadata]
 
@@ -652,6 +661,7 @@ class ReadersInterface(BaseClassInterface):
                 f"No valid files found out of {len(fnames)} provided. "
                 f"Requested channels: {chans}. "
                 "Ensure files and channels match the reader's expectations."
+                f"{self._summarize_skipped_files(skipped_files)}"
             )
         # Set these values to this class so they can be used downstream for reading
         # data from the correct time steps
@@ -682,6 +692,34 @@ class ReadersInterface(BaseClassInterface):
             **kwargs,
         )
         return dict_xarrays
+
+    def _summarize_skipped_files(self, skipped_files, max_listed=5):
+        """Build a short summary of files excluded while reading metadata.
+
+        Parameters
+        ----------
+        skipped_files : list of tuple
+            * (filename, exception) pairs for each excluded file.
+        max_listed : int, default=5
+            * Maximum number of files to list individually. Any remaining files are
+              reported as a count.
+
+        Returns
+        -------
+        str
+            * Summary suitable for appending to an error message, or an empty
+              string if no files were skipped.
+        """
+        if not skipped_files:
+            return ""
+        lines = [
+            f"  {basename(fname)}: {type(err).__name__}: {err}"
+            for fname, err in skipped_files[:max_listed]
+        ]
+        num_remaining = len(skipped_files) - max_listed
+        if num_remaining > 0:
+            lines.append(f"  ... and {num_remaining} more")
+        return "\nExcluded files:\n" + "\n".join(lines)
 
     def concatenate_metadata(self, all_metadata):
         """Merge together metadata sourced from a list of files into one dictionary.
