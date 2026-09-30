@@ -1,0 +1,33 @@
+refactor:
+- title: 'Converting WorkflowStepDefinitionModel tests to the YAML test framework'
+  description: |
+    Moving the WorkflowStepDefinitionModel unit tests out of their own pytest file
+    and into the workflows `test_cases_good.yaml` and `test_cases_bad.yaml` files.
+    The valid step test now only checks that the step builds. It no longer checks
+    that each field keeps its value.
+
+    Two tests were dropped instead of converted:
+    - `test_bad_workflow_step_definition_model_invalid_field_type` replaced the
+      model's `__init__` with a mock, so it never actually tested the model.
+    - `test_bad_workflow_step_definition_model_empty_arguments` was already
+      commented out.
+
+    The `valid_step_data` fixture was only used by the old test file, so it was
+    removed.
+  files:
+    deleted:
+    - 'tests/unit_tests/pydantic_models/v1/workflows/test_workflow_step_definition_model.py'
+    moved:
+    - ''
+    added:
+    - 'docs/source/releases/latest/1286-refactor-workflow-tests-into-yaml-framework.yaml'
+    modified:
+    - 'tests/unit_tests/pydantic_models/v1/conftest.py'
+    - 'tests/unit_tests/pydantic_models/v1/workflows/test_cases_bad.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/workflows/test_cases_good.yaml'
+  related-issue:
+    number: 1300
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 04/21/2026
+    finish: 09/30/2026
