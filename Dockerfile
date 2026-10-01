@@ -20,8 +20,12 @@
 #  Extra plugins (any target):
 #    docker build --target geoips-site --build-arg EXTRA_PLUGINS=my_plugin .
 #
-#  Private plugins:
-#    docker build --target geoips-site --build-arg GEOIPS_USE_PRIVATE_PLUGINS=true .
+#  Private plugins (needs a GitHub token that can read the private repos, given
+#  as a BuildKit secret; it never ends up in an image layer or the history):
+#    docker build --target geoips-site --build-arg GEOIPS_USE_PRIVATE_PLUGINS=true \
+#        --secret id=geoips_private_token,src=/path/to/token-file .
+#  See tests/ansible/scripts/github-token-env.sh.  Do not push such an image to a
+#  public registry: it contains the private plugins' source.
 #
 #  Test data is NEVER baked in.  Mount at runtime:
 #    docker run -v /path/to/testdata:/geoips_testdata geoips ...
@@ -193,7 +197,11 @@ ARG EDITABLE_PIP_INSTALL=true
 ENV GEOIPS_USE_PRIVATE_PLUGINS=${GEOIPS_USE_PRIVATE_PLUGINS}
 
 USER root
-RUN uv pip install --system --no-cache \
+# The optional geoips_private_token secret authenticates the clones of private
+# plugin repos (see github-token-env.sh); it is only mounted for this step.
+RUN --mount=type=secret,id=geoips_private_token \
+    . ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible/scripts/github-token-env.sh \
+    && uv pip install --system --no-cache \
     $([ "$EDITABLE_PIP_INSTALL" = "true" ] && echo "-e") \
     ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,lint,debug] \
     && cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
@@ -236,7 +244,10 @@ RUN apt-get update \
 # Convert to editable install.  Non-editable packages are already in
 # site-packages from the earlier stages; editable overlays them so
 # Python loads from /packages/geoips (→ workspace bind mount → host).
-RUN uv pip install --system --no-cache -e ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,lint,debug] \
+# Re-runs the site tag, so private repos (if enabled) need the token again.
+RUN --mount=type=secret,id=geoips_private_token \
+    . ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible/scripts/github-token-env.sh \
+    && uv pip install --system --no-cache -e ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,lint,debug] \
     && cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
     && ansible-playbook playbooks/install.yml \
        --tags site \

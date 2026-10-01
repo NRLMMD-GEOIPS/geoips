@@ -46,7 +46,6 @@ all:
       - data_fusion
       - geoips_clavrx
       - geoips_plugin_example
-      - pyrocb
       - recenter_tc
       - template_basic_plugin
 
@@ -60,6 +59,7 @@ all:
       - geocolor
 
     private_plugin_repos:
+      - pyrocb
       - ryglickicane
       - tc_mint
 

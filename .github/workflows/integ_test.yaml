@@ -30,6 +30,9 @@ jobs:
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
       docker_token: ${{ secrets.DOCKER_TOKEN }}
+      # Read-only token for the private plugin repos (see geoips_ci README,
+      # "Private plugin repositories"). Without it the image has public plugins only.
+      private_repos_token: ${{ secrets.GEOIPS_PRIVATE_REPOS_TOKEN }}
 
 #  integ-test-non-editable:
 #    needs: integ-test-editable
