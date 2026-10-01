@@ -67,7 +67,8 @@ ENV GEOIPS_PACKAGES_DIR=/packages \
     GEOIPS_TESTDATA_DIR=/geoips_testdata \
     GEOIPS_DEPENDENCIES_DIR=/app/dependencies \
     GEOIPS_REPO_URL=https://github.com/NRLMMD-GEOIPS/ \
-    CARTOPY_DATA_DIR=/packages
+    CARTOPY_DATA_DIR=/packages \
+    PIP_ROOT_USER_ACTION=ignore
 
 RUN groupadd -g ${GROUP_ID} ${USER} \
     && useradd -l -m -u ${USER_ID} -g ${GROUP_ID} ${USER} \
@@ -116,7 +117,8 @@ ARG EXTRA_PLUGINS=""
 ARG GEOIPS_MODIFIED_BRANCH=""
 
 ENV EXTRA_PLUGINS=${EXTRA_PLUGINS} \
-    GEOIPS_MODIFIED_BRANCH=${GEOIPS_MODIFIED_BRANCH}
+    GEOIPS_MODIFIED_BRANCH=${GEOIPS_MODIFIED_BRANCH} \
+    PIP_ROOT_USER_ACTION=ignore
 
 # ---- this layer rebuilds on any source change, but deps above are cached ----
 COPY --chown=${USER}:${GROUP_ID} . ${GEOIPS_PACKAGES_DIR}/geoips/
@@ -155,6 +157,7 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 
 USER root
+ENV PIP_ROOT_USER_ACTION=ignore
 RUN uv pip install --system --no-cache ${GEOIPS_PACKAGES_DIR}/geoips[doc,lint,test] \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
 
@@ -171,6 +174,7 @@ FROM geoips-base AS geoips-full
 ARG USER=geoips_user
 ARG USER_ID=1000
 ARG GROUP_ID=1000
+ENV PIP_ROOT_USER_ACTION=ignore
 
 USER root
 RUN uv pip install --system --no-cache ${GEOIPS_PACKAGES_DIR}/geoips[doc,test] \
@@ -197,6 +201,7 @@ ARG EDITABLE_PIP_INSTALL=true
 ENV GEOIPS_USE_PRIVATE_PLUGINS=${GEOIPS_USE_PRIVATE_PLUGINS}
 
 USER root
+ENV PIP_ROOT_USER_ACTION=ignore
 # The optional geoips_private_token secret authenticates the clones of private
 # plugin repos (see github-token-env.sh); it is only mounted for this step.
 RUN --mount=type=secret,id=geoips_private_token \
