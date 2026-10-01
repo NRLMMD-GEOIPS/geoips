@@ -3,7 +3,7 @@
 
 """Matplotlib-based windbarb annotated image output clean."""
 
-from geoips.interfaces.class_based.output_formatters import (
+from geoips.interfaces.class_based.bases.output_formatters import (
     WindbarbOutputFormatterPlugin,
 )
 

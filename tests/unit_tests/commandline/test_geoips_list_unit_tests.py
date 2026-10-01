@@ -68,7 +68,7 @@ class TestGeoipsListUnitTests(BaseCliTest):
                 "ls",
                 "unit-tests",
             ]
-            assert "usage: To use, type `geoips list unit-tests" in error
+            assert "To use, type `geoips list unit-tests" in error
 
     def check_output(self, args, output):
         """Ensure that the 'geoips list unit-tests ...' successful output is correct.
@@ -80,10 +80,10 @@ class TestGeoipsListUnitTests(BaseCliTest):
         output: str
             - Multiline str representing the output of the CLI call
         """
-        if "usage: To use, type" in output:
+        if "To use, type" in output:
             # -h has been called, check help message contents for this command
             assert "-h" in args
-            assert "usage: To use, type `geoips list unit-tests" in output
+            assert "To use, type `geoips list unit-tests" in output
         # If there is no test directory, xfail.
         elif "unit-tests: error: No unit test directory found under " in output:
             LOG.warning("No unit test directory found, please add unit tests")

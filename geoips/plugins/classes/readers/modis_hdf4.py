@@ -21,7 +21,7 @@ The MOD03 and MOD14 files have the geolocation (lat/lon) and sensor geometry
 infomation, while other files have values at each channels.
 """
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.bases.readers import BaseReaderPlugin
 
 # Python Standard Libraries
 from datetime import datetime

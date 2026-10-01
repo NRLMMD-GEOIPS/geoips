@@ -3,7 +3,7 @@
 
 """Standard GeoIPS xarray dictionary based FCI NetCDF data reader."""
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.bases.readers import BaseReaderPlugin
 
 from datetime import datetime, timedelta
 import logging

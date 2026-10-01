@@ -7,7 +7,7 @@ Data manipulation steps for the "nasa_dust_rgb" product.
 This algorithm expects Brightness Temperatures in units of degrees Kelvin
 """
 
-from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
+from geoips.interfaces.class_based.bases.algorithms import BaseAlgorithmPlugin
 
 import logging
 

@@ -33,7 +33,7 @@ A class-based plugin:
    registry (`pluginify`) knows which class in the file is the plugin.
 
 ```python
-from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
+from geoips.interfaces.class_based.bases.algorithms import BaseAlgorithmPlugin
 
 import logging
 

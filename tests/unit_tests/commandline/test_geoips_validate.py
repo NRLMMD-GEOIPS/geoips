@@ -72,7 +72,7 @@ class TestGeoipsValidate(BaseCliTest):
         """
         # An error occurred using args. Assert that args is not valid and check the
         # output of the error.
-        assert "usage: To use, type `geoips validate <file_path>" in error
+        assert "To use, type `geoips validate <file_path>" in error
         assert "is invalid." in error
 
     def check_output(self, args, output):
@@ -87,7 +87,7 @@ class TestGeoipsValidate(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            assert "usage: To use, type `geoips validate <file_path>" in output
+            assert "To use, type `geoips validate <file_path>" in output
         else:
             # Checking that output from geoips validate command reports valid
             assert "is valid." in output

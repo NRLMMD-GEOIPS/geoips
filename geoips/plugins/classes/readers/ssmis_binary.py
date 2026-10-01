@@ -18,7 +18,7 @@ Output Fields
      XARRAY objectives to hold variables
 """
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.bases.readers import BaseReaderPlugin
 
 # Python Standard Libraries
 from datetime import datetime, timedelta

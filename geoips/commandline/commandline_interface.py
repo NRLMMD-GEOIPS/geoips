@@ -10,20 +10,22 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 import os
 import sys
 
-from colorama import Fore, Style
-
+from geoips import __version__
 from geoips.commandline import ancillary_info
 from geoips.commandline.geoips_command import GeoipsCommand
 from geoips.commandline.geoips_config import GeoipsConfig
 from geoips.commandline.geoips_describe import GeoipsDescribe
 from geoips.commandline.geoips_expand import GeoipsExpand
+from geoips.commandline.geoips_lint import GeoipsLint
 from geoips.commandline.geoips_list import GeoipsList
+from geoips.commandline.geoips_registry import GeoipsRegistry
 from geoips.commandline.geoips_run import GeoipsRun
+from geoips.commandline.geoips_sector import GeoipsSector
 from geoips.commandline.geoips_test import GeoipsTest
+from geoips.commandline.geoips_test_data import GeoipsTestData
 from geoips.commandline.geoips_tree import GeoipsTree
 from geoips.commandline.geoips_validate import GeoipsValidate
 from geoips.commandline.log_setup import setup_logging
-from geoips.filenames.base_paths import PATHS
 
 
 class GeoipsCLI(GeoipsCommand):
@@ -39,15 +41,19 @@ class GeoipsCLI(GeoipsCommand):
         GeoipsConfig,
         GeoipsDescribe,
         GeoipsExpand,
+        GeoipsLint,
         GeoipsList,
+        GeoipsRegistry,
         GeoipsRun,
+        GeoipsSector,
         GeoipsTest,
+        GeoipsTestData,
         GeoipsTree,
         GeoipsValidate,
     ]
 
     def __init__(self, cmd_instructions=None, legacy=False):
-        """Initialize the GeoipsCLI and each of it's command classes.
+        """Initialize the Geoips CLI and each of it's command classes.
 
         The CLI contains a single top-level argparse.ArgumentParser() which contains
         subparsers related to each subcommand. This ensures that each command has a
@@ -118,7 +124,16 @@ class GeoipsCLI(GeoipsCommand):
     def execute_command(self):
         """Execute the given command."""
         self.GEOIPS_ARGS = self.parser.parse_args()
-        if hasattr(self.GEOIPS_ARGS, "exe_command"):
+
+        if self.GEOIPS_ARGS.version:
+            if len(sys.argv) != 2:
+                print(
+                    "\nError: you cannot provide any other argument alongside the "
+                    "--version flag."
+                )
+            else:
+                print(f"\ngeoips={__version__}")
+        elif hasattr(self.GEOIPS_ARGS, "exe_command"):
             # The command called is executable (child of GeoipsExecutableCommand)
             # so execute that command now.
             self.GEOIPS_ARGS.exe_command(self.GEOIPS_ARGS)
@@ -223,34 +238,6 @@ def support_legacy_procflows():
     return False
 
 
-def print_beta_warning():
-    """Notify the user that the CLI is still in Beta development stage."""
-    warning_with_color = (
-        Fore.RED
-        + "\nWARNING: "
-        + Fore.YELLOW
-        + "The GeoIPS CLI is currently under development and is subject "
-        "to change.\nUntil this warning is removed, do not rely on the CLI to be "
-        "static.\nPlease feel free to test the CLI and report any bugs or comments as "
-        "an issue here:\n"
-        + Fore.BLUE
-        + "https://github.com/NRLMMD-GEOIPS/geoips/issues/new/choose\n"
-        + Style.RESET_ALL
-    )
-    warning_no_color = (
-        "\nWARNING: The GeoIPS CLI is currently under development and is subject "
-        "to change.\nUntil this warning is removed, do not rely on the CLI to be "
-        "static.\nPlease feel free to test the CLI and report any bugs or comments as "
-        "an issue here:\n"
-        "https://github.com/NRLMMD-GEOIPS/geoips/issues/new/choose\n"
-    )
-
-    if PATHS["NO_COLOR"]:
-        print(warning_no_color)
-    else:
-        print(warning_with_color)
-
-
 def main(suppress_args=True):
     """Entry point for GeoIPS command line interface (CLI).
 
@@ -268,8 +255,6 @@ def main(suppress_args=True):
     geoips_cli = GeoipsCLI(legacy=legacy)
     # Execute the called command
     args = geoips_cli.execute_command()
-    # Notify that the user is in Beta development status right now.
-    print_beta_warning()
     if not suppress_args:
         return args
 

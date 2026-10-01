@@ -7,7 +7,7 @@ Generalized algorithm to calculate the difference between 1 or 2 variables taken
 multiple scan times over the same sector.
 """
 
-from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
+from geoips.interfaces.class_based.bases.algorithms import BaseAlgorithmPlugin
 
 import logging
 

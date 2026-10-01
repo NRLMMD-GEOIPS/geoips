@@ -3,5 +3,5 @@
 
 # DO NOT EDIT
 # managed by poetry-dynamic-versioning
-__version__ = "0.0.0"
-__version_tuple__ = (0, 0, 0)
+__version__ = "2.0.0a0.post8.dev0"
+__version_tuple__ = (2, 0, "0a0", "post8", "dev0")

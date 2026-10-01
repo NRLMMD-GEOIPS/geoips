@@ -22,7 +22,7 @@ CLI commands are split up into two groups by their functionality:
  - `Discovery commands`_ help you discover available GeoIPS functionality
    (e.g. interfaces, plugins, etc.)
  - `Action commands`_ perform actions using GeoIPS functionality (e.g.
-   configure GeoIPS, run a procflow, install test datasets, run tests, etc.))
+   configure GeoIPS, run a procflow, install test datasets, run tests, etc.)
 
 ..
     Commenting this out for now until the linked document is corrected.
@@ -485,38 +485,54 @@ configuration options.
     As we continue to develop the GeoIPS CLI,
     we expect the functionality of this command to grow.
 
-config install
-^^^^^^^^^^^^^^
+.. _geoips_lint:
 
-GeoIPS relies on test datasets to test its processing workflows.
-Test datasets must be installed before tests can be run.
+lint
+----
 
-``config install`` installs test datasets hosted on CIRA's NextCloud instance for
-testing processing workflows.
+GeoIPS and GeoIPS Plugin Packages routintely run linters to
+confirm functionality, uniform syntax and interoperability.
+
+``geoips lint`` can execute linting services to make your code adhere to commonly
+accepted coding practices.
+
+Checking code often is a good practice.
+
+geoips lint
+^^^^^^^^^^^
+
+This command runs ``bandit``, ``black``, and ``flake8``.
+
+.. note::
+
+    We may support more linters in the future.
 
 For example:
 
 .. code-block:: bash
 
-    geoips cfg install test_data_clavrx
-    geoips config install test_data_clavrx
-    geoips config install test_data_clavrx test_data_noaa_aws
-    geoips config install all
+    geoips lint # (defaults to 'geoips' package)
+    geoips lint <package_name> # only runs tests in provided plugin package
 
+registry
+--------
 
-.. note::
+GeoIPS provides two ``registry`` commands which interact with a 3rd party package called
+``pluginify`` to create plugin registry files for one or more of your GeoIPS packages
+registered under the GeoIPS namespace. These file allow GeoIPS to efficiently locate and
+load plugins from various different packages. The following sections will detail the
+CLI commands that interact with registry files.
 
-    To list installable test datasets,
-    see ``geoips list test-datasets``.
+create
+^^^^^^
 
 .. _geoips_config_create-registries:
 
 :ref:`geoips config create-registries <geoips_config_create-registries>`
 
-``config create-registries`` creates plugin registry files.
+``registry create`` creates plugin registry files.
 These files for GeoIPS to locate and use plugins.
 You should never edit these files.
-
 
 This occurs in the ``geoips.plugin_packages`` namespace by default.
 It contains all plugin packages registered under GeoIPS.
@@ -527,28 +543,30 @@ You can pass ``--packages`` to limit the plugins processed.
 JSON files are output by default.
 You may also output yaml files for ease of viewing by passing ``--save-type yaml``.
 
-
 For example:
 
 ::
 
-    geoips config create-registries
-    geoips config create-registries --packages geoips geoips_clavrx
-    geoips config create-registries --save-type yaml
-    geoips config create-registries --namespace <different_namespace>
+    geoips registry create
+    geoips registry create --packages geoips geoips_clavrx
+    geoips registry create --save-type yaml
+    geoips registry create --namespace <different_namespace>
+
+delete
+^^^^^^
 
 .. _geoips_config_delete-registries:
 
 :ref:`geoips config delete-registries <geoips_config_delete-registries>`
 
-``config delete-registries`` removes the plugin registry files.
+``registry delete`` removes the plugin registry files.
 If no registry files are found, nothing occurs. For example:
 
 ::
 
-    geoips config delete-registries
-    geoips config delete-registries --packages geoips geoips_clavrx
-    geoips config delete-registries --namespace <different_namespace>
+    geoips registry delete
+    geoips registry delete --packages geoips geoips_clavrx
+    geoips registry delete --namespace <different_namespace>
 
 .. _geoips_run:
 
@@ -601,36 +619,27 @@ they can, so prefer OBP for new work.
         --logging_level info \
         --sector_list goes_east
 
-.. _geoips_test:
+.. _geoips_sector:
 
-test
-----
+sector
+------
 
-GeoIPS and GeoIPS packages implement tests and linters to
-confirm functionality, uniform syntax and interoperability.
+GeoIPS provides a collection of ``sector`` commands used to display the geospatial
+region of a sector plugin as an interactive frame or image saved to disk. This is
+useful for the development of sector plugins as these commands visualize the domain in
+which a sector plugin actually encapsulates.
 
-``geoips test`` can execute linting, and output / integration test scripts.
-
-Checking code often is a good practice.
-
-test linting
-^^^^^^^^^^^^
-
-This command runs ``bandit``, ``black``, and ``flake8``.
+display
+^^^^^^^
 
 .. note::
 
-    We may support more linters in the future.
+    This section has not been implemented yet as the command does not currently exist.
+    Please check this documentation at a later date once that command has been
+    completed.
 
-For example:
-
-.. code-block:: bash
-
-    geoips test linting # (defaults to 'geoips' package)
-    geoips test linting -p <package_name> # only runs tests in provided plugin package
-
-test sector
-^^^^^^^^^^^
+plot
+^^^^
 
 This command produces a .png image depicting the area of interest covered by the sector
 including any coastlines contained in the sector.
@@ -639,13 +648,13 @@ For example:
 
 .. code-block:: bash
 
-    geoips test sector <sector_name>
+    geoips sector plot <sector_name>
 
 
 An additional output directory can be specified with ``--outdir``. For example:
 .. code-block:: bash
 
-    geoips test sector <sector_name> --outdir <output_directory_path>
+    geoips sector plot <sector_name> --outdir <output_directory_path>
 
 After creating a new sector plugin, run ``create_plugin_registries``
 to add the sector to your registry.
@@ -658,7 +667,7 @@ This is useful for small sectors. For example:
 
 .. code-block:: bash
 
-    geoips test sector canada --overlay
+    geoips sector plot canada --overlay
 
 .. image:: canada.png
    :width: 800
@@ -669,8 +678,8 @@ command. This can be applied with the ``--overlay`` flag as well. For example:
 
 .. code-block:: bash
 
-    geoips test sector australia --gridlines
-    geoips test sector australia --gridlines --overlay
+    geoips sector plot australia --gridlines
+    geoips sector plot australia --gridlines --overlay
 
 By default, latitude / longitude labels are added to the sector if gridlines are
 requested. To disable this, or change the location of where the labels are added, use
@@ -683,50 +692,19 @@ For example:
 
 .. code-block:: bash
 
-    geoips test sector australia --gridlines --labels top right
-    geoips test sector australia --gridlines --labels
-    geoips test sector australia --gridlines --overlay --labels bottom
+    geoips sector plot australia --gridlines --labels top right
+    geoips sector plot australia --gridlines --labels
+    geoips sector plot australia --gridlines --overlay --labels bottom
 
-test script
-^^^^^^^^^^^
+.. _geoips_test:
 
-``script`` executes an output-based test script which will return a numerical value
-based on the output of the test.
+test
+----
 
-A 0 is a success. Any non-zero number indicate a failure,
-and sometimes provide information on what kind of failure occurred.
-
-.. note::
-
-    ``script`` only supports bash scripts ending in ``.sh``
-
-For example:
-
-.. code-block:: bash
-
-    geoips test script <script_name> # (defaults to 'geoips' package)
-
-``script`` can execute integration tests in the 'geoips' package.
-
-For example:
-
-.. code-block:: bash
-
-    geoips test script --integration <script_name>
-
-To run a test script, or run your integration tests, you must first place your
-integration / normal test scripts in one of these file locations:
-
-* Output Test scripts: ``<package_name>/tests/scripts/<script_name>``
-* Integration Tests: ``<package_name>/tests/integration_tests/<script_name>``
-
-You can run test scripts in plugin packages by specifying the
-plugin package with ``-p`` or ``--package_name``. For example:
-
-.. code-block:: bash
-
-    geoips test script --package_name <package_name> <script_name>
-    geoips test script -p <package_name> <script_name>
+GeoIPS test currently only supports one command, ``geoips test workflow``. This is used
+to execute workflows in a reproducible manner for testing purposes. This way, we can
+ensure that the output of each step remains consistent with previous versions of GeoIPS
+regardless of the changes made between releases.
 
 test workflow
 ^^^^^^^^^^^^^
@@ -745,6 +723,48 @@ For example:
 This command should be used only for testing workflow plugins in a simple, reproducible
 manner.
 
+.. _geoips_test-data:
+
+test-data
+---------
+
+Since GeoIPS is designed around processing geolocated data, this package will need data
+to process on. GeoIPS provides a variety of CLI commands centered around pulling,
+updating, and removing test datasets for one or more of your plugin packages.
+
+pull
+^^^^
+
+GeoIPS relies on test datasets to test its processing workflows.
+Test datasets must be pulled locally before tests can be run.
+
+``test-data pull`` pulls test datasets hosted on CIRA's NextCloud instance for
+testing processing workflows.
+
+For example:
+
+.. code-block:: bash
+
+    geoips test-data pulltest_data_clavrx
+    geoips test-data pull test_data_clavrx
+    geoips test-data pull test_data_clavrx test_data_noaa_aws
+    geoips test-data pull all
+
+
+.. note::
+
+    To list installable test datasets,
+    see ``geoips list test-datasets``.
+
+Alternatively, you can pull test datasets from remote GitHub repositories if you have
+access to them. This is only used in very specific instances where the test data is
+not available to the public. The following section depicts how to pull data from a
+remote GitHub repository.
+
+.. code:: bash
+
+    geoips test-data pull <gh_testdata_name> -g
+
 tree
 ----
 
@@ -760,17 +780,20 @@ For example, running ``geoips tree`` returns:
 
     geoips
         geoips config
-            geoips config install
+            geoips config create
+            geoips config validate
         geoips describe
             geoips describe algorithms
             geoips describe colormappers
             geoips describe coverage-checkers
+            geoips describe databases
             geoips describe feature-annotators
             geoips describe filename-formatters
             geoips describe gridline-annotators
             geoips describe interpolators
             geoips describe output-checkers
             geoips describe output-formatters
+            geoips describe package
             geoips describe procflows
             geoips describe product-defaults
             geoips describe products
@@ -780,42 +803,57 @@ For example, running ``geoips tree`` returns:
             geoips describe sector-spec-generators
             geoips describe sectors
             geoips describe title-formatters
-            geoips describe package
+            geoips describe validators
+            geoips describe workflows
+            geoips describe workflows
+        geoips expand
+        geoips lint
         geoips list
             geoips list algorithms
             geoips list colormappers
             geoips list coverage-checkers
+            geoips list databases
             geoips list feature-annotators
             geoips list filename-formatters
             geoips list gridline-annotators
+            geoips list interfaces
             geoips list interpolators
             geoips list output-checkers
             geoips list output-formatters
+            geoips list packages
+            geoips list plugins
             geoips list procflows
             geoips list product-defaults
             geoips list products
             geoips list readers
+            geoips list registries
+            geoips list registries
+            geoips list scripts
             geoips list sector-adjusters
             geoips list sector-metadata-generators
             geoips list sector-spec-generators
             geoips list sectors
-            geoips list title-formatters
-            geoips list interfaces
-            geoips list packages
-            geoips list plugins
-            geoips list scripts
+            geoips list source-names
             geoips list test-datasets
+            geoips list title-formatters
             geoips list unit-tests
+            geoips list validators
+            geoips list workflows
+            geoips list workflows
+        geoips registry
+            geoips registry create
+            geoips registry delete
         geoips run
+            geoips run config_based
+            geoips run data_fusion
             geoips run order_based
             geoips run single_source
-            geoips run data_fusion
-            geoips run config_based
+        geoips sector
+            geoips sector plot
         geoips test
-            geoips test linting
-            geoips test script
-            geoips test sector
             geoips test workflow
+        geoips test-data
+            geoips test-data pull
         geoips tree
         geoips validate
 

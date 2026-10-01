@@ -23,8 +23,8 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
-from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
+from geoips.interfaces.class_based.bases.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.bases.algorithms import BaseAlgorithmPlugin
 from geoips.interfaces.class_based.workflow import Workflow
 from geoips.pydantic_models.v1.workflows import WorkflowSpecModel
 

@@ -3,7 +3,7 @@
 
 """Module containing wind speed colormap with transitions at 34, 50, 64, and 80."""
 
-from geoips.interfaces.class_based.colormappers import BaseColormapperPlugin
+from geoips.interfaces.class_based.bases.colormappers import BaseColormapperPlugin
 
 import logging
 

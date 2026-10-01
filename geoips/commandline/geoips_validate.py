@@ -4,7 +4,7 @@
 """GeoIPS CLI "validate" command.
 
 Validates the appropriate plugin based on the arguments provided using the associated
-interface's validation mechaninism (interface.plugin_is_valid(plugin_name)).
+interface's validation mechanism (interface.plugin_is_valid(plugin_name)).
 """
 
 from importlib.util import spec_from_file_location, module_from_spec

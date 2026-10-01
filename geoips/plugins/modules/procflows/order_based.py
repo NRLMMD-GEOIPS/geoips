@@ -14,7 +14,7 @@ import logging
 from glob import glob
 from typing import Any
 
-from geoips.interfaces.class_based.procflows import BaseProcflowPlugin
+from geoips.interfaces.class_based.bases.procflows import BaseProcflowPlugin
 from geoips.interfaces.class_based.workflow import Workflow
 from geoips.pydantic_models.v1.workflows import (
     WorkflowPluginModel,

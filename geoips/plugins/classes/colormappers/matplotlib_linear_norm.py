@@ -3,7 +3,7 @@
 
 """Matplotlib information for standard imagery with an existing system colormap."""
 
-from geoips.interfaces.class_based.colormappers import BaseColormapperPlugin
+from geoips.interfaces.class_based.bases.colormappers import BaseColormapperPlugin
 
 import logging
 
