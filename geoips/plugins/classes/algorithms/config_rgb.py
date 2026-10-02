@@ -3,12 +3,45 @@
 
 """Data manipulation steps for generic rgb recipes."""
 
+import numpy as np
+import scipy
+import pandas as pd
+
 from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
-from geoips.interfaces import algorithm_configs
+from pydantic import BaseModel, ValidationError
+
 
 import logging
 
+import ast
+
 LOG = logging.getLogger(__name__)
+
+
+class AlgorithmConfigEquationSpec(BaseModel):
+    """Validated spec for a provided expression."""
+
+    type: str
+    variables: list[str]
+    expression: str | None = None
+
+
+class AlgorithmConfigColorSpec(BaseModel):
+    """Validated spec to define each RGB value according to an equation."""
+
+    equation: AlgorithmConfigEquationSpec
+    data_range: list[float]
+    gamma: float
+    input_units: str
+    output_units: str
+
+
+class AlgorithmConfigRecipeSpec(BaseModel):
+    """Validated spec for each RGB value."""
+
+    red: AlgorithmConfigColorSpec
+    green: AlgorithmConfigColorSpec
+    blue: AlgorithmConfigColorSpec
 
 
 class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
@@ -18,8 +51,131 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
     family = "xarray_to_numpy"
     name = "config_rgb"
 
-    @staticmethod
-    def _apply_equation(xobj, equation):
+    # map each mathematical symbol to a corresponding numpy function
+    _operations = {
+        ast.Add: np.add,
+        ast.Sub: np.subtract,
+        ast.Mult: np.multiply,
+        ast.Div: np.divide,
+        ast.Pow: np.pow,
+    }
+
+    _modules = {"np": np, "scipy": scipy, "pd": pd}
+
+    @classmethod
+    def _safe_eval(cls, node, variables):
+        """Parse user-inputted expressions recursively.
+
+        Parameters
+        ----------
+        node : ast.Constant | ast.Name | ast.BinOp | ast.Call
+            A node representative of a section of the expression.
+        variables : dict[str : np.MaskedArray]
+            A dictionary to map each variable inputted by
+            the user to its corresponding MaskedArray
+        """
+        if isinstance(node, ast.Constant):
+            # Numeric constants, e.g. 1
+            return node.value
+        elif isinstance(node, ast.Name):
+            # Varibles from the `variables` dictionary
+            return variables[node.id]
+        elif isinstance(node, ast.BinOp):
+            # Binary operations, e.g addition.
+            op = cls._operations[node.op.__class__]
+            left = cls._safe_eval(node.left, variables)
+            right = cls._safe_eval(node.right, variables)
+            return op(left, right)
+        elif isinstance(node, ast.Call):
+            func = cls._resolve_function(node.func)
+
+            args = [cls._safe_eval(arg, variables) for arg in node.args]
+            return func(*args)
+
+        # some unknown node type
+        assert False, "Unsafe operation"
+
+    @classmethod
+    def _resolve_function(cls, node):
+        """Parse user-inputted functions recursively.
+
+        Parameters
+        ----------
+        node : ast.Call
+            A node representative of the function to be called.
+
+        Returns
+        -------
+        obj : Callable
+            A callable function from one of the above listed modules.
+        """
+        if isinstance(node, ast.Name):
+            raise ValueError(f"Function '{node.id}' is not allowed")
+
+        if isinstance(node, ast.Attribute):
+            # Build array like ["np", "sin"]
+            parts = []
+            current = node
+
+            while isinstance(current, ast.Attribute):
+                parts.append(current.attr)
+                current = current.value
+
+            if not isinstance(current, ast.Name):
+                raise ValueError("Unsafe function reference")
+
+            parts.append(current.id)
+            parts.reverse()
+
+            root = parts.pop(0)
+            if root not in cls._modules:
+                raise ValueError(f"Module '{root}' is not allowed")
+
+            obj = cls._modules[root]
+
+            for part in parts:
+                try:
+                    obj = getattr(obj, part)
+                except Exception as e:
+                    raise ValueError(
+                        "Error getting function from expression, ", e
+                    ) from e
+
+            if not callable(obj):
+                raise ValueError(f"Expression does not refer to a function.")
+
+            return obj
+
+        raise ValueError("Unsafe function reference")
+
+    @classmethod
+    def safe_eval(cls, expression, variables):
+        """Wrap recursive expression evaluator `_safe_eval`.
+
+        Parameters
+        ----------
+        expression : str
+            A string representing the `expression` user input in the algorithm_configs
+            yaml file.
+        variables : dict[str : np.MaskedArray]
+            A dictionary to map each variable inputted by
+            the user to its corresponding MaskedArray
+
+        Returns
+        -------
+        data : numpy.ndarray
+            The resulting dataset after parsing and performing the equation.
+        """
+        node = ast.parse(expression, "<string>", "eval").body
+        res = cls._safe_eval(node, variables)
+        if type(res) != np.ndarray:
+            raise ValueError(
+                f"Provided expression returned {type(res)} " "instead of np.ndarray."
+            )
+        return res
+
+    @classmethod
+    def apply_equation(cls, xobj, equation):
         """Apply the provided equation to data contained in xobj.
 
         Parameters
@@ -34,24 +190,37 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         data : numpy.ndarray
             The resulting dataset after performing the equation.
         """
-        equation_type = equation["type"]
+        equation_type = equation.type
+
+        if equation_type == "expression":
+            variables = {}
+            for v in equation.variables:
+                variables[v] = xobj[v].to_masked_array()
+            return cls.safe_eval(equation.expression, variables)
 
         if equation_type == "addition":
             data = (
-                xobj[equation["variables"][0]].to_masked_array()
-                + xobj[equation["variables"][1]].to_masked_array()
+                xobj[equation.variables[0]].to_masked_array()
+                + xobj[equation.variables[1]].to_masked_array()
             )
         elif equation_type == "difference":
             data = (
-                xobj[equation["variables"][0]].to_masked_array()
-                - xobj[equation["variables"][1]].to_masked_array()
+                xobj[equation.variables[0]].to_masked_array()
+                - xobj[equation.variables[1]].to_masked_array()
             )
         else:
-            data = xobj[equation["variables"][0]].to_masked_array()
+            data = xobj[equation.variables[0]].to_masked_array()
 
         return data
 
-    def call(self, xobj, config_name):  # NOQA -- xobj is used in the literal eval calls
+    def _get_config_spec(self, anonymous_spec) -> AlgorithmConfigRecipeSpec:
+        # config_name overrides obp_spec if somehow both are provided
+        try:
+            return AlgorithmConfigRecipeSpec.model_validate(anonymous_spec)
+        except ValidationError as e:
+            raise ValueError(f"Invalid recipe spec: {e}")
+
+    def call(self, xobj, obp_spec):  # NOQA -- xobj is used in the literal eval calls
         """Apply a generic algorithm for rgb recipes.
 
         Parameters
@@ -66,18 +235,18 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         numpy.ndarray
             numpy.ndarray or numpy.MaskedArray of qualitative RGBA image output
         """
-        config = algorithm_configs.get_plugin(config_name)
+        config_spec = self._get_config_spec(anonymous_spec=obp_spec)
 
-        red = self._apply_equation(xobj, config["spec"]["red"]["equation"])
-        grn = self._apply_equation(xobj, config["spec"]["green"]["equation"])
-        blu = self._apply_equation(xobj, config["spec"]["blue"]["equation"])
+        red = self.apply_equation(xobj, config_spec.red.equation)
+        grn = self.apply_equation(xobj, config_spec.green.equation)
+        blu = self.apply_equation(xobj, config_spec.blue.equation)
 
-        input_units_red = config["spec"]["red"]["input_units"]
-        output_units_red = config["spec"]["red"]["output_units"]
-        input_units_grn = config["spec"]["green"]["input_units"]
-        output_units_grn = config["spec"]["green"]["output_units"]
-        input_units_blu = config["spec"]["blue"]["input_units"]
-        output_units_blu = config["spec"]["blue"]["output_units"]
+        input_units_red = config_spec.red.input_units
+        output_units_red = config_spec.red.output_units
+        input_units_grn = config_spec.green.input_units
+        output_units_grn = config_spec.green.output_units
+        input_units_blu = config_spec.blue.input_units
+        output_units_blu = config_spec.blue.output_units
 
         # Convert TB from Kevin to Celsius
         from geoips.data_manipulations.conversions import unit_conversion
@@ -94,8 +263,8 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
 
         from geoips.data_manipulations.corrections import apply_data_range, apply_gamma
 
-        data_range = config["spec"]["red"]["data_range"]
-        gamma = config["spec"]["red"]["gamma"]
+        data_range = config_spec.red.data_range
+        gamma = config_spec.red.gamma
         red = apply_data_range(
             red,
             min_val=data_range[0],
@@ -107,8 +276,8 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         )  # need inverse option?
         red = apply_gamma(red, gamma)
 
-        data_range = config["spec"]["green"]["data_range"]
-        gamma = config["spec"]["green"]["gamma"]
+        data_range = config_spec.green.data_range
+        gamma = config_spec.green.gamma
         grn = apply_data_range(
             grn,
             min_val=data_range[0],
@@ -120,8 +289,8 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         )
         grn = apply_gamma(grn, gamma)
 
-        data_range = config["spec"]["blue"]["data_range"]
-        gamma = config["spec"]["blue"]["gamma"]
+        data_range = config_spec.blue.data_range
+        gamma = config_spec.blue.gamma
         blu = apply_data_range(
             blu,
             min_val=data_range[0],
