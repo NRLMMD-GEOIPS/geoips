@@ -60,11 +60,7 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         ast.Pow: np.pow,
     }
 
-    _modules = {
-        "np": np,
-        "scipy": scipy,
-        "pd": pd,
-    }
+    _modules = {"np": np, "scipy": scipy, "pd": pd}
 
     @classmethod
     def _safe_eval(cls, node, variables):
@@ -138,10 +134,15 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
             obj = cls._modules[root]
 
             for part in parts:
-                obj = getattr(obj, part)
+                try:
+                    obj = getattr(obj, part)
+                except Exception as e:
+                    raise ValueError(
+                        "Error getting function from expression, ", e
+                    ) from e
 
             if not callable(obj):
-                raise ValueError("Expression does not refer to a function.")
+                raise ValueError(f"Expression does not refer to a function.")
 
             return obj
 
@@ -166,7 +167,12 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
             The resulting dataset after parsing and performing the equation.
         """
         node = ast.parse(expression, "<string>", "eval").body
-        return cls._safe_eval(node, variables)
+        res = cls._safe_eval(node, variables)
+        if type(res) != np.ndarray:
+            raise ValueError(
+                f"Provided expression returned {type(res)} " "instead of np.ndarray."
+            )
+        return res
 
     @classmethod
     def apply_equation(cls, xobj, equation):
