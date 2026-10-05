@@ -41,7 +41,7 @@ class TestClassBasedPluginRepr:
         plugin = _FakeReprPlugin()
         assert repr(plugin) == (
             "_FakeReprPlugin(name='fake_repr', interface='algorithms', "
-            "package='Unknown')"
+            "package='UnnamedModule')"
         )
 
     def test_repr_derives_package_from_module_name(self):
