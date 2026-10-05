@@ -197,6 +197,10 @@ then hardcoded defaults.  Copy the inventory file to create a custom setup
      - ``"repo=ref repo=ref ..."``: clone these repos at a branch, tag or commit instead of
        their default branch.  Read from the ``REPO_BRANCHES`` environment variable.  See
        `Testing against other branches`_.
+   * - ``disabled_repos``
+     - ``""``
+     - ``"repo repo ..."``: plugin repos to leave out of the install.  Read from the
+       ``DISABLED_REPOS`` environment variable.  See `Disabling plugin repos`_.
    * - ``geoips_packages_dir``
      - ``/packages``
      - Root directory where repos are cloned.  Reads ``GEOIPS_PACKAGES_DIR`` env var.
@@ -408,7 +412,8 @@ repos or other package versions, add an entry for its branch to
 
 geoips_ci passes these to the ``geoips-site`` build as ``PIP_OVERRIDES`` and
 ``REPO_BRANCHES``.  The playbook checks ``repo_branches`` before installing anything: an
-unknown repo, or a private repo without ``geoips_use_private_plugins``, fails the run, and
+unknown repo, or a private repo when the ``site`` tasks run without
+``geoips_use_private_plugins``, fails the run, and
 so does a ref that does not exist (there is no fallback to the default branch).  The image
 records what the overrides installed in ``.ci_pip_overrides`` and ``.ci_repo_branches`` in
 ``$GEOIPS_PACKAGES_DIR``, which CI shows in the job summary.
@@ -418,6 +423,25 @@ affecting ``main`` or other branches.  CI never pushes images built with overrid
 Plugin repos test in the published
 GeoIPS image, so only ``python`` overrides apply there, for example
 ``geoips @ git+https://github.com/NRLMMD-GEOIPS/geoips@my-branch``.
+
+Disabling plugin repos
+----------------------
+
+To leave plugin repos out of the CI image, for example while their install is broken,
+list them in ``.github/ci-disabled-repos.yaml`` with the reason:
+
+.. code-block:: yaml
+
+   synth_green: "install fails, see NRLMMD-GEOIPS/synth_green#12"
+
+Unlike ``.github/ci-dependencies.yaml``, this applies to every branch.  geoips_ci passes
+the names to the image build as ``DISABLED_REPOS`` and lists them in the job summary.  The
+playbook removes them from ``plugin_repos``, ``fortran_repos_ordered``,
+``private_plugin_repos`` and ``private_fortran_repos`` (keeping the order), so they are
+not cloned, installed or tested.  A name that is not in those lists, or that is also in
+``repo_branches``, fails the run.  Repos that need a disabled repo still install, but
+the parts that use it fail: geocolor's GeoColor products need ``synth_green``, for
+example.
 
 
 Idempotency

@@ -33,6 +33,7 @@ ansible-playbook tests/ansible/playbooks/install.yml --tags base,full,site
 | `geoips_use_private_plugins`  | `false` | Include proprietary repos (ryglickicane, …)  |
 | `extra_plugin_packages`       | `""`    | Comma-separated list of additional repo names |
 | `repo_branches`               | `""`    | `"repo=ref ..."`: clone these repos at a branch, tag or commit (env `REPO_BRANCHES`) |
+| `disabled_repos`              | `""`    | `"repo repo ..."`: plugin repos to leave out of the install (env `DISABLED_REPOS`) |
 
 Pass with `-e`:
 

@@ -16,6 +16,10 @@ all:
     # Repos not listed are cloned on their default branch.
     repo_branches: "{{ lookup('env', 'REPO_BRANCHES') | default('', true) }}"
 
+    # Plugin repos to leave out of the install, as "repo repo ..." (geoips_ci sets it
+    # from .github/ci-disabled-repos.yaml). They are removed from the lists below.
+    disabled_repos: "{{ lookup('env', 'DISABLED_REPOS') | default('', true) }}"
+
     # Set true to include private/proprietary plugin repos
     geoips_use_private_plugins: "{{ lookup('env', 'GEOIPS_USE_PRIVATE_PLUGINS') | default(false, true) }}"
 

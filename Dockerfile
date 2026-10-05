@@ -27,6 +27,10 @@
 #    docker build --target geoips-site --build-arg REPO_BRANCHES="recenter_tc=my-fix" \
 #        --build-arg PIP_OVERRIDES="pluginify @ git+https://github.com/NRLMMD-GEOIPS/pluginify@my-fix" .
 #
+#  Disabled plugin repos (geoips_ci sets this from .github/ci-disabled-repos.yaml).
+#  DISABLED_REPOS: "repo repo ..." to leave those plugin repos out of the install:
+#    docker build --target geoips-site --build-arg DISABLED_REPOS="synth_green" .
+#
 #  Private plugins (needs a GitHub token that can read the private repos, given
 #  as a BuildKit secret; it never ends up in an image layer or the history):
 #    docker build --target geoips-site --build-arg GEOIPS_USE_PRIVATE_PLUGINS=true \
@@ -181,6 +185,7 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 # See the top of this file; read by the ansible inventory.
 ARG REPO_BRANCHES=""
+ARG DISABLED_REPOS=""
 ENV PIP_ROOT_USER_ACTION=ignore
 
 USER root
@@ -206,6 +211,7 @@ ARG GROUP_ID=1000
 ARG GEOIPS_USE_PRIVATE_PLUGINS=false
 ARG EDITABLE_PIP_INSTALL=true
 ARG REPO_BRANCHES=""
+ARG DISABLED_REPOS=""
 ENV GEOIPS_USE_PRIVATE_PLUGINS=${GEOIPS_USE_PRIVATE_PLUGINS}
 
 USER root
