@@ -16,6 +16,15 @@ continuous integration:
     * ``pyrocb`` is private, so it moved from ``plugin_repos`` to
       ``private_plugin_repos``. Cloning it without credentials failed the
       ``geoips-site`` build.
+    * ``lunarref`` and ``true_color`` are public, so they moved from
+      ``private_fortran_repos`` to the end of ``fortran_repos_ordered``: they are
+      now installed without the token and their test output is shown in CI logs.
+    * The private plugin lists now hold every private plugin repository:
+      ``pyrocb``, ``geoips_nucaps``, ``geoips_proxyvis``, ``geoips_tomorrowio``,
+      ``geoips_wsfm``, ``geoips_xesmf`` and ``ryglickicane``, and in
+      ``private_fortran_repos`` ``geoips_debra``. ``tc_mint`` is removed: there
+      is no ``NRLMMD-GEOIPS/tc_mint`` repository, so cloning it failed the
+      ``geoips-site`` build.
     * ``integ_test.yaml`` passes the ``GEOIPS_PRIVATE_REPOS_TOKEN`` secret to the
       reusable CI as ``private_repos_token``. Without that secret the image has
       the public plugins only.

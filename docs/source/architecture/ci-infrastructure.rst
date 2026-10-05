@@ -185,8 +185,9 @@ then hardcoded defaults.  Copy the inventory file to create a custom setup
        ``--no-binary :all:`` to compile all dependencies from source inside the container.
    * - ``geoips_use_private_plugins``
      - ``false``
-     - Set to ``true`` to include proprietary plugin repos (``ryglickicane``, ``tc_mint``,
-       ``lunarref``, ``true_color``).
+     - Set to ``true`` to include proprietary plugin repos (``pyrocb``,
+       ``geoips_nucaps``, ``geoips_proxyvis``, ``geoips_tomorrowio``, ``geoips_wsfm``,
+       ``geoips_xesmf``, ``ryglickicane``, ``geoips_debra``).
    * - ``extra_plugin_packages``
      - ``""``
      - Comma-separated list of additional plugin repository names to clone and install.
@@ -304,9 +305,11 @@ The roles live in ``tests/ansible/roles/`` and each handles one concern.
    1. **Standard plugins** (alphabetical): ``data_fusion``, ``geoips_clavrx``,
       ``geoips_plugin_example``, ``recenter_tc``, ``template_basic_plugin``
    2. **Fortran chain** (order critical): ``fortran_utils`` → ``rayleigh`` → ``ancildat``
-      → ``synth_green`` → ``geocolor``
-   3. **Private plugins** (when enabled): ``ryglickicane``, ``tc_mint``
-   4. **Private fortran repos** (when enabled, order critical): ``lunarref``, ``true_color``
+      → ``synth_green`` → ``geocolor`` → ``lunarref`` → ``true_color``
+   3. **Private plugins** (when enabled): ``pyrocb``, ``geoips_nucaps``,
+      ``geoips_proxyvis``, ``geoips_tomorrowio``, ``geoips_wsfm``, ``geoips_xesmf``,
+      ``ryglickicane``
+   4. **Private fortran repos** (when enabled, order critical): ``geoips_debra``
    5. **Extra plugins**: any repos passed via ``extra_plugin_packages``
 
    The fortran ordering constraint exists because each package depends on compiled

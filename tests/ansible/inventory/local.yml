@@ -52,23 +52,31 @@ all:
       - template_basic_plugin
 
     # ORDER MATTERS – each entry is installed sequentially.
-    # fortran_utils → rayleigh → ancildat → synth_green must precede geocolor.
+    # fortran_utils → rayleigh → ancildat → synth_green must precede geocolor;
+    # lunarref and true_color come after the chain.
     fortran_repos_ordered:
       - fortran_utils
       - rayleigh
       - ancildat
       - synth_green
       - geocolor
-
-    private_plugin_repos:
-      - pyrocb
-      - ryglickicane
-      - tc_mint
-
-    # Must install AFTER the fortran chain above.
-    private_fortran_repos:
       - lunarref
       - true_color
+
+    # Installed in this order: pyrocb must precede geoips_nucaps (a dependency).
+    private_plugin_repos:
+      - pyrocb
+      - geoips_nucaps
+      - geoips_proxyvis
+      - geoips_tomorrowio
+      - geoips_wsfm
+      - geoips_xesmf
+      - ryglickicane
+
+    # Must install AFTER the fortran chain above (geoips_debra builds against
+    # fortran_utils and ancildat).
+    private_fortran_repos:
+      - geoips_debra
 
     # ---------------------------------------------------------------------------
     # Test datasets — which datasets belong to each install tier.
