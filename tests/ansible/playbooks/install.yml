@@ -47,7 +47,10 @@
         private_repos: "{{ private_plugin_repos + private_fortran_repos }}"
         known: "{{ settings_repos + plugin_repos + fortran_repos_ordered + private_repos + (extra_plugin_packages.split(',') | map('trim') | select | list) }}"
         unknown: "{{ repo_branch_map.keys() | difference(known) }}"
-        private_off: "{{ [] if (geoips_use_private_plugins | bool) else (repo_branch_map.keys() | intersect(private_repos)) }}"
+        # Private repos are only cloned by the site tasks; other tiers (the
+        # geoips-full image stage) get the same repo_branches and ignore them.
+        installs_private: "{{ ansible_run_tags | intersect(['site', 'all']) | length > 0 }}"
+        private_off: "{{ (repo_branch_map.keys() | intersect(private_repos)) if (installs_private | bool and not (geoips_use_private_plugins | bool)) else [] }}"
       tags: [always]
 
   roles:

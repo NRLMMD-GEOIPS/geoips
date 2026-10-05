@@ -8,7 +8,9 @@ continuous integration:
     * The ansible playbook takes ``repo_branches`` (``"repo=ref ..."``, env
       ``REPO_BRANCHES``, Docker build argument ``REPO_BRANCHES``): the branch, tag
       or commit to clone each listed repo at. It checks the list first (unknown
-      repos and private repos without ``geoips_use_private_plugins`` fail), a ref
+      repos fail, and so do private repos when the ``site`` tasks run without
+      ``geoips_use_private_plugins``; other tiers, such as the ``geoips-full``
+      image stage, ignore private repos in the list), a ref
       that does not exist fails the install, and so does any other clone error,
       which was ignored before. The refs and commits are written to
       ``$GEOIPS_PACKAGES_DIR/.ci_repo_branches``.
