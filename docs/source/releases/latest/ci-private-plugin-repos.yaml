@@ -22,7 +22,8 @@ continuous integration:
     * The private plugin lists now hold every private plugin repository:
       ``pyrocb``, ``geoips_nucaps``, ``geoips_proxyvis``, ``geoips_tomorrowio``,
       ``geoips_wsfm``, ``geoips_xesmf`` and ``ryglickicane``, and in
-      ``private_fortran_repos`` ``geoips_debra``. ``tc_mint`` is removed: there
+      ``private_fortran_repos`` ``geoips_debra``. ``geoips_xesmf`` is commented
+      out for now: xesmf needs the ESMF library, which the image does not have. ``tc_mint`` is removed: there
       is no ``NRLMMD-GEOIPS/tc_mint`` repository, so cloning it failed the
       ``geoips-site`` build.
     * ``integ_test.yaml`` passes the ``GEOIPS_PRIVATE_REPOS_TOKEN`` secret to the

@@ -8,3 +8,5 @@ biosafetylvl5-better-errors-from-docker-apt:
     # Commit the missing <repo>/_version.py (import failed without it).
     lunarref: add-version-file
     true_color: add-version-file
+    # Fix imports of geoips plugin modules that moved to geoips.plugins.classes.
+    ryglickicane: fix-geoips-plugin-imports

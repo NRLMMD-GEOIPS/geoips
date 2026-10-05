@@ -70,7 +70,9 @@ all:
       - geoips_proxyvis
       - geoips_tomorrowio
       - geoips_wsfm
-      - geoips_xesmf
+      # geoips_xesmf is disabled for now: xesmf needs the ESMF library, which
+      # the image does not have (Debian has no package for it).
+      # - geoips_xesmf
       - ryglickicane
 
     # Must install AFTER the fortran chain above (geoips_debra builds against

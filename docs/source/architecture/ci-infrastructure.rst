@@ -307,8 +307,9 @@ The roles live in ``tests/ansible/roles/`` and each handles one concern.
    2. **Fortran chain** (order critical): ``fortran_utils`` → ``rayleigh`` → ``ancildat``
       → ``synth_green`` → ``geocolor`` → ``lunarref`` → ``true_color``
    3. **Private plugins** (when enabled): ``pyrocb``, ``geoips_nucaps``,
-      ``geoips_proxyvis``, ``geoips_tomorrowio``, ``geoips_wsfm``, ``geoips_xesmf``,
-      ``ryglickicane``
+      ``geoips_proxyvis``, ``geoips_tomorrowio``, ``geoips_wsfm``, ``ryglickicane``
+      (``geoips_xesmf`` is disabled for now: xesmf needs the ESMF library,
+      which the image does not have)
    4. **Private fortran repos** (when enabled, order critical): ``geoips_debra``
    5. **Extra plugins**: any repos passed via ``extra_plugin_packages``
 
