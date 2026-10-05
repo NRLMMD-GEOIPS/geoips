@@ -305,8 +305,7 @@ The roles live in ``tests/ansible/roles/`` and each handles one concern.
    1. **Standard plugins** (alphabetical): ``data_fusion``, ``geoips_clavrx``,
       ``geoips_plugin_example``, ``recenter_tc``, ``template_basic_plugin``
    2. **Fortran chain** (order critical): ``fortran_utils`` → ``rayleigh`` → ``ancildat``
-      → ``synth_green`` → ``geocolor`` → ``true_color`` (``lunarref`` is
-      disabled for now because its install fails)
+      → ``synth_green`` → ``geocolor`` → ``lunarref`` → ``true_color``
    3. **Private plugins** (when enabled): ``pyrocb``, ``geoips_nucaps``,
       ``geoips_proxyvis``, ``geoips_tomorrowio``, ``geoips_wsfm``, ``geoips_xesmf``,
       ``ryglickicane``

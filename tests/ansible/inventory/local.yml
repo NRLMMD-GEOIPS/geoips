@@ -54,14 +54,13 @@ all:
     # ORDER MATTERS – each entry is installed sequentially.
     # fortran_utils → rayleigh → ancildat → synth_green must precede geocolor;
     # lunarref and true_color come after the chain.
-    # lunarref is disabled for now: its install is failing.
     fortran_repos_ordered:
       - fortran_utils
       - rayleigh
       - ancildat
       - synth_green
       - geocolor
-      # - lunarref
+      - lunarref
       - true_color
 
     # Installed in this order: pyrocb must precede geoips_nucaps (a dependency).
