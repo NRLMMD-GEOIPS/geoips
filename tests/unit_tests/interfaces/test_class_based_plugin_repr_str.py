@@ -76,7 +76,7 @@ class TestClassBasedPluginStr:
     def test_str_without_module_reports_unknown_package(self):
         """Verify a plugin created without a module reads as coming from Unknown."""
         plugin = _FakeReprPlugin()
-        assert str(plugin) == "fake_repr (algorithms plugin from Unknown)"
+        assert str(plugin) == "fake_repr (algorithms plugin from UnnamedModule)"
 
     def test_str_derives_package_from_module_name(self):
         """Verify `__str__` uses the package derived from the module name."""
