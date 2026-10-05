@@ -20,6 +20,13 @@
 #  Extra plugins (any target):
 #    docker build --target geoips-site --build-arg EXTRA_PLUGINS=my_plugin .
 #
+#  Testing against other branches (geoips-site; geoips_ci sets these from
+#  .github/ci-dependencies.yaml). REPO_BRANCHES: "repo=ref ..." to clone those repos
+#  at a branch, tag or commit. PIP_OVERRIDES: pip requirements, one per line,
+#  installed last so they replace the pinned versions:
+#    docker build --target geoips-site --build-arg REPO_BRANCHES="recenter_tc=my-fix" \
+#        --build-arg PIP_OVERRIDES="pluginify @ git+https://github.com/NRLMMD-GEOIPS/pluginify@my-fix" .
+#
 #  Private plugins (needs a GitHub token that can read the private repos, given
 #  as a BuildKit secret; it never ends up in an image layer or the history):
 #    docker build --target geoips-site --build-arg GEOIPS_USE_PRIVATE_PLUGINS=true \
@@ -114,10 +121,8 @@ ARG USER=geoips_user
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 ARG EXTRA_PLUGINS=""
-ARG GEOIPS_MODIFIED_BRANCH=""
 
 ENV EXTRA_PLUGINS=${EXTRA_PLUGINS} \
-    GEOIPS_MODIFIED_BRANCH=${GEOIPS_MODIFIED_BRANCH} \
     PIP_ROOT_USER_ACTION=ignore
 
 # ---- this layer rebuilds on any source change, but deps above are cached ----
@@ -174,6 +179,8 @@ FROM geoips-base AS geoips-full
 ARG USER=geoips_user
 ARG USER_ID=1000
 ARG GROUP_ID=1000
+# See the top of this file; read by the ansible inventory.
+ARG REPO_BRANCHES=""
 ENV PIP_ROOT_USER_ACTION=ignore
 
 USER root
@@ -198,6 +205,7 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 ARG GEOIPS_USE_PRIVATE_PLUGINS=false
 ARG EDITABLE_PIP_INSTALL=true
+ARG REPO_BRANCHES=""
 ENV GEOIPS_USE_PRIVATE_PLUGINS=${GEOIPS_USE_PRIVATE_PLUGINS}
 
 USER root
@@ -216,6 +224,25 @@ RUN --mount=type=secret,id=geoips_private_token \
        -e editable_pip_install=$EDITABLE_PIP_INSTALL \
        -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS} /home/${USER}
+
+# Test-only Python package overrides (see the top of this file), in their own last
+# layer so that changing them rebuilds nothing else. Git URLs of private repos use
+# the geoips_private_token secret. The packages they changed are recorded in
+# .ci_pip_overrides; pip check only warns, as testing against other versions than
+# the pinned ones is often the point.
+ARG PIP_OVERRIDES=""
+RUN --mount=type=secret,id=geoips_private_token \
+    if [ -n "$PIP_OVERRIDES" ]; then \
+      . ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible/scripts/github-token-env.sh \
+      && printf '%s\n' "$PIP_OVERRIDES" > /tmp/pip-overrides.txt \
+      && uv pip freeze --system | sort > /tmp/freeze-before.txt \
+      && uv pip install --system --no-cache -r /tmp/pip-overrides.txt \
+      && uv pip freeze --system | sort > /tmp/freeze-after.txt \
+      && comm -13 /tmp/freeze-before.txt /tmp/freeze-after.txt \
+         > ${GEOIPS_PACKAGES_DIR}/.ci_pip_overrides \
+      && { pip check || echo "WARNING: the overrides conflict with pinned dependencies"; } \
+      && rm /tmp/pip-overrides.txt /tmp/freeze-before.txt /tmp/freeze-after.txt; \
+    fi
 
 USER ${USER}
 

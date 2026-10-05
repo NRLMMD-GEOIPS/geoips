@@ -1,0 +1,44 @@
+continuous integration:
+- title: 'Replace same-name branch checkouts with explicit dependency overrides'
+  description: |
+    ``GEOIPS_MODIFIED_BRANCH`` / ``geoips_modified_branch`` are removed: installs
+    no longer check out a branch of the same name in every repo that has one,
+    falling back to the default branch.
+
+    * The ansible playbook takes ``repo_branches`` (``"repo=ref ..."``, env
+      ``REPO_BRANCHES``, Docker build argument ``REPO_BRANCHES``): the branch, tag
+      or commit to clone each listed repo at. It checks the list first (unknown
+      repos and private repos without ``geoips_use_private_plugins`` fail), a ref
+      that does not exist fails the install, and so does any other clone error,
+      which was ignored before. The refs and commits are written to
+      ``$GEOIPS_PACKAGES_DIR/.ci_repo_branches``.
+    * The ``geoips-site`` target takes ``PIP_OVERRIDES``: pip requirements
+      installed last, so they replace the pinned versions, recorded in
+      ``$GEOIPS_PACKAGES_DIR/.ci_pip_overrides``.
+    * geoips_ci sets both from the entry for the branch under test in
+      ``.github/ci-dependencies.yaml`` (keyed by branch name, so it does not affect
+      ``main`` once merged), or from the new ``dependency_overrides`` input of
+      ``integ_test.yaml``.
+    * ``check_system_requirements.sh`` no longer switches branches after cloning.
+  files:
+    added:
+    - 'docs/source/releases/latest/ci-dependency-overrides.yaml'
+    modified:
+    - '.github/workflows/integ_test.yaml'
+    - 'Dockerfile'
+    - 'docs/source/architecture/ci-infrastructure.rst'
+    - 'docs/source/getting-started/installing/docker.rst'
+    - 'setup/check_system_requirements.sh'
+    - 'tests/ansible/README.md'
+    - 'tests/ansible/inventory/local.yml'
+    - 'tests/ansible/playbooks/install.yml'
+    - 'tests/ansible/roles/settings_repos/tasks/main.yml'
+    - 'tests/ansible/roles/source_repos/tasks/main.yml'
+    - 'tests/integration_tests/full_install.sh'
+    - 'tests/integration_tests/site_install.sh'
+  related-issue:
+    number: null
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 2026-10-05
+    finish: 2026-10-05

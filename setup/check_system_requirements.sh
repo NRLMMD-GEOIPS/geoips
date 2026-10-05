@@ -3,10 +3,6 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-# If this is defined, attempt to switch to this branch after cloning.
-# Do not fail if it doesn't exist.
-switch_to_branch=$GEOIPS_MODIFIED_BRANCH
-
 exit_on_missing="false"
 if [[ "$3" == "exit_on_missing" ]]; then
     exit_on_missing="true"
@@ -326,9 +322,6 @@ fi
 if [[ "$1" == "settings_repo" ]]; then
     repo_name=$2
     repo_name_string="settings repo $repo_name"
-    if [[ "$switch_to_branch" != "" ]]; then
-        repo_name_string="$repo_name_string, branch $switch_to_branch"
-    fi
     repo_dir=$GEOIPS_PACKAGES_DIR/$repo_name
     repo_url=$GEOIPS_REPO_URL/${repo_name}.git
     ls $repo_dir/* >> $install_log 2>&1
@@ -353,16 +346,6 @@ if [[ "$1" == "settings_repo" ]]; then
             echo "        try deleting directory and re-running"
             exit 1
         fi
-        # Check if current branch exists, and switch to it if so.
-        # Allow branch not existing.
-        if [[ "$switch_to_branch" != "" ]]; then
-            git -C $repo_dir checkout $switch_to_branch
-            if [[ "$?" != "0" ]]; then
-                echo "Branch $switch_to_branch did not exist, staying on current branch"
-            else
-                echo "SUCCESS: successfully switch to branch $switch_to_branch"
-            fi
-        fi
     else
         echo "SUCCESS: $repo_name_string appears to be installed successfully"
         echo "    "`ls -ld $repo_dir`
@@ -382,9 +365,6 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
     fi
 
     test_data_name_string="tests data repo $test_data_name"
-    if [[ "$switch_to_branch" != "" ]]; then
-        test_data_name_string="$test_data_name_string, branch $switch_to_branch"
-    fi
     test_data_dir=$GEOIPS_TESTDATA_DIR/$test_data_name
     test_data_url="$GEOIPS_REPO_URL/${test_data_name}.git"
     if [[ "$test_data_source_location" != "github" ]]; then
@@ -424,17 +404,6 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
                 echo "FAILED: Failed to pull ${test_data_name} from ${test_data_url}"
                 echo "        try deleting and re-running"
                 exit 1
-            fi
-            # If this is a github repo, then check if current-branch exists
-            # and switch to it if so. Allow branch not existing.
-            if [[ "$switch_to_branch" != "" ]]; then
-                echo "git -C $test_data_dir checkout $switch_to_branch >> $install_log 2>&1"
-                git -C $test_data_dir checkout $switch_to_branch >> $install_log 2>&1
-                if [[ "$?" != "0" ]]; then
-                    echo "Branch $switch_to_branch did not exist, staying on current branch"
-                else
-                    echo "SUCCESS: successfully switch to branch $switch_to_branch"
-                fi
             fi
             if [[ -e $test_data_dir/uncompress_test_data.sh ]]; then
                 $test_data_dir/uncompress_test_data.sh >> $install_log 2>&1
@@ -487,9 +456,6 @@ if [[ "$1" == "source_repo" ]]; then
     fi
 
     repo_name_string="source repo $repo_name"
-    if [[ "$switch_to_branch" != "" ]]; then
-        repo_name_string="$repo_name_string, branch $switch_to_branch"
-    fi
     repo_dir=$GEOIPS_PACKAGES_DIR/$repo_name
     repo_url=$GEOIPS_REPO_URL/${repo_name}.git
     data_path="$repo_dir/tests/*"
@@ -509,16 +475,6 @@ if [[ "$1" == "source_repo" ]]; then
         echo "git clone $repo_url $repo_dir" >> $install_log 2>&1
         git clone $repo_url $repo_dir >> $install_log 2>&1
         clone_retval=$?
-        # Check if current branch exists, and switch to it if so.
-        # Allow branch not existing.
-        if [[ "$switch_to_branch" != "" ]]; then
-            git -C $repo_dir checkout $switch_to_branch >> $install_log 2>&1
-            if [[ "$?" != "0" ]]; then
-                echo "Branch $switch_to_branch did not exist, staying on current branch"
-            else
-                echo "SUCCESS: successfully switch to branch $switch_to_branch"
-            fi
-        fi
         pip_retval=0
         echo "pip install -e $repo_dir -v $pip_arguments" >> $install_log 2>&1
         pip install -e $repo_dir -v $pip_arguments >> $install_log 2>&1

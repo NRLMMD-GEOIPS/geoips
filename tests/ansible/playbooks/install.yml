@@ -6,6 +6,7 @@
 #   ansible-playbook playbooks/install.yml --tags base,full,site
 #   ansible-playbook playbooks/install.yml --tags base,full,site -e geoips_use_private_plugins=true
 #   ansible-playbook playbooks/install.yml --tags base,full,site -e extra_plugin_packages=my_plugin,other_plugin
+#   ansible-playbook playbooks/install.yml --tags base,full,site -e "repo_branches='recenter_tc=my-fix geocolor=v1.2.0'"
 #
 # From a Dockerfile:
 #   RUN ansible-playbook /ansible/playbooks/install.yml --tags base,full,site
@@ -14,6 +15,40 @@
 - name: Install GeoIPS
   hosts: localhost
   gather_facts: false
+
+  pre_tasks:
+    # repo_branches: "repo=ref repo=ref ...", the branch, tag or commit to clone each
+    # listed repo at (the other repos use their default branch).
+    - name: Check the format of repo_branches
+      ansible.builtin.assert:
+        that: malformed | length == 0
+        fail_msg: "repo_branches entries must be repo=ref: {{ malformed | join(', ') }}"
+        quiet: true
+      vars:
+        malformed: "{{ repo_branches.split() | reject('match', '^[^=]+=[^=]+$') | list }}"
+      tags: [always]
+
+    - name: Parse repo_branches
+      ansible.builtin.set_fact:
+        repo_branch_map: "{{ dict(repo_branches.split() | map('split', '=', 1)) }}"
+      tags: [always]
+
+    - name: Check the repos in repo_branches
+      ansible.builtin.assert:
+        that:
+          - unknown | length == 0
+          - private_off | length == 0
+        fail_msg: >-
+          repo_branches:
+          {{ ('repos this playbook does not clone: ' ~ (unknown | join(', ')) ~ '.') if unknown else '' }}
+          {{ ('private repos, but geoips_use_private_plugins is false: ' ~ (private_off | join(', ')) ~ '.') if private_off else '' }}
+        quiet: true
+      vars:
+        private_repos: "{{ private_plugin_repos + private_fortran_repos }}"
+        known: "{{ settings_repos + plugin_repos + fortran_repos_ordered + private_repos + (extra_plugin_packages.split(',') | map('trim') | select | list) }}"
+        unknown: "{{ repo_branch_map.keys() | difference(known) }}"
+        private_off: "{{ [] if (geoips_use_private_plugins | bool) else (repo_branch_map.keys() | intersect(private_repos)) }}"
+      tags: [always]
 
   roles:
     - role: system_deps

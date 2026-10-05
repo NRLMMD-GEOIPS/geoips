@@ -3,7 +3,6 @@
 
 #!/bin/bash
 
-echo "GEOIPS_MODIFIED_BRANCH: $GEOIPS_MODIFIED_BRANCH"
 echo "GEOIPS_USE_PRIVATE_PLUGINS: $GEOIPS_USE_PRIVATE_PLUGINS"
 
 # This script ensures we exit non-zero if any of the steps fail.

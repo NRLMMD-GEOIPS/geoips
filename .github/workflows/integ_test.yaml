@@ -4,6 +4,15 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
   workflow_dispatch:
+    inputs:
+      dependency_overrides:
+        description: >
+          Test-only dependency overrides as YAML: one entry of
+          .github/ci-dependencies.yaml (python and/or repos, not keyed by branch),
+          used instead of that file (see geoips_ci README)
+        required: false
+        type: string
+        default: ""
 
 defaults:
   run:
@@ -26,6 +35,7 @@ jobs:
     uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@run-all-the-tests
     with:
       pip_editable: true
+      dependency_overrides: ${{ inputs.dependency_overrides || '' }}
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
       docker_token: ${{ secrets.DOCKER_TOKEN }}
