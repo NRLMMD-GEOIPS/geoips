@@ -1,0 +1,6 @@
+# Test-only dependency overrides, keyed by branch: only the entry of the branch under
+# test applies (see "Testing against other branches or versions" in the geoips_ci README).
+biosafetylvl5-better-errors-from-docker-apt:
+  python:
+    # Atomic registry writes (fixes JSONDecodeError races under pytest-xdist).
+    - "pluginify @ git+https://github.com/NRLMMD-GEOIPS/pluginify@atomic-writes"
