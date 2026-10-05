@@ -19,6 +19,8 @@ continuous integration:
     * ``lunarref`` and ``true_color`` are public, so they moved from
       ``private_fortran_repos`` to the end of ``fortran_repos_ordered``: they are
       now installed without the token and their test output is shown in CI logs.
+      ``lunarref`` is commented out of ``fortran_repos_ordered`` for now because
+      its install fails.
     * The private plugin lists now hold every private plugin repository:
       ``pyrocb``, ``geoips_nucaps``, ``geoips_proxyvis``, ``geoips_tomorrowio``,
       ``geoips_wsfm``, ``geoips_xesmf`` and ``ryglickicane``, and in
