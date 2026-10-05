@@ -1,0 +1,44 @@
+enhancement:
+- title: 'Adding repr and str methods - #1503'
+  description: |
+    Class-based plugins used to print as `<...Plugin object at 0x...>`, which didn't tell you
+    anything. They now print something useful.
+
+    Before:
+
+        >>> readers.get_plugin("abi_netcdf")
+        <geoips.plugins.classes.readers.abi_netcdf.AbiNetcdfReaderPlugin object at 0x7f3c1a2b4d90>
+
+    After:
+
+        >>> readers.get_plugin("abi_netcdf")
+        AbiNetcdfReaderPlugin(name='abi_netcdf', interface='readers', package='geoips')
+
+        >>> print(readers.get_plugin("abi_netcdf"))
+        abi_netcdf (readers plugin from geoips)
+
+    A few notes:
+
+    * The package comes from the plugin's module name. A plugin made directly without a
+      module shows `package='Unknown'`, which is on purpose.
+    * `family` is left out since it's on its way out.
+    * The YAML plugin side is in NRLMMD-GEOIPS/pluginify#33. It adds a matching `__str__`.
+      The two PRs don't depend on each other.
+
+    Added tests in `tests/unit_tests/interfaces/test_class_based_plugin_repr_str.py`.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'tests/unit_tests/interfaces/test_class_based_plugin_repr_str.py'
+    - 'docs/source/releases/latest/424-adding-repr-and-str-methods.yaml'
+    modified:
+    - 'geoips/interfaces/class_based_plugin.py'
+  related-issue:
+    number: 424
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 09/17/2026
+    finish: 09/30/2026
