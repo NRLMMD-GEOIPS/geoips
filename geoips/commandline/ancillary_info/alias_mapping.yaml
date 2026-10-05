@@ -133,3 +133,6 @@ create-registries:
   - create-reg
   - create-regs
   - create-registry
+algorithm-configs:
+  - alg-cnf
+  - algorithm-config
