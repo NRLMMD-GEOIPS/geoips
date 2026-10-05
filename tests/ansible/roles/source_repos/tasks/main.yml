@@ -174,6 +174,16 @@
   when: geoips_use_private_plugins | bool
   tags: [site]
 
+- name: "Record the installed private plugin repos"
+  # reusable-ci (geoips_ci) reads this list to keep these plugins' test output out
+  # of the logs of public repositories.
+  ansible.builtin.copy:
+    dest: "{{ geoips_packages_dir }}/.private_plugins"
+    content: "{{ ((private_plugin_repos + private_fortran_repos) | join('\n')) + '\n' }}"
+    mode: "0644"
+  when: geoips_use_private_plugins | bool
+  tags: [site]
+
 # ---- Extra plugins passed via build arg / CLI ----
 - name: "Parse extra_plugin_packages into a list"
   ansible.builtin.set_fact:

@@ -67,6 +67,14 @@ docker build --target geoips-full -t geoips:full .
 docker build --target geoips-site -t geoips:site \
   --build-arg EXTRA_PLUGINS=my_custom_plugin .
 
+# Site image with the private plugins: needs a GitHub token that can read them,
+# given as a BuildKit secret (never --build-arg: build arguments are stored in the
+# image history). See scripts/github-token-env.sh. Never push this image to a
+# public registry, it contains the private plugins' source.
+docker build --target geoips-site -t geoips:site-private \
+  --build-arg GEOIPS_USE_PRIVATE_PLUGINS=true \
+  --secret id=geoips_private_token,src=$HOME/.config/geoips/github-token .
+
 # Production (no source, no ansible, no git)
 docker build --target production -t geoips:prod .
 
