@@ -59,6 +59,7 @@ all:
       - geocolor
 
     private_plugin_repos:
+      - pyrocb
       - ryglickicane
       - tc_mint
 
