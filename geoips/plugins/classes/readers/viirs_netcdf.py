@@ -47,7 +47,7 @@ of VIIRS files, additional adjust of execution of the VIIRS files will be needed
 (discussion with Mindy on how to do it).
 """
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.readers import BaseReaderPlugin, ChannelInformation
 
 # Python Standard Libraries
 from collections import defaultdict
@@ -155,6 +155,19 @@ class ViirsNetcdfReaderPlugin(BaseReaderPlugin):
         "M10",
         "M11",
     ]
+
+    readable_channels = ChannelInformation(
+        channel_info={
+            "ANY": {
+                "M01": {
+                    "units": [],
+                    "wavelength": 0.412,
+                    "description": "",
+                    "usage": "",
+                }
+            },
+        }
+    )
 
     # List of geolocation variables
 
