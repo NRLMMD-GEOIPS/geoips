@@ -925,7 +925,7 @@ class WorkflowSpecModel(FrozenModel):
                         r"either overrides = {step_id: {argument_name: argument_value}}"
                         r" or overrides = {step_id.argument_name: argument_value}."
                     )
-                
+
                 if argument_name == "depends_on":
                     steps[step_id]["depends_on"] = value
                 else:

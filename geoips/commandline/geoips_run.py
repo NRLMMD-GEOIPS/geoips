@@ -324,6 +324,10 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
             goverrides=g_override_dict,
             soverrides=s_override_dict,
         )
+
+        if "test" in workflow and not workflow.get("test"):
+            workflow.pop("test")
+
         WorkflowPluginModel(**workflow, is_registered=False)
 
         # apply string-based overrides

@@ -130,6 +130,20 @@ class WorkflowsInterface(BaseYamlInterface):
 
         return d
 
+    def flatten_dict(self, data, parent_key=""):
+        """Convert a nested dictionary into dot-separated key=value strings."""
+        results = []
+
+        for key, value in data.items():
+            current_key = f"{parent_key}.{key}" if parent_key else key
+
+            if isinstance(value, dict):
+                results.extend(self.flatten_dict(value, current_key))
+            else:
+                results.append(f"{current_key}={value}")
+
+        return results
+
     def _override_step(self, steps, override):
         """Override an argument of a given step.
 
@@ -467,19 +481,26 @@ class WorkflowsInterface(BaseYamlInterface):
                 input_arguments if input_arguments else workflow.get("arguments", {})
             )
 
+        if not arguments:
+            arguments = {}
+
         for override_key, overrides in arguments.items():
             if override_key.startswith("global"):
                 override_type = "global"
             else:
                 override_type = "step"
+
             if isinstance(overrides, dict):
-                for argument, value in overrides.items():
-                    if override_type == "global":
+
+                if override_type == "global":
+                    for argument, value in overrides.items():
                         str_override = f"{argument}={value}"
                         goverrides.append(str_override)
-                    else:
-                        str_override = f"{override_key}.{argument}={value}"
-                        soverrides.append(str_override)
+                else:
+                    for key, override in overrides.items():
+                        str_overrides = self.flatten_dict({key: override})
+                        soverrides.extend(str_overrides)
+
             else:
                 argument = override_key.split(".")[-1]
                 value = overrides
@@ -544,11 +565,14 @@ class WorkflowsInterface(BaseYamlInterface):
 
         steps = deepcopy(workflow["spec"]["steps"])
 
-        output_overrides = (
-            oc_overrides
-            if oc_overrides
-            else workflow.get("test", {}).get("outputs", {})
-        )
+        if workflow.get("test", {}) is None and not oc_overrides:
+            output_overrides = {}
+        else:
+            output_overrides = (
+                oc_overrides
+                if oc_overrides
+                else workflow.get("test", {}).get("outputs", {})
+            )
 
         # override with output_checker steps
         for step_id, override in output_overrides.items():

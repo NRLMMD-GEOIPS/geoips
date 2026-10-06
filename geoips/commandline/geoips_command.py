@@ -840,6 +840,8 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                     # what's in the data provided
                     context={"expand": True},
                 ).model_dump()
+                workflow["abspath"] = ""
+                workflow["relpath"] = ""
             except (ValidationError, ValueError, TypeError) as e:
                 self.parser.error(f"Could not parse workflow dict: {e}")
         # unregistered workflow @ filepath (any path that exists on disk)
@@ -867,6 +869,8 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                     # what's in the data provided
                     context={"expand": True},
                 ).model_dump()
+                workflow["abspath"] = os.path.abspath(filepath)
+                workflow["relpath"] = os.path.relpath(filepath)
             except (ValidationError, ValueError, TypeError) as e:
                 self.parser.error(f"Could not parse workflow file '{value}': {e}")
         # registered named workflow
