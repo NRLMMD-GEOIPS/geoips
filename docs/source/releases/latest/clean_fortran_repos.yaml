@@ -1,0 +1,10 @@
+bug fix:
+- title: 'Clean fortran repos before installing them'
+  description: 'Some fortran repos need to be cleaned before installation. This causes errors
+  in the ansible playbook which this branch fixes.'
+  files:
+    modified:
+    - 'tests/ansible/roles/source_repos/tasks/main.yml'
+  date:
+    start: '08/03/2026'
+    finish: '08/28/2026'
