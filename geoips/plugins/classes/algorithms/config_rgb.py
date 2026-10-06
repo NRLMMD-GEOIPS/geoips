@@ -199,7 +199,7 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         try:
             return AlgorithmConfigRecipeSpec.model_validate(anonymous_spec)
         except ValidationError as e:
-            raise ValidationError(f"Invalid recipe spec: {e}") from e
+            raise ValueError(f"Invalid recipe spec: {e}") from e
 
     def call(self, xobj, spec):  # NOQA -- xobj is used in the literal eval calls
         """Apply a generic algorithm for rgb recipes.

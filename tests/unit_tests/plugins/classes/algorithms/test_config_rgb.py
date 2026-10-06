@@ -118,3 +118,7 @@ class TestExpressionEvaluator:
             " instead of np.ndarray",
         ):
             self.alg.safe_eval("pd.DataFrame(x)", self.variables)
+    def test_raw_value(self):
+        res = self.alg.safe_eval("x", self.variables)
+
+        assert np.array_equal(res, self.variables["x"])
