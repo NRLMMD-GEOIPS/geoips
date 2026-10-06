@@ -211,8 +211,8 @@ class WorkflowsInterface(BaseYamlInterface):
             )
             # Add CLI arguments at the end of the list, they will override if duplicates
             # occur
-            goverrides = base_goverrides.extend(goverrides)
-            soverrides = base_soverrides.extend(soverrides)
+            goverrides = base_goverrides + goverrides
+            soverrides = base_soverrides + soverrides
 
         wf_overrides = {
             "global": goverrides,
