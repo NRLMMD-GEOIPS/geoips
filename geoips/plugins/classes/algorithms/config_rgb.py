@@ -21,7 +21,6 @@ LOG = logging.getLogger(__name__)
 class AlgorithmConfigEquationSpec(BaseModel):
     """Validated spec for a provided expression."""
 
-    type: str
     variables: list[str]
     expression: str | None = None
 
@@ -190,52 +189,34 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         data : numpy.ndarray
             The resulting dataset after performing the equation.
         """
-        equation_type = equation.type
+        variables = {}
+        for v in equation.variables:
+            variables[v] = xobj[v].to_masked_array()
 
-        if equation_type == "expression":
-            variables = {}
-            for v in equation.variables:
-                variables[v] = xobj[v].to_masked_array()
-            return cls.safe_eval(equation.expression, variables)
-
-        if equation_type == "addition":
-            data = (
-                xobj[equation.variables[0]].to_masked_array()
-                + xobj[equation.variables[1]].to_masked_array()
-            )
-        elif equation_type == "difference":
-            data = (
-                xobj[equation.variables[0]].to_masked_array()
-                - xobj[equation.variables[1]].to_masked_array()
-            )
-        else:
-            data = xobj[equation.variables[0]].to_masked_array()
-
-        return data
+        return cls.safe_eval(equation.expression, variables)
 
     def _get_config_spec(self, anonymous_spec) -> AlgorithmConfigRecipeSpec:
-        # config_name overrides obp_spec if somehow both are provided
         try:
             return AlgorithmConfigRecipeSpec.model_validate(anonymous_spec)
         except ValidationError as e:
-            raise ValueError(f"Invalid recipe spec: {e}")
+            raise ValidationError(f"Invalid recipe spec: {e}") from e
 
-    def call(self, xobj, obp_spec):  # NOQA -- xobj is used in the literal eval calls
+    def call(self, xobj, spec):  # NOQA -- xobj is used in the literal eval calls
         """Apply a generic algorithm for rgb recipes.
 
         Parameters
         ----------
         xobj : xarray.Dataset
             The dataset containing variables needed for a given rgb recipe.
-        config_name : str
-            The name of the config plugin that contains the RGB recipe.
+        spec : str
+            The defined YAML config associated with the algorithm.
 
         Returns
         -------
         numpy.ndarray
             numpy.ndarray or numpy.MaskedArray of qualitative RGBA image output
         """
-        config_spec = self._get_config_spec(anonymous_spec=obp_spec)
+        config_spec = self._get_config_spec(anonymous_spec=spec)
 
         red = self.apply_equation(xobj, config_spec.red.equation)
         grn = self.apply_equation(xobj, config_spec.green.equation)

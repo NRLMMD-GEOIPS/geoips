@@ -13,24 +13,24 @@ from geoips.plugins.classes.algorithms.config_rgb import ConfigRgbAlgorithmPlugi
 class TestConfigRGBFunctionality:
     """Test the base functionality of the algorithm."""
 
-    def __init__(self) -> None:
+    def setup_method(self) -> None:
         self.test_config = {
             "red": {
-                "equation": {"type": "difference", "variables": ["B08BT", "B10BT"]},
+                "equation": {"expression": "B10BT - B08BT", "variables": ["B08BT", "B10BT"]},
                 "data_range": [-26.2, 0.6],
                 "gamma": 1.0,
                 "input_units": "kelvin",
                 "output_units": "kelvin",
             },
             "green": {
-                "equation": {"type": "difference", "variables": ["B08BT", "B10BT"]},
+                "equation": {"expression": "B10BT - B08BT", "variables": ["B08BT", "B10BT"]},
                 "data_range": [-26.2, 0.6],
                 "gamma": 1.0,
                 "input_units": "kelvin",
                 "output_units": "kelvin",
             },
             "blue": {
-                "equation": {"type": "difference", "variables": ["B08BT", "B10BT"]},
+                "equation": {"expression": "B10BT - B08BT", "variables": ["B08BT", "B10BT"]},
                 "data_range": [-26.2, 0.6],
                 "gamma": 1.0,
                 "input_units": "kelvin",
@@ -52,11 +52,10 @@ class TestConfigRGBFunctionality:
         with pytest.raises(ValueError):
             self.alg._get_config_spec(test_copy_config)
 
-
 class TestExpressionEvaluator:
     """Test expression evaluation."""
 
-    def __init__(self) -> None:
+    def setup_method(self) -> None:
         self.alg = ConfigRgbAlgorithmPlugin()
         self.variables = {"x": np.array([1, 2, 3]), "y": np.array([4, 5, 6])}
 
