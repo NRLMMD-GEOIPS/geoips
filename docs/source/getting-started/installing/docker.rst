@@ -90,13 +90,15 @@ Build arguments
      - ``""``
      - Comma-separated list of additional plugin repository names to clone
        and install at any tier.
-   * - ``GEOIPS_MODIFIED_BRANCH``
+   * - ``REPO_BRANCHES``
      - ``""``
-     - After cloning each repo, attempt to check out this branch.
-       If a particular repo does not have this branch, it silently stays
-       on ``main``.  If multiple repos carry the branch, it is checked out
-       in all of them.  Intended for CI to test a set of coordinated changes
-       against the default branch of all other repos.
+     - ``"repo=ref repo=ref ..."``: clone these repos at a branch, tag or
+       commit instead of their default branch (``geoips-full`` and
+       ``geoips-site``).  A ref that does not exist fails the build.
+   * - ``PIP_OVERRIDES``
+     - ``""``
+     - pip requirements, one per line, installed last in ``geoips-site``
+       so they replace the pinned versions.  For testing only.
    * - ``GEOIPS_USE_PRIVATE_PLUGINS``
      - ``false``
      - Set to ``true`` at the ``geoips-site`` target to include private repos.
@@ -117,7 +119,7 @@ Example with build arguments:
    docker build --target geoips-site -t geoips:site \
      --build-arg EXTRA_PLUGINS=my_plugin,other_plugin \
      --build-arg GEOIPS_USE_PRIVATE_PLUGINS=true \
-     --build-arg GEOIPS_MODIFIED_BRANCH=feature/my-branch \
+     --build-arg REPO_BRANCHES="recenter_tc=feature/my-branch" \
      .
 
 
