@@ -76,6 +76,7 @@ ARG GROUP_ID=1000
 ENV GEOIPS_PACKAGES_DIR=/packages \
     GEOIPS_OUTDIRS=/output \
     GEOIPS_TESTDATA_DIR=/geoips_testdata \
+    GEOIPS_ANCILDAT = /geoips_testdata \
     GEOIPS_DEPENDENCIES_DIR=/app/dependencies \
     GEOIPS_REPO_URL=https://github.com/NRLMMD-GEOIPS/ \
     CARTOPY_DATA_DIR=/packages \
