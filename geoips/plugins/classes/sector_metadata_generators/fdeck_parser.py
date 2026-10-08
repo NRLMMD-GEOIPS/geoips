@@ -43,7 +43,6 @@ from geoips.interfaces.class_based.sector_metadata_generators import (
     DeckSectorMetaGeneratorPlugin,
 )
 
-import os
 import logging
 from datetime import datetime, timedelta
 
@@ -90,7 +89,8 @@ class FdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
         tc_year = self.get_stormyear_from_filename(trackfile_name)
         # print tcyear
 
-        flatsf_lines = open(trackfile_name).readlines()
+        with open(trackfile_name, "r") as f:
+            flatsf_lines = f.readlines()
         final_storm_name = self.get_final_storm_name_fdeck(flatsf_lines, tc_year)
         invest_number = self.get_invest_number_fdeck(flatsf_lines)
 

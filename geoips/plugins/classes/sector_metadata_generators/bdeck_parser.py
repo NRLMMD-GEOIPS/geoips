@@ -102,7 +102,6 @@ from geoips.interfaces.class_based.sector_metadata_generators import (
     DeckSectorMetaGeneratorPlugin,
 )
 
-import os
 import logging
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -150,7 +149,8 @@ class BdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
         tc_year = self.get_stormyear_from_filename(trackfile_name)
         # print tcyear
 
-        flatsf_lines = open(trackfile_name).readlines()
+        with open(trackfile_name, "r") as f:
+            flatsf_lines = f.readlines()
         # This just pulls the time of the first entry in the deck file
         # Note this can change from one deck file to the next during the life of a
         # storm (e.g., storm locations can be added or removed during the life of a
