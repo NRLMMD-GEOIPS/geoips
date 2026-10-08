@@ -6,13 +6,11 @@
 Runs the appropriate tests based on the arguments provided.
 """
 
-from glob import glob
 from importlib import resources
 import logging
 from os import makedirs
-from os.path import basename, exists, join
+from os.path import exists, join
 import sys
-import warnings
 
 from subprocess import call
 
