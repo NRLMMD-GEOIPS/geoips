@@ -18,6 +18,18 @@ class BaseSectorMetadataGeneratorPlugin(BaseClassPlugin, abstract=True):
 class DeckSectorMetaGeneratorPlugin(BaseSectorMetadataGeneratorPlugin, abstract=True):
     """Base class for GeoIPS deck-based sector_metadata_generator plugins."""
 
+    def lat_to_dec(self, lat_str):
+        """Return decimal latitude based on N/S specified string."""
+        latnodec = lat_str
+        latdec = latnodec[:-2] + "." + latnodec[-2:]
+        return latdec[:-1] if latdec[-1] == "N" else "-" + latdec[:-1]
+
+    def lon_to_dec(self, lon_str):
+        """Return decimal longitude based on E/W specified string."""
+        lonnodec = lon_str
+        londec = lonnodec[:-2] + "." + lonnodec[-2:]
+        return londec[:-1] if londec[-1] == "E" else "-" + londec[:-1]
+
     def assemble_invest_storm_id(
         self, storm_basin, invest_number, storm_year, storm_start_datetime
     ):
