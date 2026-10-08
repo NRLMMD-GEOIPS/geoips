@@ -24,18 +24,23 @@ test:
       compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/seviri.WV-Upper.no_self_register.unprojected_image
       # verify this
       output_checker_name: image
-spec:
+arguments:
   globals:
     product_name: WV-Upper-No-SR
     reader_defined_area_def: False
+spec:
   steps:
     reader:
       kind: reader
       name: seviri_hrit
+      arguments:
+        chans: ["B05BT"]
     seviri_WV_Upper_No_SR:
       kind: product
       name: [seviri, WV-Upper-No-SR]
       depends_on: [reader]
+      arguments:
+        coverage_checker.variable_name: WV-Upper-No-SR
     filename_formatter:
       kind: filename_formatter
       name: basic_fname

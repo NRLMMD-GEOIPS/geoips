@@ -17,13 +17,14 @@ docstring: |
 package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_viirs/data/npp/20240117/172400/VNP02DNB.A2024017.1724.002.2024018012054.nc
-spec:
+arguments:
   globals:
     product_name: Night-Vis-IR-GeoIPS1
     reader_defined_area_def: False
     # will be uncommented after split operation is implemented
     # sector_list: ["north_pole"]
-    minimum_coverage: 0 
+    minimum_coverage: 0
+spec:
   steps:
     sector:
       kind: sector
@@ -31,14 +32,17 @@ spec:
     reader:
       kind: reader
       name: viirs_netcdf
-      arguments: 
+      depends_on: [sector]
+      arguments:
         self_register_dataset: DNB
         self_register_source: viirs
-      depends_on: [sector]
+        chans: ["DNBRad", "DNB:solar_zenith_angle"]
     viirs_Night_Vis_IR_GeoIPS1:
       kind: product
       name: [viirs, Night-Vis-IR-GeoIPS1]
       depends_on: [sector, reader]
+      arguments:
+        coverage_checker.variable_name: Night-Vis-IR-GeoIPS1
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
