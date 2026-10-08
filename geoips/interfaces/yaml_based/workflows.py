@@ -132,17 +132,13 @@ class WorkflowsInterface(BaseYamlInterface):
 
     def flatten_dict(self, data, parent_key=""):
         """Convert a nested dictionary into dot-separated key=value strings."""
-        results = []
-
         for key, value in data.items():
             current_key = f"{parent_key}.{key}" if parent_key else key
 
             if isinstance(value, dict):
-                results.extend(self.flatten_dict(value, current_key))
+                yield from self.flatten_dict(value, current_key)
             else:
-                results.append(f"{current_key}={value}")
-
-        return results
+                yield f"{current_key}={value}"
 
     def _override_step(self, steps, override):
         """Override an argument of a given step.
@@ -498,7 +494,7 @@ class WorkflowsInterface(BaseYamlInterface):
                         goverrides.append(str_override)
                 else:
                     for key, override in overrides.items():
-                        str_overrides = self.flatten_dict({key: override})
+                        str_overrides = list(self.flatten_dict({key: override}))
                         soverrides.extend(str_overrides)
 
             else:
