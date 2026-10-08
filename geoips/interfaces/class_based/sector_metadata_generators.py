@@ -3,6 +3,8 @@
 
 """Sector metadata generators interface class."""
 
+import os
+
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
 
@@ -17,6 +19,21 @@ class BaseSectorMetadataGeneratorPlugin(BaseClassPlugin, abstract=True):
 
 class DeckSectorMetaGeneratorPlugin(BaseSectorMetadataGeneratorPlugin, abstract=True):
     """Base class for GeoIPS deck-based sector_metadata_generator plugins."""
+
+    def get_stormyear_from_filename(self, deck_filename):
+        """Get the storm year from a deck filename.
+
+        Parameters
+        ----------
+        deck_filename : str
+            Path to deck file. Must be of format: xxxxxYYYY.*.dat
+
+        Returns
+        -------
+        int
+            Storm year
+        """
+        return int(os.path.basename(deck_filename)[5:9])
 
     def lat_to_dec(self, lat_str):
         """Return decimal latitude based on N/S specified string."""
