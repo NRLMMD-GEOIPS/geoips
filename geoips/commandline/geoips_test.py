@@ -270,7 +270,6 @@ class GeoipsTest(GeoipsCommand):
 
     command_classes = [
         GeoipsTestLinting,
-        GeoipsTestScript,
         GeoipsTestSector,
         GeoipsTestWorkflow,
     ]
