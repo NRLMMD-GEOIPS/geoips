@@ -248,20 +248,6 @@ class BdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
 
         return all_fields, final_storm_name, tc_year, allowed_aid_types
 
-    def lat_to_dec(self, lat_str):
-        """Return decimal latitude based on N/S specified string."""
-        latnodec = lat_str
-        latdec = latnodec[:-2] + "." + latnodec[-2:]
-        latdecsign = latdec[:-1] if (latdec[-1] == "N") else "-" + latdec[:-1]
-        return latdecsign
-
-    def lon_to_dec(self, lon_str):
-        """Return decimal longitude based on E/W specified string."""
-        lonnodec = lon_str
-        londec = lonnodec[:-2] + "." + lonnodec[-2:]
-        londecsign = londec[:-1] if (londec[-1] == "E") else "-" + londec[:-1]
-        return londecsign
-
     def parse_bdeck_line(
         self,
         line,
