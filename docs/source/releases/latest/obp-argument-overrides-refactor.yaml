@@ -19,13 +19,14 @@ enhancement:
     Again, these are optional fields and will only be applied if specified. The logic
     of how these overrides are applied follow these rules:
 
-    - ``geoips run order_based`` (in order of precedence)
-      1. CLI string overrides (``-g`` and ``-s``)
-      2. CLI dict overrides (``-G`` and ``-S``)
-      3. Base overrides (e.g. ``arguments`` top level field)
-    - ``geoips test workflow`` (in order of precedence)
-      1. ``test['arguments']`` field
-      2. ``arguments`` top-level field
+    ``geoips run order_based`` (in order of precedence)
+    1. CLI string overrides (``-g`` and ``-s``)
+    2. CLI dict overrides (``-G`` and ``-S``)
+    3. Base overrides (e.g. ``arguments`` top level field)
+
+    ``geoips test workflow`` (in order of precedence)
+    1. ``test['arguments']`` field
+    2. ``arguments`` top-level field
 
     The argument logic can be applied in a step's arguments as well. For example, if a
     nested workflow were to occur as a step, you could do:
