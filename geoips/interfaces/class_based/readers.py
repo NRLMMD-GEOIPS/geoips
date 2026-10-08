@@ -243,7 +243,7 @@ class ChannelInformation(dict):
                 res_str = res
             self.channel_information[res_str] = {}
             for chan in self._channel_information[res]:
-                for unit in self._channel_information[res][chan]["units"]:
+                for unit in self._channel_information[res][chan]["units"] or ["x"]:
                     desc = self._channel_information[res][chan]["description"]
                     usage = self._channel_information[res][chan]["usage"]
                     wavelength = self._channel_information[res][chan]["wavelength"]
@@ -253,9 +253,10 @@ class ChannelInformation(dict):
                     else:
                         usage = f" | usage: {usage}"
 
-                    self.channel_information[res_str][
-                        f"{chan}{unit}"
-                    ] = f"{wavelength}μm {desc} {self.unit_mapping[unit]}{usage}"
+                    self.channel_information[res_str][f"{chan}{unit}"] = (
+                        f"{wavelength}μm {desc} {self.unit_mapping.get(unit, 'x')}"
+                        f"{usage}"
+                    )
 
 
 class BaseReaderPlugin(BaseClassPlugin, abstract=True):

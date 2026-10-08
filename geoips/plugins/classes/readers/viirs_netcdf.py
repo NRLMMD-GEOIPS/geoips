@@ -158,16 +158,142 @@ class ViirsNetcdfReaderPlugin(BaseReaderPlugin):
 
     readable_channels = ChannelInformation(
         channel_info={
-            "ANY": {
+            "LOW": {
                 "M01": {
-                    "units": [],
-                    "wavelength": 0.412,
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 0.415,
                     "description": "",
-                    "usage": "",
-                }
+                    "usage": "Ocean color and aerosols.",
+                },
+                "M02": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 0.445,
+                    "description": "",
+                    "usage": "Ocean color and aerosols.",
+                },
+                "M03": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 0.49,
+                    "description": "",
+                    "usage": "Ocean color and aerosols.",
+                },
+                "M04": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 0.555,
+                    "description": "",
+                    "usage": "Ocean color and aerosols.",
+                },
+                "M05": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 0.673,
+                    "description": "",
+                    "usage": "Ocean color and aerosols.",
+                },
+                "M06": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 0.746,
+                    "description": "",
+                    "usage": "Atmospheric Correction.",
+                },
+                "M07": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 0.865,
+                    "description": "",
+                    "usage": "Ocean color and aerosols.",
+                },
+                "M08": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 1.24,
+                    "description": "",
+                    "usage": "Cloud particle size.",
+                },
+                "M09": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 1.378,
+                    "description": "",
+                    "usage": "Cirrus cloud cover.",
+                },
+                "M10": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 1.61,
+                    "description": "",
+                    "usage": "Snow Fraction.",
+                },
+                "M11": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 2.25,
+                    "description": "",
+                    "usage": "Clouds.",
+                },
+                "M12": {
+                    "units": ["Rad", "BT"],
+                    "wavelength": 3.7,
+                    "description": "",
+                    "usage": "Sea surface temperature (SST).",
+                },
+                "M13": {
+                    "units": ["Rad", "BT"],
+                    "wavelength": 4.05,
+                    "description": "",
+                    "usage": "Sea surface temperature (SST) / fires.",
+                },
+                "M14": {
+                    "units": ["Rad", "BT"],
+                    "wavelength": 8.55,
+                    "description": "",
+                    "usage": "Cloud top properties.",
+                },
+                "M15": {
+                    "units": ["Rad", "BT"],
+                    "wavelength": 10.763,
+                    "description": "",
+                    "usage": "Sea Surface Temperature (SST).",
+                },
+                "M16": {
+                    "units": ["Rad", "BT"],
+                    "wavelength": 12.013,
+                    "description": "",
+                    "usage": "Sea surface temperature (SST).",
+                },
             },
-        }
-    )
+            "HIGH": {
+                "I01": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 0.64,
+                    "description": "Imagery band.",
+                    "usage": "Imagery.",
+                },
+                "I02": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 0.865,
+                    "description": "Normalized difference vegetation index.",
+                    "usage": "NDVI.",
+                },
+                "I03": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 1.61,
+                    "description": "",
+                    "usage": "Binary Snow Map.",
+                },
+                "I04": {
+                    "units": ["Rad", "BT"],
+                    "wavelength": 3.74,
+                    "description": "",
+                    "usage": "Imagery band / clouds.",
+                },
+                "I05": {
+                    "units": ["Rad", "BT"],
+                    "wavelength": 11.45,
+                    "description": "",
+                    "usage": "Imagery band / clouds.",
+                },
+            },
+        },
+        resolution_mapping={
+            "LOW": "750m x 750m (nadir)",
+            "HIGH": "375m x 375m (nadir)",
+        },
+    ).channel_information
 
     # List of geolocation variables
 
