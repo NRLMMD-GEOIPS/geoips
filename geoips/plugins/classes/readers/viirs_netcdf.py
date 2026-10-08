@@ -159,138 +159,192 @@ class ViirsNetcdfReaderPlugin(BaseReaderPlugin):
     readable_channels = ChannelInformation(
         channel_info={
             "LOW": {
-                "M01": {
-                    "units": ["Rad", "Ref"],
-                    "wavelength": 0.415,
-                    "description": "",
-                    "usage": "Ocean color and aerosols.",
-                },
-                "M02": {
-                    "units": ["Rad", "Ref"],
-                    "wavelength": 0.445,
-                    "description": "",
-                    "usage": "Ocean color and aerosols.",
-                },
-                "M03": {
-                    "units": ["Rad", "Ref"],
-                    "wavelength": 0.49,
-                    "description": "",
-                    "usage": "Ocean color and aerosols.",
-                },
-                "M04": {
-                    "units": ["Rad", "Ref"],
-                    "wavelength": 0.555,
-                    "description": "",
-                    "usage": "Ocean color and aerosols.",
-                },
-                "M05": {
-                    "units": ["Rad", "Ref"],
-                    "wavelength": 0.673,
-                    "description": "",
-                    "usage": "Ocean color and aerosols.",
-                },
                 "M06": {
                     "units": ["Rad", "Ref"],
                     "wavelength": 0.746,
-                    "description": "",
-                    "usage": "Atmospheric Correction.",
-                },
-                "M07": {
-                    "units": ["Rad", "Ref"],
-                    "wavelength": 0.865,
-                    "description": "",
-                    "usage": "Ocean color and aerosols.",
+                    "description": "Vis / Near-IR",
+                    "usage": (
+                        "Atmospheric water vapor correction, red-edge vegetation "
+                        "monitoring."
+                    ),
                 },
                 "M08": {
                     "units": ["Rad", "Ref"],
                     "wavelength": 1.24,
-                    "description": "",
-                    "usage": "Cloud particle size.",
+                    "description": "Vis / Near-IR",
+                    "usage": (
+                        "Cloud particle size, thin cirrus tracking, and snow / ice "
+                        "characterization."
+                    ),
                 },
                 "M09": {
                     "units": ["Rad", "Ref"],
                     "wavelength": 1.378,
-                    "description": "",
-                    "usage": "Cirrus cloud cover.",
+                    "description": "Near-IR Cirrus",
+                    "usage": "Thin cirrus cloud detection",
                 },
                 "M10": {
                     "units": ["Rad", "Ref"],
                     "wavelength": 1.61,
-                    "description": "",
-                    "usage": "Snow Fraction.",
+                    "description": "Near-IR Snow / Ice",
+                    "usage": (
+                        "Cloud phase (ice vs. water) and snow/cloud discrimination"
+                    ),
                 },
                 "M11": {
                     "units": ["Rad", "Ref"],
                     "wavelength": 2.25,
-                    "description": "",
-                    "usage": "Clouds.",
+                    "description": "Near-IR Cloud Particle Size",
+                    "usage": "Particle size evaluation and active fire monitoring.",
                 },
                 "M12": {
                     "units": ["Rad", "BT"],
                     "wavelength": 3.7,
-                    "description": "",
-                    "usage": "Sea surface temperature (SST).",
-                },
-                "M13": {
-                    "units": ["Rad", "BT"],
-                    "wavelength": 4.05,
-                    "description": "",
-                    "usage": "Sea surface temperature (SST) / fires.",
+                    "description": "IR Shortwave Window",
+                    "usage": (
+                        "Fire / hotspot detection featuring an extended dynamic range "
+                        "for active blazes, alongside fog delineation at night, SST"
+                    ),
                 },
                 "M14": {
                     "units": ["Rad", "BT"],
                     "wavelength": 8.55,
-                    "description": "",
-                    "usage": "Cloud top properties.",
+                    "description": "IR Cloud-top phase",
+                    "usage": "Cloud phase identification and sulfur dioxide tracking",
                 },
                 "M15": {
                     "units": ["Rad", "BT"],
                     "wavelength": 10.763,
-                    "description": "",
-                    "usage": "Sea Surface Temperature (SST).",
+                    "description": "IR Clean Longwave Window",
+                    "usage": "Cloud-top and land / sea surface temperatures",
                 },
                 "M16": {
                     "units": ["Rad", "BT"],
                     "wavelength": 12.013,
-                    "description": "",
-                    "usage": "Sea surface temperature (SST).",
+                    "description": "IR Dirty Longwave Window",
+                    "usage": (
+                        "Split-window atmospheric humidity corrections and low-level "
+                        "moisture tracking"
+                    ),
+                },
+                "DNB": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 0.7,
+                    "description": "Day-Night Band",
+                    "usage": (
+                        "Ultra-sensitive panchromatic band. Captures city-lights, "
+                        "moonlit clouds, auroras, fires, gas flares, etc."
+                    ),
+                },
+            },
+            "MED": {
+                "M01": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 0.415,
+                    "description": "Vis / Near-IR",
+                    "usage": (
+                        "Ocean color, coastal water absorption, and atmospheric "
+                        "aerosol / dust tracking."
+                    ),
+                },
+                "M02": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 0.445,
+                    "description": "Vis / Near-IR",
+                    "usage": (
+                        "Ocean color, chlorophyll absorption, and atmospheric "
+                        "scattering estimation."
+                    ),
+                },
+                "M03": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 0.49,
+                    "description": "Vis Blue",
+                    "usage": (
+                        "Ocean color, land vegetation comparison, and blue component "
+                        "for true-color imagery."
+                    ),
+                },
+                "M04": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 0.555,
+                    "description": "Vis Green",
+                    "usage": (
+                        "Green component for true-color imagery, vegetation health, "
+                        "and inland water properties."
+                    ),
+                },
+                "M05": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 0.673,
+                    "description": "Vis Red",
+                    "usage": (
+                        "Red component for true-color imagery, deep vegetation "
+                        "absorption (chlorophyll)."
+                    ),
+                },
+                "M07": {
+                    "units": ["Rad", "Ref"],
+                    "wavelength": 0.865,
+                    "description": "Near-IR Veggie",
+                    "usage": "Vegetation boundaries and cloud masking",
+                },
+                "M13": {
+                    "units": ["Rad", "BT"],
+                    "wavelength": 4.05,
+                    "description": "Medium-Wave IR",
+                    "usage": (
+                        "Primary fire and sub-pixel high-temperature event "
+                        "detection."
+                    ),
                 },
             },
             "HIGH": {
                 "I01": {
                     "units": ["Rad", "Ref"],
                     "wavelength": 0.64,
-                    "description": "Imagery band.",
-                    "usage": "Imagery.",
+                    "description": "Vis red.",
+                    "usage": (
+                        "Daytime visible imagery, land / cloud boundaries, red band."
+                    ),
                 },
                 "I02": {
                     "units": ["Rad", "Ref"],
                     "wavelength": 0.865,
-                    "description": "Normalized difference vegetation index.",
-                    "usage": "NDVI.",
+                    "description": "Near-IR Veggie",
+                    "usage": "Vegetation boundaries and cloud masking, NDVI.",
                 },
                 "I03": {
                     "units": ["Rad", "Ref"],
                     "wavelength": 1.61,
-                    "description": "",
-                    "usage": "Binary Snow Map.",
+                    "description": "Near-IR Snow / Ice",
+                    "usage": (
+                        "Cloud phase (ice vs. water) and snow/cloud discrimination"
+                    ),
                 },
                 "I04": {
                     "units": ["Rad", "BT"],
                     "wavelength": 3.74,
-                    "description": "",
-                    "usage": "Imagery band / clouds.",
+                    "description": "IR Shortwave Window",
+                    "usage": (
+                        "Fire / hotspot detection featuring an extended dynamic range "
+                        "for active blazes, alongside fog delineation at night"
+                    ),
                 },
                 "I05": {
                     "units": ["Rad", "BT"],
                     "wavelength": 11.45,
-                    "description": "",
-                    "usage": "Imagery band / clouds.",
+                    "description": "Longwave IR",
+                    "usage": (
+                        "Cloud top temperatures, severe weather tracking, thermal land "
+                        "features."
+                    ),
                 },
             },
         },
         resolution_mapping={
             "LOW": "750m x 750m (nadir)",
+            "MED": "750m x 250m (nadir)",
             "HIGH": "375m x 375m (nadir)",
         },
     ).channel_information
