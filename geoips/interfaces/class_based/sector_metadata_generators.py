@@ -3,10 +3,14 @@
 
 """Sector metadata generators interface class."""
 
+from datetime import datetime
+import logging
 import os
 
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+
+LOG = logging.getLogger(__name__)
 
 
 class BaseSectorMetadataGeneratorPlugin(BaseClassPlugin, abstract=True):
