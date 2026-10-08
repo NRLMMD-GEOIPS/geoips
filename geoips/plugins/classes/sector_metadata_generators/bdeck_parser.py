@@ -147,7 +147,7 @@ class BdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
         # Must get tcyear out of the filename in case a storm
         # crosses TC vs calendar years.
         # tcyear = os.path.basename(trackfile_name)[5:9]
-        tc_year = self.get_stormyear_from_bdeck_filename(trackfile_name)
+        tc_year = self.get_stormyear_from_filename(trackfile_name)
         # print tcyear
 
         flatsf_lines = open(trackfile_name).readlines()
@@ -570,22 +570,6 @@ class BdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
                 storm_start_datetime = None
         return storm_start_datetime
 
-    def get_stormyear_from_bdeck_filename(self, bdeck_filename):
-        """Get the storm year from the B-deck filename.
-
-        Parameters
-        ----------
-        bdeck_filename : str
-            * Path to deck file to search for storm year
-            * Must be of format: `xxxxxYYYY.*.dat` - pulls YYYY from filename based
-              on location
-
-        Returns
-        -------
-        int
-            Storm year
-        """
-        return int(os.path.basename(bdeck_filename)[5:9])
 
     def get_final_storm_name_bdeck(
         self, deck_lines, tcyear, trackfile_name=None, is_archived=False
