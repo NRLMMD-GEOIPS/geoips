@@ -39,6 +39,42 @@ class DeckSectorMetaGeneratorPlugin(BaseSectorMetadataGeneratorPlugin, abstract=
         """
         return int(os.path.basename(deck_filename)[5:9])
 
+    def get_storm_start_datetime_from_filename(self, deck_filename):
+        """Return the storm start time found in the actual filename, if it exists.
+
+        Standard ATCF deck file names do NOT include the storm start datetime.
+
+        Standard deck filenames
+
+        * bsh912026.dat
+        * bsh122026.dat
+
+        Some processing systems will set the original storm start datetime
+        when the very first position is received, then maintain that same value
+        in the deck filenames throughout the life of the storm (invest and numbered).
+
+        Enhanced filenames, including storm start datetime
+
+        * bsh912026.2026010212.dat
+        * bsh122026.2026010212.dat
+        """
+        deck_parts = os.path.basename(deck_filename).split(".")
+        storm_start_datetime = None
+        if len(deck_parts) > 2:
+            try:
+                storm_start_datetime = datetime.strptime(deck_parts[1], "%Y%m%d%H")
+                LOG.info(
+                    "  USING storm start time found in filename %s",
+                    storm_start_datetime,
+                )
+            except ValueError:
+                LOG.warning(
+                    "  SKIPPING no valid storm start time found in filename, %s",
+                    "using first entry in deck file",
+                )
+                storm_start_datetime = None
+        return storm_start_datetime
+
     def lat_to_dec(self, lat_str):
         """Return decimal latitude based on N/S specified string."""
         latnodec = lat_str

@@ -195,7 +195,7 @@ class BdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
         # we have a consistent unique storm id for invests, since invest numbers
         # repeat throughout the year).
         storm_start_datetime_from_filename_of_current_deck_file = (
-            self.get_storm_start_datetime_from_bdeck_filename(trackfile_name)
+            self.get_storm_start_datetime_from_filename(trackfile_name)
         )
 
         LOG.info("  USING final_storm_name from bdeck %s", final_storm_name)
