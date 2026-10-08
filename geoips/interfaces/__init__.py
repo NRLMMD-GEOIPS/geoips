@@ -41,6 +41,7 @@ from geoips.interfaces.class_based.title_formatters import (
 )
 from geoips.interfaces.class_based.validators import validators
 
+from geoips.interfaces.yaml_based.algorithm_configs import algorithm_configs
 from geoips.interfaces.yaml_based.feature_annotators import (
     feature_annotators,
 )
@@ -73,6 +74,7 @@ class_based_interfaces = [
     "validators",
 ]
 yaml_based_interfaces = [
+    "algorithm_configs",
     "feature_annotators",
     "gridline_annotators",
     "product_defaults",

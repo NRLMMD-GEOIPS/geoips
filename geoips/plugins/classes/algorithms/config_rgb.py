@@ -1,0 +1,298 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+"""Data manipulation steps for generic rgb recipes."""
+
+import numpy as np
+import scipy
+import pandas as pd
+
+from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
+from pydantic import BaseModel, ValidationError
+
+
+import logging
+
+import ast
+
+LOG = logging.getLogger(__name__)
+
+
+class AlgorithmConfigEquationSpec(BaseModel):
+    """Validated spec for a provided expression."""
+
+    variables: list[str]
+    expression: str | None = None
+
+
+class AlgorithmConfigColorSpec(BaseModel):
+    """Validated spec to define each RGB value according to an equation."""
+
+    equation: AlgorithmConfigEquationSpec
+    data_range: list[float]
+    gamma: float
+    input_units: str
+    output_units: str
+
+
+class AlgorithmConfigRecipeSpec(BaseModel):
+    """Validated spec for each RGB value."""
+
+    red: AlgorithmConfigColorSpec
+    green: AlgorithmConfigColorSpec
+    blue: AlgorithmConfigColorSpec
+
+
+class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
+    """Congig rgb algorithm plugin class."""
+
+    interface = "algorithms"
+    family = "xarray_to_numpy"
+    name = "config_rgb"
+
+    # map each mathematical symbol to a corresponding numpy function
+    _operations = {
+        ast.Add: np.add,
+        ast.Sub: np.subtract,
+        ast.Mult: np.multiply,
+        ast.Div: np.divide,
+        ast.Pow: np.pow,
+    }
+
+    _modules = {"np": np, "scipy": scipy, "pd": pd}
+
+    @classmethod
+    def _safe_eval(cls, node, variables):
+        """Parse user-inputted expressions recursively.
+
+        Parameters
+        ----------
+        node : ast.Constant | ast.Name | ast.BinOp | ast.Call
+            A node representative of a section of the expression.
+        variables : dict[str : np.MaskedArray]
+            A dictionary to map each variable inputted by
+            the user to its corresponding MaskedArray
+        """
+        if isinstance(node, ast.Constant):
+            # Numeric constants, e.g. 1
+            return node.value
+        elif isinstance(node, ast.Name):
+            # Varibles from the `variables` dictionary
+            return variables[node.id]
+        elif isinstance(node, ast.BinOp):
+            # Binary operations, e.g addition.
+            op = cls._operations[node.op.__class__]
+            left = cls._safe_eval(node.left, variables)
+            right = cls._safe_eval(node.right, variables)
+            return op(left, right)
+        elif isinstance(node, ast.Call):
+            func = cls._resolve_function(node.func)
+
+            args = [cls._safe_eval(arg, variables) for arg in node.args]
+            return func(*args)
+
+        # some unknown node type
+        assert False, "Unsafe operation"
+
+    @classmethod
+    def _resolve_function(cls, node):
+        """Parse user-inputted functions recursively.
+
+        Parameters
+        ----------
+        node : ast.Call
+            A node representative of the function to be called.
+
+        Returns
+        -------
+        obj : Callable
+            A callable function from one of the above listed modules.
+        """
+        if isinstance(node, ast.Name):
+            raise ValueError(f"Function '{node.id}' is not allowed")
+
+        if isinstance(node, ast.Attribute):
+            # Build array like ["np", "sin"]
+            parts = []
+            current = node
+
+            while isinstance(current, ast.Attribute):
+                parts.append(current.attr)
+                current = current.value
+
+            if not isinstance(current, ast.Name):
+                raise ValueError("Unsafe function reference")
+
+            parts.append(current.id)
+            parts.reverse()
+
+            root = parts.pop(0)
+            if root not in cls._modules:
+                raise ValueError(f"Module '{root}' is not allowed")
+
+            obj = cls._modules[root]
+
+            for part in parts:
+                try:
+                    obj = getattr(obj, part)
+                except Exception as e:
+                    raise ValueError(
+                        "Error getting function from expression, ", e
+                    ) from e
+
+            if not callable(obj):
+                raise ValueError(f"Expression does not refer to a function.")
+
+            return obj
+
+        raise ValueError("Unsafe function reference")
+
+    @classmethod
+    def safe_eval(cls, expression, variables):
+        """Wrap recursive expression evaluator `_safe_eval`.
+
+        Parameters
+        ----------
+        expression : str
+            A string representing the `expression` user input in the algorithm_configs
+            yaml file.
+        variables : dict[str : np.MaskedArray]
+            A dictionary to map each variable inputted by
+            the user to its corresponding MaskedArray
+
+        Returns
+        -------
+        data : numpy.ndarray
+            The resulting dataset after parsing and performing the equation.
+        """
+        node = ast.parse(expression, "<string>", "eval").body
+        res = cls._safe_eval(node, variables)
+        if type(res) != np.ndarray:
+            raise ValueError(
+                f"Provided expression returned {type(res)} " "instead of np.ndarray."
+            )
+        return res
+
+    @classmethod
+    def apply_equation(cls, xobj, equation):
+        """Apply the provided equation to data contained in xobj.
+
+        Parameters
+        ----------
+        xobj : xarray.Dataset
+            The input dataset to perform an equation on.
+        equation : dict[str, Any]
+            The equation to perform on input data.
+
+        Returns
+        -------
+        data : numpy.ndarray
+            The resulting dataset after performing the equation.
+        """
+        variables = {}
+        for v in equation.variables:
+            variables[v] = xobj[v].to_masked_array()
+
+        return cls.safe_eval(equation.expression, variables)
+
+    def _get_config_spec(self, anonymous_spec) -> AlgorithmConfigRecipeSpec:
+        try:
+            return AlgorithmConfigRecipeSpec.model_validate(anonymous_spec)
+        except ValidationError as e:
+            raise ValueError(f"Invalid recipe spec: {e}") from e
+
+    def call(self, xobj, spec):  # NOQA -- xobj is used in the literal eval calls
+        """Apply a generic algorithm for rgb recipes.
+
+        Parameters
+        ----------
+        xobj : xarray.Dataset
+            The dataset containing variables needed for a given rgb recipe.
+        spec : str
+            The defined YAML config associated with the algorithm.
+
+        Returns
+        -------
+        numpy.ndarray
+            numpy.ndarray or numpy.MaskedArray of qualitative RGBA image output
+        """
+        config_spec = self._get_config_spec(anonymous_spec=spec)
+
+        red = self.apply_equation(xobj, config_spec.red.equation)
+        grn = self.apply_equation(xobj, config_spec.green.equation)
+        blu = self.apply_equation(xobj, config_spec.blue.equation)
+
+        input_units_red = config_spec.red.input_units
+        output_units_red = config_spec.red.output_units
+        input_units_grn = config_spec.green.input_units
+        output_units_grn = config_spec.green.output_units
+        input_units_blu = config_spec.blue.input_units
+        output_units_blu = config_spec.blue.output_units
+
+        # Convert TB from Kevin to Celsius
+        from geoips.data_manipulations.conversions import unit_conversion
+
+        red = unit_conversion(
+            red, input_units=input_units_red, output_units=output_units_red
+        )
+        grn = unit_conversion(
+            grn, input_units=input_units_grn, output_units=output_units_grn
+        )
+        blu = unit_conversion(
+            blu, input_units=input_units_blu, output_units=output_units_blu
+        )
+
+        from geoips.data_manipulations.corrections import apply_data_range, apply_gamma
+
+        data_range = config_spec.red.data_range
+        gamma = config_spec.red.gamma
+        red = apply_data_range(
+            red,
+            min_val=data_range[0],
+            max_val=data_range[1],
+            min_outbounds="crop",
+            max_outbounds="crop",
+            norm=True,
+            inverse=False,
+        )  # need inverse option?
+        red = apply_gamma(red, gamma)
+
+        data_range = config_spec.green.data_range
+        gamma = config_spec.green.gamma
+        grn = apply_data_range(
+            grn,
+            min_val=data_range[0],
+            max_val=data_range[1],
+            min_outbounds="crop",
+            max_outbounds="crop",
+            norm=True,
+            inverse=False,
+        )
+        grn = apply_gamma(grn, gamma)
+
+        data_range = config_spec.blue.data_range
+        gamma = config_spec.blue.gamma
+        blu = apply_data_range(
+            blu,
+            min_val=data_range[0],
+            max_val=data_range[1],
+            min_outbounds="crop",
+            max_outbounds="crop",
+            norm=True,
+            inverse=False,
+        )  # create image of deep clouds in blueish color
+        # norm=True, inverse=False)    #create image of deep clouds in yellowish color
+        blu = apply_gamma(blu, gamma)
+
+        from geoips.image_utils.mpl_utils import (
+            alpha_from_masked_arrays,
+            rgba_from_arrays,
+        )
+
+        alp = alpha_from_masked_arrays([red, grn, blu])
+        rgba = rgba_from_arrays(red, grn, blu, alp)
+
+        return rgba
+
+
+PLUGIN_CLASS = ConfigRgbAlgorithmPlugin
