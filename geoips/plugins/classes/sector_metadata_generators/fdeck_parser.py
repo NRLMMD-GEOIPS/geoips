@@ -303,28 +303,6 @@ class FdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
         )
         return fields["synoptic_time"]
 
-    def get_storm_start_datetime_from_fdeck_filename(self, fdeck_filename):
-        """Get storm start datetime from fdeck file name."""
-        # Return the synoptic time found in the actual filename, if it exists!
-        # This will ONLY be the case for INVESTS, which can use the start
-        # Gwp912022.2022101400.dat
-        fdeck_parts = os.path.basename(fdeck_filename).split(".")
-        storm_start_datetime = None
-        if len(fdeck_parts) > 2:
-            try:
-                storm_start_datetime = datetime.strptime(fdeck_parts[1], "%Y%m%d%H")
-                LOG.info(
-                    "  USING storm start time found in filename %s",
-                    storm_start_datetime,
-                )
-            except ValueError:
-                LOG.warning(
-                    "  SKIPPING no valid storm start time found in filename, %s",
-                    "using first entry in fdeck",
-                )
-                storm_start_datetime = None
-        return storm_start_datetime
-
     def get_final_storm_name_fdeck(self, deck_lines, tcyear):
         """Get final storm name from full fdeck file."""
         final_storm_name = "INVEST"
