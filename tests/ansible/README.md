@@ -32,7 +32,8 @@ ansible-playbook tests/ansible/playbooks/install.yml --tags base,full,site
 | `pip_extra_args`              | `""`    | Extra args for pip (Dockerfile uses `--no-binary :all:`) |
 | `geoips_use_private_plugins`  | `false` | Include proprietary repos (ryglickicane, …)  |
 | `extra_plugin_packages`       | `""`    | Comma-separated list of additional repo names |
-| `geoips_modified_branch`      | `""`    | Branch to checkout after cloning each repo    |
+| `repo_branches`               | `""`    | `"repo=ref ..."`: clone these repos at a branch, tag or commit (env `REPO_BRANCHES`) |
+| `disabled_repos`              | `""`    | `"repo repo ..."`: plugin repos to leave out of the install (env `DISABLED_REPOS`) |
 
 Pass with `-e`:
 
@@ -66,6 +67,14 @@ docker build --target geoips-full -t geoips:full .
 # Site image with a custom plugin
 docker build --target geoips-site -t geoips:site \
   --build-arg EXTRA_PLUGINS=my_custom_plugin .
+
+# Site image with the private plugins: needs a GitHub token that can read them,
+# given as a BuildKit secret (never --build-arg: build arguments are stored in the
+# image history). See scripts/github-token-env.sh. Never push this image to a
+# public registry, it contains the private plugins' source.
+docker build --target geoips-site -t geoips:site-private \
+  --build-arg GEOIPS_USE_PRIVATE_PLUGINS=true \
+  --secret id=geoips_private_token,src=$HOME/.config/geoips/github-token .
 
 # Production (no source, no ansible, no git)
 docker build --target production -t geoips:prod .
