@@ -1,5 +1,6 @@
 """Unit test module for interpolator interface preprocessing."""
 
+import numpy as np
 import pytest
 import xarray as xr
 
@@ -7,18 +8,24 @@ from geoips.interfaces import interpolators
 
 dt_no_sector = xr.DataTree.from_dict(
     {
-        "/": xr.Dataset(coords={"time": [1, 2, 3]}),
+        "/": xr.Dataset(coords={"obs": [1, 2, 3]}),
         "/ocean": xr.Dataset(
             {
-                "temperature": ("time", [4, 5, 6]),
-                "salinity": ("time", [7, 8, 9]),
+                "temperature": ("obs", [4, 5, 6]),
+                "salinity": ("obs", [7, 8, 9]),
+                "time": (
+                    "obs",
+                    np.array(
+                        ["2021-01-01", "2021-01-02", "2021-01-03"], dtype="datetime64"
+                    ),
+                ),
             },
             attrs={"plugin_kind": "reader"},
         ),
         "/atmosphere": xr.Dataset(
             {
-                "temperature": ("time", [2, 3, 4]),
-                "humidity": ("time", [3, 4, 5]),
+                "temperature": ("obs", [2, 3, 4]),
+                "humidity": ("obs", [3, 4, 5]),
             }
         ),
     }
@@ -26,18 +33,24 @@ dt_no_sector = xr.DataTree.from_dict(
 
 dt_with_sector = xr.DataTree.from_dict(
     {
-        "/": xr.Dataset(coords={"time": [1, 2, 3]}),
+        "/": xr.Dataset(coords={"obs": [1, 2, 3]}),
         "/ocean": xr.Dataset(
             {
-                "temperature": ("time", [4, 5, 6]),
-                "salinity": ("time", [7, 8, 9]),
+                "temperature": ("obs", [4, 5, 6]),
+                "salinity": ("obs", [7, 8, 9]),
+                "time": (
+                    "obs",
+                    np.array(
+                        ["2021-01-01", "2021-01-02", "2021-01-03"], dtype="datetime64"
+                    ),
+                ),
             },
             attrs={"plugin_kind": "reader"},
         ),
         "/atmosphere": xr.Dataset(
             {
-                "temperature": ("time", [2, 3, 4]),
-                "humidity": ("time", [3, 4, 5]),
+                "temperature": ("obs", [2, 3, 4]),
+                "humidity": ("obs", [3, 4, 5]),
             },
             attrs={"plugin_kind": "sector"},
         ),
@@ -57,7 +70,7 @@ def test_pre_call_interpolator_accepts_explicit_area_def():
     assert kwargs["area_def"] == "area"
     assert kwargs["input_xarray"].attrs["plugin_kind"] == "reader"
     assert isinstance(kwargs["output_xarray"], xr.Dataset)
-    assert kwargs["varlist"] == ["temperature", "salinity", "time"]
+    assert kwargs["varlist"] == ["temperature", "salinity", "obs"]
 
 
 def test_pre_call_interpolator_no_area_def():
@@ -76,4 +89,4 @@ def test_pre_call_interpolator_prepares_legacy_call_kwargs():
     assert kwargs["area_def"] == "area"
     assert kwargs["input_xarray"].attrs["plugin_kind"] == "reader"
     assert isinstance(kwargs["output_xarray"], xr.Dataset)
-    assert kwargs["varlist"] == ["temperature", "salinity", "time"]
+    assert kwargs["varlist"] == ["temperature", "salinity", "obs"]
