@@ -84,6 +84,7 @@ class AwsNetcdfReaderPlugin(BaseReaderPlugin):
         "aws_toa_brightness_temperature",
     ]
     source_names = ["mwr"]
+    VARLIST = [f"chan{i}" for i in range(1, 20)]
 
     def merge_xarrays(self, src_xobj, dst_xobj):
         """Merge one xarray into another.
