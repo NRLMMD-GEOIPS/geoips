@@ -1,0 +1,32 @@
+continuous integration:
+- title: 'Disable plugin repos in CI with .github/ci-disabled-repos.yaml'
+  description: |
+    Plugin repos can be left out of the CI image without editing the inventory,
+    for example while their install is broken.
+
+    * ``.github/ci-disabled-repos.yaml`` maps the repos to disable to the reason.
+      It applies to every branch. It disables ``synth_green`` for now, as an
+      example.
+    * The ansible playbook takes ``disabled_repos`` (``"repo repo ..."``, env
+      ``DISABLED_REPOS``, Docker build argument ``DISABLED_REPOS`` of the
+      ``geoips-full`` and ``geoips-site`` stages) and removes those repos from the
+      plugin repo lists, keeping their order. A name that is not in the lists, or
+      that is also in ``repo_branches``, fails the run.
+    * geoips_ci reads the file, passes the build argument and lists the disabled
+      repos in the job summary.
+  files:
+    added:
+    - '.github/ci-disabled-repos.yaml'
+    - 'docs/source/releases/latest/ci-disabled-repos.yaml'
+    modified:
+    - 'Dockerfile'
+    - 'tests/ansible/inventory/local.yml'
+    - 'tests/ansible/playbooks/install.yml'
+    - 'tests/ansible/README.md'
+    - 'docs/source/architecture/ci-infrastructure.rst'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2026-10-05
+    finish: 2026-10-05
