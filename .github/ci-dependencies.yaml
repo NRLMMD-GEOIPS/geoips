@@ -10,3 +10,5 @@ biosafetylvl5-better-errors-from-docker-apt:
     true_color: add-version-file
     # Fix imports of geoips plugin modules that moved to geoips.plugins.classes.
     ryglickicane: fix-geoips-plugin-imports
+    # Fix arg order to allow import of pyrocb
+    pyrocb: fix-ci-errors
