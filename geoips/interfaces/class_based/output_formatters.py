@@ -685,6 +685,18 @@ class NetcdfOutputFormatterPlugin(BaseOutputFormatterPlugin, abstract=True):
 
         return [ncdf_fname]
 
+    def make_json_friendly(self, value):
+        """Return a JSON-serializable version of `value`."""
+        if isinstance(value, numpy.generic):
+            return value.item()
+        if isinstance(value, (dict, list, tuple)):
+            return json.loads(json.dumps(value, default=self.make_json_friendly))
+        if isinstance(value, datetime):
+            return value.isoformat()
+        if isinstance(value, (str, int, float, bool)) or value is None:
+            return value
+        return str(value)
+
     def clean_attr_for_netcdf(self, xobj, attr):
         """Check xarray attributes."""
         # datetime
