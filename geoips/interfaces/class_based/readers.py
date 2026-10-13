@@ -614,7 +614,7 @@ class ReadersInterface(BaseClassInterface):
                     # 'get_top_level_metadata' when the file is missing 'block_2' or
                     # its projection is not GEOS. The file could still be relevant,
                     # so use the start and end datetimes attached to the error.
-                    LOG.info(
+                    LOG.warning(
                         "File %s raised a recoverable error, still using its "
                         "start/end datetimes: %s",
                         basename(x),
