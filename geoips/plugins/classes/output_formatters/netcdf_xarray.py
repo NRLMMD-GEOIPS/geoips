@@ -6,9 +6,6 @@
 from geoips.interfaces.class_based.output_formatters import NetcdfOutputFormatterPlugin
 
 import logging
-from datetime import datetime
-import json
-import numpy as np
 
 LOG = logging.getLogger(__name__)
 
