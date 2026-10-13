@@ -623,7 +623,7 @@ class ReadersInterface(BaseClassInterface):
                     st = e.start_datetime
                     et = e.end_datetime
                 else:
-                    LOG.info(
+                    LOG.warning(
                         "Excluding file %s: %s: %s", basename(x), type(e).__name__, e
                     )
                     skipped_files.append((x, e))
