@@ -397,12 +397,10 @@ class SeviriHritReaderPlugin(BaseReaderPlugin):
             md["sector_name"] = "Full-Disk"
         else:
             projection = df.metadata.get("block_2", {}).get("projection", {})
-            st = df.start_datetime.isoformat()
-            et = df.start_datetime.isoformat()
             raise HritError(
-                f"Unknown projection encountered: {projection}.\n"
-                f"start_datetime={st}\n"
-                f"end_datetime={et}"
+                f"Unknown projection encountered: {projection}.",
+                start_datetime=df.start_datetime,
+                end_datetime=df.start_datetime,
             )
         md["start_datetime"] = df.start_datetime
         md["end_datetime"] = df.start_datetime

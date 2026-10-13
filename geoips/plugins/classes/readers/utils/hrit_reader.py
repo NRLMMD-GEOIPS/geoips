@@ -102,10 +102,26 @@ def read10bit(buff):
 class HritError(Exception):
     """Raise exception when errors occur in reading xRIT data files."""
 
-    def __init__(self, msg, code=None):
-        """Initialize HritError."""
+    def __init__(self, msg, code=None, *, start_datetime=None, end_datetime=None):
+        """Initialize HritError.
+
+        Parameters
+        ----------
+        msg : str
+            Error message.
+        code : optional
+            Error code prepended to the message when converted to a string.
+        start_datetime : datetime.datetime, optional
+            Start datetime of the file that raised this error, if known. Allows
+            callers to still use the file's times when the error is recoverable.
+        end_datetime : datetime.datetime, optional
+            End datetime of the file that raised this error, if known.
+        """
+        super().__init__(msg)
         self.code = code
         self.value = msg
+        self.start_datetime = start_datetime
+        self.end_datetime = end_datetime
 
     def __str__(self):
         """Hriterror str method."""
