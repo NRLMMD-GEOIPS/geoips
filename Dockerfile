@@ -20,8 +20,23 @@
 #  Extra plugins (any target):
 #    docker build --target geoips-site --build-arg EXTRA_PLUGINS=my_plugin .
 #
-#  Private plugins:
-#    docker build --target geoips-site --build-arg GEOIPS_USE_PRIVATE_PLUGINS=true .
+#  Testing against other branches (geoips-site; geoips_ci sets these from
+#  .github/ci-dependencies.yaml). REPO_BRANCHES: "repo=ref ..." to clone those repos
+#  at a branch, tag or commit. PIP_OVERRIDES: pip requirements, one per line,
+#  installed last so they replace the pinned versions:
+#    docker build --target geoips-site --build-arg REPO_BRANCHES="recenter_tc=my-fix" \
+#        --build-arg PIP_OVERRIDES="pluginify @ git+https://github.com/NRLMMD-GEOIPS/pluginify@my-fix" .
+#
+#  Disabled plugin repos (geoips_ci sets this from .github/ci-disabled-repos.yaml).
+#  DISABLED_REPOS: "repo repo ..." to leave those plugin repos out of the install:
+#    docker build --target geoips-site --build-arg DISABLED_REPOS="synth_green" .
+#
+#  Private plugins (needs a GitHub token that can read the private repos, given
+#  as a BuildKit secret; it never ends up in an image layer or the history):
+#    docker build --target geoips-site --build-arg GEOIPS_USE_PRIVATE_PLUGINS=true \
+#        --secret id=geoips_private_token,src=/path/to/token-file .
+#  See tests/ansible/scripts/github-token-env.sh.  Do not push such an image to a
+#  public registry: it contains the private plugins' source.
 #
 #  Test data is NEVER baked in.  Mount at runtime:
 #    docker run -v /path/to/testdata:/geoips_testdata geoips ...
@@ -38,11 +53,11 @@ ENV CFLAGS="-Wno-incompatible-pointer-types"
 # Single apt pass: add unstable source first, then one update + install.
 RUN echo "deb http://deb.debian.org/debian/ unstable main contrib non-free" \
       > /etc/apt/sources.list.d/unstable.list \
-    && apt-get update \
+    && apt-get update --error-on=any \
     && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
-         git wget libopenblas-dev g++ make gfortran libeccodes-dev \
-         -t unstable gdal-bin libgdal-dev \
+        git wget libopenblas-dev g++ make gfortran libeccodes-dev \
+        gdal-bin/unstable libgdal-dev/unstable \
     && rm -rf /var/lib/apt/lists/* \
     && pip install --no-cache-dir uv
 
@@ -61,9 +76,11 @@ ARG GROUP_ID=1000
 ENV GEOIPS_PACKAGES_DIR=/packages \
     GEOIPS_OUTDIRS=/output \
     GEOIPS_TESTDATA_DIR=/geoips_testdata \
+    GEOIPS_ANCILDAT=/geoips_testdata \
     GEOIPS_DEPENDENCIES_DIR=/app/dependencies \
     GEOIPS_REPO_URL=https://github.com/NRLMMD-GEOIPS/ \
-    CARTOPY_DATA_DIR=/packages
+    CARTOPY_DATA_DIR=/packages \
+    PIP_ROOT_USER_ACTION=ignore
 
 RUN groupadd -g ${GROUP_ID} ${USER} \
     && useradd -l -m -u ${USER_ID} -g ${GROUP_ID} ${USER} \
@@ -109,10 +126,9 @@ ARG USER=geoips_user
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 ARG EXTRA_PLUGINS=""
-ARG GEOIPS_MODIFIED_BRANCH=""
 
 ENV EXTRA_PLUGINS=${EXTRA_PLUGINS} \
-    GEOIPS_MODIFIED_BRANCH=${GEOIPS_MODIFIED_BRANCH}
+    PIP_ROOT_USER_ACTION=ignore
 
 # ---- this layer rebuilds on any source change, but deps above are cached ----
 COPY --chown=${USER}:${GROUP_ID} . ${GEOIPS_PACKAGES_DIR}/geoips/
@@ -151,6 +167,7 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 
 USER root
+ENV PIP_ROOT_USER_ACTION=ignore
 RUN uv pip install --system --no-cache ${GEOIPS_PACKAGES_DIR}/geoips[doc,lint,test] \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
 
@@ -167,6 +184,10 @@ FROM geoips-base AS geoips-full
 ARG USER=geoips_user
 ARG USER_ID=1000
 ARG GROUP_ID=1000
+# See the top of this file; read by the ansible inventory.
+ARG REPO_BRANCHES=""
+ARG DISABLED_REPOS=""
+ENV PIP_ROOT_USER_ACTION=ignore
 
 USER root
 RUN uv pip install --system --no-cache ${GEOIPS_PACKAGES_DIR}/geoips[doc,test] \
@@ -190,10 +211,17 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 ARG GEOIPS_USE_PRIVATE_PLUGINS=false
 ARG EDITABLE_PIP_INSTALL=true
+ARG REPO_BRANCHES=""
+ARG DISABLED_REPOS=""
 ENV GEOIPS_USE_PRIVATE_PLUGINS=${GEOIPS_USE_PRIVATE_PLUGINS}
 
 USER root
-RUN uv pip install --system --no-cache \
+ENV PIP_ROOT_USER_ACTION=ignore
+# The optional geoips_private_token secret authenticates the clones of private
+# plugin repos (see github-token-env.sh); it is only mounted for this step.
+RUN --mount=type=secret,id=geoips_private_token \
+    . ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible/scripts/github-token-env.sh \
+    && uv pip install --system --no-cache \
     $([ "$EDITABLE_PIP_INSTALL" = "true" ] && echo "-e") \
     ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,lint,debug] \
     && cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
@@ -203,6 +231,25 @@ RUN uv pip install --system --no-cache \
        -e editable_pip_install=$EDITABLE_PIP_INSTALL \
        -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS} /home/${USER}
+
+# Test-only Python package overrides (see the top of this file), in their own last
+# layer so that changing them rebuilds nothing else. Git URLs of private repos use
+# the geoips_private_token secret. The packages they changed are recorded in
+# .ci_pip_overrides; pip check only warns, as testing against other versions than
+# the pinned ones is often the point.
+ARG PIP_OVERRIDES=""
+RUN --mount=type=secret,id=geoips_private_token \
+    if [ -n "$PIP_OVERRIDES" ]; then \
+      . ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible/scripts/github-token-env.sh \
+      && printf '%s\n' "$PIP_OVERRIDES" > /tmp/pip-overrides.txt \
+      && uv pip freeze --system | sort > /tmp/freeze-before.txt \
+      && uv pip install --system --no-cache -r /tmp/pip-overrides.txt \
+      && uv pip freeze --system | sort > /tmp/freeze-after.txt \
+      && comm -13 /tmp/freeze-before.txt /tmp/freeze-after.txt \
+         > ${GEOIPS_PACKAGES_DIR}/.ci_pip_overrides \
+      && { pip check || echo "WARNING: the overrides conflict with pinned dependencies"; } \
+      && rm /tmp/pip-overrides.txt /tmp/freeze-before.txt /tmp/freeze-after.txt; \
+    fi
 
 USER ${USER}
 
@@ -236,7 +283,10 @@ RUN apt-get update \
 # Convert to editable install.  Non-editable packages are already in
 # site-packages from the earlier stages; editable overlays them so
 # Python loads from /packages/geoips (→ workspace bind mount → host).
-RUN uv pip install --system --no-cache -e ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,lint,debug] \
+# Re-runs the site tag, so private repos (if enabled) need the token again.
+RUN --mount=type=secret,id=geoips_private_token \
+    . ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible/scripts/github-token-env.sh \
+    && uv pip install --system --no-cache -e ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,lint,debug] \
     && cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
     && ansible-playbook playbooks/install.yml \
        --tags site \
