@@ -37,25 +37,5 @@ class NetcdfXarrayOutputFormatterPlugin(NetcdfOutputFormatterPlugin):
             )
         return output_fnames
 
-    def make_json_friendly(self, value):
-        """Return a JSON-serializable version of `value`."""
-        # Handle NumPy scalars
-        if isinstance(value, np.generic):
-            return value.item()  # convert np.int32 -> int, np.float64 -> float, etc.
-
-        # Handle common non-serializable types
-        if isinstance(value, (dict, list, tuple)):
-            # Recursively make contents JSON-friendly
-            return json.loads(json.dumps(value, default=self.make_json_friendly))
-        if isinstance(value, datetime):
-            return value.isoformat()
-
-        # Simple types that JSON already understands
-        if isinstance(value, (str, int, float, bool)) or value is None:
-            return value
-
-        # Fallback: string representation
-        return str(value)
-
 
 PLUGIN_CLASS = NetcdfXarrayOutputFormatterPlugin
