@@ -11,8 +11,14 @@ all:
     geoips_dependencies_dir: "{{ lookup('env', 'GEOIPS_DEPENDENCIES_DIR') | default('/app/dependencies', true) }}"
     geoips_repo_url: "{{ lookup('env', 'GEOIPS_REPO_URL') | default('https://github.com/NRLMMD-GEOIPS', true) }}"
 
-    # Branch to attempt after cloning each repo.  Empty string = stay on default.
-    geoips_modified_branch: "{{ lookup('env', 'GEOIPS_MODIFIED_BRANCH') | default('', true) }}"
+    # Branch, tag or commit to clone repos at, as "repo=ref repo=ref ...", for testing
+    # against other branches (geoips_ci sets it from .github/ci-dependencies.yaml).
+    # Repos not listed are cloned on their default branch.
+    repo_branches: "{{ lookup('env', 'REPO_BRANCHES') | default('', true) }}"
+
+    # Plugin repos to leave out of the install, as "repo repo ..." (geoips_ci sets it
+    # from .github/ci-disabled-repos.yaml). They are removed from the lists below.
+    disabled_repos: "{{ lookup('env', 'DISABLED_REPOS') | default('', true) }}"
 
     # Set true to include private/proprietary plugin repos
     geoips_use_private_plugins: "{{ lookup('env', 'GEOIPS_USE_PRIVATE_PLUGINS') | default(false, true) }}"
@@ -50,22 +56,33 @@ all:
       - template_basic_plugin
 
     # ORDER MATTERS – each entry is installed sequentially.
-    # fortran_utils → rayleigh → ancildat → synth_green must precede geocolor.
+    # fortran_utils → rayleigh → ancildat → synth_green must precede geocolor;
+    # lunarref and true_color come after the chain.
     fortran_repos_ordered:
       - fortran_utils
       - rayleigh
       - ancildat
       - synth_green
       - geocolor
-
-    private_plugin_repos:
-      - ryglickicane
-      - tc_mint
-
-    # Must install AFTER the fortran chain above.
-    private_fortran_repos:
       - lunarref
       - true_color
+
+    # Installed in this order: pyrocb must precede geoips_nucaps (a dependency).
+    private_plugin_repos:
+      - pyrocb
+      - geoips_nucaps
+      - geoips_proxyvis
+      - geoips_tomorrowio
+      - geoips_wsfm
+      # geoips_xesmf is disabled for now: xesmf needs the ESMF library, which
+      # the image does not have (Debian has no package for it).
+      # - geoips_xesmf
+      - ryglickicane
+
+    # Must install AFTER the fortran chain above (geoips_debra builds against
+    # fortran_utils and ancildat).
+    private_fortran_repos:
+      - geoips_debra
 
     # ---------------------------------------------------------------------------
     # Test datasets — which datasets belong to each install tier.

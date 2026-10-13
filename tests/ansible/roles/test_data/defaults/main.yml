@@ -30,6 +30,12 @@ full_test_datasets:
   - test_data_smos
   - test_data_tpw
   - test_data_viirs
+  - test_data_pyrocb
+  - city_lights
+  - elevation
+  - lw_mask
+  - rayleigh
+  - synth_green
 
 site_test_datasets:
   - test_data_clavrx
