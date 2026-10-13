@@ -1,0 +1,20 @@
+optimization:
+- title: 'Consolidate shared deck parser methods into DeckSectorMetaGeneratorPlugin.'
+  description: 'Move multiple redundant methods from bdeck and fdeck parsers into DeckSectorMetaGeneratorPlugin.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'docs/source/releases/latest/1514-consolidate-shared-deck-parser-methods-into-DeckSectorMetaGeneratorPlugin.yaml'
+    modified:
+    - 'geoips/interfaces/class_based/sector_metadata_generators.py'
+    - 'geoips/plugins/classes/sector_metadata_generators/bdeck_parser.py'
+    - 'geoips/plugins/classes/sector_metadata_generators/fdeck_parser.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
