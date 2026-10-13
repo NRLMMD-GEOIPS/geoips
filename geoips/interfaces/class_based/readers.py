@@ -639,7 +639,7 @@ class ReadersInterface(BaseClassInterface):
         if skipped_files:
             LOG.warning(
                 "Excluded %s of %s files provided to the reader. "
-                "See INFO-level log messages for per-file reasons.",
+                "See warning and error log messages for per-file reasons.",
                 len(skipped_files),
                 len(fnames),
             )
