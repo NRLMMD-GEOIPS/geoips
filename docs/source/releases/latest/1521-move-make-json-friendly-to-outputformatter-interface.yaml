@@ -12,7 +12,7 @@ bug fix:
     - 'geoips/interfaces/class_based/output_formatters.py'
     - 'geoips/plugins/classes/output_formatters/netcdf_xarray.py'
   related-issue:
-    number: null
+    number: 1461
     repo_url: ''
   date:
     start: null
