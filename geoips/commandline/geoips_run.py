@@ -48,6 +48,18 @@ with import_optional_dependencies(loglevel="info"):
             raise e
     data_fusion_installed = True
 
+with import_optional_dependencies(loglevel="info"):
+    """Attempt to import spm_rt procflow from geoips_spm."""
+    # NOTE: loglevel is set to 'info' here so we don't get the constant output of
+    # 'Failed to import data_fusion.commandline at /path/to/geoips/geoips/commandline/geoips_run.py:19. If you need it, install it.' # NOQA
+    # every time we use the CLI. If a user needs the CLI, I'm assuming they'll know to
+    # install it.
+    try:
+        from geoips_spm.interfaces import geoips_spm_interfaces
+    except ModuleNotFoundError as e:
+        raise e
+    geoips_spm_installed = True
+
 
 class GeoipsRunConfigBased(GeoipsExecutableCommand):
     """Run Command for executing the config based process-workflow (procflow)."""
@@ -457,6 +469,90 @@ class GeoipsRunSingleSource(GeoipsExecutableCommand):
         main(ARGS=args)
 
 
+class GeoipsRunSpmRt(GeoipsExecutableCommand):
+    """Run Command for executing the spm_rt process-workflow (procflow)."""
+
+    name = "spm_rt"
+    command_classes = []
+
+    def add_arguments(self):
+        """Add arguments to the run-subparser for the 'run spm_rt' Command."""
+        self.parser.add_argument(
+            "sat_name",
+            type=str,
+            choices=["ahi", "goes18", "goes19"],
+            help=(
+                "The name of the satellite to run the model for. Choices are ['ahi',"
+                "'goes18', 'goes19']"
+            ),
+        )
+        self.parser.add_argument(
+            "-n",
+            "--max-times",
+            default=2,
+            type=int,
+            help=(
+                "The maximum number of times to run the prediction model. "
+                "Defaults to 2."
+            ),
+        )
+        self.parser.add_argument(
+            "-d",
+            "--dryrun",
+            default=False,
+            action="store_true",
+            help=(
+                "Whether or not to actually run the prediction model. Useful for "
+                "testing out what arguments will be passed before committing gpu "
+                "resources. Defaults to False."
+            ),
+        )
+        self.parser.add_argument(
+            "-c",
+            "--clobber",
+            default=False,
+            action="store_true",
+            help=(
+                "Whether or not to overwrite prediction files if they already exist. "
+                "Defaults to False."
+            ),
+        )
+        self.parser.add_argument(
+            "--gpu",
+            type=int,
+            default=None,
+            help=(
+                "Override the default number of allocated gpus to allocate to model "
+                "runs. Defaults to None, and in that case, the number of gpus dedicated"
+                "to the model is tied to the selected satellite."
+            ),
+        )
+
+    def __call__(self, args):
+        """Run the provided GeoIPS command.
+
+        Parameters
+        ----------
+        args: Namespace()
+            - The argument namespace to parse through
+        """
+        if geoips_spm_installed:
+            spm_rt_procflow = geoips_spm_interfaces.get_plugin("spm_rt")
+            spm_rt_procflow(
+                args.sat_name,
+                max_times=args.max_times,
+                dryrun=args.dryrun,
+                num_gpu=args.gpu,
+                overwrite=args.clobber,
+            )
+        else:
+            print(
+                "geoips_spm is not installed. If you want to run this type of "
+                "functionality, please clone and install "
+                "https://github.com/CIRA-GEOIPS/geoips_spm.git"
+            )
+
+
 class GeoipsRun(GeoipsCommand):
     """Run Command for running process-workflows (procflows)."""
 
@@ -466,4 +562,5 @@ class GeoipsRun(GeoipsCommand):
         GeoipsRunConfigBased,
         GeoipsRunOrderBased,
         GeoipsRunSingleSource,
+        GeoipsRunSpmRt,
     ]
