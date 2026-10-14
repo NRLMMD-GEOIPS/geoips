@@ -1,0 +1,3 @@
+# Plugin repos the CI image does not install, mapped to the reason they are disabled
+# Unlike ci-dependencies.yaml.this applies to every branch !
+synth_green: "Example of disabling a repo"
