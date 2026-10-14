@@ -649,7 +649,7 @@ class NetcdfOutputFormatterPlugin(BaseOutputFormatterPlugin, abstract=True):
             dp_str = xarray_obj.attrs["data_provider"]
 
         LOG.info(
-            "Writing xarray obj to file %s, source %s, platform %s, start_dt %s, ",
+            "Writing xarray obj to file %s, source %s, platform %s, start_dt %s, "
             "end_dt %s, %s %s, %s %s, %s %s",
             ncdf_fname,
             xarray_obj.source_name,
