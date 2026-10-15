@@ -12,7 +12,7 @@ from os.path import dirname, exists
 import warnings
 
 import cartopy.crs as crs
-import numpy
+import numpy as np
 import xarray as xr
 
 from geoips.filenames.base_paths import make_dirs
@@ -370,8 +370,8 @@ class WindbarbOutputFormatterPlugin(BaseOutputFormatterPlugin, abstract=True):
             used to set the ticks on a colorbar
         """
         pressure = windbarb_data_dict["pressure"]
-        n_valid = numpy.count_nonzero(pressure)
-        height_num = numpy.zeros(pressure.shape)
+        n_valid = np.count_nonzero(pressure)
+        height_num = np.zeros(pressure.shape)
         level_labels = ["Unassigned"]
         for i, (level, pressure_range) in enumerate(pressure_range_dict.items()):
             max_pres = max(pressure_range)
@@ -382,9 +382,9 @@ class WindbarbOutputFormatterPlugin(BaseOutputFormatterPlugin, abstract=True):
             LOG.info(
                 "Number of wind retrievals for %s: %s",
                 level,
-                numpy.count_nonzero(pressure_mask),
+                np.count_nonzero(pressure_mask),
             )
-        LOG.info("Assigned %s/%s retrievals", numpy.count_nonzero(height_num), n_valid)
+        LOG.info("Assigned %s/%s retrievals", np.count_nonzero(height_num), n_valid)
         return height_num, level_labels
 
     def plot_barbs(
@@ -439,11 +439,11 @@ class WindbarbOutputFormatterPlugin(BaseOutputFormatterPlugin, abstract=True):
         # direction=xarray_obj['wind_dir_deg_met'].to_masked_array()
         # speed=xarray_obj['wind_speed_kts'].to_masked_array()
 
-        # u=speed * numpy.sin((direction+180)*3.1415926/180.0)
-        # v=speed * numpy.cos((direction+180)*3.1415926/180.0)
+        # u=speed * np.sin((direction+180)*3.1415926/180.0)
+        # v=speed * np.cos((direction+180)*3.1415926/180.0)
 
-        # u=speed * numpy.sin(direction*3.1415926/180.0)
-        # v=speed * numpy.cos(direction*3.1415926/180.0)
+        # u=speed * np.sin(direction*3.1415926/180.0)
+        # v=speed * np.cos(direction*3.1415926/180.0)
 
         data_cols = xarray_obj[product_name].attrs.get(
             "windbarb_data_columns", ["speed", "direction", "rain_flag"]
@@ -525,13 +525,13 @@ class WindbarbOutputFormatterPlugin(BaseOutputFormatterPlugin, abstract=True):
 
         lat = xarray_obj["latitude"].to_masked_array()
         lon2 = xarray_obj["longitude"].to_masked_array()
-        u = speed * numpy.sin((direction + 180) * 3.1415926 / 180.0)
-        v = speed * numpy.cos((direction + 180) * 3.1415926 / 180.0)
+        u = speed * np.sin((direction + 180) * 3.1415926 / 180.0)
+        v = speed * np.cos((direction + 180) * 3.1415926 / 180.0)
 
         # convert longitudes to (-180,180)
         # lon=utils.wrap_longitudes(lon2)
         # Must be 0-360 for barbs
-        lon = numpy.ma.where(lon2 < 0, lon2 + 360, lon2)
+        lon = np.ma.where(lon2 < 0, lon2 + 360, lon2)
         thin_slice = [slice(0, None, thinning)] * lat.ndim
 
         lat2 = lat[tuple(thin_slice)]
@@ -548,8 +548,8 @@ class WindbarbOutputFormatterPlugin(BaseOutputFormatterPlugin, abstract=True):
         elif lat2.max() < 0:
             flip_barb = True
         else:
-            flip_barb = numpy.ma.where(lat2 > 0, False, True).data
-        good_inds = numpy.ma.where(speed2)
+            flip_barb = np.ma.where(lat2 > 0, False, True).data
+        good_inds = np.ma.where(speed2)
         return_dict = {}
         if len(lon2.shape) != len(speed2.shape):
             return_dict["lon"] = lon2[good_inds[0:2]]
@@ -569,7 +569,7 @@ class WindbarbOutputFormatterPlugin(BaseOutputFormatterPlugin, abstract=True):
         return_dict["u"] = u2[good_inds]
         return_dict["v"] = v2[good_inds]
         return_dict["speed"] = speed2[good_inds]
-        return_dict["rain_inds"] = numpy.ma.where(rain_flag2[good_inds])
+        return_dict["rain_inds"] = np.ma.where(rain_flag2[good_inds])
         return_dict["barb_length"] = barblength
         return_dict["line_width"] = linewidth
         return_dict["sizes_dict"] = sizes_dict
@@ -649,7 +649,7 @@ class NetcdfOutputFormatterPlugin(BaseOutputFormatterPlugin, abstract=True):
             dp_str = xarray_obj.attrs["data_provider"]
 
         LOG.info(
-            "Writing xarray obj to file %s, source %s, platform %s, start_dt %s, ",
+            "Writing xarray obj to file %s, source %s, platform %s, start_dt %s, "
             "end_dt %s, %s %s, %s %s, %s %s",
             ncdf_fname,
             xarray_obj.source_name,
@@ -684,6 +684,26 @@ class NetcdfOutputFormatterPlugin(BaseOutputFormatterPlugin, abstract=True):
             xarray_obj[varname].attrs = orig_var_attrs[varname]
 
         return [ncdf_fname]
+
+    def make_json_friendly(self, value):
+        """Return a JSON-serializable version of `value`."""
+        # Handle NumPy scalars
+        if isinstance(value, np.generic):
+            return value.item()  # convert np.int32 -> int, np.float64 -> float, etc.
+
+        # Handle common non-serializable types
+        if isinstance(value, (dict, list, tuple)):
+            # Recursively make contents JSON-friendly
+            return json.loads(json.dumps(value, default=self.make_json_friendly))
+        if isinstance(value, datetime):
+            return value.isoformat()
+
+        # Simple types that JSON already understands
+        if isinstance(value, (str, int, float, bool)) or value is None:
+            return value
+
+        # Fallback: string representation
+        return str(value)
 
     def clean_attr_for_netcdf(self, xobj, attr):
         """Check xarray attributes."""

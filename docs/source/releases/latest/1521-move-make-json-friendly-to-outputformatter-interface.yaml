@@ -1,0 +1,19 @@
+bug fix:
+- title: 'Fix make_json_friendly lookup failure'
+  description: 'Moves make_json_friendly() to geoips/interfaces/class_based/output_formatters.py so it’s available to all NetCDF output formatter plugins.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'geoips/docs/source/releases/latest/1521-move-make-json-friendly-to-outputformatter-interface.yaml'
+    modified:
+    - 'geoips/interfaces/class_based/output_formatters.py'
+    - 'geoips/plugins/classes/output_formatters/netcdf_xarray.py'
+  related-issue:
+    number: 1461
+    repo_url: ''
+  date:
+    start: null
+    finish: null
