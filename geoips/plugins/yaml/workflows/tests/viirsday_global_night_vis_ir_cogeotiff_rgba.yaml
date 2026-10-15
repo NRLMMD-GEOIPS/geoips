@@ -19,15 +19,16 @@ test:
   outputs:
     output_formatter:
       full_test_policy: on_token_mismatch # always | never
-      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/viirsday.global.<product>.cogeotiff_rgba
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/viirsday.global.Night-Vis-IR.cogeotiff_rgba
       output_checker_name: geotiff
-spec:
+arguments:
   globals:
     product_name: Night-Vis-IR
     reader_defined_area_def: False
     # will be uncommented after split operation is implemented
     # sector_list: ["global_cylindrical"]
-    minimum_coverage: 0 
+    minimum_coverage: 0
+spec:
   steps:
     sector:
       kind: sector
@@ -36,10 +37,14 @@ spec:
       kind: reader
       name: viirs_netcdf
       depends_on: [sector]
+      arguments:
+        chans: ["DNBRad", "M16BT"]
     viirs_Night_Vis_IR:
       kind: product
       name: [viirs, Night-Vis-IR]
       depends_on: [sector, reader]
+      arguments:
+        coverage_checker.variable_name: Night-Vis-IR
     filename_formatter:
       kind: filename_formatter
       name: geotiff_fname

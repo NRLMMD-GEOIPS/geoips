@@ -182,15 +182,6 @@ class TestGeoipsRun(BaseCliTest):
         "-s",
         "reader.area_def=null",
     ]
-    obp_args_string_kind_override = [
-        "geoips",
-        "run",
-        "order_based",
-        "test_product",
-        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
-        "-k",
-        "readers.satellite_zenith_angle_cutoff=80",
-    ]
     obp_args_string_global_override = [
         "geoips",
         "run",
@@ -208,15 +199,6 @@ class TestGeoipsRun(BaseCliTest):
         "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
         "-S",
         r'{"abi_Infrared": {"spec": {"steps": {"algorithm": {"output_units": "kelvin"}}}}}',  # NOQA
-    ]
-    obp_args_dict_kind_override = [
-        "geoips",
-        "run",
-        "order_based",
-        "test_product",
-        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
-        "-K",
-        r'{"readers": {"satellite_zenith_angle_cutoff": 80}}',
     ]
     obp_args_dict_global_override = [
         "geoips",
@@ -250,10 +232,8 @@ class TestGeoipsRun(BaseCliTest):
             self._cmd_list.append(self.obp_args_generated_workflow)
             self._cmd_list.append(self.obp_args_workflow_path)
             self._cmd_list.append(self.obp_args_string_step_override)
-            self._cmd_list.append(self.obp_args_string_kind_override)
             self._cmd_list.append(self.obp_args_string_global_override)
             self._cmd_list.append(self.obp_args_dict_step_override)
-            self._cmd_list.append(self.obp_args_dict_kind_override)
             self._cmd_list.append(self.obp_args_dict_global_override)
             if "data_fusion" in self.plugin_package_names:
                 # Only add these argument lists if data_fusion is installed

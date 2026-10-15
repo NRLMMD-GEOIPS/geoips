@@ -21,14 +21,15 @@ test:
   outputs:
     output_formatter:
       full_test_policy: on_token_mismatch # always | never
-      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/ewsg.static.<product>.imagery_clean
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/ewsg.static.Infrared.imagery_clean
       output_checker_name: image
-spec:
+arguments:
   globals:
     product_name: Infrared
     reader_defined_area_def: False
     # will be uncommented after split operation is implemented
     # sector_list: ["ewsg"]
+spec:
   steps:
     sector:
       kind: sector
@@ -37,10 +38,14 @@ spec:
       kind: reader
       name: ewsg_netcdf
       depends_on: [sector]
+      arguments:
+        chans: ["gvar_ch4"]
     gvar_Infrared:
       kind: product
       name: [gvar, Infrared]
       depends_on: [sector, reader]
+      arguments:
+        coverage_checker.variable_name: Infrared
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname

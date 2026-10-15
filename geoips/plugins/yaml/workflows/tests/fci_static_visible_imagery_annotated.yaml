@@ -2,7 +2,7 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 # script migration = done
-# product testing = ongoing
+# product testing = done
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
@@ -21,14 +21,15 @@ test:
   outputs:
     output_formatter:
       full_test_policy: on_token_mismatch # always | never
-      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/fci.static.<product>.imagery_annotated
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/fci.static.Visible.imagery_annotated
       output_checker_name: image
-spec:
+arguments:
   globals:
     product_name: Visible
     reader_defined_area_def: False
     # will be uncommented after split operation is implemented
     # sector_list: ["global_cylindrical"]
+spec:
   steps:
     sector:
       kind: sector
@@ -37,10 +38,15 @@ spec:
       kind: reader
       name: fci_netcdf
       depends_on: []
+      arguments:
+        chans: ["B03Ref", "MED:solar_zenith_angle", "MED:satellite_zenith_angle"]
     fci_Visible:
       kind: product
       name: [fci, Visible]
       depends_on: [sector, reader]
+      arguments:
+        coverage_checker.variable_name: Visible
+        interpolator.varlist: [Visible]
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname

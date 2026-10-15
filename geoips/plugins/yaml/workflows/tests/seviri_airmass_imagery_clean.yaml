@@ -17,12 +17,13 @@ test:
       full_test_policy: on_token_mismatch # always | never
       compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/seviri.airmass.imagery_clean
       output_checker_name: image
-spec:
+arguments:
   globals:
     product_name: airmass
     reader_defined_area_def: False
     # will be uncommented after split operation is implemented
     # sector_list: ["test_meteoeu_eqc_3km_landocean"]
+spec:
   steps:
     sector:
       kind: sector
@@ -31,10 +32,14 @@ spec:
       kind: reader
       name: seviri_hrit
       depends_on: [sector]
+      arguments:
+        chans: ["B05BT", "B06BT", "B08BT", "B09BT"]
     seviri_airmass:
       kind: product
       name: [seviri, airmass]
       depends_on: [sector, reader]
+      arguments:
+        coverage_checker.variable_name: airmass
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
@@ -42,7 +47,7 @@ spec:
     output_formatter:
       kind: output_formatter
       name: imagery_clean
-      depends_on: 
+      depends_on:
         - seviri_airmass.algorithm
         - seviri_airmass.colormapper
         - filename_formatter

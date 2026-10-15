@@ -23,12 +23,13 @@ test:
       full_test_policy: on_token_mismatch # always | never
       compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/seviri.Day_Microphys_Summer.imagery_clean
       output_checker_name: image
-spec:
+arguments:
   globals:
     product_name: Day_Microphys_Summer
     reader_defined_area_def: False
     # will be uncommented after split operation is implemented
     # sector_list: ["test_meteoeu_eqc_3km_landocean"]
+spec:
   steps:
     sector:
       kind: sector
@@ -37,10 +38,14 @@ spec:
       kind: reader
       name: seviri_hrit
       depends_on: [sector]
+      arguments:
+        chans: ["B02Ref", "B04BT", "B09BT"]
     seviri_Day_Microphys_Summer:
       kind: product
       name: [seviri, Day_Microphys_Summer]
       depends_on: [sector, reader]
+      arguments:
+        coverage_checker.variable_name: Day_Microphys_Summer
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
