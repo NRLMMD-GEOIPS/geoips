@@ -37,7 +37,7 @@ The 2.0 class-based equivalent:
 
 ```python
 # geoips/plugins/classes/algorithms/single_channel.py
-from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
+from geoips.interfaces.class_based.bases.algorithms import BaseAlgorithmPlugin
 
 
 class SingleChannelAlgorithmPlugin(BaseAlgorithmPlugin):

@@ -13,7 +13,7 @@ International Journal of Remote Sensing 38 (19): 5374–87.
 doi:10.1080/01431161.2017.1338838.
 """
 
-from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
+from geoips.interfaces.class_based.bases.algorithms import BaseAlgorithmPlugin
 
 # python libs
 import logging

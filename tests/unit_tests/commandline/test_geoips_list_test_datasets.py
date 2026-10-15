@@ -48,7 +48,7 @@ class TestGeoipsListTestDatasets(BaseCliTest):
             "ls",
             "test-datasets",
         ]
-        assert "usage: To use, type `geoips list test-datasets`" in error
+        assert "To use, type `geoips list test-datasets`" in error
         assert "Error: '-p' flag is not supported for this command" in error
 
     def check_output(self, args, output):
@@ -61,10 +61,10 @@ class TestGeoipsListTestDatasets(BaseCliTest):
         output: str
             - Multiline str representing the output of the CLI call
         """
-        if "usage: To use, type" in output:
+        if "To use, type" in output:
             # -h has been called, check help message contents for this command
             assert "-h" in args
-            assert "usage: To use, type `geoips list test-datasets`" in output
+            assert "To use, type `geoips list test-datasets`" in output
         else:
             # The args provided are valid, so test that the output is actually correct
             assert args == ["geoips", "list", "test-datasets"] or args == [

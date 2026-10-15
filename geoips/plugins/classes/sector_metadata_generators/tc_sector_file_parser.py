@@ -12,7 +12,7 @@ Potentially useful for real-time processing.
 93S INVEST 210120 1800 12.6S 98.5E SHEM 30 1003
 """
 
-from geoips.interfaces.class_based.sector_metadata_generators import (
+from geoips.interfaces.class_based.bases.sector_metadata_generators import (
     BaseSectorMetadataGeneratorPlugin,
 )
 

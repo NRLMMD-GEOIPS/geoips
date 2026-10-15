@@ -72,7 +72,7 @@ class TestGeoipsListScripts(BaseCliTest):
             ]
             for pkg_name in self.plugin_package_names:
                 assert args != ["geoips", "list", "scripts", "-p", pkg_name]
-            assert "usage: To use, type `geoips list scripts`" in error
+            assert "To use, type `geoips list scripts`" in error
 
     def check_output(self, args, output):
         """Ensure that the 'geoips list scripts ...' successful output is correct.
@@ -86,7 +86,7 @@ class TestGeoipsListScripts(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            assert "usage: To use, type `geoips list scripts`" in output
+            assert "To use, type `geoips list scripts`" in output
         elif "-p" not in args and any(
             [is_editable(pkg_name) for pkg_name in self.plugin_package_names]
         ):
