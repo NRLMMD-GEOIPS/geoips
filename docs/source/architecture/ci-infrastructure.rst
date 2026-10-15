@@ -185,17 +185,22 @@ then hardcoded defaults.  Copy the inventory file to create a custom setup
        ``--no-binary :all:`` to compile all dependencies from source inside the container.
    * - ``geoips_use_private_plugins``
      - ``false``
-     - Set to ``true`` to include proprietary plugin repos (``ryglickicane``, ``tc_mint``,
-       ``lunarref``, ``true_color``).
+     - Set to ``true`` to include proprietary plugin repos (``pyrocb``,
+       ``geoips_nucaps``, ``geoips_proxyvis``, ``geoips_tomorrowio``, ``geoips_wsfm``,
+       ``geoips_xesmf``, ``ryglickicane``, ``geoips_debra``).
    * - ``extra_plugin_packages``
      - ``""``
      - Comma-separated list of additional plugin repository names to clone and install.
        Corresponds to the ``EXTRA_PLUGINS`` Docker build argument.
-   * - ``geoips_modified_branch``
+   * - ``repo_branches``
      - ``""``
-     - After cloning each repo, attempt to check out this branch.  Falls back silently to
-       the default branch if it does not exist.  See `Branch fallback strategy`_
-       for details on how this is handled across repos.
+     - ``"repo=ref repo=ref ..."``: clone these repos at a branch, tag or commit instead of
+       their default branch.  Read from the ``REPO_BRANCHES`` environment variable.  See
+       `Testing against other branches`_.
+   * - ``disabled_repos``
+     - ``""``
+     - ``"repo repo ..."``: plugin repos to leave out of the install.  Read from the
+       ``DISABLED_REPOS`` environment variable.  See `Disabling plugin repos`_.
    * - ``geoips_packages_dir``
      - ``/packages``
      - Root directory where repos are cloned.  Reads ``GEOIPS_PACKAGES_DIR`` env var.
@@ -304,9 +309,12 @@ The roles live in ``tests/ansible/roles/`` and each handles one concern.
    1. **Standard plugins** (alphabetical): ``data_fusion``, ``geoips_clavrx``,
       ``geoips_plugin_example``, ``recenter_tc``, ``template_basic_plugin``
    2. **Fortran chain** (order critical): ``fortran_utils`` → ``rayleigh`` → ``ancildat``
-      → ``synth_green`` → ``geocolor``
-   3. **Private plugins** (when enabled): ``ryglickicane``, ``tc_mint``
-   4. **Private fortran repos** (when enabled, order critical): ``lunarref``, ``true_color``
+      → ``synth_green`` → ``geocolor`` → ``lunarref`` → ``true_color``
+   3. **Private plugins** (when enabled): ``pyrocb``, ``geoips_nucaps``,
+      ``geoips_proxyvis``, ``geoips_tomorrowio``, ``geoips_wsfm``, ``ryglickicane``
+      (``geoips_xesmf`` is disabled for now: xesmf needs the ESMF library,
+      which the image does not have)
+   4. **Private fortran repos** (when enabled, order critical): ``geoips_debra``
    5. **Extra plugins**: any repos passed via ``extra_plugin_packages``
 
    The fortran ordering constraint exists because each package depends on compiled
@@ -386,25 +394,54 @@ and avoids wheel-cache bloat.  The ``deps`` stage also applies this flag, and be
 Test data is always a runtime mount, never a build-time layer.
 
 
-Branch fallback strategy
-------------------------
+Testing against other branches
+------------------------------
 
-Every repo clone — in both ``settings_repos`` and ``source_repos`` — follows a two-step
-pattern:
+Repos are cloned on their default branch.  To test a change that needs changes in other
+repos or other package versions, add an entry for its branch to
+``.github/ci-dependencies.yaml``:
 
-1. Attempt to clone (or checkout) the branch named by ``geoips_modified_branch``.  If that
-   variable is empty, this step is skipped entirely.
-2. If the branch clone failed (branch does not exist in the remote), fall back to the
-   remote's default branch.
+.. code-block:: yaml
 
-This lets CI pipelines pass a single branch name across all repos without needing to know
-which repos actually carry that branch.  Repos that do not have the branch simply land on
-their default branch without error.
+   my-feature-branch:
+     python:   # pip requirements, installed last in the image so they win
+       - "pluginify @ git+https://github.com/NRLMMD-GEOIPS/pluginify@my-fix"
+       - "xarray==2025.6.1"
+     repos:    # repos the image clones: repo -> branch, tag or commit
+       recenter_tc: my-fix
 
-The ``source_repos`` role implements this per-repo in
-``roles/source_repos/tasks/clone_and_install.yml``.  The ``settings_repos`` role uses a
-batch approach: clone all repos in one loop with ``failed_when: false``, then re-clone only
-the ones that failed.
+geoips_ci passes these to the ``geoips-site`` build as ``PIP_OVERRIDES`` and
+``REPO_BRANCHES``.  The playbook checks ``repo_branches`` before installing anything: an
+unknown repo, or a private repo when the ``site`` tasks run without
+``geoips_use_private_plugins``, fails the run, and
+so does a ref that does not exist (there is no fallback to the default branch).  The image
+records what the overrides installed in ``.ci_pip_overrides`` and ``.ci_repo_branches`` in
+``$GEOIPS_PACKAGES_DIR``, which CI shows in the job summary.
+
+Only the entry of the branch under test applies, so the file can be merged without
+affecting ``main`` or other branches.  CI never pushes images built with overrides.
+Plugin repos test in the published
+GeoIPS image, so only ``python`` overrides apply there, for example
+``geoips @ git+https://github.com/NRLMMD-GEOIPS/geoips@my-branch``.
+
+Disabling plugin repos
+----------------------
+
+To leave plugin repos out of the CI image, for example while their install is broken,
+list them in ``.github/ci-disabled-repos.yaml`` with the reason:
+
+.. code-block:: yaml
+
+   synth_green: "install fails, see NRLMMD-GEOIPS/synth_green#12"
+
+Unlike ``.github/ci-dependencies.yaml``, this applies to every branch.  geoips_ci passes
+the names to the image build as ``DISABLED_REPOS`` and lists them in the job summary.  The
+playbook removes them from ``plugin_repos``, ``fortran_repos_ordered``,
+``private_plugin_repos`` and ``private_fortran_repos`` (keeping the order), so they are
+not cloned, installed or tested.  A name that is not in those lists, or that is also in
+``repo_branches``, fails the run.  Repos that need a disabled repo still install, but
+the parts that use it fail: geocolor's GeoColor products need ``synth_green``, for
+example.
 
 
 Idempotency
@@ -412,8 +449,8 @@ Idempotency
 
 The playbooks are designed to be re-run safely at any point:
 
-- ``ansible.builtin.git`` uses ``update: false`` on the fallback clone so it does not
-  overwrite uncommitted changes.
+- ``ansible.builtin.git`` fails rather than overwrite uncommitted changes in an existing
+  clone.
 - ``pip install`` with ``state: present`` is a no-op when the package is already installed
   at the correct version.
 - The ``test_data`` role uses ``creates: "{% raw %}{{ geoips_testdata_dir }}/{{ item }}{% endraw %}"`` so
