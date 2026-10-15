@@ -77,7 +77,7 @@ class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
             kwargs["varlist"] = [
                 v
                 for v in input_xarray.variables.keys()
-                if input_xarray[v].dtype.kind in ("f", "i", "u")
+                if np.issubtype(input_xarray[v].dtype, np.number)
             ]
 
         return kwargs
