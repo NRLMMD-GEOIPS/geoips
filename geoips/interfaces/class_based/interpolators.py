@@ -4,6 +4,7 @@
 """Interpolators interface class."""
 
 import xarray as xr
+import numpy as np
 
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
@@ -75,9 +76,11 @@ class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
         kwargs.setdefault("output_xarray", xr.Dataset())
         if kwargs.get("varlist") is None:
             kwargs["varlist"] = [
+                # include only numeric dtype variables to avoid numpy dtype
+                # incompatibilities during concatenation, refer issue 1506 for traceback
                 v
                 for v in input_xarray.variables.keys()
-                if input_xarray[v].dtype.kind in ("f", "i", "u")
+                if np.issubdtype(input_xarray[v].dtype, np.number)
             ]
 
         return kwargs
