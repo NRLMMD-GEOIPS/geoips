@@ -3,11 +3,15 @@ bug fix:
   description: 'Moves make_json_friendly() to geoips/interfaces/class_based/output_formatters.py so it’s available to all NetCDF output formatter plugins.'
   files:
     deleted:
-    - ''
+    - 'geoips/interfaces/class_based/output_formatters.py'
     moved:
     - ''
     added:
     - 'geoips/docs/source/releases/latest/1521-move-make-json-friendly-to-outputformatter-interface.yaml'
+    - 'geoips/interfaces/class_based/output_formatters/__init__.py'
+    - 'geoips/interfaces/class_based/output_formatters/base.py'
+    - 'geoips/interfaces/class_based/output_formatters/netcdf.py'
+    - 'geoips/interfaces/class_based/output_formatters/windbarb.py'
     modified:
     - 'geoips/interfaces/class_based/output_formatters.py'
     - 'geoips/plugins/classes/output_formatters/netcdf_xarray.py'
