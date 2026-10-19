@@ -168,6 +168,42 @@
   tags: [base, full, site]
 
 # ---- Repos checked out at a requested ref (repo_branches) ----
+# A later install can replace one of these: a plugin that depends on it by git URL
+# (geoips_nucaps on pyrocb) installs the default branch over the requested ref.
+- name: "Find the repos at a requested ref that pip installed from somewhere else"
+  ansible.builtin.command:
+    argv:
+      - "{{ ansible_playbook_python }}"
+      - -c
+      - |
+        import importlib.metadata as md, json, pathlib, sys
+        try:
+            dist = md.distribution(sys.argv[1])
+        except md.PackageNotFoundError:
+            print("not installed")
+            sys.exit()
+        url = json.loads(dist.read_text("direct_url.json") or "{}").get("url", "")
+        path = pathlib.Path(sys.argv[2]).absolute()
+        print("ok" if url in (path.as_uri(), path.resolve().as_uri()) else url)
+      - "{{ item }}"
+      - "{{ geoips_packages_dir }}/{{ item }}"
+  loop: "{{ (repo_branch_map | default({})).keys() | list }}"
+  register: _requested_installs
+  changed_when: false
+  tags: [site]
+
+- name: "Reinstall them from the requested ref"
+  ansible.builtin.pip:
+    name: "{{ geoips_packages_dir }}/{{ r.item }}"
+    editable: "{{ editable_pip_install | bool }}"
+    extra_args: "{{ pip_extra_args }} --no-deps --force-reinstall"
+    state: present
+  loop: "{{ _requested_installs.results | rejectattr('stdout', 'in', ['ok', 'not installed']) | list }}"
+  loop_control:
+    loop_var: r
+    label: "{{ r.item }} (was {{ r.stdout }})"
+  tags: [site]
+
 - name: "Find the commits of the repos checked out at a requested ref"
   ansible.builtin.command:
     cmd: git -C "{{ geoips_packages_dir }}/{{ item.key }}" rev-parse HEAD
