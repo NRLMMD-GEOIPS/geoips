@@ -5,11 +5,10 @@
 
 import xarray as xr
 
+import functools
 import inspect
 import logging
-import functools
 import warnings
-
 
 from geoips.errors import BoundaryIOError
 from geoips.geoips_utils import replace_geoips_paths
