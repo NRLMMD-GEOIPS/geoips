@@ -95,6 +95,7 @@ Build arguments
      - ``"repo=ref repo=ref ..."``: clone these repos at a branch, tag or
        commit instead of their default branch (``geoips-full`` and
        ``geoips-site``), e.g. ``"recenter_tc=my-fix geocolor=v1.2.0"``.
+       ``repo=owner:ref`` clones the ref from ``owner``'s fork of the repo.
        A ref that does not exist fails the build.
    * - ``DISABLED_REPOS``
      - ``""``
