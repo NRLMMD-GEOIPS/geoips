@@ -22,6 +22,10 @@ continuous integration:
       ``main`` once merged), or from the new ``dependency_overrides`` input of
       ``integ_test.yaml``.
     * ``check_system_requirements.sh`` no longer switches branches after cloning.
+      This is a breaking change for installs outside Docker that set
+      ``GEOIPS_MODIFIED_BRANCH``: check out the branches you need yourself.
+    * The ``dev`` image stage re-runs the ``site`` install, so it also takes
+      ``REPO_BRANCHES``, ``DISABLED_REPOS`` and ``PIP_OVERRIDES``.
   files:
     added:
     - 'docs/source/releases/latest/ci-dependency-overrides.yaml'
@@ -43,4 +47,4 @@ continuous integration:
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
   date:
     start: 2026-10-05
-    finish: 2026-10-05
+    finish: 2026-10-19
