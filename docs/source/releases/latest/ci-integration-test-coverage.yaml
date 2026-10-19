@@ -1,0 +1,23 @@
+continuous integration:
+- title: 'Code coverage with the integration tests, uploaded to GitHub Code Quality'
+  description: |
+    The CI (geoips_ci ``reusable-ci.yaml``) measures the line coverage of
+    ``geoips`` over its unit and integration tests, including the ``geoips``
+    processes the bash test scripts start. The plugins tested in the same job
+    are not measured. ``integ_test.yaml`` uploads the report to GitHub Code
+    Quality from a new ``upload-coverage`` job (the only one with
+    ``code-quality: write``), and now also runs on pushes to ``main``, the
+    baseline pull requests are compared with. This enables coverage comments on
+    pull requests and the "Restrict code coverage" ruleset rule.
+  files:
+    added:
+    - 'docs/source/releases/latest/ci-integration-test-coverage.yaml'
+    modified:
+    - '.github/workflows/integ_test.yaml'
+    - 'docs/source/architecture/ci-infrastructure.rst'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2026-10-19
+    finish: 2026-10-19

@@ -3,6 +3,10 @@ name: Integration Tests
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
+  # The code coverage baseline: Code Quality compares pull requests with the default
+  # branch's coverage.
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       dependency_overrides:
@@ -29,10 +33,10 @@ permissions:
 jobs:
   integ-test-editable:
     if: >-
-      github.event_name == 'workflow_dispatch'
+      github.event_name != 'pull_request'
       || github.event.pull_request.draft == false
     name: integ-test (editable=true)
-    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@run-all-the-tests
+    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@integration-test-coverage
     with:
       pip_editable: true
       dependency_overrides: ${{ inputs.dependency_overrides || '' }}
@@ -42,6 +46,19 @@ jobs:
       # Read-only token for the private plugin repos (see geoips_ci README,
       # "Private plugin repositories"). Without it the image has public plugins only.
       private_repos_token: ${{ secrets.GEOIPS_PRIVATE_REPOS_TOKEN }}
+
+  # Uploads the coverage of geoips itself (not of the plugins tested with it) to GitHub
+  # Code Quality, for the coverage comment and the "Restrict code coverage" ruleset rule.
+  # Only this job gets code-quality: write. Manual runs are not uploaded; neither are
+  # fork pull requests (the upload action skips them).
+  upload-coverage:
+    needs: integ-test-editable
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    name: upload-coverage
+    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-upload-coverage.yaml@integration-test-coverage
+    permissions:
+      contents: read
+      code-quality: write
 
 #  integ-test-non-editable:
 #    needs: integ-test-editable
