@@ -8,6 +8,8 @@ import xarray as xr
 
 import inspect
 import logging
+import functools
+
 
 
 LOG = logging.getLogger(__name__)
