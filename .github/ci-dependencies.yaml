@@ -19,3 +19,13 @@ biosafetylvl5-better-errors-from-docker-apt:
     # Fix output formatter argument order to allow import of pyrocb.
     # NRLMMD-GEOIPS/pyrocb#12
     pyrocb: fix-ci-errors
+    # Fix output formatter argument order, move introduction docs to getting-started.
+    # NRLMMD-GEOIPS/geoips_plugin_example#22
+    geoips_plugin_example: fix-output-formatter-arg-order
+    # Remove the stray userguide/index.rst that broke the docs build.
+    # NRLMMD-GEOIPS/geoips_tomorrowio#4
+    geoips_tomorrowio: remove-stray-userguide
+    # Lint fixes, from jthielen's forks (owner:ref).
+    # NRLMMD-GEOIPS/fortran_utils#5, NRLMMD-GEOIPS/rayleigh#9
+    fortran_utils: "jthielen:fix-lint-xref-geoips-1510"
+    rayleigh: "jthielen:fix-lint-xref-geoips-1510"

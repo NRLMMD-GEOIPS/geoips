@@ -196,7 +196,9 @@ then hardcoded defaults.  Copy the inventory file to create a custom setup
      - ``""``
      - ``"repo=ref repo=ref ..."``: clone these repos at a branch, tag or commit instead of
        their default branch.  For example, ``geoips_clavrx=fix_bug`` clones the ``fix_bug``
-       branch of ``geoips_clavrx``.  Read from the ``REPO_BRANCHES`` environment variable.
+       branch of ``geoips_clavrx``.  ``repo=owner:ref`` clones the ref from ``owner``'s
+       fork, e.g. ``rayleigh=someone:fix_bug``.  Read from the ``REPO_BRANCHES``
+       environment variable.
        See `Testing against other branches`_.
    * - ``disabled_repos``
      - ``""``
@@ -422,13 +424,17 @@ For example, assume your changes are in the ``my-feature-branch`` branch of the
      repos:    # repos the image clones: repo -> branch, tag or commit
        recenter_tc: my-fix
 
+To use a branch that only exists in a fork, give the fork's owner as
+``owner:ref`` (GitHub's ``user:branch`` notation), for example
+``rayleigh: "someone:my-fix"`` clones ``my-fix`` from
+``https://github.com/someone/rayleigh``.  The fork must have the same repo name.
+
 geoips_ci passes the ``python`` section to the ``geoips-site`` build as
 ``PIP_OVERRIDES``, and the ``repos`` section as ``REPO_BRANCHES``.  The playbook
 checks ``repo_branches`` before installing anything.  Three conditions cause a
 fatal error: an unknown repo, a ref that does not exist (there is no fallback to
 the default branch), or a private repo when the ``site`` tasks run without
-``geoips_use_private_plugins``.  Refs are cloned from the NRLMMD-GEOIPS
-repositories, so a branch that only exists in a fork cannot be used.  The image
+``geoips_use_private_plugins``.  The image
 records what the overrides installed in ``$GEOIPS_PACKAGES_DIR/.ci_pip_overrides``
 and ``$GEOIPS_PACKAGES_DIR/.ci_repo_branches``, and the CI shows both files in the
 job summary.

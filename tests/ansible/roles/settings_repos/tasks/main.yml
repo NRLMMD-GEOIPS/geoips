@@ -3,7 +3,7 @@
 - name: "Clone settings repo"
   # Default branch, or the ref given in repo_branches (see source_repos).
   ansible.builtin.git:
-    repo: "{{ geoips_repo_url }}/{{ item }}.git"
+    repo: "{{ (repo_url_map | default({}))[item] | default(geoips_repo_url ~ '/' ~ item ~ '.git') }}"
     dest: "{{ geoips_packages_dir }}/{{ item }}"
     version: "{{ (repo_branch_map | default({}))[item] | default(omit) }}"
   loop: "{{ settings_repos }}"
