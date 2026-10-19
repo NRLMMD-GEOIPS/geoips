@@ -1,14 +1,21 @@
 # Test-only dependency overrides, keyed by branch: only the entry of the branch under
 # test applies (see "Testing against other branches or versions" in the geoips_ci README).
+#
+# TODO before merging #1510: remove this entry once the PRs below are merged.
 biosafetylvl5-better-errors-from-docker-apt:
   python:
     # Atomic registry writes (fixes JSONDecodeError races under pytest-xdist).
+    # NRLMMD-GEOIPS/pluginify#37
     - "pluginify @ git+https://github.com/NRLMMD-GEOIPS/pluginify@atomic-writes"
   repos:
     # Commit the missing <repo>/_version.py (import failed without it).
+    # NRLMMD-GEOIPS/lunarref#8, NRLMMD-GEOIPS/true_color#7
     lunarref: add-version-file
     true_color: add-version-file
     # Fix imports of geoips plugin modules that moved to geoips.plugins.classes.
+    # NRLMMD-GEOIPS/ryglickicane#11, NRLMMD-GEOIPS/recenter_tc#62
     ryglickicane: fix-geoips-plugin-imports
-    # Fix arg order to allow import of pyrocb
+    recenter_tc: fix-geoips-plugin-imports
+    # Fix output formatter argument order to allow import of pyrocb.
+    # NRLMMD-GEOIPS/pyrocb#12
     pyrocb: fix-ci-errors
