@@ -21,8 +21,10 @@ biosafetylvl5-better-errors-from-docker-apt:
     # Fix output formatter argument order to allow import of pyrocb.
     # NRLMMD-GEOIPS/pyrocb#12
     pyrocb: fix-ci-errors
-    # geoips_nucaps#9 and #10 (output formatter argument order, rounded CSV) are
-    # not tested while geoips_nucaps is in ci-disabled-repos.yaml.
+    # Output formatter argument order fix in geoips_nucaps (#9), rounded CSV
+    # values (#10, into #9) and skipped tests that need the opentopodata API
+    # (#12, into #10; see geoips_nucaps#11).
+    geoips_nucaps: skip-opentopodata-tests
     # Fix output formatter argument order, move introduction docs to getting-started.
     # NRLMMD-GEOIPS/geoips_plugin_example#22
     geoips_plugin_example: fix-output-formatter-arg-order
