@@ -11,9 +11,9 @@ continuous integration:
       install`` puts the ancillary datasets the fortran plugins read (``lw_mask``,
       ``rayleigh``, ...).
     * The ``site`` test datasets now include those ancillary datasets
-      (``city_lights``, ``elevation``, ``lunarref``, ``lw_mask``, ``rayleigh``,
-      ``synth_green``). The inventory and the ``test_data`` role defaults list the
-      same datasets again.
+      (``city_lights``, ``elevation``, ``lunarref``, ``lw_mask``, ``merra``,
+      ``rayleigh``, ``synth_green``; geoips_debra reads ``merra``). The inventory
+      and the ``test_data`` role defaults list the same datasets again.
     * Under pytest-xdist, each worker writes its outputs to its own
       ``GEOIPS_OUTDIRS`` (``<GEOIPS_OUTDIRS>/xdist/<worker>``), since several
       tests write the same output files. The install check lock stays shared by

@@ -15,7 +15,9 @@ biosafetylvl5-better-errors-from-docker-apt:
     # Fix imports of geoips plugin modules that moved to geoips.plugins.classes.
     # NRLMMD-GEOIPS/ryglickicane#11, NRLMMD-GEOIPS/recenter_tc#62
     ryglickicane: fix-geoips-plugin-imports
-    recenter_tc: fix-geoips-plugin-imports
+    # recenter_tc#63 builds on #62: rounds the ARCHER scores whose last digits
+    # differ between platforms.
+    recenter_tc: round-archer-scores
     # Fix output formatter argument order to allow import of pyrocb.
     # NRLMMD-GEOIPS/pyrocb#12
     pyrocb: fix-ci-errors

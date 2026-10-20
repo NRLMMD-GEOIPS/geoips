@@ -32,7 +32,8 @@ full_test_datasets:
   - test_data_viirs
 
 # Includes the ancillary datasets the fortran plugins read from
-# $GEOIPS_ANCILDAT (city_lights, elevation, lunarref, lw_mask, rayleigh, synth_green).
+# $GEOIPS_ANCILDAT (city_lights, elevation, lunarref, lw_mask, merra, rayleigh,
+# synth_green).
 site_test_datasets:
   - test_data_clavrx
   - test_data_fusion
@@ -41,6 +42,7 @@ site_test_datasets:
   - elevation
   - lunarref
   - lw_mask
+  - merra
   - rayleigh
   - synth_green
 
