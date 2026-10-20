@@ -76,8 +76,8 @@ class TestGeoipsListSourceNames(BaseCliTest):
             )
             assert usg_str in error.replace("\n", "")
         assert (
-            "usage: To use, type `geoips list source-names`" in error
-            or "usage: To use, type `geoips list <cmd> <sub-cmd>`" in error
+            "To use, type `geoips list source-names`" in error
+            or "To use, type `geoips list <cmd> <sub-cmd>`" in error
         )
 
     def check_output(self, args, output):

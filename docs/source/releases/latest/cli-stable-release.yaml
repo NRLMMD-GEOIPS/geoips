@@ -1,0 +1,255 @@
+refactor:
+- title: 'CLI Stable Release Updates'
+  description: |
+    Updates to the CLI for its 'stable' release. These updates refactor the CLI
+    command structure and introduce a few new commands as well. Updates made in this PR
+    include moving the test data install commands to their own command class
+    (`geoips test-data <sub-cmd>`), moving sector commands to their own command class
+    (`geoips sector <sub-cmd>`), moving registry commands to their own command class
+    (`geoips registry <sub-cmd>`), changing `geoips test linting` to `geoips lint`, as
+    well as other refactors.
+
+    New commands added include `geoips --version`, `geoips test-data remove`, as well
+    as other future commands planned in https://github.com/NRLMMD-GEOIPS/geoips/issues/1479.
+
+    Additionally, changed where yaml and class-based, base plugins are stored within
+    GeoIPS and updated the imports respectively in an attempt to speed up the start up
+    time of the CLI. This required minor changes to  all class-based plugins, as the
+    import for their base class needed to be updated to the appropriate location.
+
+    Lastly, updated the help formatter for the CLI to highlight different sections of
+    the help output in order to make it more clear to the user what they are seeing.
+  files:
+    added:
+      - geoips/commandline/geoips_lint.py
+      - geoips/commandline/geoips_registry.py
+      - geoips/commandline/geoips_sector.py
+      - geoips/commandline/geoips_test_data.py
+      - geoips/interfaces/class_based/bases/__init__.py
+      - geoips/interfaces/class_based/bases/algorithms.py
+      - geoips/interfaces/class_based/bases/colormappers.py
+      - geoips/interfaces/class_based/bases/coverage_checkers.py
+      - geoips/interfaces/class_based/bases/databases.py
+      - geoips/interfaces/class_based/bases/filename_formatters.py
+      - geoips/interfaces/class_based/bases/interpolators.py
+      - geoips/interfaces/class_based/bases/output_checkers.py
+      - geoips/interfaces/class_based/bases/output_formatters.py
+      - geoips/interfaces/class_based/bases/procflows.py
+      - geoips/interfaces/class_based/bases/readers.py
+      - geoips/interfaces/class_based/bases/sector_adjusters.py
+      - geoips/interfaces/class_based/bases/sector_metadata_generators.py
+      - geoips/interfaces/class_based/bases/sector_spec_generators.py
+      - geoips/interfaces/class_based/bases/title_formatters.py
+      - geoips/interfaces/class_based/bases/validators.py
+      - geoips/interfaces/yaml_based/bases/products.py
+      - geoips/interfaces/yaml_based/bases/sectors.py
+    modified:
+      - .flake8
+      - docs/source/devguide/converting-module-to-class.md
+      - docs/source/functionality/command-line/index.rst
+      - docs/source/functionality/interfaces/writing-class-based-plugins.md
+      - docs/source/tutorials/extending-with-plugins/colormapper/index.rst
+      - docs/source/tutorials/extending-with-plugins/examples/my_cloud_depth.py
+      - docs/source/tutorials/extending-with-plugins/output_formatter.rst
+      - docs/source/tutorials/extending-with-plugins/reader-walkthrough.rst
+      - docs/source/tutorials/extending-with-plugins/reader.rst
+      - geoips/_version.py
+      - geoips/commandline/ancillary_info/alias_mapping.yaml
+      - geoips/commandline/ancillary_info/cmd_instructions.yaml
+      - geoips/commandline/commandline_interface.py
+      - geoips/commandline/geoips_command.py
+      - geoips/commandline/geoips_config.py
+      - geoips/commandline/geoips_test.py
+      - geoips/commandline/geoips_tree.py
+      - geoips/commandline/geoips_validate.py
+      - geoips/interfaces/base.py
+      - geoips/interfaces/class_based/algorithms.py
+      - geoips/interfaces/class_based/colormappers.py
+      - geoips/interfaces/class_based/coverage_checkers.py
+      - geoips/interfaces/class_based/databases.py
+      - geoips/interfaces/class_based/filename_formatters.py
+      - geoips/interfaces/class_based/interpolators.py
+      - geoips/interfaces/class_based/output_checkers.py
+      - geoips/interfaces/class_based/output_formatters.py
+      - geoips/interfaces/class_based/procflows.py
+      - geoips/interfaces/class_based/readers.py
+      - geoips/interfaces/class_based/sector_adjusters.py
+      - geoips/interfaces/class_based/sector_metadata_generators.py
+      - geoips/interfaces/class_based/sector_spec_generators.py
+      - geoips/interfaces/class_based/title_formatters.py
+      - geoips/interfaces/class_based/validators.py
+      - geoips/interfaces/yaml_based/products.py
+      - geoips/interfaces/yaml_based/sectors.py
+      - geoips/plugins/classes/algorithms/RGB_Default.py
+      - geoips/plugins/classes/algorithms/absdiff_mst.py
+      - geoips/plugins/classes/algorithms/model/model_channel.py
+      - geoips/plugins/classes/algorithms/model/model_windbarbs.py
+      - geoips/plugins/classes/algorithms/pmw_tb/pmw_37pct.py
+      - geoips/plugins/classes/algorithms/pmw_tb/pmw_89pct.py
+      - geoips/plugins/classes/algorithms/pmw_tb/pmw_color37.py
+      - geoips/plugins/classes/algorithms/pmw_tb/pmw_color89.py
+      - geoips/plugins/classes/algorithms/pressure_winds/windbarbs_dmw.py
+      - geoips/plugins/classes/algorithms/sfc_winds/windbarbs.py
+      - geoips/plugins/classes/algorithms/single_channel.py
+      - geoips/plugins/classes/algorithms/visir/Convective_Storms.py
+      - geoips/plugins/classes/algorithms/visir/Day_Microphys_Summer.py
+      - geoips/plugins/classes/algorithms/visir/Day_Microphys_Winter.py
+      - geoips/plugins/classes/algorithms/visir/Day_Solar.py
+      - geoips/plugins/classes/algorithms/visir/Dust_RGB.py
+      - geoips/plugins/classes/algorithms/visir/HNear_Constant_Contrast.py
+      - geoips/plugins/classes/algorithms/visir/Natural_Color.py
+      - geoips/plugins/classes/algorithms/visir/Night_Microphys.py
+      - geoips/plugins/classes/algorithms/visir/Night_Vis.py
+      - geoips/plugins/classes/algorithms/visir/Night_Vis_GeoIPS1.py
+      - geoips/plugins/classes/algorithms/visir/Night_Vis_IR.py
+      - geoips/plugins/classes/algorithms/visir/Night_Vis_IR_GeoIPS1.py
+      - geoips/plugins/classes/algorithms/visir/Volcanic_Ash.py
+      - geoips/plugins/classes/algorithms/visir/airmass.py
+      - geoips/plugins/classes/algorithms/visir/nasa_dust_rgb.py
+      - geoips/plugins/classes/colormappers/cmap_rgb.py
+      - geoips/plugins/classes/colormappers/matplotlib_linear_norm.py
+      - geoips/plugins/classes/colormappers/matplotlib_log_norm.py
+      - geoips/plugins/classes/colormappers/models/wave_height_cmap.py
+      - geoips/plugins/classes/colormappers/pmw_tb/cmap_150H.py
+      - geoips/plugins/classes/colormappers/pmw_tb/cmap_37H.py
+      - geoips/plugins/classes/colormappers/pmw_tb/cmap_37H_Legacy.py
+      - geoips/plugins/classes/colormappers/pmw_tb/cmap_37H_Physical.py
+      - geoips/plugins/classes/colormappers/pmw_tb/cmap_37pct.py
+      - geoips/plugins/classes/colormappers/pmw_tb/cmap_89H.py
+      - geoips/plugins/classes/colormappers/pmw_tb/cmap_89HW.py
+      - geoips/plugins/classes/colormappers/pmw_tb/cmap_89H_Legacy.py
+      - geoips/plugins/classes/colormappers/pmw_tb/cmap_89H_Physical.py
+      - geoips/plugins/classes/colormappers/pmw_tb/cmap_89pct.py
+      - geoips/plugins/classes/colormappers/pmw_tb/cmap_Rain.py
+      - geoips/plugins/classes/colormappers/tpw/tpw_pwat.py
+      - geoips/plugins/classes/colormappers/visir/IR_BD.py
+      - geoips/plugins/classes/colormappers/visir/Infrared.py
+      - geoips/plugins/classes/colormappers/visir/WV.py
+      - geoips/plugins/classes/colormappers/winds/dmw_wind_levels.py
+      - geoips/plugins/classes/colormappers/winds/global_winds_transitions.py
+      - geoips/plugins/classes/colormappers/winds/wind_radii_transitions.py
+      - geoips/plugins/classes/colormappers/winds/wind_radii_transitions_legacy.py
+      - geoips/plugins/classes/coverage_checkers/center_radius.py
+      - geoips/plugins/classes/coverage_checkers/center_radius_rgba.py
+      - geoips/plugins/classes/coverage_checkers/masked_arrays.py
+      - geoips/plugins/classes/coverage_checkers/numpy_arrays_nan.py
+      - geoips/plugins/classes/coverage_checkers/rgba.py
+      - geoips/plugins/classes/coverage_checkers/windbarbs.py
+      - geoips/plugins/classes/filename_formatters/basic_fname.py
+      - geoips/plugins/classes/filename_formatters/geoips_fname.py
+      - geoips/plugins/classes/filename_formatters/geoips_netcdf_fname.py
+      - geoips/plugins/classes/filename_formatters/geotiff_fname.py
+      - geoips/plugins/classes/filename_formatters/metadata_default_fname.py
+      - geoips/plugins/classes/filename_formatters/tc_clean_fname.py
+      - geoips/plugins/classes/filename_formatters/tc_fname.py
+      - geoips/plugins/classes/filename_formatters/text_winds_day_fname.py
+      - geoips/plugins/classes/filename_formatters/text_winds_full_fname.py
+      - geoips/plugins/classes/filename_formatters/text_winds_tc_fname.py
+      - geoips/plugins/classes/interpolators/pyresample_wrappers/interp_gauss.py
+      - geoips/plugins/classes/interpolators/pyresample_wrappers/interp_nearest.py
+      - geoips/plugins/classes/interpolators/scipy_wrappers/interp_grid.py
+      - geoips/plugins/classes/output_checkers/geotiff.py
+      - geoips/plugins/classes/output_checkers/image.py
+      - geoips/plugins/classes/output_checkers/netcdf.py
+      - geoips/plugins/classes/output_checkers/text.py
+      - geoips/plugins/classes/output_formatters/cogeotiff.py
+      - geoips/plugins/classes/output_formatters/cogeotiff_rgba.py
+      - geoips/plugins/classes/output_formatters/full_disk_image.py
+      - geoips/plugins/classes/output_formatters/geotiff_standard.py
+      - geoips/plugins/classes/output_formatters/histogram_csv.py
+      - geoips/plugins/classes/output_formatters/histogram_netcdf.py
+      - geoips/plugins/classes/output_formatters/imagery_annotated.py
+      - geoips/plugins/classes/output_formatters/imagery_clean.py
+      - geoips/plugins/classes/output_formatters/imagery_windbarbs.py
+      - geoips/plugins/classes/output_formatters/imagery_windbarbs_clean.py
+      - geoips/plugins/classes/output_formatters/imagery_windbarbs_multi_level.py
+      - geoips/plugins/classes/output_formatters/imagery_windbarbs_multi_level_clean.py
+      - geoips/plugins/classes/output_formatters/metadata_default.py
+      - geoips/plugins/classes/output_formatters/metadata_tc.py
+      - geoips/plugins/classes/output_formatters/netcdf_full.py
+      - geoips/plugins/classes/output_formatters/netcdf_geoips.py
+      - geoips/plugins/classes/output_formatters/netcdf_xarray.py
+      - geoips/plugins/classes/output_formatters/text_winds.py
+      - geoips/plugins/classes/output_formatters/unprojected_image.py
+      - geoips/plugins/classes/output_formatters/windspeed_awips2_formatter.py
+      - geoips/plugins/classes/readers/abi_l2_netcdf.py
+      - geoips/plugins/classes/readers/abi_netcdf.py
+      - geoips/plugins/classes/readers/ahi_hsd.py
+      - geoips/plugins/classes/readers/ami_netcdf.py
+      - geoips/plugins/classes/readers/amsr2_netcdf.py
+      - geoips/plugins/classes/readers/amsr2_remss_winds_netcdf.py
+      - geoips/plugins/classes/readers/amsua_mhs_mirs.py
+      - geoips/plugins/classes/readers/amsub_hdf.py
+      - geoips/plugins/classes/readers/ascat_uhr_netcdf.py
+      - geoips/plugins/classes/readers/atms_hdf5.py
+      - geoips/plugins/classes/readers/aws_netcdf.py
+      - geoips/plugins/classes/readers/cygnss_netcdf.py
+      - geoips/plugins/classes/readers/ewsg_netcdf.py
+      - geoips/plugins/classes/readers/fci_netcdf.py
+      - geoips/plugins/classes/readers/geoips_netcdf.py
+      - geoips/plugins/classes/readers/gfs_grib.py
+      - geoips/plugins/classes/readers/gmi_hdf5.py
+      - geoips/plugins/classes/readers/imerg_hdf5.py
+      - geoips/plugins/classes/readers/mimic_netcdf.py
+      - geoips/plugins/classes/readers/modis_hdf4.py
+      - geoips/plugins/classes/readers/saphir_hdf5.py
+      - geoips/plugins/classes/readers/sar_winds_netcdf.py
+      - geoips/plugins/classes/readers/scat_knmi_winds_netcdf.py
+      - geoips/plugins/classes/readers/scat_noaa_winds_netcdf.py
+      - geoips/plugins/classes/readers/seviri_hrit.py
+      - geoips/plugins/classes/readers/sfc_winds_text.py
+      - geoips/plugins/classes/readers/sgli_l1b_hdf5.py
+      - geoips/plugins/classes/readers/smap_remss_winds_netcdf.py
+      - geoips/plugins/classes/readers/smos_winds_netcdf.py
+      - geoips/plugins/classes/readers/ssmi_binary.py
+      - geoips/plugins/classes/readers/ssmis_binary.py
+      - geoips/plugins/classes/readers/viirs_l2_netcdf.py
+      - geoips/plugins/classes/readers/viirs_netcdf.py
+      - geoips/plugins/classes/readers/viirs_sdr_hdf5.py
+      - geoips/plugins/classes/readers/viirs_sdr_satpy_hdf5.py
+      - geoips/plugins/classes/readers/wfabba_ascii.py
+      - geoips/plugins/classes/readers/windsat_idr37_binary.py
+      - geoips/plugins/classes/readers/windsat_remss_winds_netcdf.py
+      - geoips/plugins/classes/sector_metadata_generators/bdeck_parser.py
+      - geoips/plugins/classes/sector_metadata_generators/fdeck_parser.py
+      - geoips/plugins/classes/sector_metadata_generators/tc_sector_file_parser.py
+      - geoips/plugins/classes/sector_metadata_generators/volc_parser.py
+      - geoips/plugins/classes/sector_spec_generators/center_coordinates.py
+      - geoips/plugins/classes/title_formatters/static_standard.py
+      - geoips/plugins/classes/title_formatters/tc_copyright.py
+      - geoips/plugins/classes/title_formatters/tc_standard.py
+      - geoips/plugins/classes/validators/difference.py
+      - geoips/plugins/modules/procflows/config_based.py
+      - geoips/plugins/modules/procflows/order_based.py
+      - pyproject.toml
+      - tests/integration_tests/test_obp_reader_path.py
+      - tests/unit_tests/commandline/cli_top_level_tester.py
+      - tests/unit_tests/commandline/test_geoips_describe_family.py
+      - tests/unit_tests/commandline/test_geoips_describe_interface.py
+      - tests/unit_tests/commandline/test_geoips_describe_package.py
+      - tests/unit_tests/commandline/test_geoips_describe_plugin.py
+      - tests/unit_tests/commandline/test_geoips_list_interface.py
+      - tests/unit_tests/commandline/test_geoips_list_interfaces.py
+      - tests/unit_tests/commandline/test_geoips_list_packages.py
+      - tests/unit_tests/commandline/test_geoips_list_plugins.py
+      - tests/unit_tests/commandline/test_geoips_list_registries.py
+      - tests/unit_tests/commandline/test_geoips_list_scripts.py
+      - tests/unit_tests/commandline/test_geoips_list_source_names.py
+      - tests/unit_tests/commandline/test_geoips_list_test_datasets.py
+      - tests/unit_tests/commandline/test_geoips_list_unit_tests.py
+      - tests/unit_tests/commandline/test_geoips_test_script.py
+      - tests/unit_tests/commandline/test_geoips_test_unit_test.py
+      - tests/unit_tests/commandline/test_geoips_validate.py
+      - tests/unit_tests/interfaces/test_class_based_plugin_invoke.py
+      - tests/unit_tests/interfaces/test_output_formatter_call_order.py
+      - tests/unit_tests/plugins/yaml/sectors/test_sectors_jsonschema.py
+      - tests/utils/test_interfaces.py
+    renamed:
+      - tests/unit_tests/commandline/test_geoips_test_linting.py -> tests/unit_tests/commandline/test_geoips_lint.py
+      - tests/unit_tests/commandline/test_geoips_test_sector.py -> tests/unit_tests/commandline/test_geoips_sector_plot.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

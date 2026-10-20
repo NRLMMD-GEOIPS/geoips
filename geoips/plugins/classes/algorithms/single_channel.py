@@ -7,7 +7,7 @@ Generalized algorithm to apply data manipulation steps in a standard order
 to apply corrections to a single channel output product.
 """
 
-from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
+from geoips.interfaces.class_based.bases.algorithms import BaseAlgorithmPlugin
 
 import logging
 
