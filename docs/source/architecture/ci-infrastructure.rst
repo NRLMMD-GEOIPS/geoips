@@ -187,7 +187,8 @@ then hardcoded defaults.  Copy the inventory file to create a custom setup
      - ``false``
      - Set to ``true`` to include proprietary plugin repos (``pyrocb``,
        ``geoips_nucaps``, ``geoips_proxyvis``, ``geoips_tomorrowio``, ``geoips_wsfm``,
-       ``ryglickicane``, ``geoips_debra``).  ``geoips_xesmf`` is disabled for now.
+       ``ryglickicane``, ``geoips_debra``).  ``geoips_xesmf`` is disabled for now, and
+       ``.github/ci-disabled-repos.yaml`` disables ``geoips_nucaps``.
    * - ``extra_plugin_packages``
      - ``""``
      - Comma-separated list of additional plugin repository names to clone and install.

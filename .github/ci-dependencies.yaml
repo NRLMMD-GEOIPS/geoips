@@ -21,10 +21,8 @@ biosafetylvl5-better-errors-from-docker-apt:
     # Fix output formatter argument order to allow import of pyrocb.
     # NRLMMD-GEOIPS/pyrocb#12
     pyrocb: fix-ci-errors
-    # Same output formatter argument order fix in geoips_nucaps.
-    # NRLMMD-GEOIPS/geoips_nucaps#9; geoips_nucaps#10 builds on it and rounds the
-    # CSV values whose last digits differ between platforms.
-    geoips_nucaps: round-text-output
+    # geoips_nucaps#9 and #10 (output formatter argument order, rounded CSV) are
+    # not tested while geoips_nucaps is in ci-disabled-repos.yaml.
     # Fix output formatter argument order, move introduction docs to getting-started.
     # NRLMMD-GEOIPS/geoips_plugin_example#22
     geoips_plugin_example: fix-output-formatter-arg-order
@@ -38,6 +36,7 @@ biosafetylvl5-better-errors-from-docker-apt:
     # Sync configs from geoips_ci (its .flake8 fixes the lint errors).
     # NRLMMD-GEOIPS/synth_green#5
     synth_green: sync-from-geoips-ci
-    # goes_east and goes_west comparison images from the CI output.
-    # NRLMMD-GEOIPS/geoips_proxyvis#11, which builds on #10
-    geoips_proxyvis: update-ci-comparison-imagery
+    # Compare the goes_east and goes_west images with a pixelmatch threshold of 0.2
+    # (the night side differs by a few pixels between runs).
+    # NRLMMD-GEOIPS/geoips_proxyvis#12
+    geoips_proxyvis: image-comparison-tolerance
