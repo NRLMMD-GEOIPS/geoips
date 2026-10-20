@@ -20,6 +20,17 @@
     mode: "0755"
   tags: [base, full, site]
 
+# Download the archives next to the datasets rather than to the system /tmp,
+# which may be on a smaller disk (in CI, the container's /tmp is on the Docker
+# disk). The largest, emiss.tgz, is 7.7 GB. geoips removes each archive after
+# extracting it.
+- name: Ensure the download directory exists
+  ansible.builtin.file:
+    path: "{{ geoips_testdata_dir }}/.download-tmp"
+    state: directory
+    mode: "0755"
+  tags: [base, full, site]
+
 # ---- base tier datasets ----
 - name: Install base datasets
   ansible.builtin.include_tasks: install_datasets.yml

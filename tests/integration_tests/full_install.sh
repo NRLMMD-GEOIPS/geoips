@@ -3,8 +3,6 @@
 
 #!/bin/bash
 
-echo "GEOIPS_MODIFIED_BRANCH: $GEOIPS_MODIFIED_BRANCH"
-
 # This script ensures we exit non-zero if any of the steps fail.
 check="$GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh"
 
