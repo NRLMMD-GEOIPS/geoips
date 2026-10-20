@@ -1,0 +1,42 @@
+continuous integration:
+- title: 'CI image, test data and parallel test fixes'
+  description: |
+    * ``apt-get update`` runs with ``--error-on=any``, so a repository that cannot
+      be reached (e.g. a DNS failure) fails the build instead of installing stale
+      or missing packages. The unstable GDAL packages are pinned per package
+      (``gdal-bin/unstable libgdal-dev/unstable``) rather than with ``-t unstable``.
+    * ``PIP_ROOT_USER_ACTION=ignore`` silences pip's warning about running as root
+      in the image build stages.
+    * ``GEOIPS_ANCILDAT`` is set to ``/geoips_testdata``, where ``geoips config
+      install`` puts the ancillary datasets the fortran plugins read (``lw_mask``,
+      ``rayleigh``, ...).
+    * The ``site`` test datasets now include those ancillary datasets
+      (``city_lights``, ``elevation``, ``emiss``, ``lunarref``, ``lw_mask``,
+      ``merra``, ``rayleigh``, ``synth_green``; geoips_debra reads ``emiss`` and
+      ``merra``). The inventory and the ``test_data`` role defaults list the same
+      datasets again.
+    * The ``test_data`` role downloads the archives to
+      ``$GEOIPS_TESTDATA_DIR/.download-tmp`` instead of the system ``/tmp``, so
+      they use the disk of the test data (emiss.tgz is 7.7 GB). In CI, ``/tmp`` is
+      in the container, on the disk of the Docker data.
+    * Under pytest-xdist, each worker writes its outputs to its own
+      ``GEOIPS_OUTDIRS`` (``<GEOIPS_OUTDIRS>/xdist/<worker>``), since several
+      tests write the same output files. The install check lock stays shared by
+      all workers.
+  files:
+    added:
+    - 'docs/source/releases/latest/ci-image-and-parallel-test-fixes.yaml'
+    modified:
+    - 'Dockerfile'
+    - 'docs/source/architecture/ci-infrastructure.rst'
+    - 'tests/ansible/inventory/local.yml'
+    - 'tests/ansible/roles/test_data/defaults/main.yml'
+    - 'tests/ansible/roles/test_data/tasks/install_datasets.yml'
+    - 'tests/ansible/roles/test_data/tasks/main.yml'
+    - 'tests/integration_tests/test_integration.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2026-10-05
+    finish: 2026-10-19
