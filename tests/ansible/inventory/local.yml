@@ -127,6 +127,7 @@ all:
       - synth_green
 
     private_test_datasets:
+      - test_data_ngfs
       - test_data_nucaps
       - test_data_pyrocb
 

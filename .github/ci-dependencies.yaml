@@ -32,3 +32,6 @@ biosafetylvl5-better-errors-from-docker-apt:
     # NRLMMD-GEOIPS/fortran_utils#5, NRLMMD-GEOIPS/rayleigh#9
     fortran_utils: "jthielen:fix-lint-xref-geoips-1510"
     rayleigh: "jthielen:fix-lint-xref-geoips-1510"
+    # Sync configs from geoips_ci (its .flake8 fixes the lint errors).
+    # NRLMMD-GEOIPS/synth_green#5
+    synth_green: sync-from-geoips-ci

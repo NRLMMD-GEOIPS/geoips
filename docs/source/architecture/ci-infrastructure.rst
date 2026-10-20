@@ -275,8 +275,8 @@ when both are used, so keep them in sync):
   ancillary datasets the fortran plugins read from ``$GEOIPS_ANCILDAT``:
   ``city_lights``, ``elevation``, ``lunarref``, ``lw_mask``, ``rayleigh``,
   ``synth_green``
-- **private** (``geoips_use_private_plugins=true``): ``test_data_nucaps``,
-  ``test_data_pyrocb``
+- **private** (``geoips_use_private_plugins=true``): ``test_data_ngfs``,
+  ``test_data_nucaps``, ``test_data_pyrocb``
 
 Role responsibilities
 ---------------------
