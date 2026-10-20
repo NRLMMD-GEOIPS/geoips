@@ -35,6 +35,6 @@ biosafetylvl5-better-errors-from-docker-apt:
     # Sync configs from geoips_ci (its .flake8 fixes the lint errors).
     # NRLMMD-GEOIPS/synth_green#5
     synth_green: sync-from-geoips-ci
-    # Updated goes_east comparison image.
-    # NRLMMD-GEOIPS/geoips_proxyvis#10
-    geoips_proxyvis: updated-goes-east-comparison-imagery
+    # goes_east and goes_west comparison images from the CI output.
+    # NRLMMD-GEOIPS/geoips_proxyvis#11, which builds on #10
+    geoips_proxyvis: update-ci-comparison-imagery
