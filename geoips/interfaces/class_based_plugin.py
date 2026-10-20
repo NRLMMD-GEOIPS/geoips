@@ -734,7 +734,7 @@ class BaseClassPlugin(ABC):
             cls.__plugin_abstract__ = True
             return
 
-        if cls.data_tree:
+        if getattr(cls, "data_tree"):
             cls.required_attributes = ["interface", "name"]
 
         # Enforce required attributes and run attribute checkers if they exist
