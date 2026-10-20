@@ -22,8 +22,9 @@ biosafetylvl5-better-errors-from-docker-apt:
     # NRLMMD-GEOIPS/pyrocb#12
     pyrocb: fix-ci-errors
     # Same output formatter argument order fix in geoips_nucaps.
-    # NRLMMD-GEOIPS/geoips_nucaps#9
-    geoips_nucaps: fix-output-formatter-arg-order
+    # NRLMMD-GEOIPS/geoips_nucaps#9; geoips_nucaps#10 builds on it and rounds the
+    # CSV values whose last digits differ between platforms.
+    geoips_nucaps: round-text-output
     # Fix output formatter argument order, move introduction docs to getting-started.
     # NRLMMD-GEOIPS/geoips_plugin_example#22
     geoips_plugin_example: fix-output-formatter-arg-order
