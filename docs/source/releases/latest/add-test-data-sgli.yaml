@@ -1,0 +1,13 @@
+testing:
+- title: 'Add test_data_sgli to nextcloud'
+  description: |
+    Added test_data_sgli_1.19.0_github.com.tgz to CIRA's NextCloud instance.
+  files:
+    modified:
+      - geoips/commandline/ancillary_info/test-data-urls.yaml
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
