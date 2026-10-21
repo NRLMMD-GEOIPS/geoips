@@ -75,6 +75,18 @@
   when: geoips_modified_branch | default('') | length > 0
   tags: [site]
 
+- name: "Clean fortran plugin repos"
+  ansible.builtin.command:
+    cmd: make clean
+    chdir: "{{ geoips_packages_dir }}/{{ repo_name }}"
+  loop: "{{ fortran_repos_ordered }}"
+  loop_control:
+    loop_var: repo_name
+  failed_when: false
+  changed_when: false
+  tags: [site]
+
+
 - name: "Pip install fortran repos"
   ansible.builtin.pip:
     name: "{{ geoips_packages_dir }}/{{ repo_name }}"
