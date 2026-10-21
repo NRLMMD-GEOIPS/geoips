@@ -1,0 +1,49 @@
+continuous integration:
+- title: 'Build the CI image with private plugins using a GitHub token build secret'
+  description: |
+    Private plugin repositories (``private_plugin_repos`` and
+    ``private_fortran_repos`` in ``tests/ansible/inventory/local.yml``) can now be
+    cloned while building the Docker image, using a GitHub token that can read
+    them.
+
+    * The token is passed as the BuildKit secret ``geoips_private_token``. The new
+      ``tests/ansible/scripts/github-token-env.sh`` gives it to git through
+      ``GIT_CONFIG_*`` environment variables in the ``geoips-site`` and ``dev``
+      install steps only, so it is never stored in an image layer, the image
+      history or a cloned repository's ``.git/config``.
+    * The install now writes ``/packages/.private_plugins`` listing the private
+      plugins, so CI can keep their test output out of public logs.
+    * ``lunarref`` and ``true_color`` are public, so they moved from
+      ``private_fortran_repos`` to the end of ``fortran_repos_ordered``: they are
+      now installed without the token and their test output is shown in CI logs.
+    * The private plugin lists now hold every private plugin repository:
+      ``pyrocb`` (``geoips_nucaps`` depends on it, so it is installed first),
+      ``geoips_nucaps``, ``geoips_proxyvis``, ``geoips_tomorrowio``, ``geoips_wsfm``
+      and ``ryglickicane``, and in ``private_fortran_repos`` ``geoips_debra``.
+      ``geoips_xesmf`` is commented out for now: xesmf needs the ESMF library,
+      which the image does not have. ``tc_mint`` is removed: there is no
+      ``NRLMMD-GEOIPS/tc_mint`` repository, so cloning it failed the
+      ``geoips-site`` build.
+    * ``private_test_datasets`` now holds ``test_data_ngfs``, ``test_data_nucaps``
+      and ``test_data_pyrocb``, which the private plugins' tests need, instead of
+      ``test_data_mint``, which ``geoips config install`` does not know.
+    * ``integ_test.yaml`` passes the ``GEOIPS_PRIVATE_REPOS_TOKEN`` secret to the
+      reusable CI as ``private_repos_token``. Without that secret the image has
+      the public plugins only.
+  files:
+    modified:
+    - 'Dockerfile'
+    - 'tests/ansible/README.md'
+    - 'tests/ansible/inventory/local.yml'
+    - 'tests/ansible/roles/source_repos/tasks/main.yml'
+    - '.github/workflows/integ_test.yaml'
+    - 'docs/source/architecture/ci-infrastructure.rst'
+    - 'tests/ansible/roles/test_data/defaults/main.yml'
+    added:
+    - 'tests/ansible/scripts/github-token-env.sh'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2026-10-01
+    finish: 2026-10-19
