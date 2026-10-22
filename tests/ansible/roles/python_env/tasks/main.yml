@@ -11,10 +11,56 @@
 # In Docker the deps stage already installed requirements.txt in a cached
 # layer, so the task below is a fast no-op.  On bare metal it does the
 # actual install.
+#
+# CI images record the packages that the dependency overrides replaced in
+# .ci_pip_overrides (see the Dockerfile).  Their requirements.txt pins are left
+# out, or re-running this role (as the integration tests do to check the install)
+# would put the pinned versions back.
 ---
+- name: Find the pip overrides of a CI image
+  ansible.builtin.stat:
+    path: "{{ geoips_packages_dir }}/.ci_pip_overrides"
+  register: ci_pip_overrides_file
+  tags: [base, full, site, python_env]
+
+- name: Leave the overridden packages out of requirements.txt
+  when: ci_pip_overrides_file.stat.exists
+  tags: [base, full, site, python_env]
+  block:
+    - name: Read the pip overrides and requirements.txt
+      ansible.builtin.slurp:
+        src: "{{ item }}"
+      loop:
+        - "{{ geoips_packages_dir }}/.ci_pip_overrides"
+        - "{{ geoips_packages_dir }}/geoips/environments/requirements.txt"
+      register: ci_pip_files
+
+    - name: Write requirements.txt without the overridden packages
+      ansible.builtin.copy:
+        dest: "{{ geoips_packages_dir }}/.ci_requirements.txt"
+        mode: "0644"
+        content: "{{ _requirements | join('\n') }}\n"
+      vars:
+        # Lines of requirements.txt and package names of the overrides, both
+        # as normalized package names, "" for comments.
+        _names_regex: '^\s*([A-Za-z0-9._-]*).*$'
+        _requirement_lines: "{{ (ci_pip_files.results[1].content | b64decode).splitlines() }}"
+        _requirement_names: >-
+          {{ _requirement_lines | map('regex_replace', _names_regex, '\1')
+             | map('lower') | map('regex_replace', '[-_.]+', '-') | list }}
+        _overridden_names: >-
+          {{ (ci_pip_files.results[0].content | b64decode).splitlines()
+             | map('regex_replace', _names_regex, '\1')
+             | map('lower') | map('regex_replace', '[-_.]+', '-')
+             | select | list }}
+        _requirements: >-
+          {% set kept = [] %}{% for line in _requirement_lines %}{% if _requirement_names[loop.index0] not in _overridden_names %}{% set _ = kept.append(line) %}{% endif %}{% endfor %}{{ kept }}
+
 - name: Install GeoIPS requirements.txt
   ansible.builtin.pip:
-    requirements: "{{ geoips_packages_dir }}/geoips/environments/requirements.txt"
+    requirements: >-
+      {{ geoips_packages_dir ~ '/.ci_requirements.txt' if ci_pip_overrides_file.stat.exists
+         else geoips_packages_dir ~ '/geoips/environments/requirements.txt' }}
     extra_args: "{{ pip_extra_args }}"
     state: present
   tags: [base, full, site, python_env]
