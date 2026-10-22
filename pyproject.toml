@@ -130,6 +130,7 @@ autodoc-pydantic = { version = ">=2.0.0", optional = true }
 brassy = { version = ">=0.0.3", optional = true }
 sphinx-argparse = { version = "*", optional = true }
 rich-argparse = { version = "*", optional = true }
+packaging = { version = "*", optional = true }
 # Lint group
 bandit = { version = "*", optional = true }
 black = { version = "*", optional = true }
@@ -168,7 +169,8 @@ doc = [
     "myst-parser",               # Renders MyST Markdown (.md) docs alongside reStructuredText
     "autodoc-pydantic",          # Auto-renders pydantic models (OBP workflow/interface/config) as docs
     "brassy",                    # Release Note Generation
-    "rich-argparse" # for building docs; also a dependency of brassy
+    "rich-argparse",             # for building docs; also a dependency of brassy
+    "packaging"                  # for versioned docs handling
 ]
 lint = [
     "bandit",                # Syntax/security checking
