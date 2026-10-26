@@ -6,7 +6,7 @@
 from datetime import datetime
 from enum import Enum
 from typing import Literal, Tuple, Union
-from typing_extensions import Annotated
+from typing_extensions import Annotated, deprecated
 
 from pydantic import (
     Field,
@@ -15,6 +15,7 @@ from pydantic import (
 )
 from pydantic.functional_validators import AfterValidator
 
+from geoips import deprecation
 from geoips.pydantic_models.v2alpha1.bases import (
     FrozenModel,
     PermissiveFrozenModel,
@@ -316,7 +317,20 @@ class AreaDefinitionSpec(FrozenModel):
             Annotated[int, Field(strict=True, gt=0)],
             Annotated[int, Field(strict=True, gt=0)],
         ],
-        SectorShape,
+        Annotated[
+            SectorShape,
+            deprecated(
+                """
+                Name: SectorShape in AreaDefinition
+                Component: Sectors
+                Reference Issue: MISSING
+                Deprecated In: 1.17.0
+                Removal In: 2.1.0
+                Replacement: "Set `shape` as a tuple of positive integers"
+                """,
+                category=deprecation.GeoipsDeprecationWarning,
+            ),
+        ],
     ] = None
     area_extent: Union[Tuple[float, float, float, float], SectorAreaExtent] = Field(
         None,

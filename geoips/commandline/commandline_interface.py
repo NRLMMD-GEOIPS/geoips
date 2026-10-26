@@ -9,6 +9,7 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 
 import os
 import sys
+from typing_extensions import deprecated
 
 from colorama import Fore, Style
 
@@ -22,8 +23,8 @@ from geoips.commandline.geoips_run import GeoipsRun
 from geoips.commandline.geoips_test import GeoipsTest
 from geoips.commandline.geoips_tree import GeoipsTree
 from geoips.commandline.geoips_validate import GeoipsValidate
-from geoips.commandline.log_setup import setup_logging
 from geoips.filenames.base_paths import PATHS
+from geoips import deprecation
 
 
 class GeoipsCLI(GeoipsCommand):
@@ -131,27 +132,27 @@ class GeoipsCLI(GeoipsCommand):
             sys.exit(2)
 
 
-def deprecate_create_plugin_registries():
-    """Deprecate the 'create_plugin_registries' command if it was supplied.
+@deprecated(
+    """
+    Name: "`create_plugin_registries` command"
+    Component: CLI
+    Reference Issue: https://github.com/NRLMMD-GEOIPS/geoips/issues/1227
+    Replacement: "Use `geoips config create-registries`"
+    Deprecated In: 1.16.0
+    """,
+    category=deprecation.GeoipsDeprecationWarning,
+)
+def _deprecated_create_plugin_registries():
+    """Remap the deprecated 'create_plugin_registries' command if it was supplied.
 
     If 'create_plugin_registries' was called, convert that command to
-    'geoips config create-registries' and print a deprecation warning. These two
-    commands are equivalent, however we are transitioning to the sole use of the CLI
-    rather than unconnected console scripts.
+    'geoips config create-registries'. These two commands are equivalent, however we
+    are transitioning to the sole use of the CLI rather than unconnected console
+    scripts.
     """
-    if os.path.basename(sys.argv[0]) == "create_plugin_registries":
-        LOG = setup_logging(logging_level="warning")
-        LOG.warning(
-            msg=(
-                "'create_plugin_registries' is deprecated. Please use 'geoips config "
-                "create-registries' from now on. This functionality will be removed in "
-                "the future."
-            ),
-            stacklevel=2,
-        )
-        sys.argv[0] = os.path.join(os.path.dirname(sys.argv[0]), "geoips")
-        sys.argv.append("config")
-        sys.argv.append("create-registries")
+    sys.argv[0] = os.path.join(os.path.dirname(sys.argv[0]), "geoips")
+    sys.argv.append("config")
+    sys.argv.append("create-registries")
 
 
 def support_legacy_procflows():
@@ -262,8 +263,9 @@ def main(suppress_args=True):
     """
     # Support legacy 'run_procflow' calls if applicable
     legacy = support_legacy_procflows()
-    # Deprecate 'create_plugin_registries' if called
-    deprecate_create_plugin_registries()
+    # Remap deprecated 'create_plugin_registries' if called
+    if os.path.basename(sys.argv[0]) == "create_plugin_registries":
+        _deprecated_create_plugin_registries()
     # Initialize the CLI and all of its commands
     geoips_cli = GeoipsCLI(legacy=legacy)
     # Execute the called command

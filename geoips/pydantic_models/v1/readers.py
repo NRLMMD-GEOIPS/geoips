@@ -16,13 +16,14 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 from typing import Any, List
+from typing_extensions import deprecated
 
 # Third-Party Libraries
 from pydantic import Field, field_validator, model_validator
 from pyresample.geometry import AreaDefinition
-import warnings
 
 # GeoIPS imports
+from geoips import deprecation
 from geoips.pydantic_models.v1.bases import (
     _generate_filenames_from_value,
     PermissiveFrozenModel,
@@ -40,10 +41,21 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     area_def: AreaDefinition | None = Field(
         None, description="The domain over which to read data."
     )
+    variables: List[str] = Field(None, description="List of variables to read")
     chans: List[str] = Field(
         None,
         description="List of variables to read",
-        alias="variables",
+        deprecated=deprecated(
+            """
+            Name: "`chans` argument in Readers"
+            Component: Readers
+            Reference Issue: https://github.com/NRLMMD-GEOIPS/geoips/issues/953
+            Deprecated In: 1.19.0
+            Removal In: 2.0.0
+            Replacement: "Use `variables` instead"
+            """,
+            category=deprecation.GeoipsDeprecationWarning,
+        ),
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
     self_register: str = Field(None, description="Enable self-registration.")
@@ -133,12 +145,15 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         return fnames
 
     @model_validator(mode="before")
-    def _handle_deprecated_chans(cls, values):
+    @classmethod
+    def _handle_deprecated_chans_alias(cls, values):
         """
-        Check for the deprecated 'chans' field and issue a warning.
+        Check for the deprecated 'chans' field and alias to replacement.
 
-        This method detects if `chans` is present in the input values and issues a
-        deprecation warning, recommending the use of 'variable' instead.
+        This method detects if ``chans`` is present in the input values and assigns it
+        to the aliased ``variables``; such a manual aliasing is required to leverage
+        Pydantic's approach to deprecation, instead of marking it as an alias of
+        ``variables`` in the model directly.
 
         Parameters
         ----------
@@ -148,17 +163,8 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         Returns
         -------
         dict
-            The original input values.
+            The updated input values.
         """
-        chans_message = (
-            "'chans' is deprecated and will be removed in GeoIPS 2.0. Use"
-            " 'variables' instead."
-        )
         if "chans" in values:
-            LOG.warning(chans_message)
-            warnings.warn(
-                chans_message,
-                DeprecationWarning,
-                stacklevel=2,
-            )
+            values["variables"] = values["chans"]
         return values

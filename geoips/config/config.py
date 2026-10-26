@@ -13,12 +13,13 @@ from __future__ import annotations
 import logging
 import os
 import socket
-import warnings
 from typing import Any
+from typing_extensions import deprecated
 
 import platformdirs
 from pydantic import ValidationError
 
+from geoips import deprecation
 from geoips.config.schema import GEOIPS_ENV_MAP, GeoSettings
 from geoips.config.yaml_loader import find_project_config, load_project_config
 from geoips.errors import ConfigError
@@ -514,30 +515,34 @@ class GeoIPSConfig:
         """
         return self._legacy_dict.get(key, default)
 
+    @deprecated(
+        """
+        Reference Issue: MISSING
+        Component: Config
+        Replacement: Use structured GeoIPSConfig attributes instead
+        Deprecated In: 2.0.0
+        """,
+        category=deprecation.GeoipsDeprecationWarning,
+    )
     def to_legacy_dict(self) -> dict[str, Any]:
         """Return the full configuration as a flat uppercase dictionary.
 
         This mirrors the shape of the old ``PATHS`` dict from
         ``geoips.filenames.base_paths`` for backward compatibility.
 
+        Returns
+        -------
+        dict[str, Any]
+            Flat uppercase-keyed configuration dictionary.
+
+        Notes
+        -----
         Deprecated: The flat uppercase dictionary is a backwards-compatibility
         layer and is slated for removal in a future release. New code should
         access settings via the structured ``GeoIPSConfig`` / ``GeoSettings``
         attributes instead. ``geoips.config.schema.GEOIPS_ENV_MAP`` is the
         authoritative list of supported environment variables and settings.
-
-        Returns
-        -------
-        dict[str, Any]
-            Flat uppercase-keyed configuration dictionary.
         """
-        warnings.warn(
-            "GeoIPSConfig.to_legacy_dict() and the flat uppercase config keys "
-            "are deprecated and will be removed in a future release. Access "
-            "settings via the structured GeoIPSConfig attributes instead.",
-            DeprecationWarning,
-            stacklevel=2,
-        )
         return dict(self._legacy_dict)
 
     def _build_legacy_dict(self) -> dict[str, Any]:

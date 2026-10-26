@@ -11,8 +11,7 @@ from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.commandline.log_setup import setup_logging
 from geoips.commandline.args import get_argparser, check_command_line_args
 
-# Always actually raise DeprecationWarnings
-# Note this SO answer https://stackoverflow.com/a/20960427
+# Issue every DeprecationWarning, not just first occurence
 warnings.simplefilter("always", DeprecationWarning)
 
 

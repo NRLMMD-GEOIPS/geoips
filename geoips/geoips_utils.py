@@ -14,11 +14,13 @@ import logging
 from importlib import metadata, resources, import_module
 import subprocess
 import select
+from typing_extensions import deprecated
 
 from tabulate import tabulate
 import numpy as np
 from pluginify.errors import PluginRegistryError
 
+from geoips import deprecation
 from geoips.errors import PluginPackageNotFoundError
 from geoips.filenames.base_paths import PATHS as geoips_paths
 
@@ -378,14 +380,6 @@ def copy_standard_metadata(orig_xarray, dest_xarray, extra_attrs=None, force=Tru
             dest_xarray.attrs[attr] = orig_xarray.attrs[attr]
 
 
-def deprecation(message):
-    """Print a deprecation warning during runtime."""
-    import warnings
-
-    warnings.warn(message, DeprecationWarning, stacklevel=2)
-    LOG.warning("DeprecationWarning: %s", message)
-
-
 def output_process_times(process_datetimes, num_jobs=None, job_str="GeoIPS 2"):
     """Calculate and print the process times from the process_datetimes dictionary.
 
@@ -638,6 +632,7 @@ def replace_geoips_paths(
     return str(path)
 
 
+@deprecated("Reference Issue: MISSING", category=deprecation.GeoipsDeprecationWarning)
 def get_required_geoips_xarray_attrs():
     """Interface deprecated v2.0."""
     required_xarray_attrs = [
