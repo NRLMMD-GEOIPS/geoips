@@ -1,0 +1,21 @@
+bug fix:
+- title: 'Allow plain numpy arrays in rgba_from_arrays'
+  description: 'rgba_from_arrays set fill_value on its inputs, which raised AttributeError
+    for plain numpy arrays (for example in nasa_dust_rgb). It now fills masked values
+    with np.ma.filled, which accepts both, and no longer changes the inputs.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'docs/source/releases/latest/1462-rgba-from-plain-arrays.yaml'
+    - 'tests/unit_tests/image_utils/test_mpl_utils.py'
+    modified:
+    - 'geoips/image_utils/mpl_utils.py'
+  related-issue:
+    number: 1462
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: null
+    finish: null

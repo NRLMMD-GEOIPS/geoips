@@ -66,10 +66,11 @@ def rgba_from_arrays(red, grn, blu, alp=None):
     """
     if alp is None:
         alp = alpha_from_masked_arrays([red, grn, blu])
-    red.fill_value = 0
-    grn.fill_value = 0
-    blu.fill_value = 0
-    rgba = np.dstack([red.filled(), grn.filled(), blu.filled(), alp])
+    # np.ma.filled accepts plain arrays as well as masked arrays, and leaves the
+    # caller's fill_value untouched.
+    rgba = np.dstack(
+        [np.ma.filled(red, 0), np.ma.filled(grn, 0), np.ma.filled(blu, 0), alp]
+    )
     return rgba
 
 
