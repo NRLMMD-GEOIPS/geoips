@@ -16,8 +16,7 @@ from geoips.interfaces.base import BaseInterface
 import warnings
 import logging
 
-# Always actually raise DeprecationWarnings
-# Note this SO answer https://stackoverflow.com/a/20960427
+# Issue every DeprecationWarning, not just first occurence
 warnings.simplefilter("always", DeprecationWarning)
 LOG = logging.getLogger(__name__)
 

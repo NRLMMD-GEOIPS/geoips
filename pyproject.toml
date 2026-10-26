@@ -84,6 +84,7 @@ jsonschema = ">4.18.0" # Provides validation for YAML plugins
 numexpr = "*"          # for efficiency improvements
 psutil = "*"           # Required for memory checks
 pydantic = ">=2.10.0"  # Data validation using Python type hints
+pydantic-extra-types = { version = "*", extras = ["semver"] } # Extra types for pydantic validation
 pyhdf = "*"            # hdf4 readers (MODIS)
 geoips-yaml-utils = "*"  # Required to reference environment variables in YAML
 pyorbital = "*"        # required by satpy
@@ -111,6 +112,7 @@ hdf5plugin = "*" # Reading compressed netCDF FCI data. This installs required de
                  # using the pypi hdf5plugin package, and set HDF5_PLUGIN_PATH to
                  # site-packages/hdf5plugin/plugins in the config_geoips file.
 platformdirs = "*" # for easy file locations; this is a dependency of pluginify as well
+pyDeprecate = ">=0.14.0" # for deprecation tracking/auditing and issuing warnings in complex cases
 # Optional dependencies
 # To add a new optional dependency it must be added both here and in one of the "extra"
 # groups below.
