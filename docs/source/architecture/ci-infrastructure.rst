@@ -273,10 +273,10 @@ when both are used, so keep them in sync):
   ``test_data_tpw``, ``test_data_viirs``
 - **site**: ``test_data_clavrx``, ``test_data_fusion``, ``test_data_geocolor``, and the
   ancillary datasets the fortran plugins read from ``$GEOIPS_ANCILDAT``:
-  ``city_lights``, ``elevation``, ``lunarref``, ``lw_mask``, ``rayleigh``,
-  ``synth_green``
-- **private** (``geoips_use_private_plugins=true``): ``test_data_nucaps``,
-  ``test_data_pyrocb``
+  ``city_lights``, ``elevation``, ``emiss``, ``lunarref``, ``lw_mask``, ``merra``,
+  ``rayleigh``, ``synth_green``
+- **private** (``geoips_use_private_plugins=true``): ``test_data_ngfs``,
+  ``test_data_nucaps``, ``test_data_pyrocb``
 
 Role responsibilities
 ---------------------
