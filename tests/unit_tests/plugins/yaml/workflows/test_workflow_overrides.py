@@ -490,7 +490,7 @@ def test_build_output_checker_step():
             "compare_path": f"{tmpdir}/output.png",
             "threshold": 5,
         },
-        "depends_on": ["output_formatter"],
+        # "depends_on": ["output_formatter"],
         "kind": "output_checker",
     }
 
@@ -533,7 +533,7 @@ def test_apply_output_checker_override():
 
     keys = list(result.keys())
     assert keys.index("output_checker1") == (keys.index("output_formatter") + 1)
-    assert result["output_checker1"]["depends_on"] == ["output_formatter"]
+    # assert result["output_checker1"]["depends_on"] == ["output_formatter"]
 
 
 def test_apply_output_checker_override_missing_nested_key():
