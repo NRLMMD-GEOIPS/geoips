@@ -65,9 +65,14 @@ def _reader_records(caplog, level):
     ]
 
 
+def _summary_messages(messages):
+    """Return the aggregated 'Excluded N of M files' messages from `messages`."""
+    return [msg for msg in messages if msg.startswith("Excluded ")]
+
+
 def test_mixed_files_logs_each_exclusion_and_one_warning(caplog):
-    """Excluded files are logged at INFO, with one aggregated WARNING."""
-    caplog.set_level(logging.INFO, logger=READERS_LOGGER)
+    """Invalid files log an ERROR, excluded files a WARNING, plus one summary."""
+    caplog.set_level(logging.WARNING, logger=READERS_LOGGER)
     fnames = [
         f"{FAKE_DIR}/{name}.nc"
         for name in ["good", "novalid", "value", "hritbad", "hritok"]
@@ -75,19 +80,23 @@ def test_mixed_files_logs_each_exclusion_and_one_warning(caplog):
 
     readers.read_data_to_xarray_dict(fnames, fake_read_single_time, metadata_only=True)
 
-    info_messages = _reader_records(caplog, logging.INFO)
+    error_messages = _reader_records(caplog, logging.ERROR)
+    assert len(error_messages) == 1
+    assert "novalid.nc" in error_messages[0]
+    assert "NoValidFilesError" in error_messages[0]
+
+    warning_messages = _reader_records(caplog, logging.WARNING)
     for name, exc_name in [
-        ("novalid.nc", "NoValidFilesError"),
         ("value.nc", "ValueError"),
         ("hritbad.nc", "HritError"),
     ]:
-        assert any(name in msg and exc_name in msg for msg in info_messages)
-    assert any("hritok.nc" in msg for msg in info_messages)
-    assert not any(FAKE_DIR in msg for msg in info_messages)
+        assert any(name in msg and exc_name in msg for msg in warning_messages)
+    assert any("hritok.nc" in msg and "recoverable" in msg for msg in warning_messages)
+    assert not any(FAKE_DIR in msg for msg in error_messages + warning_messages)
 
-    warning_messages = _reader_records(caplog, logging.WARNING)
-    assert len(warning_messages) == 1
-    assert "3 of 5" in warning_messages[0]
+    summary_messages = _summary_messages(warning_messages)
+    assert len(summary_messages) == 1
+    assert "3 of 5" in summary_messages[0]
 
     # NoValidFilesError files are dropped; the rest stay aligned with None times.
     assert len(readers.start_times) == 4
@@ -97,7 +106,7 @@ def test_mixed_files_logs_each_exclusion_and_one_warning(caplog):
 
 def test_all_files_rejected_raises_with_capped_summary(caplog):
     """All-rejected input raises with a summary capped at five files."""
-    caplog.set_level(logging.INFO, logger=READERS_LOGGER)
+    caplog.set_level(logging.WARNING, logger=READERS_LOGGER)
     fnames = [f"{FAKE_DIR}/value{idx}.nc" for idx in range(7)]
 
     with pytest.raises(NoValidFilesError) as excinfo:
@@ -113,18 +122,25 @@ def test_all_files_rejected_raises_with_capped_summary(caplog):
     assert len(listed_files) == 5
 
     warning_messages = _reader_records(caplog, logging.WARNING)
-    assert len(warning_messages) == 1
-    assert "7 of 7" in warning_messages[0]
+    excluding_messages = [
+        msg for msg in warning_messages if msg.startswith("Excluding file")
+    ]
+    assert len(excluding_messages) == 7
+
+    summary_messages = _summary_messages(warning_messages)
+    assert len(summary_messages) == 1
+    assert "7 of 7" in summary_messages[0]
 
 
 def test_all_valid_files_emit_no_warning(caplog):
-    """No WARNING is logged when every file is usable."""
-    caplog.set_level(logging.INFO, logger=READERS_LOGGER)
+    """No WARNING or ERROR is logged when every file is usable."""
+    caplog.set_level(logging.WARNING, logger=READERS_LOGGER)
     fnames = [f"{FAKE_DIR}/good{idx}.nc" for idx in range(2)]
 
     readers.read_data_to_xarray_dict(fnames, fake_read_single_time, metadata_only=True)
 
     assert _reader_records(caplog, logging.WARNING) == []
+    assert _reader_records(caplog, logging.ERROR) == []
 
 
 def test_hrit_error_carries_datetimes():

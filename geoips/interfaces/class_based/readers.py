@@ -603,7 +603,9 @@ class ReadersInterface(BaseClassInterface):
                 updated_fnames += [x]
             except NoValidFilesError as e:
                 # If the current file is not valid, just skip this one.
-                LOG.error("Skipping invalid file %s: %s: %s", basename(x), type(e).__name__, e)
+                LOG.error(
+                    "Skipping invalid file %s: %s: %s", basename(x), type(e).__name__, e
+                )
                 skipped_files.append((x, e))
                 continue
             except (ValueError, HritError) as e:
