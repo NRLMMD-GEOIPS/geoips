@@ -33,6 +33,7 @@ import inspect
 import logging
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
+from pathlib import Path
 
 import xarray as xr
 
@@ -699,18 +700,18 @@ class BaseClassPlugin(ABC):
             self.module_name = module.__name__
             self.module_path = module.__file__
         else:
-self.module_name = "UnnamedModule"
-self.module_path = Path("UnsetPath")
+            self.module_name = "UnnamedModule"
+            self.module_path = Path("UnsetPath")
 
     def _display_fields(self):
         """Collect the fields used by `__repr__` and `__str__`, in a stable order.
 
         The `package` entry is derived from `module_name`, which the plugin registry
         builds as the package name followed by the plugin's dotted module path. A
-        plugin created without a module reports a package of 'Unknown'.
+        plugin created without a module reports a package of 'UnnamedModule'.
 
-        Any field whose attribute is missing, or is not a non-empty string, is left out
-        rather than reported as empty.
+        Every field is reported, missing attributes show as None, fields are in
+        alphabetical order, and package comes last.
 
         Returns
         -------
@@ -718,16 +719,23 @@ self.module_path = Path("UnsetPath")
             - A mapping of field name to field value.
         """
         exported_fields = sorted(("name", "interface", "module_name"))
-        fields = {field_name: getattr(self, field_name, None) 
-                      for field_name in exported_fields}
-        fields["package"] = fields["module_name"].split(".")[0] 
+        fields = {
+            field_name: getattr(self, field_name, None)
+            for field_name in exported_fields
+        }
+        fields["package"] = fields["module_name"].split(".")[0]
         return fields
 
     def __repr__(self):
         """Class BaseClassPlugin repr method.
 
         Returns a single-line representation of the plugin, such as
-        `ReadersPlugin(name='abi_netcdf', interface='readers', package='geoips')`.
+        `ReadersPlugin(interface='...', module_name='...' , name='...', package='...')`.
+        In the case where you were looking at the 'abi_netcdf' reader:
+            interface   = 'readers'
+            module_name = 'geoips.plugins.classes.readers.abi_netcdf'
+            name        = 'abi_netcdf'
+            package     = 'geoips'
         """
         rendered_fields = ", ".join(
             f"{field_name}={field_value!r}"
@@ -749,7 +757,9 @@ self.module_path = Path("UnsetPath")
             return self.__repr__()
 
         interface_name = fields.get("interface")
-        description = f"{interface_name} plugin" if interface_name else "NoInterface plugin"
+        description = (
+            f"{interface_name} plugin" if interface_name else "NoInterface plugin"
+        )
 
         package_name = fields.get("package")
         if package_name:

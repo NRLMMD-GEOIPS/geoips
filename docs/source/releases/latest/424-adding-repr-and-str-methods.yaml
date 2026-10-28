@@ -20,7 +20,7 @@ enhancement:
     A few notes:
 
     * The package comes from the plugin's module name. A plugin made directly without a
-      module shows `package='Unknown'`, which is on purpose.
+      module shows `package='UnnamedModule'`.
     * `family` is left out since it's on its way out.
     * The YAML plugin side is in NRLMMD-GEOIPS/pluginify#33. It adds a matching `__str__`.
       The two PRs don't depend on each other.

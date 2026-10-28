@@ -36,19 +36,20 @@ def _make_fake_module(module_name):
 class TestClassBasedPluginRepr:
     """Tests for `BaseClassPlugin.__repr__`."""
 
-    def test_repr_without_module_reports_unknown_package(self):
-        """Verify a plugin created without a module reports package 'Unknown'."""
+    def test_repr_without_module_reports_unnamed_module_package(self):
+        """Verify a plugin created without a module reports 'UnnamedModule'."""
         plugin = _FakeReprPlugin()
         assert repr(plugin) == (
-            "_FakeReprPlugin(name='fake_repr', interface='algorithms', "
-            "package='UnnamedModule')"
+            "_FakeReprPlugin(interface='algorithms', module_name='UnnamedModule', "
+            "name='fake_repr', package='UnnamedModule')"
         )
 
     def test_repr_derives_package_from_module_name(self):
         """Verify the package is the first dot-separated part of the module name."""
         plugin = _FakeReprPlugin(_make_fake_module("some_pkg.plugins.fake_module"))
         assert repr(plugin) == (
-            "_FakeReprPlugin(name='fake_repr', interface='algorithms', "
+            "_FakeReprPlugin(interface='algorithms', "
+            "module_name='some_pkg.plugins.fake_module', name='fake_repr', "
             "package='some_pkg')"
         )
 
@@ -56,8 +57,8 @@ class TestClassBasedPluginRepr:
         """Verify a module name with no dot is used as the package as-is."""
         plugin = _FakeReprPlugin(_make_fake_module("toplevel"))
         assert repr(plugin) == (
-            "_FakeReprPlugin(name='fake_repr', interface='algorithms', "
-            "package='toplevel')"
+            "_FakeReprPlugin(interface='algorithms', module_name='toplevel', "
+            "name='fake_repr', package='toplevel')"
         )
 
     def test_repr_of_list_is_one_line_per_plugin(self):
@@ -73,8 +74,8 @@ class TestClassBasedPluginRepr:
 class TestClassBasedPluginStr:
     """Tests for `BaseClassPlugin.__str__`."""
 
-    def test_str_without_module_reports_unknown_package(self):
-        """Verify a plugin created without a module reads as coming from Unknown."""
+    def test_str_without_module_reports_unnamed_module_package(self):
+        """Verify a plugin created without a module reads as from UnnamedModule."""
         plugin = _FakeReprPlugin()
         assert str(plugin) == "fake_repr (algorithms plugin from UnnamedModule)"
 
@@ -83,22 +84,53 @@ class TestClassBasedPluginStr:
         plugin = _FakeReprPlugin(_make_fake_module("some_pkg.plugins.fake_module"))
         assert str(plugin) == "fake_repr (algorithms plugin from some_pkg)"
 
+    def test_str_without_interface_reports_no_interface(self):
+        """Verify a plugin with no interface reads as a 'NoInterface plugin'."""
+        plugin = _FakeReprPlugin()
+        plugin.interface = None
+        assert str(plugin) == "fake_repr (NoInterface plugin from UnnamedModule)"
+
 
 class TestClassBasedPluginInvalidName:
-    """Tests for plugins whose `name` is missing or unusable."""
+    """Tests for plugins whose `name` is empty or not a string.
 
-    @pytest.mark.parametrize("bad_name", ["", None, 123])
-    def test_invalid_name_is_omitted_and_str_falls_back_to_repr(self, bad_name):
-        """Verify an unusable name is omitted and `__str__` falls back to `__repr__`.
+    `__init_subclass__` rejects plugin classes without a valid name, so the class
+    attribute is shadowed on the instance instead.
+    """
 
-        `__init_subclass__` rejects plugin classes without a valid name, so the class
-        attribute is shadowed on the instance instead.
-        """
+    @pytest.mark.parametrize(
+        "falsy_name, expected_repr",
+        [
+            (
+                "",
+                "_FakeReprPlugin(interface='algorithms', "
+                "module_name='UnnamedModule', name='', package='UnnamedModule')",
+            ),
+            (
+                None,
+                "_FakeReprPlugin(interface='algorithms', "
+                "module_name='UnnamedModule', name=None, package='UnnamedModule')",
+            ),
+        ],
+    )
+    def test_falsy_name_is_shown_and_str_falls_back_to_repr(
+        self, falsy_name, expected_repr
+    ):
+        """Verify a falsy name still appears in `__repr__`, which `__str__` returns."""
         plugin = _FakeReprPlugin()
-        plugin.name = bad_name
-        expected_repr = "_FakeReprPlugin(interface='algorithms', package='UnnamedModule')"
+        plugin.name = falsy_name
         assert repr(plugin) == expected_repr
         assert str(plugin) == expected_repr
+
+    def test_non_string_name_is_shown_in_repr_and_str(self):
+        """Verify a truthy non-string name is printed as-is by both methods."""
+        plugin = _FakeReprPlugin()
+        plugin.name = 123
+        assert repr(plugin) == (
+            "_FakeReprPlugin(interface='algorithms', module_name='UnnamedModule', "
+            "name=123, package='UnnamedModule')"
+        )
+        assert str(plugin) == "123 (algorithms plugin from UnnamedModule)"
 
 
 class TestClassBasedPluginFromRegistry:
@@ -108,7 +140,8 @@ class TestClassBasedPluginFromRegistry:
         """Verify a registered reader reports its real class, interface, and package."""
         plugin = readers.get_plugin("abi_netcdf")
         assert repr(plugin) == (
-            "AbiNetcdfReaderPlugin(name='abi_netcdf', interface='readers', "
-            "package='geoips')"
+            "AbiNetcdfReaderPlugin(interface='readers', "
+            "module_name='geoips.plugins.classes.readers.abi_netcdf', "
+            "name='abi_netcdf', package='geoips')"
         )
         assert str(plugin) == "abi_netcdf (readers plugin from geoips)"
