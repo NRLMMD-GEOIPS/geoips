@@ -732,10 +732,11 @@ class BaseClassPlugin(ABC):
         Returns a single-line representation of the plugin, such as
         `ReadersPlugin(interface='...', module_name='...' , name='...', package='...')`.
         In the case where you were looking at the 'abi_netcdf' reader:
-            interface   = 'readers'
-            module_name = 'geoips.plugins.classes.readers.abi_netcdf'
-            name        = 'abi_netcdf'
-            package     = 'geoips'
+
+        interface   = 'readers'
+        module_name = 'geoips.plugins.classes.readers.abi_netcdf'
+        name        = 'abi_netcdf'
+        package     = 'geoips'
         """
         rendered_fields = ", ".join(
             f"{field_name}={field_value!r}"
