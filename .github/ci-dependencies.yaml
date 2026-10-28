@@ -1,14 +1,44 @@
 # Test-only dependency overrides, keyed by branch: only the entry of the branch under
 # test applies (see "Testing against other branches or versions" in the geoips_ci README).
+#
+# TODO before merging #1510: remove this entry once the PRs below are merged.
 biosafetylvl5-better-errors-from-docker-apt:
   python:
     # Atomic registry writes (fixes JSONDecodeError races under pytest-xdist).
+    # NRLMMD-GEOIPS/pluginify#37
     - "pluginify @ git+https://github.com/NRLMMD-GEOIPS/pluginify@atomic-writes"
   repos:
     # Commit the missing <repo>/_version.py (import failed without it).
+    # NRLMMD-GEOIPS/lunarref#8, NRLMMD-GEOIPS/true_color#7
     lunarref: add-version-file
     true_color: add-version-file
     # Fix imports of geoips plugin modules that moved to geoips.plugins.classes.
+    # NRLMMD-GEOIPS/ryglickicane#11, NRLMMD-GEOIPS/recenter_tc#62
     ryglickicane: fix-geoips-plugin-imports
-    # Fix arg order to allow import of pyrocb
+    # recenter_tc#63 builds on #62: rounds the ARCHER scores whose last digits
+    # differ between platforms.
+    recenter_tc: round-archer-scores
+    # Fix output formatter argument order to allow import of pyrocb.
+    # NRLMMD-GEOIPS/pyrocb#12
     pyrocb: fix-ci-errors
+    # Output formatter argument order fix in geoips_nucaps (#9), rounded CSV
+    # values (#10, into #9) and skipped tests that need the opentopodata API
+    # (#12, into #10; see geoips_nucaps#11).
+    geoips_nucaps: skip-opentopodata-tests
+    # Fix output formatter argument order, move introduction docs to getting-started.
+    # NRLMMD-GEOIPS/geoips_plugin_example#22
+    geoips_plugin_example: fix-output-formatter-arg-order
+    # Remove the stray userguide/index.rst that broke the docs build.
+    # NRLMMD-GEOIPS/geoips_tomorrowio#4
+    geoips_tomorrowio: remove-stray-userguide
+    # Lint fixes, from jthielen's forks (owner:ref).
+    # NRLMMD-GEOIPS/fortran_utils#5, NRLMMD-GEOIPS/rayleigh#9
+    fortran_utils: "jthielen:fix-lint-xref-geoips-1510"
+    rayleigh: "jthielen:fix-lint-xref-geoips-1510"
+    # Sync configs from geoips_ci (its .flake8 fixes the lint errors).
+    # NRLMMD-GEOIPS/synth_green#5
+    synth_green: sync-from-geoips-ci
+    # Compare the goes_east and goes_west images with a pixelmatch threshold of 0.2
+    # (the night side differs by a few pixels between runs).
+    # NRLMMD-GEOIPS/geoips_proxyvis#12
+    geoips_proxyvis: image-comparison-tolerance
