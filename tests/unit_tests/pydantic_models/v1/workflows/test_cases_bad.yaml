@@ -58,4 +58,37 @@ global_variables_window_end_time_invalid_field_type:
   val: "not-a-date"
   cls: GlobalVariablesModel
   err_str: "Input should be a valid datetime or date"
+step_definition_kind_empty:
+  description: "Empty value for step 'kind' is rejected."
+  key: steps/read_data/kind
+  val: ""
+  cls: WorkflowStepDefinitionModel
+  err_str: "Invalid input: 'kind' cannot be empty."
+step_definition_empty_input:
+  description: "Empty step definition is rejected for missing plugin name."
+  key: steps/read_data
+  val: {}
+  cls: WorkflowStepDefinitionModel
+  loc: [steps, read_data]
+  err_str: "You must specify a name field for every plugin step that is not a workflow, split, or join step."
+step_definition_invalid_plugin_name:
+  description: "Plugin name not registered for the step's kind is rejected."
+  key: steps/read_data/name
+  val: ""
+  cls: WorkflowStepDefinitionModel
+  loc: [steps, read_data]
+  err_str: "Must be one of "
+step_definition_invalid_plugin_kind:
+  description: "Unknown plugin kind is rejected."
+  key: steps/read_data/kind
+  val: invalid_plugin_kind
+  cls: WorkflowStepDefinitionModel
+  err_str: "Invalid plugin kind"
+step_definition_additional_field:
+  description: "Field not defined on the step model is rejected."
+  key: steps/read_data/unexpected_field
+  val: unexpected_value
+  cls: WorkflowStepDefinitionModel
+  loc: [steps, read_data, unexpected_field]
+  err_str: "Extra inputs are not permitted"
 
