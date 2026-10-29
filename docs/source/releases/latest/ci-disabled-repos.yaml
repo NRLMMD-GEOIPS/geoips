@@ -5,8 +5,7 @@ continuous integration:
     for example while their install is broken.
 
     * ``.github/ci-disabled-repos.yaml`` maps the repos to disable to the reason.
-      It applies to every branch. It disables geoips_nucaps, whose test outputs
-      depend on the opentopodata API (NRLMMD-GEOIPS/geoips_nucaps#11).
+      It applies to every branch, and disables no repos for now.
     * The ansible playbook takes ``disabled_repos`` (``"repo repo ..."``, env
       ``DISABLED_REPOS``, Docker build argument ``DISABLED_REPOS`` of the
       ``geoips-full`` and ``geoips-site`` stages) and removes those repos from the

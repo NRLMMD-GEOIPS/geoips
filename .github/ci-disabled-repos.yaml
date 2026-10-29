@@ -5,4 +5,4 @@
 #
 # Repos that need a disabled repo still install, but the parts that use it fail
 # (geocolor's GeoColor products need synth_green, for example).
-geoips_nucaps: "its test outputs depend on the opentopodata API, see NRLMMD-GEOIPS/geoips_nucaps#11"
+{}
