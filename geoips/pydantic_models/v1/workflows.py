@@ -888,6 +888,7 @@ class WorkflowSpecModel(FrozenModel):
         expand = context.get("expand", False)
 
         kind = step.get("kind")
+        override_args = step.get("arguments", {})
         interface = getattr(interfaces, Lexeme(kind).plural)
 
         if kind == "product":
@@ -902,6 +903,43 @@ class WorkflowSpecModel(FrozenModel):
             steps, global_vars = cls.product_to_steps(plugin, _inputs)  # NOQA
         else:
             steps = cls.expand_steps(plugin.get("spec"), info)["steps"]
+
+        for key, value in override_args.items():
+            # Try the dict form
+            try:
+                # occurs for override arguments formatted like such
+                # step_id:
+                #   argument_name: value
+                for argument_name, argument_value in value.items():
+                    steps[key]["arguments"][argument_name] = argument_value
+            except AttributeError:
+                # Try the dot-notation form
+                # dot-notation overrides
+                # I.e. arguments:
+                #        step_id.argument_name: value
+                try:
+                    step_id, argument_name = key.split(".")
+                    steps[step_id]["arguments"][argument_name] = value
+                except (AttributeError, ValueError):
+                    raise ValueError(
+                        f"Error: unable to parse {key}. Expected format should follow "
+                        r"either overrides = {step_id: {argument_name: argument_value}}"
+                        r" or overrides = {step_id.argument_name: argument_value}."
+                    )
+
+        if _inputs and kind == "workflow":
+            for step_id, step in steps.items():
+                if step.get("kind") not in [
+                    "feature_annotator",
+                    "gridline_annotator",
+                    "colormapper",
+                ]:
+                    # if _inputs has been provided and is not a step that implicitly has
+                    # no dependencies, set those here. This is useful when expanding a
+                    # product or a workflow step that in itself depends on parent
+                    # steps out of scope.
+                    steps[step_id]["depends_on"] = _inputs
+                    break
 
         return steps
 
@@ -960,9 +998,21 @@ class WorkflowSpecModel(FrozenModel):
                 and expand
                 and (step.get("spec") is None or step.get("name"))
             ):
-                expanded_steps = cls.extend_dict(
-                    expanded_steps, cls.expand_step(step, info)
+                if step.get("depends_on"):
+                    _inputs = step["depends_on"]
+
+                expanded_steps[name] = {
+                    "spec": {"steps": {}},
+                    "kind": "workflow",
+                    "depends_on": _inputs,
+                }
+
+                expanded_steps[name]["spec"]["steps"] = cls.expand_step(
+                    step, info, _inputs
                 )
+                # expanded_steps = cls.extend_dict(
+                #     expanded_steps, cls.expand_step(step, info, _inputs)
+                # )
             else:
                 # Not a workflow or product-based plugin, just keep the step as it is
                 expanded_steps[name] = step
