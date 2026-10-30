@@ -15,7 +15,6 @@ test:
       full_test_policy: on_token_mismatch
       compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean
       output_checker_name: image
-
 spec:
   steps:
     sector:

@@ -16,10 +16,11 @@ docstring: SMAP unsectored wind speed data.
 package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_awips_windspeed/RSS_smap_wind_daily_2024_02_20_NRT_v01.0.nc
-spec:
+arguments:
   globals:
     product_name: unsectored
     reader_defined_area_def: False
+spec:
   steps:
     reader:
       kind: reader
