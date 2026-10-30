@@ -1,0 +1,17 @@
+enhancement:
+- title: 'removed family enforcement of family attribute for data-tree class-based plugins'
+  description: |
+    Removed enforcement checks for the family attribute for data-tree class-based
+    plugins for GeoIPS V2.0. Corresponding PR in pluginify can be found at
+    https://github.com/NRLMMD-GEOIPS/pluginify/pull/38.
+  files:
+    modified:
+      - geoips/interfaces/class_based/procflows.py
+      - geoips/interfaces/class_based_plugin.py
+      - geoips/plugins/modules/procflows/order_based.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
