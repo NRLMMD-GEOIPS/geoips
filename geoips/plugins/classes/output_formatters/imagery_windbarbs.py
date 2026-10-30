@@ -47,6 +47,7 @@ class ImageryWindbarbOutputFormatterPlugin(WindbarbOutputFormatterPlugin):
         remove_duplicate_minrange=None,
         title_copyright=None,
         title_formatter=None,
+        preformatted_title_str=None,
     ):
         """Plot annotated windbarbs on matplotlib figure."""
         LOG.info("Starting imagery_windbarbs")
@@ -113,18 +114,22 @@ class ImageryWindbarbOutputFormatterPlugin(WindbarbOutputFormatterPlugin):
 
             self.plot_barbs(main_ax, mapobj, mpl_colors_info, formatted_data_dict)
 
-            # Set the title for final image
-            title_string = get_title_string_from_objects(
-                area_def,
-                xarray_obj,
-                product_name_title,
-                product_datatype_title=product_datatype_title,
-                bg_xarray=bg_xarray,
-                bg_product_name_title=bg_product_name_title,
-                bg_datatype_title=bg_datatype_title,
-                title_copyright=title_copyright,
-                title_formatter=title_formatter,
-            )
+            if preformatted_title_str and isinstance(preformatted_title_str, str):
+                # call() was passed a fully-formatted title string so we use it!
+                title_string = preformatted_title_str
+            else:
+                # Set the title for final image
+                title_string = get_title_string_from_objects(
+                    area_def,
+                    xarray_obj,
+                    product_name_title,
+                    product_datatype_title=product_datatype_title,
+                    bg_xarray=bg_xarray,
+                    bg_product_name_title=bg_product_name_title,
+                    bg_datatype_title=bg_datatype_title,
+                    title_copyright=title_copyright,
+                    title_formatter=title_formatter,
+                )
             set_title(main_ax, title_string, area_def.height)
 
             if mpl_colors_info["colorbar"] is True:
