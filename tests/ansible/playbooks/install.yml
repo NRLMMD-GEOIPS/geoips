@@ -7,6 +7,7 @@
 #   ansible-playbook playbooks/install.yml --tags base,full,site -e geoips_use_private_plugins=true
 #   ansible-playbook playbooks/install.yml --tags base,full,site -e extra_plugin_packages=my_plugin,other_plugin
 #   ansible-playbook playbooks/install.yml --tags base,full,site -e "repo_branches='recenter_tc=my-fix geocolor=v1.2.0'"
+#   ansible-playbook playbooks/install.yml --tags base,full,site -e "repo_branches='rayleigh=someone:their-fix'"
 #   ansible-playbook playbooks/install.yml --tags base,full,site -e "disabled_repos='synth_green lunarref'"
 #
 # From a Dockerfile:
@@ -19,19 +20,30 @@
 
   pre_tasks:
     # repo_branches: "repo=ref repo=ref ...", the branch, tag or commit to clone each
-    # listed repo at (the other repos use their default branch).
+    # listed repo at (the other repos use their default branch).  "repo=owner:ref"
+    # clones the ref from owner's fork of the repo (same repo name, next to
+    # geoips_repo_url, e.g. https://github.com/owner/repo.git).
     - name: Check the format of repo_branches
       ansible.builtin.assert:
         that: malformed | length == 0
-        fail_msg: "repo_branches entries must be repo=ref: {{ malformed | join(', ') }}"
+        fail_msg: "repo_branches entries must be repo=ref or repo=owner:ref: {{ malformed | join(', ') }}"
         quiet: true
       vars:
-        malformed: "{{ repo_branches.split() | reject('match', '^[^=]+=[^=]+$') | list }}"
+        malformed: "{{ repo_branches.split() | reject('match', '^[^=:]+=([A-Za-z0-9-]+:)?[^=:]+$') | list }}"
       tags: [always]
 
     - name: Parse repo_branches
       ansible.builtin.set_fact:
-        repo_branch_map: "{{ dict(repo_branches.split() | map('split', '=', 1)) }}"
+        # repo -> ref (without the fork owner)
+        repo_branch_map: >-
+          {% set m = {} %}{% for repo, ref in _entries %}{% set _ = m.update({repo: ref.split(':')[-1]}) %}{% endfor %}{{ m }}
+        # repo -> URL to clone, for the repos cloned from a fork
+        repo_url_map: >-
+          {% set m = {} %}{% for repo, ref in _entries if ':' in ref %}{% set _ = m.update({repo: _fork_url_base ~ ref.split(':')[0] ~ '/' ~ repo ~ '.git'}) %}{% endfor %}{{ m }}
+      vars:
+        _entries: "{{ repo_branches.split() | map('split', '=', 1) | list }}"
+        # geoips_repo_url without the organization
+        _fork_url_base: "{{ geoips_repo_url | regex_replace('/*$', '') | regex_replace('[^/]+$', '') }}"
       tags: [always]
 
     - name: Check the repos in repo_branches
