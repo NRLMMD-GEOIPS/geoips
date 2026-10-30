@@ -21,6 +21,21 @@ from geoips.geoips_utils import call_cmd
 
 tmpdir = tempfile.mkdtemp()
 
+# Under pytest-xdist (pytest -n N), each worker writes its outputs to its own
+# GEOIPS_OUTDIRS, since several tests write the same output files. State shared by
+# all workers (the install check lock) stays in the original directory. The original
+# is kept in GEOIPS_PYTEST_SHARED_OUTDIRS so that importing this module again (plugin
+# repos import it) does not nest the worker directories.
+SHARED_OUTDIRS = os.getenv("GEOIPS_PYTEST_SHARED_OUTDIRS") or os.getenv(
+    "GEOIPS_OUTDIRS", tmpdir
+)
+if os.getenv("PYTEST_XDIST_WORKER") and not os.getenv("GEOIPS_PYTEST_SHARED_OUTDIRS"):
+    os.environ["GEOIPS_PYTEST_SHARED_OUTDIRS"] = SHARED_OUTDIRS
+    os.environ["GEOIPS_OUTDIRS"] = os.path.join(
+        SHARED_OUTDIRS, "xdist", os.environ["PYTEST_XDIST_WORKER"]
+    )
+    os.makedirs(os.environ["GEOIPS_OUTDIRS"], exist_ok=True)
+
 MACHINE_ARCH = platform.machine().lower()
 IS_ARM = MACHINE_ARCH in ["aarch64", "arm64"] or MACHINE_ARCH.startswith("arm")
 print("")
@@ -268,7 +283,7 @@ def _run_ansible_check(tags, label):
         os.environ[key] = val
 
     run_uid = os.environ.get("PYTEST_XDIST_TESTRUNUID", "single-process")
-    state_dir = Path(os.getenv("GEOIPS_OUTDIRS", tmpdir)) / "pytest-install-state"
+    state_dir = Path(SHARED_OUTDIRS) / "pytest-install-state"
     state_dir.mkdir(parents=True, exist_ok=True)
     lock_path = state_dir / "ansible-install.lock"
     done_path = state_dir / f"{run_uid}-{label}.done"
