@@ -37,9 +37,12 @@ enhancement:
 
     ``<inner_step_id>.depends_on: [<inner_step_idX>, ...]``
 
-    Finally, modified a large majority of the workflows found in
+    Another step included modifying a large majority of the workflows found in
     ``geoips/plugins/yaml/workflows/tests/`` to adhere to this new logic. All of the
     workflows modified in this PR seem to be working now.
+
+    Finally, removed ``kind`` overrides for both string and dictionary based formats.
+    Only global and step overrides are supported now.
   files:
     modified:
       - docs/dev/running_order_based_procflow.rst
