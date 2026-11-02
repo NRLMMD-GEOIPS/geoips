@@ -92,6 +92,7 @@ class AlgorithmsInterface(BaseClassInterface):
         "xarray_dict_dict_to_xarray": ["xarray_dict_dict"],
         "xarray_dict_to_xarray_dict": ["xarray_dict"],
         "xarray_dict_area_def_to_numpy": ["xarray_dict", "area_def"],
+        "data_tree": [],
     }
 
     required_kwargs = {
@@ -106,6 +107,7 @@ class AlgorithmsInterface(BaseClassInterface):
         "xarray_dict_dict_to_xarray": [],
         "xarray_dict_to_xarray_dict": [],
         "xarray_dict_area_def_to_numpy": [],
+        "data_tree": [],
     }
 
 
