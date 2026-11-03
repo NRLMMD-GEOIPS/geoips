@@ -36,3 +36,10 @@ Standardizing these models ensures that:
 | `DynamicModel` | No | Yes | Strict schema with mutable instances |
 | `PermissiveDynamicModel` | Yes | Yes | Extensible schema with mutable instances |
 
+```{eval-rst}
+.. autopydantic_model:: geoips.pydantic_models.v1.bases.FrozenModel
+.. autopydantic_model:: geoips.pydantic_models.v1.bases.PermissiveFrozenModel
+.. autopydantic_model:: geoips.pydantic_models.v1.bases.DynamicModel
+.. autopydantic_model:: geoips.pydantic_models.v1.bases.PermissiveDynamicModel
+```
+
