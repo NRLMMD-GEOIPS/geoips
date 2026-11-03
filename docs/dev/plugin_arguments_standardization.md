@@ -27,7 +27,12 @@ Standardizing these models ensures that:
 1. **Model location** — Each plugin kind's argument model should reside in
    `geoips/pydantic_models/v<version_number>/<plugin_type>.py`.
 
-2. **Model inheritance** - All plugin argument models must inherit from one of the base models listed below: 
+2. **Naming** — All field names must use `snake_case` naming convention. Avoid `PascalCase` or
+   `camelCase` aliases unless required for backwards compatibility with existing
+   YAML files; where unavoidable, document the legacy reason in the field
+   description.
+
+3. **Model inheritance** - All plugin argument models must inherit from one of the base models listed below:
 
 | Model | Extra Fields | Mutable | When to Use |
 |---|---|---|---|
