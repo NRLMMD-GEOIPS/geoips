@@ -24,7 +24,7 @@ Standardizing these models ensures that:
 
 ## Standards
 
-1. **Model location** — Each plugin kind's argument model resides in
+1. **Model location** — Each plugin kind's argument model should reside in
    `geoips/pydantic_models/v<version_number>/<plugin_type>.py`.
 
 2. **Model inheritance** - All plugin argument models must inherit from one of the base models listed below: 
@@ -36,10 +36,5 @@ Standardizing these models ensures that:
 | `DynamicModel` | No | Yes | Strict schema with mutable instances |
 | `PermissiveDynamicModel` | Yes | Yes | Extensible schema with mutable instances |
 
-```{eval-rst}
-.. autopydantic_model:: geoips.pydantic_models.v1.bases.FrozenModel
-.. autopydantic_model:: geoips.pydantic_models.v1.bases.PermissiveFrozenModel
-.. autopydantic_model:: geoips.pydantic_models.v1.bases.DynamicModel
-.. autopydantic_model:: geoips.pydantic_models.v1.bases.PermissiveDynamicModel
-```
+Before defining any new Pydantic configuration, please refer to ` CoreBaseModel` in `geoips/pydantic_models/v<version_number>/<plugin_type>.py`
 
