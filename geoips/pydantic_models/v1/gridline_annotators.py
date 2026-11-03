@@ -126,8 +126,8 @@ class Lines(FrozenModel):
     )
     linestyle: List[int] = Field(
         ...,
-        min_items=2,
-        max_items=2,
+        min_length=2,
+        max_length=2,
         description="Pattern of dashes and gaps in the line.",
     )
     linewidth: float = Field(..., description="Width of the line.")
