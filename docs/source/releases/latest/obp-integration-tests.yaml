@@ -1,0 +1,19 @@
+test:
+- title: 'Add OBP Integration Tests for Workflow Validation'
+  description: 'Introduce integration tests for OBP workflows to ensure correct functionality and data flow between workflow steps.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'docs/source/releases/latest/obp-integration-tests.yaml'
+    - 'tests/integration_tests/test_obp_workflows.py'
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
