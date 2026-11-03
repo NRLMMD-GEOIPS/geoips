@@ -89,8 +89,8 @@ class ProductDefaultSpec(PermissiveFrozenModel):
     pad_area_definition: bool = Field(
         None, description="Whether or not to pad your area definition if specified."
     )
-    mtif_type: str = Field(None, description="The format of METOC TIFF to output.")
-    display_name: str = Field(None, description="The display name of your product.")
+    mtif_type: str | None = Field(None, description="The format of METOC TIFF to output.")
+    display_name: str | None = Field(None, description="The display name of your product.")
 
 
 class ProductDefaultPluginModel(PluginModel):
