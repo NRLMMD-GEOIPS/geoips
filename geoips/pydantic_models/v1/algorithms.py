@@ -99,7 +99,7 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         "threshold. None, no masking",
     )
     pressure_key: str | None = Field(None)
-    time_key: str = Field(None)
+    time_key: str | None = Field(None)
     time_fcst: StrictInt | None = Field(None)
     time_dim: StrictInt | None = Field(None, alias="Time_Dimension")
     grid_geo: StrictBool | None = Field(None)
