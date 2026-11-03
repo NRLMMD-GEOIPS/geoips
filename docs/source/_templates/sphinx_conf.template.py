@@ -92,7 +92,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "GeoIPS, Geolocated Information Processing System"
-copyright = "NOT APPLICAPABLE"
+copyright = "NOT APPLICABLE"
 author = "the U.S. NAVAL RESEARCH LABORATORY"
 
 # The version info for the project you're documenting, acts as replacement for

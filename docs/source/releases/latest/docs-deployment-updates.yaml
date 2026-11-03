@@ -5,7 +5,7 @@ documentation:
     `pydata-sphinx-theme`'s version switcher (with versions corresponding to either the
     minor version family, i.e., `vX.Y`, or `dev`, with an added symlink of `stable` to
     whatever the latest minor version family subdirectory is). Then, also adds a python
-    script for creating the support files for versioned docs deployement: the
+    script for creating the support files for versioned docs deployment: the
     `versions.json` configuration file (a single file which all versions of the doc
     point at to define the version switcher dropdown), the `stable` symlink, and
     optional index.html and 404.html files to handle redirects (which are not
