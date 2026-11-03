@@ -44,3 +44,9 @@ Standardizing these models ensures that:
 
 Before defining any new Pydantic configuration, please refer to ` CoreBaseModel` in `geoips/pydantic_models/v<version_number>/<plugin_type>.py`
 
+4. **Group cohesive fields** — Fields that are logically related should be consolidated into a nested configuration model rather than maintained as separate flat or top-level fields. This makes field relationships explicit in the schema and keeps manual cross-field validation localized within the nested model. For instance:
+
+   - `cbar_full_width`, `cbar_label`, `cbar_spacing`, `cbar_ticks`, `cbar_tick_labels` in
+     `ColormapperArgumentsModel` → `ColorbarConfig`
+
+ **Backward compatibility** Introducing nested configuration models changes the expected structure of YAML inputs. Hence, this standard should be treated as good to have or recommened for the exisitng models but must be adhered for the new plugin models.
