@@ -82,8 +82,8 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     min_night_zen: Optional[float] = Field(None)
     max_night_zen: float | None = Field(None)
     max_day_zen: Optional[float] = Field(None)
-    mask_night: bool = Field(None)
-    mask_day: bool = Field(None)
+    mask_night: bool | None = Field(None)
+    mask_day: bool | None = Field(None)
     scale_factor: Optional[float] = Field(None)
     sun_zen_correction: StrictBool | None = Field(
         None,
