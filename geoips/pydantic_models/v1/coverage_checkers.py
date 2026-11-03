@@ -22,7 +22,7 @@ class CoverageCheckerArgumentsModel(PermissiveFrozenModel):
     variable_name: str = Field(
         None, description="Variable name to check percent unmasked."
     )
-    area_def: str = Field(None, description="Area definition identifier.")
+    area_def: str | None = Field(None, description="Area definition identifier.")
     radius_km: Optional[float] = Field(
         300, description="Radius of center disk to check for coverage. "
     )
