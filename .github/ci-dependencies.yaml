@@ -15,10 +15,16 @@ biosafetylvl5-better-errors-from-docker-apt:
     # Fix imports of geoips plugin modules that moved to geoips.plugins.classes.
     # NRLMMD-GEOIPS/ryglickicane#11, NRLMMD-GEOIPS/recenter_tc#62
     ryglickicane: fix-geoips-plugin-imports
-    recenter_tc: fix-geoips-plugin-imports
+    # recenter_tc#63 builds on #62: rounds the ARCHER scores whose last digits
+    # differ between platforms.
+    recenter_tc: round-archer-scores
     # Fix output formatter argument order to allow import of pyrocb.
     # NRLMMD-GEOIPS/pyrocb#12
     pyrocb: fix-ci-errors
+    # Output formatter argument order fix in geoips_nucaps (#9), rounded CSV
+    # values (#10, into #9) and skipped tests that need the opentopodata API
+    # (#12, into #10; see geoips_nucaps#11).
+    geoips_nucaps: skip-opentopodata-tests
     # Fix output formatter argument order, move introduction docs to getting-started.
     # NRLMMD-GEOIPS/geoips_plugin_example#22
     geoips_plugin_example: fix-output-formatter-arg-order
@@ -29,3 +35,10 @@ biosafetylvl5-better-errors-from-docker-apt:
     # NRLMMD-GEOIPS/fortran_utils#5, NRLMMD-GEOIPS/rayleigh#9
     fortran_utils: "jthielen:fix-lint-xref-geoips-1510"
     rayleigh: "jthielen:fix-lint-xref-geoips-1510"
+    # Sync configs from geoips_ci (its .flake8 fixes the lint errors).
+    # NRLMMD-GEOIPS/synth_green#5
+    synth_green: sync-from-geoips-ci
+    # Compare the goes_east and goes_west images with a pixelmatch threshold of 0.2
+    # (the night side differs by a few pixels between runs).
+    # NRLMMD-GEOIPS/geoips_proxyvis#12
+    geoips_proxyvis: image-comparison-tolerance
