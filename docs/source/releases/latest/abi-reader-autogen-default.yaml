@@ -1,0 +1,26 @@
+bug fix:
+- title: 'Give every ABI reader a DONT_AUTOGEN_GEOLOCATION setting'
+  description: |
+    ``BaseAbiReaderPlugin.get_latitude_longitude`` reads
+    ``self.DONT_AUTOGEN_GEOLOCATION`` when no geolocation cache file exists for
+    a sector, but only ``abi_netcdf`` defined it. ``abi_l2_netcdf`` failed with
+    "AttributeError: 'AbiL2NetcdfReaderPlugin' object has no attribute
+    'DONT_AUTOGEN_GEOLOCATION'" (geoips_nucaps' ``pyrocb_text_from_image.sh
+    geojson abi`` test in NRLMMD-GEOIPS/geoips#1510). ``BaseAbiReaderPlugin`` now
+    sets it from the ``DONT_AUTOGEN_GEOLOCATION`` environment variable, as
+    ``geostationary_geolocation`` already reads it, and readers can still
+    override it.
+  files:
+    deleted: []
+    moved: []
+    added:
+    - 'docs/source/releases/latest/abi-reader-autogen-default.yaml'
+    - 'tests/unit_tests/interfaces/class_based/test_readers.py'
+    modified:
+    - 'geoips/interfaces/class_based/readers.py'
+  related-issue:
+    number: null
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 2026-10-20
+    finish: 2026-10-20

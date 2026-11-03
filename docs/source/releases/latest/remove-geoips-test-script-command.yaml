@@ -1,0 +1,19 @@
+removal:
+- title: 'Remove geoips test script command'
+  description: |
+    Removed 'geoips test script' command. Includes removal of the command itself, it's
+    help info, and the unit test code for that command. Removing as it is unused and
+    causes quite the pain for our CI.
+  files:
+    deleted:
+      - tests/unit_tests/commandline/test_geoips_test_script.py
+    modified:
+      - geoips/commandline/ancillary_info/cmd_instructions.py
+      - geoips/commandline/geoips_test.py
+      - tests/unit_tests/commandline/cli_top_level_tester.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
