@@ -19,3 +19,11 @@ Standardizing these models ensures that:
 - New plugin authors have a clear template to follow
 - The models serve as accurate, auto-generatable documentation
 - Type-checked tooling works without suppression
+
+---
+
+## Standards
+
+1. **Model location** — Each plugin kind's argument model resides in
+   `geoips/pydantic_models/v<version_number>/<plugin_type>.py`.
+
