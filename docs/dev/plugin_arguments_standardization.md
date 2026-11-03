@@ -31,8 +31,8 @@ Standardizing these models ensures that:
 
 | Model | Extra Fields | Mutable | When to Use |
 |---|---|---|---|
-| `FrozenModel` | No | No | Fully-known schema with no post-init changes; strictest validation |
-| `PermissiveFrozenModel` | Yes | No | Plugin may pass unknown fields but the model must not be mutated after creation |
-| `DynamicModel` | No | Yes | Strict schema required but fields need updating post-initialization |
-| `PermissiveDynamicModel` | Yes | Yes | Flexible schema that also needs to be mutated after creation |
+| `FrozenModel` | No | No | Strict schema with immutable instances |
+| `PermissiveFrozenModel` | Yes | No | Extensible schema with immutable instances |
+| `DynamicModel` | No | Yes | Strict schema with mutable instances |
+| `PermissiveDynamicModel` | Yes | Yes | Extensible schema with mutable instances |
 
