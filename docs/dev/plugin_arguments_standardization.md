@@ -1,6 +1,11 @@
 <!-- # # # This source code is subject to the license referenced at -->
 <!-- # # # https://github.com/NRLMMD-GEOIPS. -->
 
+
+# Plugin Arguments Standardization
+
+Guidelines for defining, extending, and maintaining plugin ArgumentsModel classes across all GeoIPS plugin kinds.
+
 ## Overview
 
 GeoIPS plugin argument models define the interface between workflow YAML files
