@@ -95,6 +95,10 @@ models_available = {
         "good_source": ("fixture", "valid_colormapper_plugin_data"),
         "model": ColormapperArgumentsModel,
     },
+    "coverage_checkers": {
+        "good_source": ("fixture", "valid_coverage_checker_arguments"),
+        "model": CoverageCheckerArgumentsModel,
+    },
 }
 
 

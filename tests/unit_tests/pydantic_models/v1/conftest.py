@@ -259,6 +259,12 @@ def valid_algorithm_arguments():
 
 
 @pytest.fixture
+def valid_coverage_checker_arguments():
+    """Fixture providing valid data for CoverageCheckerArgumentsModel."""
+    return {"variable_name": "infrared", "area_def": "test_string", "radius_km": 300}
+
+
+@pytest.fixture
 def valid_filename_formatter_arguments():
     """Fixture providing valid data for FilenameFormatterArgumentsModel."""
     return {
