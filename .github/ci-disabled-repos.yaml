@@ -1,3 +1,8 @@
-# Plugin repos the CI image does not install, mapped to the reason they are disabled
-# Unlike ci-dependencies.yaml.this applies to every branch !
-synth_green: "Example of disabling a repo"
+# Plugin repos the CI image does not install, mapped to the reason they are disabled.
+# Unlike ci-dependencies.yaml, this applies to every branch!  For example:
+#
+#   synth_green: "install fails, see NRLMMD-GEOIPS/synth_green#12"
+#
+# Repos that need a disabled repo still install, but the parts that use it fail
+# (geocolor's GeoColor products need synth_green, for example).
+{}

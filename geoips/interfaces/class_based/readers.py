@@ -24,6 +24,7 @@ from geoips.plugins.classes.readers.utils.geostationary_geolocation import (
     check_geolocation_cache_backend,
     get_geolocation_cache_filename,
     AutoGenError,
+    DONT_AUTOGEN_GEOLOCATION,
 )
 
 LOG = logging.getLogger(__name__)
@@ -109,6 +110,10 @@ class BaseReaderPlugin(BaseClassPlugin, abstract=True):
 
 class BaseAbiReaderPlugin(BaseReaderPlugin, abstract=True):
     """Base class for ABI-based readers."""
+
+    # get_latitude_longitude reads this. Set from the DONT_AUTOGEN_GEOLOCATION
+    # environment variable, readers may override it.
+    DONT_AUTOGEN_GEOLOCATION = DONT_AUTOGEN_GEOLOCATION
 
     # These should be added to the data file object
     BADVALS = {
