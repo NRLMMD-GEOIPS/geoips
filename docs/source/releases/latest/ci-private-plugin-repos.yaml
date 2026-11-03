@@ -13,19 +13,20 @@ continuous integration:
       history or a cloned repository's ``.git/config``.
     * The install now writes ``/packages/.private_plugins`` listing the private
       plugins, so CI can keep their test output out of public logs.
-    * ``pyrocb`` is private, so it moved from ``plugin_repos`` to
-      ``private_plugin_repos``. Cloning it without credentials failed the
-      ``geoips-site`` build.
     * ``lunarref`` and ``true_color`` are public, so they moved from
       ``private_fortran_repos`` to the end of ``fortran_repos_ordered``: they are
       now installed without the token and their test output is shown in CI logs.
     * The private plugin lists now hold every private plugin repository:
-      ``pyrocb``, ``geoips_nucaps``, ``geoips_proxyvis``, ``geoips_tomorrowio``,
-      ``geoips_wsfm``, ``geoips_xesmf`` and ``ryglickicane``, and in
-      ``private_fortran_repos`` ``geoips_debra``. ``geoips_xesmf`` is commented
-      out for now: xesmf needs the ESMF library, which the image does not have. ``tc_mint`` is removed: there
-      is no ``NRLMMD-GEOIPS/tc_mint`` repository, so cloning it failed the
+      ``pyrocb`` (``geoips_nucaps`` depends on it, so it is installed first),
+      ``geoips_nucaps``, ``geoips_proxyvis``, ``geoips_tomorrowio``, ``geoips_wsfm``
+      and ``ryglickicane``, and in ``private_fortran_repos`` ``geoips_debra``.
+      ``geoips_xesmf`` is commented out for now: xesmf needs the ESMF library,
+      which the image does not have. ``tc_mint`` is removed: there is no
+      ``NRLMMD-GEOIPS/tc_mint`` repository, so cloning it failed the
       ``geoips-site`` build.
+    * ``private_test_datasets`` now holds ``test_data_ngfs``, ``test_data_nucaps``
+      and ``test_data_pyrocb``, which the private plugins' tests need, instead of
+      ``test_data_mint``, which ``geoips config install`` does not know.
     * ``integ_test.yaml`` passes the ``GEOIPS_PRIVATE_REPOS_TOKEN`` secret to the
       reusable CI as ``private_repos_token``. Without that secret the image has
       the public plugins only.
@@ -36,11 +37,13 @@ continuous integration:
     - 'tests/ansible/inventory/local.yml'
     - 'tests/ansible/roles/source_repos/tasks/main.yml'
     - '.github/workflows/integ_test.yaml'
+    - 'docs/source/architecture/ci-infrastructure.rst'
+    - 'tests/ansible/roles/test_data/defaults/main.yml'
     added:
     - 'tests/ansible/scripts/github-token-env.sh'
   related-issue:
     number: null
     repo_url: ''
   date:
-    start: '10/01/2026'
-    finish: '10/01/2026'
+    start: 2026-10-01
+    finish: 2026-10-19

@@ -187,7 +187,7 @@ then hardcoded defaults.  Copy the inventory file to create a custom setup
      - ``false``
      - Set to ``true`` to include proprietary plugin repos (``pyrocb``,
        ``geoips_nucaps``, ``geoips_proxyvis``, ``geoips_tomorrowio``, ``geoips_wsfm``,
-       ``geoips_xesmf``, ``ryglickicane``, ``geoips_debra``).
+       ``ryglickicane``, ``geoips_debra``).  ``geoips_xesmf`` is disabled for now.
    * - ``extra_plugin_packages``
      - ``""``
      - Comma-separated list of additional plugin repository names to clone and install.
@@ -195,8 +195,11 @@ then hardcoded defaults.  Copy the inventory file to create a custom setup
    * - ``repo_branches``
      - ``""``
      - ``"repo=ref repo=ref ..."``: clone these repos at a branch, tag or commit instead of
-       their default branch.  Read from the ``REPO_BRANCHES`` environment variable.  See
-       `Testing against other branches`_.
+       their default branch.  For example, ``geoips_clavrx=fix_bug`` clones the ``fix_bug``
+       branch of ``geoips_clavrx``.  ``repo=owner:ref`` clones the ref from ``owner``'s
+       fork, e.g. ``rayleigh=someone:fix_bug``.  Read from the ``REPO_BRANCHES``
+       environment variable.
+       See `Testing against other branches`_.
    * - ``disabled_repos``
      - ``""``
      - ``"repo repo ..."``: plugin repos to leave out of the install.  Read from the
@@ -257,19 +260,23 @@ volume — it is never built into an image.  Keeping the download in its own pla
 this boundary and allows CI to cache the test-data volume between runs independently of image
 rebuilds.
 
-The datasets installed at each tier are defined in
-``tests/ansible/roles/test_data/defaults/main.yml``:
+The datasets installed at each tier are defined in ``tests/ansible/inventory/local.yml``
+(mirrored in ``tests/ansible/roles/test_data/defaults/main.yml``; the inventory wins
+when both are used, so keep them in sync):
 
 - **base**: ``test_data_amsr2``
-- **full**: ``test_data_amsub``, ``test_data_arctic_weather_satellite``, ``test_data_atms``,
-  ``test_data_cygnss``, ``test_data_fci``, ``test_data_gfs``, ``test_data_gpm``,
-  ``test_data_modis``, ``test_data_multi_scan_times``, ``test_data_saphir``,
-  ``test_data_sar``, ``test_data_scat``, ``test_data_seviri``, ``test_data_smap``,
-  ``test_data_smos``, ``test_data_tpw``, ``test_data_viirs``
-- **site**: ``template_test_data``, ``test_data_clavrx``, ``test_data_fusion``,
-  ``test_data_geocolor``
-- **private** (``geoips_use_private_plugins=true``): ``test_data_mint``
-
+- **full**: ``test_data_abi``, ``test_data_ahi``, ``test_data_ami``, ``test_data_amsub``,
+  ``test_data_arctic_weather_satellite``, ``test_data_atms``, ``test_data_cygnss``,
+  ``test_data_fci``, ``test_data_gfs``, ``test_data_gpm``, ``test_data_modis``,
+  ``test_data_multi_scan_times``, ``test_data_saphir``, ``test_data_sar``,
+  ``test_data_scat``, ``test_data_seviri``, ``test_data_smap``, ``test_data_smos``,
+  ``test_data_tpw``, ``test_data_viirs``
+- **site**: ``test_data_clavrx``, ``test_data_fusion``, ``test_data_geocolor``, and the
+  ancillary datasets the fortran plugins read from ``$GEOIPS_ANCILDAT``:
+  ``city_lights``, ``elevation``, ``emiss``, ``lunarref``, ``lw_mask``, ``merra``,
+  ``rayleigh``, ``synth_green``
+- **private** (``geoips_use_private_plugins=true``): ``test_data_ngfs``,
+  ``test_data_nucaps``, ``test_data_pyrocb``
 
 Role responsibilities
 ---------------------
@@ -397,9 +404,16 @@ Test data is always a runtime mount, never a build-time layer.
 Testing against other branches
 ------------------------------
 
-Repos are cloned on their default branch.  To test a change that needs changes in other
-repos or other package versions, add an entry for its branch to
-``.github/ci-dependencies.yaml``:
+Often, changes to the core GeoIPS package require changes to other packages and
+should be tested against those changes.  By default, the CI clones the repos of
+dependencies (e.g. plugin packages) on their default branch (typically ``main``).
+To test changes in core GeoIPS against a non-default branch of one or more
+dependency packages, add an entry to ``.github/ci-dependencies.yaml``.
+
+For example, assume your changes are in the ``my-feature-branch`` branch of the
+``geoips`` repository, and they need to be tested with specific versions of
+``pluginify`` and ``xarray``, and against the ``my-fix`` branch of the
+``recenter_tc`` repository.  You would add this entry:
 
 .. code-block:: yaml
 
@@ -410,18 +424,27 @@ repos or other package versions, add an entry for its branch to
      repos:    # repos the image clones: repo -> branch, tag or commit
        recenter_tc: my-fix
 
-geoips_ci passes these to the ``geoips-site`` build as ``PIP_OVERRIDES`` and
-``REPO_BRANCHES``.  The playbook checks ``repo_branches`` before installing anything: an
-unknown repo, or a private repo when the ``site`` tasks run without
-``geoips_use_private_plugins``, fails the run, and
-so does a ref that does not exist (there is no fallback to the default branch).  The image
-records what the overrides installed in ``.ci_pip_overrides`` and ``.ci_repo_branches`` in
-``$GEOIPS_PACKAGES_DIR``, which CI shows in the job summary.
+To use a branch that only exists in a fork, give the fork's owner as
+``owner:ref`` (GitHub's ``user:branch`` notation), for example
+``rayleigh: "someone:my-fix"`` clones ``my-fix`` from
+``https://github.com/someone/rayleigh``.  The fork must have the same repo name.
 
-Only the entry of the branch under test applies, so the file can be merged without
-affecting ``main`` or other branches.  CI never pushes images built with overrides.
-Plugin repos test in the published
-GeoIPS image, so only ``python`` overrides apply there, for example
+geoips_ci passes the ``python`` section to the ``geoips-site`` build as
+``PIP_OVERRIDES``, and the ``repos`` section as ``REPO_BRANCHES``.  The playbook
+checks ``repo_branches`` before installing anything.  Three conditions cause a
+fatal error: an unknown repo, a ref that does not exist (there is no fallback to
+the default branch), or a private repo when the ``site`` tasks run without
+``geoips_use_private_plugins``.  The image
+records what the overrides installed in ``$GEOIPS_PACKAGES_DIR/.ci_pip_overrides``
+and ``$GEOIPS_PACKAGES_DIR/.ci_repo_branches``, and the CI shows both files in the
+job summary.
+
+Overrides only apply to the branch they are listed under: in the example above,
+only when testing ``my-feature-branch``.  So the file can be merged without
+affecting ``main`` or other branches, though entries should be removed once the
+branches they point at are merged.  The CI never publishes images built with
+overrides.  Plugin repos are tested in the published GeoIPS image, so only
+``python`` overrides apply there, for example
 ``geoips @ git+https://github.com/NRLMMD-GEOIPS/geoips@my-branch``.
 
 Disabling plugin repos

@@ -73,6 +73,8 @@ ARG USER=geoips_user
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 
+# GEOIPS_ANCILDAT (static ancillary data, read only) points at the test data mount:
+# `geoips config install` puts the ancillary datasets (lw_mask, rayleigh, ...) there.
 ENV GEOIPS_PACKAGES_DIR=/packages \
     GEOIPS_OUTDIRS=/output \
     GEOIPS_TESTDATA_DIR=/geoips_testdata \
@@ -267,6 +269,12 @@ FROM geoips-site AS dev
 ARG USER=geoips_user
 ARG USER_ID=1000
 ARG GROUP_ID=1000
+# Build arguments do not carry over from geoips-site: declare them again so the
+# site tag re-run below clones the same refs, leaves out the same repos, and
+# re-applies the pip overrides (see the top of this file).
+ARG REPO_BRANCHES=""
+ARG DISABLED_REPOS=""
+ARG PIP_OVERRIDES=""
 
 USER root
 
@@ -293,6 +301,11 @@ RUN --mount=type=secret,id=geoips_private_token \
        --skip-tags registries,python_env,cartopy_shapefiles \
        -e editable_pip_install=true \
        -v \
+    && if [ -n "$PIP_OVERRIDES" ]; then \
+         printf '%s\n' "$PIP_OVERRIDES" > /tmp/pip-overrides.txt \
+         && uv pip install --system --no-cache -r /tmp/pip-overrides.txt \
+         && rm /tmp/pip-overrides.txt; \
+       fi \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
 
 # Prepare SSH for remote dev connections

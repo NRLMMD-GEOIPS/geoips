@@ -94,7 +94,13 @@ Build arguments
      - ``""``
      - ``"repo=ref repo=ref ..."``: clone these repos at a branch, tag or
        commit instead of their default branch (``geoips-full`` and
-       ``geoips-site``).  A ref that does not exist fails the build.
+       ``geoips-site``), e.g. ``"recenter_tc=my-fix geocolor=v1.2.0"``.
+       ``repo=owner:ref`` clones the ref from ``owner``'s fork of the repo.
+       A ref that does not exist fails the build.
+   * - ``DISABLED_REPOS``
+     - ``""``
+     - ``"repo repo ..."``: plugin repos to leave out of the install
+       (``geoips-full`` and ``geoips-site``).
    * - ``PIP_OVERRIDES``
      - ``""``
      - pip requirements, one per line, installed last in ``geoips-site``

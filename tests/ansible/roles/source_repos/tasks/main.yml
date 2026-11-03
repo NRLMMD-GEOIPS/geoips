@@ -4,8 +4,9 @@
 # Fortran repos have an explicit ordering constraint.
 #
 # Repos are cloned on their default branch, or on the branch, tag or commit given
-# for them in repo_branches (see the playbook's pre_tasks). A clone that fails,
-# including a requested ref that does not exist, fails the install.
+# for them in repo_branches, from a fork if it names one (see the playbook's
+# pre_tasks: repo_branch_map holds the refs, repo_url_map the fork URLs). A clone
+# that fails, including a requested ref that does not exist, fails the install.
 #
 # Tasks are inlined (no include_tasks) to avoid tag inheritance issues with
 # ansible-core when --tags site is used.
@@ -14,7 +15,7 @@
 # ---- Standard plugin repos (alphabetical order is fine) ----
 - name: "Clone standard plugin repos"
   ansible.builtin.git:
-    repo: "{{ geoips_repo_url }}/{{ repo_name }}.git"
+    repo: "{{ (repo_url_map | default({}))[repo_name] | default(geoips_repo_url ~ '/' ~ repo_name ~ '.git') }}"
     dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
     version: "{{ (repo_branch_map | default({}))[repo_name] | default(omit) }}"
   loop: "{{ plugin_repos }}"
@@ -47,7 +48,7 @@
 # ---- Fortran chain (ORDER MATTERS) ----
 - name: "Clone fortran repos"
   ansible.builtin.git:
-    repo: "{{ geoips_repo_url }}/{{ repo_name }}.git"
+    repo: "{{ (repo_url_map | default({}))[repo_name] | default(geoips_repo_url ~ '/' ~ repo_name ~ '.git') }}"
     dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
     version: "{{ (repo_branch_map | default({}))[repo_name] | default(omit) }}"
   loop: "{{ fortran_repos_ordered }}"
@@ -81,7 +82,7 @@
 # ---- Private repos (when enabled) ----
 - name: "Clone private plugin repos"
   ansible.builtin.git:
-    repo: "{{ geoips_repo_url }}/{{ repo_name }}.git"
+    repo: "{{ (repo_url_map | default({}))[repo_name] | default(geoips_repo_url ~ '/' ~ repo_name ~ '.git') }}"
     dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
     version: "{{ (repo_branch_map | default({}))[repo_name] | default(omit) }}"
   loop: "{{ private_plugin_repos }}"
@@ -105,7 +106,7 @@
 # ---- Private fortran repos (ORDER MATTERS, after fortran chain) ----
 - name: "Clone private fortran repos"
   ansible.builtin.git:
-    repo: "{{ geoips_repo_url }}/{{ repo_name }}.git"
+    repo: "{{ (repo_url_map | default({}))[repo_name] | default(geoips_repo_url ~ '/' ~ repo_name ~ '.git') }}"
     dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
     version: "{{ (repo_branch_map | default({}))[repo_name] | default(omit) }}"
   loop: "{{ private_fortran_repos }}"
@@ -145,7 +146,7 @@
 
 - name: "Clone extra plugin repos"
   ansible.builtin.git:
-    repo: "{{ geoips_repo_url }}/{{ repo_name }}.git"
+    repo: "{{ (repo_url_map | default({}))[repo_name] | default(geoips_repo_url ~ '/' ~ repo_name ~ '.git') }}"
     dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
     version: "{{ (repo_branch_map | default({}))[repo_name] | default(omit) }}"
   loop: "{{ extra_plugins_list | default([]) }}"
@@ -167,6 +168,42 @@
   tags: [base, full, site]
 
 # ---- Repos checked out at a requested ref (repo_branches) ----
+# A later install can replace one of these: a plugin that depends on it by git URL
+# (geoips_nucaps on pyrocb) installs the default branch over the requested ref.
+- name: "Find the repos at a requested ref that pip installed from somewhere else"
+  ansible.builtin.command:
+    argv:
+      - "{{ ansible_playbook_python }}"
+      - -c
+      - |
+        import importlib.metadata as md, json, pathlib, sys
+        try:
+            dist = md.distribution(sys.argv[1])
+        except md.PackageNotFoundError:
+            print("not installed")
+            sys.exit()
+        url = json.loads(dist.read_text("direct_url.json") or "{}").get("url", "")
+        path = pathlib.Path(sys.argv[2]).absolute()
+        print("ok" if url in (path.as_uri(), path.resolve().as_uri()) else url)
+      - "{{ item }}"
+      - "{{ geoips_packages_dir }}/{{ item }}"
+  loop: "{{ (repo_branch_map | default({})).keys() | list }}"
+  register: _requested_installs
+  changed_when: false
+  tags: [site]
+
+- name: "Reinstall them from the requested ref"
+  ansible.builtin.pip:
+    name: "{{ geoips_packages_dir }}/{{ r.item }}"
+    editable: "{{ editable_pip_install | bool }}"
+    extra_args: "{{ pip_extra_args }} --no-deps --force-reinstall"
+    state: present
+  loop: "{{ _requested_installs.results | rejectattr('stdout', 'in', ['ok', 'not installed']) | list }}"
+  loop_control:
+    loop_var: r
+    label: "{{ r.item }} (was {{ r.stdout }})"
+  tags: [site]
+
 - name: "Find the commits of the repos checked out at a requested ref"
   ansible.builtin.command:
     cmd: git -C "{{ geoips_packages_dir }}/{{ item.key }}" rev-parse HEAD
@@ -182,7 +219,7 @@
     dest: "{{ geoips_packages_dir }}/.ci_repo_branches"
     content: |
       {% for r in _requested_refs.results %}
-      {{ r.item.key }} {{ r.item.value }} {{ r.stdout }}
+      {{ r.item.key }} {{ (repo_url_map[r.item.key] ~ '@') if r.item.key in repo_url_map else '' }}{{ r.item.value }} {{ r.stdout }}
       {% endfor %}
     mode: "0644"
   when: (repo_branch_map | default({})) | length > 0
