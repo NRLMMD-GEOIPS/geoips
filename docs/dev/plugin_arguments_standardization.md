@@ -31,6 +31,7 @@ Standardizing these models ensures that:
    `camelCase` aliases unless required for backwards compatibility with existing
    YAML files; where unavoidable, document the legacy reason in the field
    description.
+   Note: We are currently working on [issue #1532](https://github.com/NRLMMD-GEOIPS/geoips/issues/1532) as part of the V2 release.
 
 3. **Model inheritance** - All plugin argument models must inherit from one of the base models listed below:
 
