@@ -36,7 +36,7 @@ jobs:
       github.event_name != 'pull_request'
       || github.event.pull_request.draft == false
     name: integ-test (editable=true)
-    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@integration-test-coverage
+    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@main
     with:
       pip_editable: true
       dependency_overrides: ${{ inputs.dependency_overrides || '' }}

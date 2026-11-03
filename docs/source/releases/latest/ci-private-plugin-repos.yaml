@@ -24,8 +24,8 @@ continuous integration:
       which the image does not have. ``tc_mint`` is removed: there is no
       ``NRLMMD-GEOIPS/tc_mint`` repository, so cloning it failed the
       ``geoips-site`` build.
-    * ``private_test_datasets`` now holds ``test_data_nucaps`` and
-      ``test_data_pyrocb``, which the private plugins' tests need, instead of
+    * ``private_test_datasets`` now holds ``test_data_ngfs``, ``test_data_nucaps``
+      and ``test_data_pyrocb``, which the private plugins' tests need, instead of
       ``test_data_mint``, which ``geoips config install`` does not know.
     * ``integ_test.yaml`` passes the ``GEOIPS_PRIVATE_REPOS_TOKEN`` secret to the
       reusable CI as ``private_repos_token``. Without that secret the image has
