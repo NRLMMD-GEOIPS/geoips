@@ -50,3 +50,7 @@ Before defining any new Pydantic configuration, please refer to ` CoreBaseModel`
      `ColormapperArgumentsModel` → `ColorbarConfig`
 
  **Backward compatibility** Introducing nested configuration models changes the expected structure of YAML inputs. Hence, this standard should be treated as good to have or recommened for the exisitng models but must be adhered for the new plugin models.
+
+5. **Nullable fields** — Any field whose default is `None` must declare `| None` in
+ its type annotation. A missing `| None` causes silent coercion or validation
+ failure in pydantic v2.
