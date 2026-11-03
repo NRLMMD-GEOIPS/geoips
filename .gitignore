@@ -218,6 +218,3 @@ cython_debug/
 
 # build mounts for dockerfile
 geoips_test_data
-
-# Claude Code local configuration and skills
-.claude/
