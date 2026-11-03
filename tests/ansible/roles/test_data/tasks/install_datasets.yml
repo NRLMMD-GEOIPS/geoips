@@ -11,7 +11,7 @@
 
 - name: "Install test dataset: {{ item }}"
   ansible.builtin.command:
-    cmd: "geoips config install {{ item }}"
+    cmd: "geoips config install {{ item }} --temp-dir {{ geoips_testdata_dir }}/.download-tmp"
     creates: "{{ geoips_testdata_dir }}/{{ item }}"
   environment:
     GEOIPS_TESTDATA_DIR: "{{ geoips_testdata_dir }}"
