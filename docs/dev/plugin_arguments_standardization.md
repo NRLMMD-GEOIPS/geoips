@@ -27,3 +27,12 @@ Standardizing these models ensures that:
 1. **Model location** — Each plugin kind's argument model resides in
    `geoips/pydantic_models/v<version_number>/<plugin_type>.py`.
 
+2. **Model inheritance** - All plugin argument models must inherit from one of the base models listed below: 
+
+| Model | Extra Fields | Mutable | When to Use |
+|---|---|---|---|
+| `FrozenModel` | No | No | Fully-known schema with no post-init changes; strictest validation |
+| `PermissiveFrozenModel` | Yes | No | Plugin may pass unknown fields but the model must not be mutated after creation |
+| `DynamicModel` | No | Yes | Strict schema required but fields need updating post-initialization |
+| `PermissiveDynamicModel` | Yes | Yes | Flexible schema that also needs to be mutated after creation |
+
