@@ -64,7 +64,10 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     # used for constructing the title string to extract platform
     # do not remove this until after the 2026 GeoIPS workshop
     bg_xarray: Any | None = Field(
-        None, description="Background xarray dataset used to construct the platform title string."
+        None,
+        description=(
+            "Background xarray dataset used to construct the platform title string."
+        ),
     )
     # TASK: validate this to drop
     cog: bool = Field(
@@ -149,7 +152,8 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
         ),
     )
     output_fname_dict: dict | None = Field(
-        None, description="Mapping of output product keys to their generated file paths."
+        None,
+        description="Mapping of output product keys to their generated file paths.",
     )
     overwrite: bool = Field(
         True,
@@ -172,7 +176,8 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     # passed to save_image() which calls remove_duplicates() but the function is not
     # implemented (pass). This can be dropped during SSP -> OBP testing.
     remove_duplicate_minrange: Any | None = Field(
-        None, description="Passed to save_image() for duplicate removal; currently a no-op."
+        None,
+        description="Passed to save_image() for duplicate removal; currently a no-op.",
     )
     # Used by only one 'unprojected_image.py', evaluate.
     savefig_kwargs: dict | None = Field(
