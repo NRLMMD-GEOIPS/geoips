@@ -18,7 +18,7 @@ import keyword
 import logging
 import os
 from pathlib import Path
-from typing import Any, ClassVar, Dict, Union, Tuple, Type
+from typing import Any, ClassVar, Union, Tuple, Type
 import warnings
 
 # Third-Party Libraries
@@ -440,7 +440,7 @@ class PluginModelMetadata(ModelMetaclass):
         mcs: Type[PluginModelMetadata],
         name: str,
         bases: Tuple[type, ...],
-        namespace: Dict[str, Any],
+        namespace: dict[str, Any],
         **kwargs: Any,
     ) -> type:
         """Instantiate a new PluginModelMetadata class."""
