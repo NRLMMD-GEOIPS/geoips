@@ -94,14 +94,14 @@ Before defining any new Pydantic configuration, please refer to ` CoreBaseModel`
 | `output_data_range` | `tuple[StrictFloat, StrictFloat] \| None` | `None` | Min and max output value. Applied last, after all other corrections. |
 | `min_outbounds` | `str \| None` | `None` | How to handle values below `output_data_range` minimum: `retain`, `mask`, or `crop`. |
 | `max_outbounds` | `str \| None` | `None` | How to handle values above `output_data_range` maximum: `retain`, `mask`, or `crop`. |
-| `norm` | `StrictBool` ⚠ | `None` | Normalize output to `[0, 1]`. |
-| `inverse` | `StrictBool` ⚠ | `None` | Invert output values. |
+| `norm` | `StrictBool`  | `None` | Normalize output to `[0, 1]`. |
+| `inverse` | `StrictBool`  | `None` | Invert output values. |
 | `scale_factor` | `float \| None` | `None` | *(no description)* |
-| `input_units` | `str` ⚠ | `None` | Units of input data, for applying necessary conversions. |
-| `output_units` | `str` ⚠ | `None` | *(description says "input data" — copy-paste error)* |
+| `input_units` | `str`  | `None` | Units of input data, for applying necessary conversions. |
+| `output_units` | `str`  | `None` | *(description says "input data" — copy-paste error)* |
 | `gamma_list` | `list[StrictFloat] \| None` | `None` | *(no description)* |
-| `mask_night` | `bool` ⚠ | `None` | *(no description)* |
-| `mask_day` | `bool` ⚠ | `None` | *(no description)* |
+| `mask_night` | `bool`  | `None` | *(no description)* |
+| `mask_day` | `bool`  | `None` | *(no description)* |
 | `max_day_zen` | `float \| None` | `None` | *(no description)* |
 | `min_night_zen` | `float \| None` | `None` | *(no description)* |
 | `max_night_zen` | `float \| None` | `None` | *(no description)* |
@@ -109,7 +109,7 @@ Before defining any new Pydantic configuration, please refer to ` CoreBaseModel`
 | `satellite_zenith_angle_cutoff` | `float \| None` | `None` | Mask data where satellite zenith angle exceeds this threshold. |
 | `pressure_level_range` | `tuple[float, float] \| None` | `None` | Min and max pressure levels for filtering DMW retrievals. |
 | `pressure_key` | `str \| None` | `None` | *(no description)* |
-| `time_key` | `str` ⚠ | `None` | *(no description)* |
+| `time_key` | `str`  | `None` | *(no description)* |
 | `time_fcst` | `StrictInt \| None` | `None` | *(no description)* |
 | `time_dim` | `StrictInt \| None` | `None` | Time dimension index. Alias: `Time_Dimension` (PascalCase — legacy). |
 | `grid_geo` | `StrictBool \| None` | `None` | *(no description)* |
