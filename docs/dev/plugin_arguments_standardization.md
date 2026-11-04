@@ -79,3 +79,7 @@ Reader arguments are defined in `geoips/pydantic_models/v1/readers.py` as
 | `self_register` | `str \| None` | `None` | Enable self-registration. |
 | `self_register_source` | `str \| None` | `None` | Source dataset to use for self-registration. |
 | `self_register_dataset` | `str \| None` | `None` | Dataset within the source to use for self-registration. |
+
+### Changes
+
+- refer issue 1533
