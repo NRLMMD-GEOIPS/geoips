@@ -114,3 +114,31 @@ Before defining any new Pydantic configuration, please refer to ` CoreBaseModel`
 | `time_dim` | `StrictInt \| None` | `None` | Time dimension index. Alias: `Time_Dimension` (PascalCase — legacy). |
 | `grid_geo` | `StrictBool \| None` | `None` | *(no description)* |
 
+
+
+## 3. Colormapper Plugins
+
+Colormapper arguments are defined in `geoips/pydantic_models/v1/colormappers.py` as
+`ColormapperArgumentsModel`.
+
+### Current
+
+> **`PLUGIN_PROVIDED`** is a sentinel default meaning the plugin's own YAML supplies
+> this value. These fields have no system-level fallback.
+
+| Argument | Type | Default | Description |
+|---|---|---|---|
+| `cbar_full_width` | `bool` | `False` | Extend the colorbar across the full width of the image. |
+| `cbar_label` | `str` | plugin-provided | Colorbar label string passed to `cbar.set_label`. |
+| `cbar_spacing` | `str` | `"proportional"` | Spacing argument passed to `fig.colorbar`. |
+| `cbar_ticks` | `list[float] \| None` | `None` | Explicit list of colorbar tick positions. |
+| `cbar_tick_labels` | `list[str] \| None` | `None` | Labels passed to `cbar.set_ticks`. |
+| `cmap_name` | `str` | plugin-provided | Name of the matplotlib colormap. |
+| `cmap_path` | `str \| None` | `None` | *(no description)* |
+| `cmap_source` | `str` | plugin-provided | *(no description)* |
+| `colorbar_kwargs` | `dict \| None` | `None` | Extra kwargs passed directly to `fig.colorbar`. |
+| `create_colorbar` | `bool \| None` | `True` | Whether to include a colorbar in the image. |
+| `data_range` | `tuple[float, float] \| str` | plugin-provided | Min and max value for colormap normalization. |
+| `pressure_range_legend` | `List[str] \| None`  | `None` | Strings used for colorbar tick labels. |
+| `set_ticks_kwargs` | `dict \| None` | `None` | Extra kwargs passed directly to `cbar.set_ticks`. |
+| `set_label_kwarg` | `dict \| None` | `None` | Extra kwargs passed directly to `cbar.set_label`. |
