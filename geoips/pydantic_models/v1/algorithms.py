@@ -6,7 +6,7 @@
 # cspell:ignore fcst
 
 # Python Standard Libraries
-from typing import Dict, Optional
+from typing import Optional
 
 # Third-Party Libraries
 from pydantic import Field, StrictBool, StrictFloat, StrictInt
@@ -131,6 +131,6 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     grid_geo: StrictBool | None = Field(
         None, description="If True, regrid data to a geographic grid before processing."
     )
-    var_map: Optional[Dict[str, str]] = Field(
+    var_map: Optional[dict[str, str]] = Field(
         {}, description="Dictionary that maps input variables to names used in xobj"
     )
