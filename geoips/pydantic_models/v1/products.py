@@ -9,7 +9,7 @@ plugins.
 """
 
 from __future__ import annotations
-from typing import Literal, Union
+from typing import Literal
 
 from pydantic import ConfigDict, Field, model_validator, RootModel
 import geoips_yaml_utils as yaml
@@ -311,11 +311,11 @@ class SingleProductPluginModel(PluginModel):
 
 # Discriminated Union via RootModel
 class _ProductPluginUnion(
-    RootModel[Union[ProductsListPluginModel, SingleProductPluginModel]]
+    RootModel[ProductsListPluginModel | SingleProductPluginModel]
 ):
     """Private root model to unpack via ProductPluginModel."""
 
-    root: Union[ProductsListPluginModel, SingleProductPluginModel]
+    root: ProductsListPluginModel | SingleProductPluginModel
 
 
 class ProductPluginModel:
