@@ -5,7 +5,7 @@
 
 from datetime import datetime
 from enum import Enum
-from typing import Literal, Union
+from typing import Literal
 from typing_extensions import Annotated
 
 from pydantic import (
@@ -321,28 +321,28 @@ class AreaDefinitionSpec(FrozenModel):
     )
     # This can either be a tuple of integers (preferred) or a
     # SectorShape object (deprecated)
-    shape: Union[
+    shape: (
         tuple[
             Annotated[int, Field(strict=True, gt=0)],
             Annotated[int, Field(strict=True, gt=0)],
-        ],
-        SectorShape,
-    ] = None
-    area_extent: Union[tuple[float, float, float, float], SectorAreaExtent] = Field(
+        ]
+        | SectorShape
+    ) = None
+    area_extent: tuple[float, float, float, float] | SectorAreaExtent = Field(
         None,
         description=(
             "Sector area extent in projection units. "
             "For more information see the pyresample documentation."
         ),
     )
-    resolution: Union[
-        Annotated[float, Field(strict=True, gt=0)],
-        tuple[
+    resolution: (
+        Annotated[float, Field(strict=True, gt=0)]
+        | tuple[
             Annotated[float, Field(strict=True, gt=0)],
             Annotated[float, Field(strict=True, gt=0)],
-        ],
-        SectorResolution,
-    ] = Field(
+        ]
+        | SectorResolution
+    ) = Field(
         None,
         description=(
             "The size of the pixels in the sector in projection units. "
@@ -629,13 +629,9 @@ class StaticSectorPluginModel(PluginModel):
             "Used to generate a pyresample AreaDefinition."
         ),
     )
-    metadata: Union[
-        BoxMetadata,
-        StaticMetadata,
-        StitchedMetadata,
-        TCMetadata,
-        VolcanoMetadata,
-    ] = Field(
+    metadata: (
+        BoxMetadata | StaticMetadata | StitchedMetadata | TCMetadata | VolcanoMetadata
+    ) = Field(
         ...,
         description=(
             "Metadata describing the sector "
@@ -737,11 +733,11 @@ class DynamicSectorPluginModel(PluginModel):
 
 # Discriminated Union via RootModel
 class _SectorPluginUnion(
-    RootModel[Union[DynamicSectorPluginModel, StaticSectorPluginModel]]
+    RootModel[DynamicSectorPluginModel | StaticSectorPluginModel]
 ):
     """Private root model to unpack via SectorPluginModel."""
 
-    root: Union[DynamicSectorPluginModel, StaticSectorPluginModel]
+    root: DynamicSectorPluginModel | StaticSectorPluginModel
 
 
 class SectorPluginModel:
