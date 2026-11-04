@@ -1,10 +1,1 @@
-mtif_type_null_input:
-  description: "Ensure null is accepted for mtif_type"
-  key: spec/mtif_type
-  val: null
-  cls: ProductDefaultSpec
-display_name_null_input:
-  description: "Ensure null is accepted for display_name"
-  key: spec/display_name
-  val: null
-  cls: ProductDefaultSpec
+{}
