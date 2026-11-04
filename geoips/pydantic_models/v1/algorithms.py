@@ -78,13 +78,27 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         description="Units of input data, for applying "
         "necessary conversions. Defaults to None, resulting in no unit conversions.",
     )
-    gamma_list: Optional[List[StrictFloat]] = Field(None)
-    min_night_zen: Optional[float] = Field(None)
-    max_night_zen: float | None = Field(None)
-    max_day_zen: Optional[float] = Field(None)
-    mask_night: bool | None = Field(None)
-    mask_day: bool | None = Field(None)
-    scale_factor: Optional[float] = Field(None)
+    gamma_list: Optional[List[StrictFloat]] = Field(
+        None, description="Gamma correction values to apply per channel."
+    )
+    min_night_zen: Optional[float] = Field(
+        None, description="Minimum solar zenith angle in degrees to classify as night."
+    )
+    max_night_zen: float | None = Field(
+        None, description="Maximum solar zenith angle in degrees to classify as night."
+    )
+    max_day_zen: Optional[float] = Field(
+        None, description="Maximum solar zenith angle in degrees to classify as day."
+    )
+    mask_night: bool | None = Field(
+        None, description="If True, mask pixels classified as night."
+    )
+    mask_day: bool | None = Field(
+        None, description="If True, mask pixels classified as day."
+    )
+    scale_factor: Optional[float] = Field(
+        None, description="Scalar multiplier applied to the output data."
+    )
     sun_zen_correction: StrictBool | None = Field(
         None,
         description="Boolean flag indicating whether to apply solar zenith correction"
