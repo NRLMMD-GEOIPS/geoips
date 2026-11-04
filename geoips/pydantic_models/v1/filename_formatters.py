@@ -55,7 +55,10 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
     )
     output_type: str = Field(
         PLUGIN_PROVIDED,
-        description="Requested output format, ie png, jpg, tif, etc, defaults to None",
+        description=(
+            "Requested output format (e.g., PNG, JPG, TIFF)."
+            "Defaults to the plugin-provided value."
+        ),
     )
     output_type_dir: str | None = Field(
         None, description="If None, default to output_type."
