@@ -47,7 +47,9 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
         PLUGIN_PROVIDED,
         description=" Requested output format, ie png, jpg, tif, etc, defaults to None",
     )
-    output_type_dir: str | None = Field(None, description="If None, default to output_type.")
+    output_type_dir: str | None = Field(
+        None, description="If None, default to output_type."
+    )
     product_filename: str | None = Field(None)
     product_dir: str | None = Field(None)
     product_subdir: str | None = Field(None)
