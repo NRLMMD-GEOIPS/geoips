@@ -50,7 +50,10 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     filenames: List[Path] = Field(
         None, description="full path to the file(s) for static dataset inputs."
     )
-    sectored_read: bool = Field(False)
+    sectored_read: bool = Field(
+        False,
+        description="If True, read only the data within the specified area definition.",
+    )
     self_register_source: str = Field(
         None, description="Source dataset to use for self-registration"
     )

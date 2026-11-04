@@ -78,13 +78,27 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         description="Units of input data, for applying "
         "necessary conversions. Defaults to None, resulting in no unit conversions.",
     )
-    gamma_list: Optional[List[StrictFloat]] = Field(None)
-    min_night_zen: Optional[float] = Field(None)
-    max_night_zen: float | None = Field(None)
-    max_day_zen: Optional[float] = Field(None)
-    mask_night: bool | None = Field(None)
-    mask_day: bool | None = Field(None)
-    scale_factor: Optional[float] = Field(None)
+    gamma_list: Optional[List[StrictFloat]] = Field(
+        None, description="Gamma correction values to apply per channel."
+    )
+    min_night_zen: Optional[float] = Field(
+        None, description="Minimum solar zenith angle in degrees to classify as night."
+    )
+    max_night_zen: float | None = Field(
+        None, description="Maximum solar zenith angle in degrees to classify as night."
+    )
+    max_day_zen: Optional[float] = Field(
+        None, description="Maximum solar zenith angle in degrees to classify as day."
+    )
+    mask_night: bool | None = Field(
+        None, description="If True, mask pixels classified as night."
+    )
+    mask_day: bool | None = Field(
+        None, description="If True, mask pixels classified as day."
+    )
+    scale_factor: Optional[float] = Field(
+        None, description="Scalar multiplier applied to the output data."
+    )
     sun_zen_correction: StrictBool | None = Field(
         None,
         description="Boolean flag indicating whether to apply solar zenith correction"
@@ -98,11 +112,25 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         description="Cutoff for masking data where satellite zenith angle exceeds"
         "threshold. None, no masking",
     )
-    pressure_key: str | None = Field(None)
-    time_key: str | None = Field(None)
-    time_fcst: StrictInt | None = Field(None)
-    time_dim: StrictInt | None = Field(None, alias="Time_Dimension")
-    grid_geo: StrictBool | None = Field(None)
+    pressure_key: str | None = Field(
+        None,
+        description="Variable name used to identify pressure levels in the dataset.",
+    )
+    time_key: str | None = Field(
+        None,
+        description="Variable name used to identify the time dimension in the dataset.",
+    )
+    time_fcst: StrictInt | None = Field(
+        None, description="Index of the forecast time offset along the time dimension."
+    )
+    time_dim: StrictInt | None = Field(
+        None,
+        alias="Time_Dimension",
+        description="Number of elements along the time dimension in the dataset.",
+    )
+    grid_geo: StrictBool | None = Field(
+        None, description="If True, regrid data to a geographic grid before processing."
+    )
     var_map: Optional[Dict[str, str]] = Field(
         {}, description="Dictionary that maps input variables to names used in xobj"
     )
