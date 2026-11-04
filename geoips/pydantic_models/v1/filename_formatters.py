@@ -63,16 +63,7 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
     output_type_dir: str | None = Field(
         None, description="If None, default to output_type."
     )
-    product_filename: str | None = Field(
-        None,
-        description="Explicit output filename. If None, the formatter generates one.",
-    )
-    product_dir: str | None = Field(
-        None, description="Top-level product directory appended to basedir."
-    )
-    product_subdir: str | None = Field(
-        None, description="Subdirectory within product_dir for further organisation."
-    )
-    source_dir: str | None = Field(
-        None, description="Source instrument subdirectory appended to the output path."
-    )
+    product_filename: str | None = Field(None)
+    product_dir: str | None = Field(None)
+    product_subdir: str | None = Field(None)
+    source_dir: str | None = Field(None)
