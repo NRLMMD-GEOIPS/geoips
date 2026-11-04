@@ -60,8 +60,13 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
             " specified, will use builtin matplotlib colormap of name cmap_name."
         ),
     )
-    cmap_path: str | None = Field(None)
-    cmap_source: str = Field(default=PLUGIN_PROVIDED)
+    cmap_path: str | None = Field(
+        None, description="Path to an ASCII colormap file. If None, cmap_name is used."
+    )
+    cmap_source: str = Field(
+        default=PLUGIN_PROVIDED,
+        description="Source identifier for the colormap; defaults to the plugin-provided value.",
+    )
 
     colorbar_kwargs: dict | None = Field(
         None, description="keyword arguments to pass through directly to 'fig.colorbar'"
