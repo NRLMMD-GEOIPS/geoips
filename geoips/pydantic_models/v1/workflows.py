@@ -286,7 +286,7 @@ class GlobalVariablesModel(PermissiveFrozenModel):
     )
     presector: bool = Field(
         False,
-        description="Specify whether to presector the data prior to applying the algorithm.",
+        description="Whether to presector the data before applying the algorithm.",
     )
     product_db: bool = Field(
         False,
@@ -294,7 +294,7 @@ class GlobalVariablesModel(PermissiveFrozenModel):
     )
     product_db_writer: str | None = Field(
         None,
-        description="Name of the database writer plugin used to store product metadata.",
+        description="Database writer plugin used to store product metadata.",
     )
     product_db_writer_kwargs: Dict[str, Any] | None = Field(
         None,
@@ -302,15 +302,24 @@ class GlobalVariablesModel(PermissiveFrozenModel):
     )
     product_name: str | None = Field(
         None,
-        description="Name of the product to process; overrides the workflow-level default.",
+        description=(
+            "Name of the product to process. If specified, this value overrides "
+            "the default product name defined at the workflow level."
+        ),
     )
     reader_defined_area_def: bool = Field(
         False,
-        description="If True, use the area definition returned by the reader instead of a sector.",
+        description=(
+            "If True, use the area definition returned by the reader "
+            "instead of a separately specified sector."
+        ),
     )
     sector_list: List[str] | None = Field(
         None,
-        description="List of sector names to process; None processes all available sectors.",
+        description=(
+            "List of sector names to process."
+            "If None, all available sectors are processed."
+        ),
     )
     window_start_time: dt.datetime | None = Field(
         None,
