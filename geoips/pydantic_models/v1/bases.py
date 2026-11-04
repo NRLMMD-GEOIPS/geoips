@@ -18,7 +18,7 @@ import keyword
 import logging
 import os
 from pathlib import Path
-from typing import Any, ClassVar, Dict, List, Union, Tuple, Type
+from typing import Any, ClassVar, Dict, Union, Tuple, Type
 import warnings
 
 # Third-Party Libraries
@@ -46,7 +46,7 @@ ColorTuple = Union[Tuple[float, float, float], Tuple[float, float, float, float]
 ColorType = Union[ColorTuple, str]
 
 
-def _generate_filenames_from_value(value: Any) -> List[Path] | None:  # NOQA
+def _generate_filenames_from_value(value: Any) -> list[Path] | None:  # NOQA
     """Generate a list of filenames (filepaths) from an input value.
 
     This method handles the input for fnames as follows:
