@@ -113,16 +113,20 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         "threshold. None, no masking",
     )
     pressure_key: str | None = Field(
-        None, description="Variable name used to identify pressure levels in the dataset."
+        None,
+        description="Variable name used to identify pressure levels in the dataset.",
     )
     time_key: str | None = Field(
-        None, description="Variable name used to identify the time dimension in the dataset."
+        None,
+        description="Variable name used to identify the time dimension in the dataset.",
     )
     time_fcst: StrictInt | None = Field(
-        None, description="Forecast time offset index into the time dimension."
+        None, description="Index of the forecast time offset along the time dimension."
     )
     time_dim: StrictInt | None = Field(
-        None, alias="Time_Dimension", description="Size of the time dimension in the dataset."
+        None,
+        alias="Time_Dimension",
+        description="Number of elements along the time dimension in the dataset.",
     )
     grid_geo: StrictBool | None = Field(
         None, description="If True, regrid data to a geographic grid before processing."
