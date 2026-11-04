@@ -277,18 +277,33 @@ class GlobalVariablesModel(PermissiveFrozenModel):
     presectoring toggle)
     """
 
-    minimum_coverage: float | str = Field(default=PLUGIN_PROVIDED)
+    minimum_coverage: float | str = Field(
+        default=PLUGIN_PROVIDED,
+        description="Minimum percent coverage required to produce output; plugin-provided by default.",
+    )
     presector: bool = Field(
         False,
-        description="Specify whether to presector the data prior to applying "
-        "the algorithm",
+        description="Specify whether to presector the data prior to applying the algorithm.",
     )
-    product_db: bool = Field(False)
-    product_db_writer: str | None = Field(None)
-    product_db_writer_kwargs: Dict[str, Any] | None = Field(None)
-    product_name: str | None = Field(None)
-    reader_defined_area_def: bool = Field(False)
-    sector_list: List[str] | None = Field(None)
+    product_db: bool = Field(
+        False, description="If True, write output product metadata to the product database."
+    )
+    product_db_writer: str | None = Field(
+        None, description="Name of the database writer plugin used to store product metadata."
+    )
+    product_db_writer_kwargs: Dict[str, Any] | None = Field(
+        None, description="Keyword arguments passed through to the product database writer."
+    )
+    product_name: str | None = Field(
+        None, description="Name of the product to process; overrides the workflow-level default."
+    )
+    reader_defined_area_def: bool = Field(
+        False,
+        description="If True, use the area definition returned by the reader instead of a sector.",
+    )
+    sector_list: List[str] | None = Field(
+        None, description="List of sector names to process; None processes all available sectors."
+    )
     window_start_time: dt.datetime | None = Field(
         None,
         description="If specified, sector temporally between window_start_time "
