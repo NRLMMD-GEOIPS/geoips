@@ -179,7 +179,9 @@ class SingleProductPluginModel(PluginModel):
 
     model_config = ConfigDict(extra="allow")
 
-    interface: Literal["products"] = Field("products", frozen=True)
+    interface: Literal["products"] = Field(
+        "products", frozen=True, description="GeoIPS interface name; always 'products'."
+    )
 
     source_names: List[str] = Field(
         ...,
