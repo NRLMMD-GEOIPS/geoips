@@ -9,7 +9,7 @@ plugins.
 """
 
 from __future__ import annotations
-from typing import List, Literal, Union
+from typing import Literal
 
 from pydantic import ConfigDict, Field, model_validator, RootModel
 import geoips_yaml_utils as yaml
@@ -145,7 +145,7 @@ class ProductSpec(ProductDefaultSpec):
     look like.
     """
 
-    variables: List[str] = Field(
+    variables: list[str] = Field(
         ...,
         description=(
             "A list of one or more variables derived from one of the 'source_names' "
@@ -161,7 +161,7 @@ class ProductsListSpec(FrozenModel):
     Uses FrozenModel, meaning no additional fields can be added.
     """
 
-    products: List[SingleProductPluginModel] = Field(
+    products: list[SingleProductPluginModel] = Field(
         ...,
         description=(
             "A list of one or more products that fall under the same source name."
@@ -187,7 +187,7 @@ class SingleProductPluginModel(PluginModel):
         "products", frozen=True, description="GeoIPS interface name; always 'products'."
     )
 
-    source_names: List[str] = Field(
+    source_names: list[str] = Field(
         ...,
         description=(
             "A list of strings representing the source(s) this product is derived from."
@@ -311,11 +311,11 @@ class SingleProductPluginModel(PluginModel):
 
 # Discriminated Union via RootModel
 class _ProductPluginUnion(
-    RootModel[Union[ProductsListPluginModel, SingleProductPluginModel]]
+    RootModel[ProductsListPluginModel | SingleProductPluginModel]
 ):
     """Private root model to unpack via ProductPluginModel."""
 
-    root: Union[ProductsListPluginModel, SingleProductPluginModel]
+    root: ProductsListPluginModel | SingleProductPluginModel
 
 
 class ProductPluginModel:

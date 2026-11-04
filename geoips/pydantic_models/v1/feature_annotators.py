@@ -4,7 +4,6 @@
 """Pydantic models used to validate GeoIPS feature annotator plugins."""
 
 from pydantic import Field, model_validator
-from typing import Optional
 
 from geoips.pydantic_models.v1.bases import (
     FrozenModel,
@@ -31,7 +30,7 @@ class CartopyFeature(PermissiveFrozenModel):
     )
     # NOTE: Once we add land / ocean features, we'll need to add another field, labeled
     # facecolor.
-    linewidth: Optional[float] = Field(
+    linewidth: float | None = Field(
         None, ge=0, description="The width in pixels of the specified feature."
     )
     # TODO: There are more arguments here for a mpl Line2D artist and cartopy features.
@@ -74,7 +73,7 @@ class FeatureAnnotatorSpec(FrozenModel):
     states: CartopyFeature = Field(
         ..., strict=True, description="A cartopy states feature."
     )
-    background: Optional[ColorType] = Field(
+    background: ColorType | None = Field(
         None,
         description=f"{MATPLOTLIB_COLOR_DOC} used for the background of the image.",
     )

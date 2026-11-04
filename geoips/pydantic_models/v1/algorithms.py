@@ -6,7 +6,6 @@
 # cspell:ignore fcst
 
 # Python Standard Libraries
-from typing import Dict, List, Optional
 
 # Third-Party Libraries
 from pydantic import Field, StrictBool, StrictFloat, StrictInt
@@ -21,7 +20,7 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     Pydantic model defining and validating Algorithm step arguments.
     """
 
-    variables: List[str] | None = Field(
+    variables: list[str] | None = Field(
         None,
         description="List of input variables used in algorithm processing",
     )
@@ -78,16 +77,16 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         description="Units of input data, for applying "
         "necessary conversions. Defaults to None, resulting in no unit conversions.",
     )
-    gamma_list: Optional[List[StrictFloat]] = Field(
+    gamma_list: list[StrictFloat] | None = Field(
         None, description="Gamma correction values to apply per channel."
     )
-    min_night_zen: Optional[float] = Field(
+    min_night_zen: float | None = Field(
         None, description="Minimum solar zenith angle in degrees to classify as night."
     )
     max_night_zen: float | None = Field(
         None, description="Maximum solar zenith angle in degrees to classify as night."
     )
-    max_day_zen: Optional[float] = Field(
+    max_day_zen: float | None = Field(
         None, description="Maximum solar zenith angle in degrees to classify as day."
     )
     mask_night: bool | None = Field(
@@ -96,7 +95,7 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     mask_day: bool | None = Field(
         None, description="If True, mask pixels classified as day."
     )
-    scale_factor: Optional[float] = Field(
+    scale_factor: float | None = Field(
         None, description="Scalar multiplier applied to the output data."
     )
     sun_zen_correction: StrictBool | None = Field(
@@ -107,7 +106,7 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         "      (see data_manipulations.corrections.apply_solar_zenith_correction)"
         "  * If False, returned data will not be modified based on solar zenith angle)",
     )
-    satellite_zenith_angle_cutoff: Optional[float] = Field(
+    satellite_zenith_angle_cutoff: float | None = Field(
         None,
         description="Cutoff for masking data where satellite zenith angle exceeds"
         "threshold. None, no masking",
@@ -131,6 +130,6 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     grid_geo: StrictBool | None = Field(
         None, description="If True, regrid data to a geographic grid before processing."
     )
-    var_map: Optional[Dict[str, str]] = Field(
+    var_map: dict[str, str] | None = Field(
         {}, description="Dictionary that maps input variables to names used in xobj"
     )

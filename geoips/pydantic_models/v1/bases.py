@@ -18,7 +18,7 @@ import keyword
 import logging
 import os
 from pathlib import Path
-from typing import Any, ClassVar, Dict, List, Union, Tuple, Type
+from typing import Any, ClassVar, Type
 import warnings
 
 # Third-Party Libraries
@@ -42,11 +42,11 @@ from geoips.geoips_utils import get_interface_module
 
 LOG = logging.getLogger(__name__)
 
-ColorTuple = Union[Tuple[float, float, float], Tuple[float, float, float, float]]
-ColorType = Union[ColorTuple, str]
+ColorTuple = tuple[float, float, float] | tuple[float, float, float, float]
+ColorType = ColorTuple | str
 
 
-def _generate_filenames_from_value(value: Any) -> List[Path] | None:  # NOQA
+def _generate_filenames_from_value(value: Any) -> list[Path] | None:  # NOQA
     """Generate a list of filenames (filepaths) from an input value.
 
     This method handles the input for fnames as follows:
@@ -145,7 +145,7 @@ class CoreBaseModel(BaseModel):
         - This method would be further enhanced in future PR
     """
 
-    restricted_fields: ClassVar[Tuple[str, ...]] = ()
+    restricted_fields: ClassVar[tuple[str, ...]] = ()
     model_config = ConfigDict(
         # If True, trim white space around input
         str_strip_whitespace=True,
@@ -439,8 +439,8 @@ class PluginModelMetadata(ModelMetaclass):
     def __new__(
         mcs: Type[PluginModelMetadata],
         name: str,
-        bases: Tuple[type, ...],
-        namespace: Dict[str, Any],
+        bases: tuple[type, ...],
+        namespace: dict[str, Any],
         **kwargs: Any,
     ) -> type:
         """Instantiate a new PluginModelMetadata class."""
