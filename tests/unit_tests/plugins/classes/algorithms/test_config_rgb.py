@@ -16,21 +16,30 @@ class TestConfigRGBFunctionality:
     def setup_method(self) -> None:
         self.test_config = {
             "red": {
-                "equation": {"expression": "B10BT - B08BT", "variables": ["B08BT", "B10BT"]},
+                "equation": {
+                    "expression": "B10BT - B08BT",
+                    "variables": ["B08BT", "B10BT"],
+                },
                 "data_range": [-26.2, 0.6],
                 "gamma": 1.0,
                 "input_units": "kelvin",
                 "output_units": "kelvin",
             },
             "green": {
-                "equation": {"expression": "B10BT - B08BT", "variables": ["B08BT", "B10BT"]},
+                "equation": {
+                    "expression": "B10BT - B08BT",
+                    "variables": ["B08BT", "B10BT"],
+                },
                 "data_range": [-26.2, 0.6],
                 "gamma": 1.0,
                 "input_units": "kelvin",
                 "output_units": "kelvin",
             },
             "blue": {
-                "equation": {"expression": "B10BT - B08BT", "variables": ["B08BT", "B10BT"]},
+                "equation": {
+                    "expression": "B10BT - B08BT",
+                    "variables": ["B08BT", "B10BT"],
+                },
                 "data_range": [-26.2, 0.6],
                 "gamma": 1.0,
                 "input_units": "kelvin",
@@ -51,6 +60,7 @@ class TestConfigRGBFunctionality:
 
         with pytest.raises(ValueError):
             self.alg._get_config_spec(test_copy_config)
+
 
 class TestExpressionEvaluator:
     """Test expression evaluation."""
@@ -118,6 +128,7 @@ class TestExpressionEvaluator:
             " instead of np.ndarray",
         ):
             self.alg.safe_eval("pd.DataFrame(x)", self.variables)
+
     def test_raw_value(self):
         res = self.alg.safe_eval("x", self.variables)
 
