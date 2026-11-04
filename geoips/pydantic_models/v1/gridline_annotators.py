@@ -3,7 +3,7 @@
 
 """Pydantic models used to validate GeoIPS gridline annotator plugins."""
 
-from typing import Literal, Union, List, Optional
+from typing import Literal, Union, Optional
 
 from pydantic import Field
 
@@ -94,7 +94,7 @@ class Labels(PermissiveFrozenModel):
     mouseover: Optional[bool] = Field(
         None, description="Whether to enable mouseover effect."
     )
-    position: Optional[List[float]] = Field(
+    position: Optional[list[float]] = Field(
         None, description="Absolute (x, y) position of the label."
     )
     rotation: Optional[Union[float, str]] = Field(
@@ -124,7 +124,7 @@ class Lines(FrozenModel):
     color: ColorType = Field(
         ..., description="Color of the line (named color, hex, or rgb tuple)."
     )
-    linestyle: List[int] = Field(
+    linestyle: list[int] = Field(
         ...,
         min_length=2,
         max_length=2,

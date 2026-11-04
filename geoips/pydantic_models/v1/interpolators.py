@@ -4,7 +4,7 @@
 """Pydantic models for interpolator plugins validation."""
 
 # Python Standard Libraries
-from typing import List, TypeAlias, Union
+from typing import TypeAlias, Union
 
 # Third-Party Libraries
 from pydantic import ConfigDict, Field, StrictBool
@@ -46,6 +46,6 @@ class InterpolatorArgumentsModel(InterpGaussInterpolator, InterpGridInterpolator
     # It is currently set optional because some SSP workflows compute
     # area_def dynamically at runtime
     area_def: str | None = Field(None, description="Area definition identifier.")
-    varlist: List[str] | None = Field(
+    varlist: list[str] | None = Field(
         None, description="variables required for specific interpolation processing"
     )

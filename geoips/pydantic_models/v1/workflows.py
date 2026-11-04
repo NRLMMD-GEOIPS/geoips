@@ -22,7 +22,7 @@ import datetime as dt
 from glob import glob
 import logging
 import re
-from typing import Any, Dict, List, Literal, Optional, Union
+from typing import Any, Dict, Literal, Optional, Union
 
 # Third-Party Libraries
 from pydantic import (
@@ -95,7 +95,7 @@ ORDERED_PRODUCT_FAMILIES = [
 ]
 
 
-def get_plugin_names(plugin_kind: str) -> List[str]:
+def get_plugin_names(plugin_kind: str) -> list[str]:
     """Return valid plugin names for passed plugin kind.
 
     Parameters
@@ -314,7 +314,7 @@ class GlobalVariablesModel(PermissiveFrozenModel):
             "instead of a separately specified sector."
         ),
     )
-    sector_list: List[str] | None = Field(
+    sector_list: list[str] | None = Field(
         None,
         description=(
             "List of sector names to process."
@@ -401,7 +401,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
     arguments: Dict[str, Any] | None = Field(
         default_factory=dict, description="step args"
     )
-    depends_on: List[StepReference] | None = Field(
+    depends_on: list[StepReference] | None = Field(
         None,
         description=(
             "Step references this step depends on. Each reference is either a "
@@ -1290,7 +1290,7 @@ class WorkflowTestModel(FrozenModel):
     """Model for the test section of GeoIPS workflow plugins."""
 
     # Not pathlib.Path objects as readers only expect a list of strings
-    filenames: List[str] = Field(
+    filenames: list[str] = Field(
         ...,
         description="A list of one or more filepaths to the data used for this test.",
         validation_alias=AliasChoices("fnames", "filenames"),

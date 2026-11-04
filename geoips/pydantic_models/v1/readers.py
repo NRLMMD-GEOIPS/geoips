@@ -15,7 +15,7 @@ from __future__ import annotations
 # Python Standard Libraries
 import logging
 from pathlib import Path
-from typing import Any, List
+from typing import Any
 
 # Third-Party Libraries
 from pydantic import Field, field_validator, model_validator
@@ -40,14 +40,14 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     area_def: AreaDefinition | None = Field(
         None, description="The domain over which to read data."
     )
-    chans: List[str] = Field(
+    chans: list[str] = Field(
         None,
         description="List of variables to read",
         alias="variables",
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
     self_register: str | None = Field(None, description="Enable self-registration.")
-    filenames: List[Path] = Field(
+    filenames: list[Path] = Field(
         None, description="full path to the file(s) for static dataset inputs."
     )
     sectored_read: bool = Field(
@@ -107,7 +107,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
 
     @field_validator("filenames", mode="before")
     @classmethod
-    def _validate_and_normalize_fnames(cls, value: Any) -> List[Path] | None:
+    def _validate_and_normalize_fnames(cls, value: Any) -> list[Path] | None:
         """
         Validate and normalize the input for 'fnames'.
 
