@@ -142,3 +142,14 @@ Colormapper arguments are defined in `geoips/pydantic_models/v1/colormappers.py`
 | `pressure_range_legend` | `List[str] \| None`  | `None` | Strings used for colorbar tick labels. |
 | `set_ticks_kwargs` | `dict \| None` | `None` | Extra kwargs passed directly to `cbar.set_ticks`. |
 | `set_label_kwarg` | `dict \| None` | `None` | Extra kwargs passed directly to `cbar.set_label`. |
+
+
+## 4. Coverage Checker Plugins
+
+### Current
+
+| Argument | Type | Default | Description |
+|---|---|---|---|
+| `variable_name` | `str` ⚠ | `None` | Variable name to check percent unmasked. |
+| `area_def` | `str` ⚠ | `None` | Area definition identifier. |
+| `radius_km` | `Optional[float]` ⚠ | `300` | Radius in km of center disk to check for coverage. |
