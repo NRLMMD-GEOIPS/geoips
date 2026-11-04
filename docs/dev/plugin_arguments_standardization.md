@@ -54,3 +54,5 @@ Before defining any new Pydantic configuration, please refer to ` CoreBaseModel`
 5. **Nullable fields** — Any field whose default is `None` must declare `| None` in
  its type annotation. A missing `| None` causes silent coercion or validation
  failure in pydantic v2.
+
+6. **Descriptions** — Every field must include a descriptive `description` string in its `Field()` declaration. These descriptions are used to automatically generate plugin documentation and should clearly explain the field's purpose and expected values.
