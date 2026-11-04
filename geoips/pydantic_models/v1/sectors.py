@@ -732,9 +732,7 @@ class DynamicSectorPluginModel(PluginModel):
 
 
 # Discriminated Union via RootModel
-class _SectorPluginUnion(
-    RootModel[DynamicSectorPluginModel | StaticSectorPluginModel]
-):
+class _SectorPluginUnion(RootModel[DynamicSectorPluginModel | StaticSectorPluginModel]):
     """Private root model to unpack via SectorPluginModel."""
 
     root: DynamicSectorPluginModel | StaticSectorPluginModel
