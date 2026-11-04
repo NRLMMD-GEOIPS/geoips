@@ -4,7 +4,7 @@
 """Pydantic models for interpolator plugins validation."""
 
 # Python Standard Libraries
-from typing import TypeAlias, Union
+from typing import TypeAlias
 
 # Third-Party Libraries
 from pydantic import ConfigDict, Field, StrictBool
@@ -13,7 +13,7 @@ import xarray as xr
 # GeoIPS imports
 from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
 
-dataType: TypeAlias = Union[xr.DataArray, xr.Dataset]
+dataType: TypeAlias = xr.DataArray | xr.Dataset
 
 
 class InterpGaussInterpolator(PermissiveFrozenModel):
