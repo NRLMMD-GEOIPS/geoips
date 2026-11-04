@@ -56,3 +56,26 @@ Before defining any new Pydantic configuration, please refer to ` CoreBaseModel`
  failure in pydantic v2.
 
 6. **Descriptions** — Every field must include a descriptive `description` string in its `Field()` declaration. These descriptions are used to automatically generate plugin documentation and should clearly explain the field's purpose and expected values.
+
+---
+
+
+## 1. Reader Plugins
+
+Reader arguments are defined in `geoips/pydantic_models/v1/readers.py` as
+`ReaderArgumentsModel`.
+
+### Current
+
+| Argument | Type | Default | Description |
+|---|---|---|---|
+| `variables` | `list[str] \| None` | `None` | List of variables to read. Preferred form of the deprecated `chans`. |
+| `chans` | `list[str] \| None` | `None` | **Deprecated** — alias for `variables`. Will be removed in GeoIPS 2.0. |
+| `area_def` | `AreaDefinition \| None` | `None` | The domain over which to read data. Accepts a dict (converted via `create_area_def`) or an `AreaDefinition` object. |
+| `filenames` | `list[Path] \| None` | `None` | Full path(s) to file(s) for static dataset inputs. Supports glob patterns. |
+| `metadata_only` | `bool` | `False` | Read metadata only, skip data arrays. |
+| `resampled_read` | `bool` | `False` | Enable resampled read, needed for datatypes read within `get_alg_xarray`. |
+| `sectored_read` | `bool` | `False` | Enable sectored read. |
+| `self_register` | `str \| None` | `None` | Enable self-registration. |
+| `self_register_source` | `str \| None` | `None` | Source dataset to use for self-registration. |
+| `self_register_dataset` | `str \| None` | `None` | Dataset within the source to use for self-registration. |
