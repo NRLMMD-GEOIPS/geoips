@@ -92,7 +92,7 @@ Before defining any new Pydantic configuration, please refer to ` CoreBaseModel`
 | Argument | Type (declared) | Default | Description |
 |---|---|---|---|
 | `variables` | `list[str] \| None` | `None` | List of input variables used in algorithm processing. |
-| `var_map` | `dict[str, str] \| None` | `{}` ⚠ | Maps input variable names to names used in xobj. |
+| `var_map` | `dict[str, str] \| None` | `{}` | Maps input variable names to names used in xobj. |
 | `output_data_range` | `tuple[StrictFloat, StrictFloat] \| None` | `None` | Min and max output value. Applied last, after all other corrections. |
 | `min_outbounds` | `str \| None` | `None` | How to handle values below `output_data_range` minimum: `retain`, `mask`, or `crop`. |
 | `max_outbounds` | `str \| None` | `None` | How to handle values above `output_data_range` maximum: `retain`, `mask`, or `crop`. |
@@ -157,9 +157,9 @@ Colormapper arguments are defined in `geoips/pydantic_models/v1/colormappers.py`
 
 | Argument | Type | Default | Description |
 |---|---|---|---|
-| `variable_name` | `str` ⚠ | `None` | Variable name to check percent unmasked. |
-| `area_def` | `str` ⚠ | `None` | Area definition identifier. |
-| `radius_km` | `Optional[float]` ⚠ | `300` | Radius in km of center disk to check for coverage. |
+| `variable_name` | `str` | `None` | Variable name to check percent unmasked. |
+| `area_def` | `str` | `None` | Area definition identifier. |
+| `radius_km` | `Optional[float]` | `300` | Radius in km of center disk to check for coverage. |
 
 ---
 
@@ -320,9 +320,9 @@ Title formatter arguments are defined in
 
 | Argument | Type | Default | Description |
 |---|---|---|---|
-| `area_def` | `str` ⚠ | `None` | Area definition identifier. |
-| `product_name_title` | `str` ⚠ | `None` | Product name title string. |
-| `product_datatype_title` | `str` ⚠ | `None` | Data type label for the figure title. |
-| `bg_product_name_title` | `str` ⚠ | `None` | Background product name title. |
-| `bg_datatype_title` | `str` ⚠ | `None` | Background data type label. |
-| `title_copyright` | `str` ⚠ | `None` | Copyright string appended to the generated title. |
+| `area_def` | `str` | `None` | Area definition identifier. |
+| `product_name_title` | `str` | `None` | Product name title string. |
+| `product_datatype_title` | `str` | `None` | Data type label for the figure title. |
+| `bg_product_name_title` | `str` | `None` | Background product name title. |
+| `bg_datatype_title` | `str` | `None` | Background data type label. |
+| `title_copyright` | `str` | `None` | Copyright string appended to the generated title. |
