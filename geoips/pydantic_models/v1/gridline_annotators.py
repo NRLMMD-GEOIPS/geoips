@@ -3,7 +3,7 @@
 
 """Pydantic models used to validate GeoIPS gridline annotator plugins."""
 
-from typing import Literal, Optional
+from typing import Literal
 
 from pydantic import Field
 
@@ -45,14 +45,14 @@ class Labels(PermissiveFrozenModel):
     bottom: bool = Field(..., description="Whether to display the label at the bottom.")
     left: bool = Field(..., description="Whether to display the label on the left.")
     right: bool = Field(..., description="Whether to display the label on the right.")
-    alpha: Optional[float] = Field(
+    alpha: float | None = Field(
         None,
         description=(
             "Inverse percentage of label transparency (0 = fully transparent, 1 = fully"
             "opaque)."
         ),
     )
-    backgroundcolor: Optional[ColorType] = Field(
+    backgroundcolor: ColorType | None = Field(
         None,
         description=(
             "A rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX) "
@@ -61,7 +61,7 @@ class Labels(PermissiveFrozenModel):
             "https://matplotlib.org/stable/users/explain/colors/colors.html"
         ),
     )
-    color: Optional[ColorType] = Field(
+    color: ColorType | None = Field(
         None,
         description=(
             "A rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX) "
@@ -70,48 +70,46 @@ class Labels(PermissiveFrozenModel):
             "https://matplotlib.org/stable/users/explain/colors/colors.html"
         ),
     )
-    fontfamily: Optional[str] = Field(
+    fontfamily: str | None = Field(
         None, description="Font family for the label text."
     )
-    fontsize: Optional[float | str] = Field(
+    fontsize: float | str | None = Field(
         None, description="Font size for the label text."
     )
-    fontstretch: Optional[int | str] = Field(
+    fontstretch: int | str | None = Field(
         None, description="Stretch level of the font."
     )
-    fontstyle: Optional[str] = Field(
+    fontstyle: str | None = Field(
         None, description="Style of the font (e.g., 'normal', 'italic', 'oblique')."
     )
-    fontvariant: Optional[str] = Field(
+    fontvariant: str | None = Field(
         None, description="Font variant (e.g., 'normal', 'small-caps')."
     )
-    fontweight: Optional[int | str] = Field(
-        None, description="Weight of the font."
-    )
-    linespacing: Optional[float] = Field(
+    fontweight: int | str | None = Field(None, description="Weight of the font.")
+    linespacing: float | None = Field(
         None, description="Spacing between lines of text."
     )
-    mouseover: Optional[bool] = Field(
+    mouseover: bool | None = Field(
         None, description="Whether to enable mouseover effect."
     )
-    position: Optional[list[float]] = Field(
+    position: list[float] | None = Field(
         None, description="Absolute (x, y) position of the label."
     )
-    rotation: Optional[float | str] = Field(
+    rotation: float | str | None = Field(
         None, description="Rotation of the label (degrees or 'vertical'/'horizontal')."
     )
-    rotation_mode: Optional[str] = Field(
+    rotation_mode: str | None = Field(
         None, description="Rotation mode ('default' or 'anchor')."
     )
-    snap: Optional[bool] = Field(
+    snap: bool | None = Field(
         None, description="Whether to snap the label to the pixel grid."
     )
-    wrap: Optional[bool] = Field(None, description="Whether to allow text wrapping.")
-    zorder: Optional[float] = Field(
+    wrap: bool | None = Field(None, description="Whether to allow text wrapping.")
+    zorder: float | None = Field(
         None, description="Order of label rendering (lower value = earlier rendering)."
     )
-    xpadding: Optional[int] = Field(None, description="Pixel offset for x-axis labels.")
-    ypadding: Optional[int] = Field(None, description="Pixel offset for y-axis labels.")
+    xpadding: int | None = Field(None, description="Pixel offset for x-axis labels.")
+    ypadding: int | None = Field(None, description="Pixel offset for y-axis labels.")
 
 
 class Lines(FrozenModel):
@@ -141,7 +139,7 @@ class GridlineAnnotatorSpec(FrozenModel):
     spacing: Spacing = Field(..., description="Spacing settings for the plot.")
     labels: Labels = Field(..., description="Label settings for the plot.")
     lines: Lines = Field(..., description="Line settings for the plot.")
-    background: Optional[ColorType] = Field(
+    background: ColorType | None = Field(
         None,
         description=(
             "A rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX) "
