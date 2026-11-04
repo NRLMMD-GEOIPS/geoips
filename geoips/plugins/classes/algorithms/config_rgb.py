@@ -141,7 +141,7 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
                     ) from e
 
             if not callable(obj):
-                raise ValueError(f"Expression does not refer to a function.")
+                raise ValueError("Expression does not refer to a function.")
 
             return obj
 
@@ -167,7 +167,7 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         """
         node = ast.parse(expression, "<string>", "eval").body
         res = cls._safe_eval(node, variables)
-        if type(res) != np.ndarray:
+        if not isinstance(res, np.ndarray):
             raise ValueError(
                 f"Provided expression returned {type(res)} " "instead of np.ndarray."
             )

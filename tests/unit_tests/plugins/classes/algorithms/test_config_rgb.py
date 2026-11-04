@@ -91,34 +91,37 @@ class TestExpressionEvaluator:
     def test_safe_eval_valid(self):
         res = self.alg.safe_eval("x + y", self.variables)
 
-        assert type(res) == np.ndarray
+        assert isinstance(res, np.ndarray)
         assert np.array_equal(res, np.array([5, 7, 9]))
 
     def test_safe_eval_valid_with_numpy_function(self):
         res = self.alg.safe_eval("np.sin(x)", self.variables)
 
-        assert type(res) == np.ndarray
+        assert isinstance(res, np.ndarray)
         assert np.array_equal(res, np.sin(self.variables["x"]))
 
     def test_safe_eval_valid_with_numpy_function_2(self):
         res = self.alg.safe_eval("np.sin(x) - np.cos(y)", self.variables)
 
         expected = np.sin(self.variables["x"]) - np.cos(self.variables["y"])
-        assert type(res) == np.ndarray
+
+        assert isinstance(res, np.ndarray)
         assert np.array_equal(res, expected)
 
     def test_safe_eval_valid_with_scipy_function(self):
         res = self.alg.safe_eval("scipy.signal.detrend(x)", self.variables)
 
         expected = scipy.signal.detrend(self.variables["x"])
-        assert type(res) == np.ndarray
+
+        assert isinstance(res, np.ndarray)
         assert np.array_equal(res, expected)
 
     def test_safe_eval_valid_with_pandas_function(self):
         res = self.alg.safe_eval("pd.isna(x)", self.variables)
 
         expected = pd.isna(self.variables["x"])
-        assert type(res) == np.ndarray
+
+        assert isinstance(res, np.ndarray)
         assert np.array_equal(res, expected)
 
     def test_safe_eval_get_non_ndarray(self):
