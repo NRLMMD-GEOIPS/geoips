@@ -279,7 +279,10 @@ class GlobalVariablesModel(PermissiveFrozenModel):
 
     minimum_coverage: float | str = Field(
         default=PLUGIN_PROVIDED,
-        description="Minimum percent coverage required to produce output; plugin-provided by default.",
+        description=(
+            "Minimum percent coverage required to produce output."
+            "Defaults to the value provided by the plugin."
+        ),
     )
     presector: bool = Field(
         False,
