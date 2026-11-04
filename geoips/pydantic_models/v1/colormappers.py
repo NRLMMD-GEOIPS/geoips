@@ -65,7 +65,9 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
     )
     cmap_source: str = Field(
         default=PLUGIN_PROVIDED,
-        description="Source identifier for the colormap; defaults to the plugin-provided value.",
+        description=(
+            "Source identifier for the colormap; defaults to the plugin-provided value."
+        ),
     )
 
     colorbar_kwargs: dict | None = Field(

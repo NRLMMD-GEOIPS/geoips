@@ -40,20 +40,29 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
             "String to include in filename 'extra' field" " If None, use fillval of 'x'"
         ),
     )
-    metadata_dir: str = Field("metadata", description="Subdirectory for metadata output files.")
+    metadata_dir: str = Field(
+        "metadata", description="Subdirectory for metadata output files."
+    )
     metadata_type: str = Field(
-        "sector_information", description="Type of metadata to include in the output filename."
+        "sector_information",
+        description="Type of metadata to include in the output filename.",
     )
     output_dict: dict[str, Any] | None = Field(
-        None, description="Additional key-value pairs passed through to the filename formatter."
+        None,
+        description=(
+            "Additional key-value pairs passed through to the filename formatter."
+        ),
     )
     output_type: str = Field(
         PLUGIN_PROVIDED,
         description="Requested output format, ie png, jpg, tif, etc, defaults to None",
     )
-    output_type_dir: str | None = Field(None, description="If None, default to output_type.")
+    output_type_dir: str | None = Field(
+        None, description="If None, default to output_type."
+    )
     product_filename: str | None = Field(
-        None, description="Explicit output filename. If None, the formatter generates one."
+        None,
+        description="Explicit output filename. If None, the formatter generates one.",
     )
     product_dir: str | None = Field(
         None, description="Top-level product directory appended to basedir."
