@@ -12,7 +12,6 @@
 # the need to manually quote forward-referenced types (simplified type hinting).
 from __future__ import annotations
 
-from typing import Optional
 from pydantic import ConfigDict, Field, FilePath
 
 from geoips.pydantic_models.v1.bases import FrozenModel

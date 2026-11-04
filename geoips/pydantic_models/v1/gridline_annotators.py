@@ -70,9 +70,7 @@ class Labels(PermissiveFrozenModel):
             "https://matplotlib.org/stable/users/explain/colors/colors.html"
         ),
     )
-    fontfamily: str | None = Field(
-        None, description="Font family for the label text."
-    )
+    fontfamily: str | None = Field(None, description="Font family for the label text.")
     fontsize: float | str | None = Field(
         None, description="Font size for the label text."
     )
