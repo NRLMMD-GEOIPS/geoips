@@ -21,7 +21,7 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     Pydantic model defining and validating Algorithm step arguments.
     """
 
-    variables: List[str] | None = Field(
+    variables: list[str] | None = Field(
         None,
         description="List of input variables used in algorithm processing",
     )
@@ -78,7 +78,7 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         description="Units of input data, for applying "
         "necessary conversions. Defaults to None, resulting in no unit conversions.",
     )
-    gamma_list: Optional[List[StrictFloat]] = Field(
+    gamma_list: list[StrictFloat] | None = Field(
         None, description="Gamma correction values to apply per channel."
     )
     min_night_zen: Optional[float] = Field(
