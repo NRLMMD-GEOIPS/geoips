@@ -3,7 +3,7 @@
 
 """Pydantic models used to validate GeoIPS gridline annotator plugins."""
 
-from typing import Literal, Union, Optional
+from typing import Literal, Optional
 
 from pydantic import Field
 
@@ -18,14 +18,14 @@ from geoips.pydantic_models.v1.bases import (
 class Spacing(FrozenModel):
     """Model used to format the spacing of gridlines in annotated imagery."""
 
-    latitude: Union[float, Literal["auto"]] = Field(
+    latitude: float | Literal["auto"] = Field(
         ...,
         description=(
             "Latitude spacing in degrees, can be a float or a string. If a string, it "
             "must be 'auto', which represents automatic spacing based on your area_def."
         ),
     )
-    longitude: Union[float, Literal["auto"]] = Field(
+    longitude: float | Literal["auto"] = Field(
         ...,
         description=(
             "Longitude spacing in degrees, can be a float or a string. If a string, it "
@@ -73,10 +73,10 @@ class Labels(PermissiveFrozenModel):
     fontfamily: Optional[str] = Field(
         None, description="Font family for the label text."
     )
-    fontsize: Optional[Union[float, str]] = Field(
+    fontsize: Optional[float | str] = Field(
         None, description="Font size for the label text."
     )
-    fontstretch: Optional[Union[int, str]] = Field(
+    fontstretch: Optional[int | str] = Field(
         None, description="Stretch level of the font."
     )
     fontstyle: Optional[str] = Field(
@@ -85,7 +85,7 @@ class Labels(PermissiveFrozenModel):
     fontvariant: Optional[str] = Field(
         None, description="Font variant (e.g., 'normal', 'small-caps')."
     )
-    fontweight: Optional[Union[int, str]] = Field(
+    fontweight: Optional[int | str] = Field(
         None, description="Weight of the font."
     )
     linespacing: Optional[float] = Field(
@@ -97,7 +97,7 @@ class Labels(PermissiveFrozenModel):
     position: Optional[list[float]] = Field(
         None, description="Absolute (x, y) position of the label."
     )
-    rotation: Optional[Union[float, str]] = Field(
+    rotation: Optional[float | str] = Field(
         None, description="Rotation of the label (degrees or 'vertical'/'horizontal')."
     )
     rotation_mode: Optional[str] = Field(
