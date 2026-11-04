@@ -4,10 +4,11 @@
 """Create the support files for versioned docs.
 
 This includes:
-- the `versions.json` file which drives the `pydata-sphinx-theme`'s version switcher
-- the symlink `stable` to the latest minor release family
-- a root-level `index.html` that redirects to `/stable`
-- a root-level `404.html` that redirects URLs without a version string to the matching
+
+* the `versions.json` file which drives the `pydata-sphinx-theme`'s version switcher
+* the symlink `stable` to the latest minor release family
+* a root-level `index.html` that redirects to `/stable`
+* a root-level `404.html` that redirects URLs without a version string to the matching
   path on `stable`
 """
 
@@ -143,7 +144,8 @@ def create_version_config(
     Notes
     -----
     More information about the configuration format can be found at `the PyData Theme's
-    docs <https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/version-dropdown.html#add-a-json-file-to-define-your-switcher-s-versions>`.
+    docs
+    <https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/version-dropdown.html#add-a-json-file-to-define-your-switcher-s-versions>`.
     """
     # Initial config, always include stable and dev
     config = [
@@ -297,8 +299,8 @@ if __name__ == "__main__":
         except IndexError:
             raise ValueError(
                 (
-                    "Specified --scan-dir contains no valid version directories, and so "
-                    "cannot symlink the most recent"
+                    "Specified --scan-dir contains no valid version directories, and "
+                    "so cannot symlink the most recent"
                 )
             )
         (args.output_dir / "stable").symlink_to(

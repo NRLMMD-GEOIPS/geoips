@@ -10,6 +10,7 @@ import PKGNAME
 VERSION = str(PKGNAME.__version__)
 
 source_path = os.path.dirname(os.path.abspath(__file__))
+use_versioned_docs = os.getenv("DOCS_BUILD_STRATEGY", "basic").startswith("versioned")
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -171,17 +172,19 @@ html_theme_options = {
     "navigation_with_keys": False,
     "footer_end": ["geoips_footer"],
     "github_url": "https://github.com/NRLMMD-GEOIPS/PKGNAME",
-    "navbar_start": ["navbar-logo", "version-switcher"],  # REVIEW (If not building versioned docs, this line can be changed/removed)
     "navbar_end": ["theme-switcher", "navbar-icon-links"],
     "logo": {
         "image_light": "_static/geoips_logo.png",
         "image_dark": "_static/geoips_logo.png",
     },
-    "switcher": {
-        "json_url": "https://nrlmmd-geoips.github.io/geoips/versions.json",  # REVIEW (Change URL as needed if version-switcher included above)
+}
+if use_versioned_docs:
+    html_theme_options["navbar_start"] = ["navbar-logo", "version-switcher"]
+    html_theme_options["switcher"] = {
+        "json_url": "https://nrlmmd-geoips.github.io/PKGNAME/versions.json",  # REVIEW
+        # (Change URL if using versioned docs deployed to different org name/domain)
         "version_match": docs_version,
     }
-}
 
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []
