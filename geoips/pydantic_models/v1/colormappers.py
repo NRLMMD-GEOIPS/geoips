@@ -4,7 +4,6 @@
 """Pydantic models used to validate GeoIPS OBP v1 colormapper plugins."""
 
 # Python Standard Libraries
-from typing import List
 
 # Third-Party Libraries
 from pydantic import Field
@@ -83,7 +82,7 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
             "matplotlib.colors.Normalize(vmin=min_val, vmax=max_val)"
         ),
     )
-    pressure_range_legend: List[str] | None = Field(
+    pressure_range_legend: list[str] | None = Field(
         None,
         description="List of strings that are used for setting the cbar tick labels",
     )
