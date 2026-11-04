@@ -81,6 +81,8 @@ Before defining any new Pydantic configuration, please refer to ` CoreBaseModel`
 
 - refer issue 1533
 
+---
+
 
 ## 2. Algorithm Plugins
 
@@ -114,6 +116,7 @@ Before defining any new Pydantic configuration, please refer to ` CoreBaseModel`
 | `time_dim` | `StrictInt \| None` | `None` | Time dimension index. Alias: `Time_Dimension` (PascalCase — legacy). |
 | `grid_geo` | `StrictBool \| None` | `None` | *(no description)* |
 
+---
 
 
 ## 3. Colormapper Plugins
@@ -144,6 +147,10 @@ Colormapper arguments are defined in `geoips/pydantic_models/v1/colormappers.py`
 | `set_label_kwarg` | `dict \| None` | `None` | Extra kwargs passed directly to `cbar.set_label`. |
 
 
+---
+
+
+
 ## 4. Coverage Checker Plugins
 
 ### Current
@@ -153,3 +160,169 @@ Colormapper arguments are defined in `geoips/pydantic_models/v1/colormappers.py`
 | `variable_name` | `str` ⚠ | `None` | Variable name to check percent unmasked. |
 | `area_def` | `str` ⚠ | `None` | Area definition identifier. |
 | `radius_km` | `Optional[float]` ⚠ | `300` | Radius in km of center disk to check for coverage. |
+
+---
+
+
+## 5. Feature Annotator Plugins
+
+Feature annotators have **no step-level arguments** — all configuration lives in the
+plugin's own `spec` YAML. A workflow step references the annotator by name only:
+
+```yaml
+- kind: feature_annotator
+  name: tc_clean
+```
+
+The plugin `spec` is validated by models in
+`geoips/pydantic_models/v1/feature_annotators.py`.
+
+### `CartopyFeature` fields (per-feature in `spec`)
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `enabled` | `bool` | yes | Enable this cartopy feature layer. |
+| `edgecolor` | `ColorType \| None` | when `enabled=True` | Edge color for the feature. |
+| `linewidth` | `float \| None` | when `enabled=True` | Line width in pixels. |
+
+A `@model_validator` enforces that `edgecolor` and `linewidth` are both provided
+when `enabled=True`.
+
+### `FeatureAnnotatorSpec` top-level keys
+
+`coastline`, `borders`, `rivers`, `states` — each a `CartopyFeature` — plus an
+optional `background` color.
+
+---
+
+
+
+## 6. Gridline Annotator Plugins
+
+Like feature annotators, gridline annotators have **no step-level arguments**.
+All configuration is defined in the plugin's `spec` YAML, validated by models in
+`geoips/pydantic_models/v1/gridline_annotators.py`.
+
+### `GridlineAnnotatorSpec` structure
+
+| Section | Key fields | Notes |
+|---|---|---|
+| `spacing` | `latitude`, `longitude` | `float` or `"auto"` |
+| `labels` | `top`, `bottom`, `left`, `right` (required) + 17 optional style fields | Style fields mirror matplotlib `Text` kwargs |
+| `lines` | `color`, `linestyle`, `linewidth` | All three required |
+| `background` | `ColorType \| None` | Optional |
+
+### Notes
+
+- `linestyle` expects `List[int]` with exactly 2 items (dash pattern). The
+  `min_items=2, max_items=2` constraint uses old pydantic v1 syntax; v2 uses
+  `min_length=2, max_length=2`.
+- `Labels` has 21 fields, 17 of which are optional style pass-throughs. A future
+  improvement would be a single `text_kwargs: dict | None` to absorb arbitrary
+  matplotlib `Text` kwargs instead of re-declaring each one.
+
+---
+
+
+## 7. Interpolator Plugins
+
+Interpolator arguments are defined in `geoips/pydantic_models/v1/interpolators.py`
+as `InterpolatorArgumentsModel`, which inherits from two parent models:
+`InterpGaussInterpolator` and `InterpGridInterpolator`.
+
+### Current
+
+| Argument | Type | Default | Source | Description |
+|---|---|---|---|---|
+| `sigmaval` | `int` | `10000` | `InterpGaussInterpolator` | Sigma multiplication factor for gaussian interpolation. |
+| `drop_nan` | `StrictBool` | `False` | `InterpGaussInterpolator` | Drop NaN values before interpolating. |
+| `method` | `str` | `"linear"` | `InterpGridInterpolator` | Grid interpolation method. |
+| `area_def` | `str \| None` | `None` | `InterpolatorArgumentsModel` | Area definition identifier. |
+| `varlist` | `List[str] \| None`  | `None` | `InterpolatorArgumentsModel` | Variables to interpolate. |
+
+
+### Changes
+
+- use per-interpolator subclasses or a discriminated union so each variant only accepts its own fields.
+
+---
+
+
+## 8. Output Checker Plugins
+
+Output checker arguments are defined in
+`geoips/pydantic_models/v1/output_checkers.py` as
+`OutputCheckerArgumentsModel`. Unlike all other argument models, it inherits from
+`FrozenModel` (not `PermissiveFrozenModel`) — extra fields are rejected.
+
+### Current
+
+| Argument | Type | Default | Description |
+|---|---|---|---|
+| `compare_path` | `FilePath \| str` | **required** | Path to the reference/comparison file. |
+| `output_products` | `Optional[List[FilePath] \| List[str]]` | `None` | Paths to the output files to compare. |
+| `threshold` | `float \| None` | `None` | Pixelmatch comparison tolerance (0 = strictest, 1 = most lenient). |
+
+
+
+## 9. Output Formatter Plugins
+
+Output formatter arguments are defined in
+`geoips/pydantic_models/v1/output_formatters.py` as
+`OutputFormatterArgumentsModel`. This is the largest argument model in GeoIPS.
+
+### Current
+
+| Argument | Type | Default | Description |
+|---|---|---|---|
+| `append` | `bool` | `False` | Open output file in append mode. |
+| `area_def` | `AreaDefinition \| None` | `None` | Domain over which to read data. |
+| `basedir` | `str` | plugin-provided | Base path used for relative metadata paths. |
+| `bg_data` | `Any \| None` | `None` | *(no description)* |
+| `bg_datatype_title` | `str \| None` | `None` | Background data type label. |
+| `bg_mpl_colors_info` | `dict \| None` | `None` | Matplotlib colormap config for background dataset. |
+| `bg_product_name_title` | `str \| None` | `None` | Title of background product. |
+| `bg_xarray` | `Any \| None` | `None` | *(no description)* |
+| `cog` | `bool` | `True` | Produce a Cloud-Optimized GeoTIFF. |
+| `clean_fname` | `str \| None` | `None` | Output path for overlay-free image. |
+| `clobber` | `bool` | `False` | Overwrite output file even if it exists. |
+| `existing_image` | `str \| None` | `None` | File path for pre-rendered image to composite onto. |
+| `hist_colorbar` | `bool` | plugin-provided | Display histogram-enhanced colorbar. |
+| `is_3d` | `bool` | `False` | Interpret product data as a 3D array. |
+| `metadata_dir` | `str` | `"metadata"` | Subdirectory name for metadata output. |
+| `metadata_fname_dict` | `dict \| None` | `None` | Filename metadata for TC metadata YAML output. |
+| `mpl_colors_info` | `dict \| None` | `None` | Matplotlib colormap config dict from `set_matplotlib_colors_standard`. |
+| `output_dict` | `dict \| None` | `None` | Product spec overrides for coverage checking. |
+| `output_fname_dict` | `dict \| None` | `None` | *(no description)* |
+| `overwrite` | `bool` | `True` | Skip writing if output file already exists when `False`. |
+| `pressure_range_dict` | `dict \| None` | `None` | *(no description)* |
+| `product_datatype_title` | `str \| None` | `None` | Display name for data type in figure title. |
+| `product_name_title` | `str \| None` | `None` | Display name for product in figure titles. |
+| `remove_duplicate_minrange` | `Any \| None` | `None` | *(no description, untyped)* |
+| `savefig_kwargs` | `dict \| None` | `None` | Extra kwargs for matplotlib `savefig()`. |
+| `title_copyright` | `str \| None` | `None` | Copyright string for figure title. |
+| `title_formatter` | `str \| None` | `None` | Title format string. |
+| `use_compression` | `bool` | `False` | Apply zlib compression when writing netCDF output. |
+| `var_name` | `str \| None` | `None` | Variable name to extract from xarray for plotting. |
+| `working_directory` | `str` | plugin-provided | Base output directory for generated files. |
+| `x_size` | `int` | `None` | Pixel width of the projected area. |
+| `y_size` | `int` | `None` | Pixel height of the projected area. |
+
+
+
+## 10. Title Formatter Plugins
+
+Title formatter arguments are defined in
+`geoips/pydantic_models/v1/title_formatters.py` as
+`TitleFormatterArgumentsModel`.
+
+### Current
+
+| Argument | Type | Default | Description |
+|---|---|---|---|
+| `area_def` | `str` ⚠ | `None` | Area definition identifier. |
+| `product_name_title` | `str` ⚠ | `None` | Product name title string. |
+| `product_datatype_title` | `str` ⚠ | `None` | Data type label for the figure title. |
+| `bg_product_name_title` | `str` ⚠ | `None` | Background product name title. |
+| `bg_datatype_title` | `str` ⚠ | `None` | Background data type label. |
+| `title_copyright` | `str` ⚠ | `None` | Copyright string appended to the generated title. |
