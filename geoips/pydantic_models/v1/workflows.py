@@ -22,7 +22,7 @@ import datetime as dt
 from glob import glob
 import logging
 import re
-from typing import Any, Literal, Optional
+from typing import Any, Literal
 
 # Third-Party Libraries
 from pydantic import (
@@ -1256,7 +1256,7 @@ class OutputCheckerOverrideModel(PermissiveFrozenModel):
         ...
     """
 
-    name: Optional[str] = Field(
+    name: str | None = Field(
         None,
         description=(
             "The name of the output checker plugin to use. If None, use a default "
@@ -1268,7 +1268,7 @@ class OutputCheckerOverrideModel(PermissiveFrozenModel):
         None,
         description="The path to the comparison file.",
     )
-    threshold: Optional[float] = Field(
+    threshold: float | None = Field(
         None,
         description=(
             "Threshold for the image comparison. Argument to pixelmatch. Between "
@@ -1300,7 +1300,7 @@ class WorkflowTestModel(FrozenModel):
     #     globals:
     #         minimum_coverage: <float>
     #         product_name: <some_value>
-    arguments: Optional[dict[str, Any]] | None = Field(
+    arguments: dict[str, Any] | None = Field(
         None, description="Argument overrides to apply to your workflow."
     )
 
@@ -1369,7 +1369,7 @@ class WorkflowPluginModel(PluginModel):
         ],
     )
 
-    arguments: Optional[dict[str, Any]] | None = Field(
+    arguments: dict[str, Any] | None = Field(
         None, description="Argument overrides to apply to your workflow."
     )
 
