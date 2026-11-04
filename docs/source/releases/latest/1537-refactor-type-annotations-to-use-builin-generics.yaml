@@ -1,0 +1,32 @@
+refactor:
+- title: 'Replace typing module generics with built-in equivalents in pydantic_models/v1'
+  description: >
+    Replaced deprecated typing module generics with built-in equivalents across 12
+    pydantic_models/v1 files. The migrated generics are: list, dict, tuple,
+    union, and optional.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/pydantic_models/v1/algorithms.py'
+    - 'geoips/pydantic_models/v1/bases.py'
+    - 'geoips/pydantic_models/v1/colormappers.py'
+    - 'geoips/pydantic_models/v1/coverage_checkers.py'
+    - 'geoips/pydantic_models/v1/feature_annotators.py'
+    - 'geoips/pydantic_models/v1/gridline_annotators.py'
+    - 'geoips/pydantic_models/v1/interpolators.py'
+    - 'geoips/pydantic_models/v1/output_checkers.py'
+    - 'geoips/pydantic_models/v1/products.py'
+    - 'geoips/pydantic_models/v1/readers.py'
+    - 'geoips/pydantic_models/v1/sectors.py'
+    - 'geoips/pydantic_models/v1/workflows.py'
+  related-issue:
+    number: 1537
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: '2026-11-04'
+    finish: '2026-11-04'
