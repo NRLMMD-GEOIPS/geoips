@@ -6,7 +6,7 @@
 # cspell:ignore fcst
 
 # Python Standard Libraries
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 # Third-Party Libraries
 from pydantic import Field, StrictBool, StrictFloat, StrictInt
