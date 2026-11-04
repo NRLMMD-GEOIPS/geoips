@@ -22,7 +22,7 @@ import datetime as dt
 from glob import glob
 import logging
 import re
-from typing import Any, Literal, Optional, Union
+from typing import Any, Literal, Optional
 
 # Third-Party Libraries
 from pydantic import (
