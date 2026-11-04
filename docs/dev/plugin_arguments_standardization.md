@@ -96,25 +96,25 @@ Before defining any new Pydantic configuration, please refer to ` CoreBaseModel`
 | `output_data_range` | `tuple[StrictFloat, StrictFloat] \| None` | `None` | Min and max output value. Applied last, after all other corrections. |
 | `min_outbounds` | `str \| None` | `None` | How to handle values below `output_data_range` minimum: `retain`, `mask`, or `crop`. |
 | `max_outbounds` | `str \| None` | `None` | How to handle values above `output_data_range` maximum: `retain`, `mask`, or `crop`. |
-| `norm` | `StrictBool`  | `None` | Normalize output to `[0, 1]`. |
-| `inverse` | `StrictBool`  | `None` | Invert output values. |
-| `scale_factor` | `float \| None` | `None` | *(no description)* |
-| `input_units` | `str`  | `None` | Units of input data, for applying necessary conversions. |
-| `output_units` | `str`  | `None` | *(description says "input data" — copy-paste error)* |
-| `gamma_list` | `list[StrictFloat] \| None` | `None` | *(no description)* |
-| `mask_night` | `bool`  | `None` | *(no description)* |
-| `mask_day` | `bool`  | `None` | *(no description)* |
-| `max_day_zen` | `float \| None` | `None` | *(no description)* |
-| `min_night_zen` | `float \| None` | `None` | *(no description)* |
-| `max_night_zen` | `float \| None` | `None` | *(no description)* |
+| `norm` | `StrictBool` | `None` | Normalize output to `[0, 1]`. *(annotation missing `\| None` — pending fix)* |
+| `inverse` | `StrictBool` | `None` | Invert output values. *(annotation missing `\| None` — pending fix)* |
+| `scale_factor` | `float \| None` | `None` | Scalar multiplier applied to the output data. |
+| `input_units` | `str` | `None` | Units of input data for applying necessary conversions. *(annotation missing `\| None` — pending fix)* |
+| `output_units` | `str` | `None` | Units of output data for applying necessary conversions. *(annotation missing `\| None` — pending fix)* |
+| `gamma_list` | `list[StrictFloat] \| None` | `None` | Gamma correction values to apply per channel. |
+| `mask_night` | `bool \| None` | `None` | If True, mask pixels classified as night. |
+| `mask_day` | `bool \| None` | `None` | If True, mask pixels classified as day. |
+| `max_day_zen` | `float \| None` | `None` | Maximum solar zenith angle in degrees to classify as day. |
+| `min_night_zen` | `float \| None` | `None` | Minimum solar zenith angle in degrees to classify as night. |
+| `max_night_zen` | `float \| None` | `None` | Maximum solar zenith angle in degrees to classify as night. |
 | `sun_zen_correction` | `StrictBool \| None` | `None` | Apply solar zenith angle correction to output. |
 | `satellite_zenith_angle_cutoff` | `float \| None` | `None` | Mask data where satellite zenith angle exceeds this threshold. |
 | `pressure_level_range` | `tuple[float, float] \| None` | `None` | Min and max pressure levels for filtering DMW retrievals. |
-| `pressure_key` | `str \| None` | `None` | *(no description)* |
-| `time_key` | `str`  | `None` | *(no description)* |
-| `time_fcst` | `StrictInt \| None` | `None` | *(no description)* |
-| `time_dim` | `StrictInt \| None` | `None` | Time dimension index. Alias: `Time_Dimension` (PascalCase — legacy). |
-| `grid_geo` | `StrictBool \| None` | `None` | *(no description)* |
+| `pressure_key` | `str \| None` | `None` | Variable name used to identify pressure levels in the dataset. |
+| `time_key` | `str \| None` | `None` | Variable name used to identify the time dimension in the dataset. |
+| `time_fcst` | `StrictInt \| None` | `None` | Index of the forecast time offset along the time dimension. |
+| `time_dim` | `StrictInt \| None` | `None` | Number of elements along the time dimension. Alias: `Time_Dimension` (PascalCase — legacy). |
+| `grid_geo` | `StrictBool \| None` | `None` | If True, regrid data to a geographic grid before processing. |
 
 ---
 
@@ -137,12 +137,12 @@ Colormapper arguments are defined in `geoips/pydantic_models/v1/colormappers.py`
 | `cbar_ticks` | `list[float] \| None` | `None` | Explicit list of colorbar tick positions. |
 | `cbar_tick_labels` | `list[str] \| None` | `None` | Labels passed to `cbar.set_ticks`. |
 | `cmap_name` | `str` | plugin-provided | Name of the matplotlib colormap. |
-| `cmap_path` | `str \| None` | `None` | *(no description)* |
-| `cmap_source` | `str` | plugin-provided | *(no description)* |
+| `cmap_path` | `str \| None` | `None` | Path to an ASCII colormap file. If None, `cmap_name` is used. |
+| `cmap_source` | `str` | plugin-provided | Source identifier for the colormap. |
 | `colorbar_kwargs` | `dict \| None` | `None` | Extra kwargs passed directly to `fig.colorbar`. |
 | `create_colorbar` | `bool \| None` | `True` | Whether to include a colorbar in the image. |
 | `data_range` | `tuple[float, float] \| str` | plugin-provided | Min and max value for colormap normalization. |
-| `pressure_range_legend` | `List[str] \| None`  | `None` | Strings used for colorbar tick labels. |
+| `pressure_range_legend` | `list[str] \| None` | `None` | Strings used for colorbar tick labels. |
 | `set_ticks_kwargs` | `dict \| None` | `None` | Extra kwargs passed directly to `cbar.set_ticks`. |
 | `set_label_kwarg` | `dict \| None` | `None` | Extra kwargs passed directly to `cbar.set_label`. |
 
@@ -157,9 +157,9 @@ Colormapper arguments are defined in `geoips/pydantic_models/v1/colormappers.py`
 
 | Argument | Type | Default | Description |
 |---|---|---|---|
-| `variable_name` | `str` | `None` | Variable name to check percent unmasked. |
-| `area_def` | `str` | `None` | Area definition identifier. |
-| `radius_km` | `Optional[float]` | `300` | Radius in km of center disk to check for coverage. |
+| `variable_name` | `str` | `None` | Variable name to check percent unmasked. *(annotation missing `\| None` — pending fix)* |
+| `area_def` | `str \| None` | `None` | Area definition identifier. |
+| `radius_km` | `float \| None` | `300` | Radius in km of center disk to check for coverage. |
 
 ---
 
@@ -214,9 +214,8 @@ All configuration is defined in the plugin's `spec` YAML, validated by models in
 
 ### Notes
 
-- `linestyle` expects `List[int]` with exactly 2 items (dash pattern). The
-  `min_items=2, max_items=2` constraint uses old pydantic v1 syntax; v2 uses
-  `min_length=2, max_length=2`.
+- `linestyle` expects `list[int]` with exactly 2 items (dash pattern). The
+  `min_length=2, max_length=2` constraint is enforced via pydantic v2 field constraints.
 - `Labels` has 21 fields, 17 of which are optional style pass-throughs. A future
   improvement would be a single `text_kwargs: dict | None` to absorb arbitrary
   matplotlib `Text` kwargs instead of re-declaring each one.
@@ -238,7 +237,7 @@ as `InterpolatorArgumentsModel`, which inherits from two parent models:
 | `drop_nan` | `StrictBool` | `False` | `InterpGaussInterpolator` | Drop NaN values before interpolating. |
 | `method` | `str` | `"linear"` | `InterpGridInterpolator` | Grid interpolation method. |
 | `area_def` | `str \| None` | `None` | `InterpolatorArgumentsModel` | Area definition identifier. |
-| `varlist` | `List[str] \| None`  | `None` | `InterpolatorArgumentsModel` | Variables to interpolate. |
+| `varlist` | `list[str] \| None` | `None` | `InterpolatorArgumentsModel` | Variables to interpolate. |
 
 
 ### Changes
@@ -260,7 +259,7 @@ Output checker arguments are defined in
 | Argument | Type | Default | Description |
 |---|---|---|---|
 | `compare_path` | `FilePath \| str` | **required** | Path to the reference/comparison file. |
-| `output_products` | `Optional[List[FilePath] \| List[str]]` | `None` | Paths to the output files to compare. |
+| `output_products` | `list[FilePath] \| list[str] \| None` | `None` | Paths to the output files to compare. |
 | `threshold` | `float \| None` | `None` | Pixelmatch comparison tolerance (0 = strictest, 1 = most lenient). |
 
 
@@ -278,11 +277,11 @@ Output formatter arguments are defined in
 | `append` | `bool` | `False` | Open output file in append mode. |
 | `area_def` | `AreaDefinition \| None` | `None` | Domain over which to read data. |
 | `basedir` | `str` | plugin-provided | Base path used for relative metadata paths. |
-| `bg_data` | `Any \| None` | `None` | *(no description)* |
+| `bg_data` | `Any \| None` | `None` | Background dataset assigned from the DataTree for rendering. |
 | `bg_datatype_title` | `str \| None` | `None` | Background data type label. |
 | `bg_mpl_colors_info` | `dict \| None` | `None` | Matplotlib colormap config for background dataset. |
 | `bg_product_name_title` | `str \| None` | `None` | Title of background product. |
-| `bg_xarray` | `Any \| None` | `None` | *(no description)* |
+| `bg_xarray` | `Any \| None` | `None` | Background xarray dataset used to construct the platform title string. |
 | `cog` | `bool` | `True` | Produce a Cloud-Optimized GeoTIFF. |
 | `clean_fname` | `str \| None` | `None` | Output path for overlay-free image. |
 | `clobber` | `bool` | `False` | Overwrite output file even if it exists. |
@@ -293,12 +292,12 @@ Output formatter arguments are defined in
 | `metadata_fname_dict` | `dict \| None` | `None` | Filename metadata for TC metadata YAML output. |
 | `mpl_colors_info` | `dict \| None` | `None` | Matplotlib colormap config dict from `set_matplotlib_colors_standard`. |
 | `output_dict` | `dict \| None` | `None` | Product spec overrides for coverage checking. |
-| `output_fname_dict` | `dict \| None` | `None` | *(no description)* |
+| `output_fname_dict` | `dict \| None` | `None` | Mapping of output product keys to their generated file paths. |
 | `overwrite` | `bool` | `True` | Skip writing if output file already exists when `False`. |
-| `pressure_range_dict` | `dict \| None` | `None` | *(no description)* |
+| `pressure_range_dict` | `dict \| None` | `None` | Pressure range boundaries used for legend tick labels. |
 | `product_datatype_title` | `str \| None` | `None` | Display name for data type in figure title. |
 | `product_name_title` | `str \| None` | `None` | Display name for product in figure titles. |
-| `remove_duplicate_minrange` | `Any \| None` | `None` | *(no description, untyped)* |
+| `remove_duplicate_minrange` | `Any \| None` | `None` | Passed to `save_image()` for duplicate removal; currently a no-op. |
 | `savefig_kwargs` | `dict \| None` | `None` | Extra kwargs for matplotlib `savefig()`. |
 | `title_copyright` | `str \| None` | `None` | Copyright string for figure title. |
 | `title_formatter` | `str \| None` | `None` | Title format string. |
@@ -320,9 +319,9 @@ Title formatter arguments are defined in
 
 | Argument | Type | Default | Description |
 |---|---|---|---|
-| `area_def` | `str` | `None` | Area definition identifier. |
-| `product_name_title` | `str` | `None` | Product name title string. |
-| `product_datatype_title` | `str` | `None` | Data type label for the figure title. |
-| `bg_product_name_title` | `str` | `None` | Background product name title. |
-| `bg_datatype_title` | `str` | `None` | Background data type label. |
-| `title_copyright` | `str` | `None` | Copyright string appended to the generated title. |
+| `area_def` | `str \| None` | `None` | Area definition identifier. |
+| `product_name_title` | `str \| None` | `None` | Product name title string. |
+| `product_datatype_title` | `str \| None` | `None` | Data type label for the figure title. |
+| `bg_product_name_title` | `str \| None` | `None` | Background product name title. |
+| `bg_datatype_title` | `str \| None` | `None` | Background data type label. |
+| `title_copyright` | `str \| None` | `None` | Copyright string appended to the generated title. |
