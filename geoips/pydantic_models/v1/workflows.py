@@ -1264,7 +1264,7 @@ class OutputCheckerOverrideModel(PermissiveFrozenModel):
         ),
         alias="output_checker_name",
     )
-    compare_path: Union[FilePath, str, None] = Field(
+    compare_path: FilePath | str | None = Field(
         None,
         description="The path to the comparison file.",
     )
