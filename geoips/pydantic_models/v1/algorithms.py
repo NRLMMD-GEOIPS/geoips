@@ -112,11 +112,21 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         description="Cutoff for masking data where satellite zenith angle exceeds"
         "threshold. None, no masking",
     )
-    pressure_key: str | None = Field(None)
-    time_key: str | None = Field(None)
-    time_fcst: StrictInt | None = Field(None)
-    time_dim: StrictInt | None = Field(None, alias="Time_Dimension")
-    grid_geo: StrictBool | None = Field(None)
+    pressure_key: str | None = Field(
+        None, description="Variable name used to identify pressure levels in the dataset."
+    )
+    time_key: str | None = Field(
+        None, description="Variable name used to identify the time dimension in the dataset."
+    )
+    time_fcst: StrictInt | None = Field(
+        None, description="Forecast time offset index into the time dimension."
+    )
+    time_dim: StrictInt | None = Field(
+        None, alias="Time_Dimension", description="Size of the time dimension in the dataset."
+    )
+    grid_geo: StrictBool | None = Field(
+        None, description="If True, regrid data to a geographic grid before processing."
+    )
     var_map: Optional[Dict[str, str]] = Field(
         {}, description="Dictionary that maps input variables to names used in xobj"
     )
