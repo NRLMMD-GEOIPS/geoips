@@ -18,7 +18,7 @@ import keyword
 import logging
 import os
 from pathlib import Path
-from typing import Any, ClassVar, Union, Tuple, Type
+from typing import Any, ClassVar, Union, Type
 import warnings
 
 # Third-Party Libraries
@@ -42,7 +42,7 @@ from geoips.geoips_utils import get_interface_module
 
 LOG = logging.getLogger(__name__)
 
-ColorTuple = Union[Tuple[float, float, float], Tuple[float, float, float, float]]
+ColorTuple = Union[tuple[float, float, float], tuple[float, float, float, float]]
 ColorType = Union[ColorTuple, str]
 
 
@@ -145,7 +145,7 @@ class CoreBaseModel(BaseModel):
         - This method would be further enhanced in future PR
     """
 
-    restricted_fields: ClassVar[Tuple[str, ...]] = ()
+    restricted_fields: ClassVar[tuple[str, ...]] = ()
     model_config = ConfigDict(
         # If True, trim white space around input
         str_strip_whitespace=True,
@@ -439,7 +439,7 @@ class PluginModelMetadata(ModelMetaclass):
     def __new__(
         mcs: Type[PluginModelMetadata],
         name: str,
-        bases: Tuple[type, ...],
+        bases: tuple[type, ...],
         namespace: dict[str, Any],
         **kwargs: Any,
     ) -> type:
