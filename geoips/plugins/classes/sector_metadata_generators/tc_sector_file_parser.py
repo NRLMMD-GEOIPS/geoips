@@ -62,7 +62,8 @@ class TcSectorFileParserSectorMetadataGeneratorPlugin(
         final_storm_name = None
         tc_year = None
 
-        flatsf_lines = open(trackfile_name).readlines()
+        with open(trackfile_name, "r") as f:
+            flatsf_lines = f.readlines()
         all_fields = []
 
         for line in flatsf_lines:
