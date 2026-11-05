@@ -37,7 +37,6 @@ class OrderBased(BaseProcflowPlugin):
     """
 
     interface = "procflows"
-    family = "order_based"
     name = "order_based"
 
     def call(

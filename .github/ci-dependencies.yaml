@@ -1,6 +1,6 @@
 # Test-only dependency overrides, keyed by branch: only the entry of the branch under
 # test applies (see "Testing against other branches or versions" in the geoips_ci README).
-add-test-data-sgli:
+remove-enforcement-of-family-for-datatree-plugins:
   repos:
 
     # Lint fixes, from jthielen's forks (owner:ref).
@@ -11,3 +11,7 @@ add-test-data-sgli:
     # (the night side differs by a few pixels between runs).
     # NRLMMD-GEOIPS/geoips_proxyvis#12
     geoips_proxyvis: image-comparison-tolerance
+
+
+    # The sibling PR for these changes
+    pluginify: remove-enforcement-of-family-for-datatree-plugins
