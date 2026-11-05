@@ -21,6 +21,10 @@ import pytest
 from geoips.geoips_utils import call_cmd
 from geoips.interfaces import workflows
 
+mimic_workflow_names = [
+    "mimic_coarse_static_tpw_cimss_imagery_annotated",
+]
+
 ami_workflow_names = [
     "ami_static_infrared_imagery_clean",
     "ami_static_visible_imagery_clean",
@@ -97,7 +101,11 @@ def _run_obp_workflow(workflow_name, fail_on_missing_data):
         )
 
 
-all_workflow_names = ami_workflow_names + seviri_workflow_names
+all_workflow_names = (
+    mimic_workflow_names
+    + ami_workflow_names
+    + seviri_workflow_names
+)
 
 
 @pytest.mark.full
