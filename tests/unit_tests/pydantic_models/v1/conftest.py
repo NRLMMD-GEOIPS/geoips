@@ -19,21 +19,6 @@ from geoips.interfaces import sectors
 
 
 @pytest.fixture
-def valid_step_data():
-    """Fixture to provide sample valid plugin data for testing."""
-    return {
-        "kind": "reader",
-        "name": "abi_netcdf",
-        "arguments": {
-            "area_def": sectors.get_plugin("denver").area_definition,
-            "variables": ["None"],
-            "metadata_only": False,
-            "self_register": "LOW",
-        },
-    }
-
-
-@pytest.fixture
 def valid_interfaces(valid_plugin_kinds):
     """Fixture to provide list of valid GeoIPS interfaces."""
     return {f"{plugin_kind}s" for plugin_kind in valid_plugin_kinds}
