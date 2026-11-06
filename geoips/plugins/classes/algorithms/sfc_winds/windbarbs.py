@@ -7,7 +7,7 @@ Data manipulation steps for surface winds products.
 This algorithm expects surface wind speeds in units of kts
 """
 
-from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
+from geoips.interfaces.class_based.bases.algorithms import BaseAlgorithmPlugin
 
 import logging
 

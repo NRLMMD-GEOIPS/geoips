@@ -3,7 +3,7 @@
 
 """Advanced Himawari Imager Data Reader."""
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.bases.readers import BaseReaderPlugin
 
 # cspell:ignore BADVALS, FLDK, GEOLL, GSICS, adname, calib, cfac, currchan, dsname
 # cspell:ignore sclunit, nprocs, gvars, nseg, segs

@@ -3,7 +3,9 @@
 
 """Coverage check routine for center radius coverage checks."""
 
-from geoips.interfaces.class_based.coverage_checkers import BaseCoverageCheckerPlugin
+from geoips.interfaces.class_based.bases.coverage_checkers import (
+    BaseCoverageCheckerPlugin,
+)
 
 import logging
 

@@ -7,7 +7,7 @@ Data manipulation steps for derived motion winds products.
 This algorithm expects derived motion wind speeds at various pressures
 """
 
-from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
+from geoips.interfaces.class_based.bases.algorithms import BaseAlgorithmPlugin
 
 import logging
 

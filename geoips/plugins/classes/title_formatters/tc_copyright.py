@@ -3,7 +3,9 @@
 
 """Standard GeoIPS formatted titles for TC products, with copyright info."""
 
-from geoips.interfaces.class_based.title_formatters import BaseTitleFormatterPlugin
+from geoips.interfaces.class_based.bases.title_formatters import (
+    BaseTitleFormatterPlugin,
+)
 
 # Python Standard Libraries
 import logging

@@ -39,7 +39,7 @@ or
 
 """
 
-from geoips.interfaces.class_based.sector_metadata_generators import (
+from geoips.interfaces.class_based.bases.sector_metadata_generators import (
     DeckSectorMetaGeneratorPlugin,
 )
 

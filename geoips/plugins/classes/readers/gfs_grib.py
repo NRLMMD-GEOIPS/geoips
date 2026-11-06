@@ -12,7 +12,7 @@
 This reader can take in multiple forcast times at multiple analysis times.
 """
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.bases.readers import BaseReaderPlugin
 
 # Python Standard Libraries
 import logging

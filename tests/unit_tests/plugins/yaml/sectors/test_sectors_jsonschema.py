@@ -5,7 +5,7 @@
 
 import pytest
 from geoips import interfaces
-from geoips.interfaces.yaml_based.sectors import SectorPluginBase
+from geoips.interfaces.yaml_based.bases.sectors import BaseSectorPlugin
 
 
 def test_get_all_sectors():
@@ -21,7 +21,7 @@ def gen_ids(sector_dict):
 @pytest.mark.parametrize("sector", interfaces.sectors.get_plugins(), ids=gen_ids)
 def test_sector(sector):
     """Ensure that a sector has the correct attributes."""
-    assert isinstance(sector, SectorPluginBase)
+    assert isinstance(sector, BaseSectorPlugin)
     assert sector.interface == "sectors"
     assert sector.name
     assert sector.family

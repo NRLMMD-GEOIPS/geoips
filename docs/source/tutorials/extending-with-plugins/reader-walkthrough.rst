@@ -114,7 +114,7 @@ GeoIPS what this plugin is:
     import numpy
     import xarray
 
-    from geoips.interfaces.class_based.readers import BaseReaderPlugin
+    from geoips.interfaces.class_based.bases.readers import BaseReaderPlugin
 
     LOG = logging.getLogger(__name__)
 
@@ -281,7 +281,7 @@ with the same header pattern:
     import numpy
     import xarray
 
-    from geoips.interfaces.class_based.readers import BaseReaderPlugin
+    from geoips.interfaces.class_based.bases.readers import BaseReaderPlugin
 
     LOG = logging.getLogger(__name__)
 

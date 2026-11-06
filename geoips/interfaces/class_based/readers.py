@@ -13,11 +13,8 @@ import numpy as np
 import xarray as xr
 from xarray import concat, Dataset
 
-from geoips.utils.context_managers import import_optional_dependencies
 from geoips.errors import NoValidFilesError
-from geoips.interfaces.class_based_plugin import BaseClassPlugin
-from geoips.xarray_utils.coords import normalize_geoips_dataset_coords
-from geoips.interfaces.base import BaseClassInterface
+from geoips.interfaces.base import BaseClassInterface, BaseClassPlugin
 from geoips.plugins.classes.readers.utils.hrit_reader import HritError
 from geoips.plugins.classes.readers.utils.geostationary_geolocation import (
     check_geolocation_cache_backend,
@@ -25,6 +22,8 @@ from geoips.plugins.classes.readers.utils.geostationary_geolocation import (
     AutoGenError,
     DONT_AUTOGEN_GEOLOCATION,
 )
+from geoips.utils.context_managers import import_optional_dependencies
+from geoips.utils.xarray_utils import normalize_geoips_dataset_coords
 
 LOG = logging.getLogger(__name__)
 
@@ -35,8 +34,6 @@ with import_optional_dependencies(loglevel="info"):
     # and the package will have to be installed to process data of this type.
     import numexpr as ne
     import zarr
-
-LOG = logging.getLogger(__name__)
 
 
 class BaseReaderPlugin(BaseClassPlugin, abstract=True):
@@ -524,7 +521,6 @@ class ReadersInterface(BaseClassInterface):
     """
 
     name = "readers"
-    plugin_class = BaseReaderPlugin
 
     required_args = {"standard": ["fnames"]}
     required_kwargs = {

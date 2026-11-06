@@ -6,7 +6,7 @@
 WFABBA is a geostationary fire product produced by SSEC
 """
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.bases.readers import BaseReaderPlugin
 
 # Python Standard Libraries
 from datetime import datetime

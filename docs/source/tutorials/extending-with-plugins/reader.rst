@@ -101,7 +101,7 @@ subclasses ``BaseReaderPlugin``, sets ``interface``/``family``/``name``, impleme
 
 .. code-block:: python
 
-    from geoips.interfaces.class_based.readers import BaseReaderPlugin
+    from geoips.interfaces.class_based.bases.readers import BaseReaderPlugin
 
 
     def convert_epoch_to_datetime64(time_array, use_shape=None):  # Utility function (module-level)

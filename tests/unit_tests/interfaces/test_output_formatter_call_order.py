@@ -9,7 +9,9 @@ import pytest
 import xarray as xr
 
 from geoips.errors import BoundaryIOError
-from geoips.interfaces.class_based.output_formatters import BaseOutputFormatterPlugin
+from geoips.interfaces.class_based.bases.output_formatters import (
+    BaseOutputFormatterPlugin,
+)
 
 
 class _AreaDef:

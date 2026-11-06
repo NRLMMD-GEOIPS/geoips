@@ -3,7 +3,9 @@
 
 """Coverage check routine for RGBA arrays."""
 
-from geoips.interfaces.class_based.coverage_checkers import BaseCoverageCheckerPlugin
+from geoips.interfaces.class_based.bases.coverage_checkers import (
+    BaseCoverageCheckerPlugin,
+)
 
 # Python Standard Libraries
 import logging

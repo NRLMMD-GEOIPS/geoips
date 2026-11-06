@@ -48,7 +48,7 @@ Also, variables (L1B_quality_flag and degraded_channels) are space holders for Q
 purposes. They are not used for now, but will be applied later.
 """
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.bases.readers import BaseReaderPlugin
 
 import logging
 from datetime import datetime

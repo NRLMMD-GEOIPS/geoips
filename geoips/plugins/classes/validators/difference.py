@@ -7,7 +7,7 @@ import logging
 
 import xarray
 
-from geoips.interfaces.class_based.validators import BaseValidatorPlugin
+from geoips.interfaces.class_based.bases.validators import BaseValidatorPlugin
 
 LOG = logging.getLogger(__name__)
 
