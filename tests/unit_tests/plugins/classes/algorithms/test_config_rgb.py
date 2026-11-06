@@ -14,6 +14,7 @@ class TestConfigRGBFunctionality:
     """Test the base functionality of the algorithm."""
 
     def setup_method(self) -> None:
+        """Set up basic config for testing."""
         self.test_config = {
             "red": {
                 "equation": {
@@ -66,10 +67,12 @@ class TestExpressionEvaluator:
     """Test expression evaluation."""
 
     def setup_method(self) -> None:
+        """Set up the expression evaluator normally."""
         self.alg = ConfigRgbAlgorithmPlugin()
         self.variables = {"x": np.array([1, 2, 3]), "y": np.array([4, 5, 6])}
 
     def test_resolve_function_valid(self):
+        """Resolve a valid function."""
         node = ast.parse("np.sin", mode="eval").body
 
         res = self.alg._resolve_function(node)
@@ -77,30 +80,35 @@ class TestExpressionEvaluator:
         assert res is np.sin
 
     def test_resolve_function_invalid_module(self):
+        """Throw an error when an invalid module is provided."""
         node = ast.parse("bogus.bogus", mode="eval").body
 
         with pytest.raises(ValueError, match="Module 'bogus' is not allowed"):
             self.alg._resolve_function(node)
 
     def test_resolve_function_invalid_method(self):
+        """Throw an error when an invalid function is provided."""
         node = ast.parse("np.bogus", mode="eval").body
 
         with pytest.raises(ValueError, match="Error getting function from expression"):
             self.alg._resolve_function(node)
 
     def test_safe_eval_valid(self):
+        """Test a valid `safe_eval` call."""
         res = self.alg.safe_eval("x + y", self.variables)
 
         assert isinstance(res, np.ndarray)
         assert np.array_equal(res, np.array([5, 7, 9]))
 
     def test_safe_eval_valid_with_numpy_function(self):
+        """Test `save_eval` with a numpy function."""
         res = self.alg.safe_eval("np.sin(x)", self.variables)
 
         assert isinstance(res, np.ndarray)
         assert np.array_equal(res, np.sin(self.variables["x"]))
 
     def test_safe_eval_valid_with_numpy_function_2(self):
+        """Test validation of `safe_eval` with a numpy function."""
         res = self.alg.safe_eval("np.sin(x) - np.cos(y)", self.variables)
 
         expected = np.sin(self.variables["x"]) - np.cos(self.variables["y"])
@@ -109,6 +117,7 @@ class TestExpressionEvaluator:
         assert np.array_equal(res, expected)
 
     def test_safe_eval_valid_with_scipy_function(self):
+        """Test `save_eval` with a scipy function."""
         res = self.alg.safe_eval("scipy.signal.detrend(x)", self.variables)
 
         expected = scipy.signal.detrend(self.variables["x"])
@@ -117,6 +126,7 @@ class TestExpressionEvaluator:
         assert np.array_equal(res, expected)
 
     def test_safe_eval_valid_with_pandas_function(self):
+        """Test safe evaluation with a pandas function."""
         res = self.alg.safe_eval("pd.isna(x)", self.variables)
 
         expected = pd.isna(self.variables["x"])
@@ -125,6 +135,7 @@ class TestExpressionEvaluator:
         assert np.array_equal(res, expected)
 
     def test_safe_eval_get_non_ndarray(self):
+        """Throw an error on non-ndarray returns."""
         with pytest.raises(
             ValueError,
             match="Provided expression returned <class 'pandas.DataFrame'>"
@@ -133,6 +144,7 @@ class TestExpressionEvaluator:
             self.alg.safe_eval("pd.DataFrame(x)", self.variables)
 
     def test_raw_value(self):
+        """Get the raw value from a provided variable."""
         res = self.alg.safe_eval("x", self.variables)
 
         assert np.array_equal(res, self.variables["x"])
