@@ -6,28 +6,45 @@
 		"target": "dev",
 		"args": {
 			"USER_ID": "${localEnv:UID:1000}",
-			"GROUP_ID": "${localEnv:GID:1000}"
+			"GROUP_ID": "${localEnv:GID:1000}",
+			"GEOIPS_USE_PRIVATE_PLUGINS": "${localEnv:GEOIPS_USE_PRIVATE_PLUGINS:false}"
+		},
+		// The token file is prepared by initialize.sh: it holds $GEOIPS_PRIVATE_TOKEN,
+		// else the token file from tests/ansible/README.md, else nothing.  It is not
+		// read with `--secret ...,env=VAR` because `docker build` fails when the
+		// variable is unset and build options cannot be made conditional here.
+		"options": [
+			"--secret",
+			"id=geoips_private_token,src=${localEnv:HOME}${localEnv:USERPROFILE}/.geoips/github-token"
+		]
+	},
+	// Host-side: creates ~/.geoips/{testdata,output} (or symlinks them to
+	// $GEOIPS_TESTDATA_DIR / $GEOIPS_OUTDIRS) and the private plugin token file.
+	"initializeCommand": "\"${localWorkspaceFolder}/.devcontainer/initialize.sh\"",
+	"postCreateCommand": "/packages/geoips/tests/ansible/scripts/devcontainer-setup.sh",
+	// sshd is configured in the Dockerfile `dev`/`dev-quick` stages (port 2222,
+	// key-only).  Log in as geoips_user with the keys in the host ~/.ssh/authorized_keys.
+	"postStartCommand": "sudo /usr/sbin/sshd",
+	"forwardPorts": [2222],
+	"portsAttributes": {
+		"2222": {
+			"label": "sshd",
+			"onAutoForward": "silent"
 		}
 	},
-	"initializeCommand": "mkdir -p ${localEnv:GEOIPS_TESTDATA_DIR:${env:HOME}${env:USERPROFILE}/.geoips/testdata} ${localEnv:GEOIPS_OUTDIRS:${env:HOME}${env:USERPROFILE}/.geoips/output} ${localEnv:CARTOPY_SHAPEFILES:${env:HOME}${env:USERPROFILE}/.geoips/cartopy}",
-	"postCreateCommand": "/packages/geoips/tests/ansible/scripts/devcontainer-setup.sh",
 	"mounts": [
 		"source=${localWorkspaceFolder}/../..,target=/workspaces-root,type=bind,consistency=cached",
 
-		// Cartopy shapefiles (shared across worktrees)
-		"source=${localEnv:CARTOPY_SHAPEFILES:${env:HOME}${env:USERPROFILE}/.geoips/cartopy}/shapefiles,target=/packages/shapefile,type=bind",
-		"source=${localEnv:CARTOPY_SHAPEFILES:${env:HOME}${env:USERPROFILE}/.geoips/cartopy}/clone,target=/packages/shapefiles_clone,type=bind",
+		// GeoIPS testdata (shared across worktrees); initialize.sh makes this path
+		// a symlink when GEOIPS_TESTDATA_DIR is set.  Cartopy shapefiles are baked
+		// into the image at /packages/shapefiles (CARTOPY_DATA_DIR=/packages).
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.geoips/testdata,target=/geoips_testdata,type=bind",
 
-		// GeoIPS testdata (shared across worktrees)
-		"source=${localEnv:GEOIPS_TESTDATA_DIR:${env:HOME}${env:USERPROFILE}/.geoips/testdata},target=/geoips_testdata,type=bind",
+		// Output directory; symlinked by initialize.sh when GEOIPS_OUTDIRS is set.
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.geoips/output,target=/output,type=bind",
 
-		// Output directory
-		"source=${localEnv:GEOIPS_OUTDIRS:${env:HOME}${env:USERPROFILE}/.geoips/output},target=/output,type=bind",
-
-		// SSH keys for geoips_user
-		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh/,target=/home/geoips_user/.ssh,type=bind",
-
-		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh/,target=/root/.ssh,type=bind"
+		// SSH keys for geoips_user (sshd on port 2222 + git over ssh)
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh/,target=/home/geoips_user/.ssh,type=bind"
 	],
 	"workspaceMount": "source=${localWorkspaceFolder},target=/packages/geoips,type=bind",
 	"workspaceFolder": "/packages/geoips",
@@ -54,12 +71,12 @@
 				"ms-python.isort"
 			],
 			"settings": {
-				"python.defaultInterpreterPath": "/home/geoips_user/.local/bin/python",
+				"python.defaultInterpreterPath": "/usr/local/bin/python",
 				"python.testing.pytestEnabled": true,
 				"python.testing.unittestEnabled": false,
-				"python.linting.enabled": true,
-				"python.linting.flake8Enabled": true,
-				"python.formatting.provider": "black"
+				"[python]": {
+					"editor.defaultFormatter": "ms-python.black-formatter"
+				}
 			}
 		}
 	}

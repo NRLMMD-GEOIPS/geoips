@@ -4,7 +4,7 @@ Docker Builds
 =============
 
 GeoIPS ships a multi-stage Dockerfile that uses Ansible playbooks internally
-to install the software.  Each stage corresponds to an installation tier and
+to install the software.  Each stage adds one layer of the installation and
 can be targeted independently.
 
 .. contents:: On this page
@@ -38,9 +38,10 @@ base integration tests with the data mounted into the container.
 Build targets
 -------------
 
-The Dockerfile defines the following stages.  Each inherits from the one
-above it, so ``geoips-site`` includes everything from ``geoips-full`` and
-``geoips-base``.
+The Dockerfile defines the stages below.  ``deps`` builds on ``base-os``;
+``geoips-base``, ``geoips-full``, ``geoips-site`` and ``dev`` each build on
+the one before; ``doclinttest`` and ``dev-quick`` branch off ``geoips-base``,
+and ``production`` branches off ``base-os``.
 
 .. list-table::
    :header-rows: 1
@@ -49,31 +50,55 @@ above it, so ``geoips-site`` includes everything from ``geoips-full`` and
    * - Target
      - Description
    * - ``base-os``
-     - System packages only (``git``, ``g++``, ``gfortran``, ``ansible-core``,
-       etc.).  Not intended for direct use.
+     - ``python:3.11-slim-trixie`` with the system packages (``git``,
+       ``wget``, ``libopenblas-dev``, ``g++``, ``make``, ``gfortran``,
+       ``libeccodes-dev`` and ``gdal``) and ``uv``.  Not intended for direct
+       use.
    * - ``deps``
-     - ``base-os`` plus all Python requirements from ``requirements.txt``,
-       compiled from source with ``--no-binary :all:``.  This layer is cached
-       by Docker and only rebuilds when ``requirements.txt`` changes.
+     - ``base-os`` plus every pinned requirement from
+       ``environments/requirements.txt``, ``ansible-core``, and the cartopy
+       natural-earth shapefiles (cloned once to ``/packages/shapefiles_clone``
+       and symlinked into ``/packages/shapefiles``).  This layer is cached by
+       Docker and only rebuilds when ``requirements.txt`` or the Dockerfile
+       changes.
    * - ``geoips-base``
-     - Core GeoIPS installed (non-editable) and plugin registries created.
+     - ``deps`` plus the GeoIPS source tree installed non-editable and the
+       Ansible ``base`` tier (system checks and plugin registries).
+   * - ``doclinttest``
+     - ``geoips-base`` plus the ``doc``, ``lint`` and ``test`` extras.  Used
+       for documentation and lint CI; not a runtime image.
    * - ``geoips-full``
-     - ``geoips-base`` plus cartopy shapefiles, settings repos, and
-       ``doc``/``test`` pip extras.
+     - ``geoips-base`` plus the ``doc``/``test`` extras and the Ansible
+       ``full`` tier (the settings repos ``.vscode``, ``.github`` and
+       ``geoips_ci``).
    * - ``geoips-site``
-     - ``geoips-full`` plus all open-source plugin packages (including
-       the fortran chain) and ``lint``/``debug`` extras.
+     - ``geoips-full`` plus the ``site`` tier — all open-source plugin
+       packages (including the ordered fortran chain) and the
+       ``lint``/``debug`` extras.  Private plugin repos are included when
+       ``GEOIPS_USE_PRIVATE_PLUGINS=true``.  Installed editable unless
+       ``EDITABLE_PIP_INSTALL=false``.
+   * - ``dev``
+     - ``geoips-site`` converted to an editable install, plus developer tools
+       (``openssh-server``, ``vim``, ``htop``, ``curl``, ``bash-completion``)
+       and an sshd configuration.  This is the target used by the
+       :ref:`dev container <dev-container>`.
+   * - ``dev-quick``
+     - ``geoips-base`` plus an editable install of the ``doc``, ``test``,
+       ``lint`` and ``debug`` extras and the same developer tools.  No plugin
+       packages and no settings repos, so it builds in a fraction of the time.
    * - ``production``
-     - Minimal runtime image.  Copies only ``site-packages`` and console
-       scripts from ``geoips-base``.  No source tree, no Ansible, no git,
-       no compilers.
+     - Minimal runtime image.  Copies only ``site-packages`` and the
+       console-script stubs from ``geoips-base`` and removes the build tools.
+       No source tree, no Ansible, no git, no compilers.
 
 .. code-block:: bash
 
    docker build --target geoips-base -t geoips:base .
    docker build --target geoips-full -t geoips:full .
    docker build --target geoips-site -t geoips:site .
-   docker build --target production  -t geoips:prod .
+   docker build --target dev        -t geoips:dev .
+   docker build --target dev-quick  -t geoips:dev-quick .
+   docker build --target production -t geoips:prod .
 
 
 Build arguments
@@ -107,7 +132,16 @@ Build arguments
        so they replace the pinned versions.  For testing only.
    * - ``GEOIPS_USE_PRIVATE_PLUGINS``
      - ``false``
-     - Set to ``true`` at the ``geoips-site`` target to include private repos.
+     - Set to ``true`` at the ``geoips-site`` target (inherited by ``dev``)
+       to include the private plugin repos.  Needs the
+       ``geoips_private_token`` secret (see below).
+   * - ``EDITABLE_PIP_INSTALL``
+     - ``true``
+     - ``geoips-site``: ``true`` installs GeoIPS and the plugins editable,
+       ``false`` installs them into ``site-packages``.  The ``dev`` stage
+       re-runs the site tier editable regardless of this value;
+       ``geoips-base`` and ``geoips-full`` always pass
+       ``editable_pip_install=false``.
    * - ``USER``
      - ``geoips_user``
      - Username for the non-root user inside the container.
@@ -124,9 +158,21 @@ Example with build arguments:
 
    docker build --target geoips-site -t geoips:site \
      --build-arg EXTRA_PLUGINS=my_plugin,other_plugin \
-     --build-arg GEOIPS_USE_PRIVATE_PLUGINS=true \
      --build-arg REPO_BRANCHES="recenter_tc=feature/my-branch" \
      .
+
+The private plugin repositories also need a GitHub token with read access to
+them.  It is passed as a BuildKit secret and never stored in an image layer or
+the image history:
+
+.. code-block:: bash
+
+   docker build --target geoips-site -t geoips:site-private \
+     --build-arg GEOIPS_USE_PRIVATE_PLUGINS=true \
+     --secret id=geoips_private_token,src=$HOME/.config/geoips/github-token .
+
+Do not push such an image to a public registry: it contains the private
+plugins' source.  See ``tests/ansible/scripts/github-token-env.sh``.
 
 
 Layer caching strategy
@@ -138,9 +184,9 @@ The Dockerfile is structured to maximise Docker layer cache hits:
    change (rare).
 
 2. **``deps``** — Copies *only* ``environments/requirements.txt`` and
-   installs all Python dependencies with ``--no-binary :all:``.  This is the
-   slowest layer but it rebuilds only when ``requirements.txt`` changes.
-   Day-to-day source edits skip this entirely.
+   installs the pinned dependencies with ``uv pip install --system``, so it is
+   the slowest layer but rebuilds only when ``requirements.txt`` or the
+   Dockerfile changes.  Day-to-day source edits skip this entirely.
 
 3. **``geoips-base``** — Copies the full source tree and runs the Ansible
    install playbook.  Rebuilds on every source change but the heavy
@@ -150,23 +196,30 @@ For the best cache performance, avoid editing ``requirements.txt`` unless
 you are actually changing dependencies.
 
 
-Building from source
---------------------
+Editable and non-editable installs
+----------------------------------
 
-All Docker stages compile Python packages from source rather than using
-pre-built wheels.  This is controlled by two mechanisms:
+Every stage installs Python packages with ``uv pip install --system
+--no-cache`` into ``/usr/local``, so the interpreter is
+``/usr/local/bin/python``.  Wheels are used when available; the pinned
+versions come from ``environments/requirements.txt`` and the project's
+``pyproject.toml``.  There is no ``--no-binary`` / ``pip_extra_args`` override
+in the Dockerfile.
 
-- The ``deps`` stage passes ``--no-binary :all:`` directly to ``pip install``
-  when installing ``requirements.txt``.
+What differs between stages is whether GeoIPS and its plugins are installed
+editable:
 
-- Each Ansible playbook invocation passes ``-e 'pip_extra_args=--no-binary
-  :all:'`` (the ``-e`` is an Ansible extra variable, *not* an editable pip
-  install) so that GeoIPS itself, its extras, and any plugin packages are
-  also compiled from source.
-
-This ensures binaries are optimised for the container's architecture and
-eliminates wheel bloat.  ``ansible-core`` is the sole exception — it keeps
-its wheel because it is a build-time tool stripped from the production image.
+- ``geoips-base`` installs GeoIPS non-editable with ``uv pip install
+  --system``, and runs the playbook with ``-e editable_pip_install=false``
+  (the ``python_env`` role is skipped because uv already installed it).
+  ``geoips-full`` installs the extras the same way.  This keeps the
+  ``production`` image free of the source tree.
+- ``geoips-site`` uses ``-e editable_pip_install=$EDITABLE_PIP_INSTALL``
+  (``true`` by default).
+- ``dev`` re-runs the ``site`` tier with ``-e editable_pip_install=true`` so
+  that the workspace bind mount at ``/packages/geoips`` is the code that runs.
+- ``dev-quick`` installs
+  ``/packages/geoips[doc,test,lint,debug]`` editable directly.
 
 
 Test data
@@ -241,10 +294,12 @@ The ``Makefile`` at the root of the GeoIPS repository provides convenience wrapp
 
 .. code-block:: bash
 
-   # Build images
+   # Build images (tags default to geoips:<stage>-dev)
    make build-base
    make build-full
    make build-site EXTRA_PLUGINS=my_plugin
+   make build-dev
+   make build-dev-quick
    make build-production
 
    # Download test data (to host, via Docker)
@@ -257,47 +312,43 @@ The ``Makefile`` at the root of the GeoIPS repository provides convenience wrapp
    make test-full  TESTDATA=/path/on/host/geoips-testdata
    make test-unit
 
+``TESTDATA`` defaults to ``$GEOIPS_TESTDATA_DIR`` and then to
+``$HOME/.geoips/testdata``, the same directory the dev container mounts.
+Set ``GEOIPS_USE_PRIVATE_PLUGINS=true`` to build ``geoips-site``/``dev`` with
+the private plugin repos.
+
+
+Dev container
+-------------
+
+The repository also ships a VS Code Dev Containers / ``devcontainer`` CLI
+configuration in ``.devcontainer/``.  It builds the ``dev`` target and mounts
+your checkout at ``/packages/geoips`` (through the editable install), the
+host test data and output directories, and starts sshd on port 2222 with a
+post-start command.
+See :ref:`dev-container` for the host directories, the git worktree handling
+and how to include the private plugins in the image.
+
 
 CI workflow
 -----------
 
-The GitHub Actions workflow (``.github/workflows/ci.yml``) automates the
-full cycle:
+Integration testing runs from ``.github/workflows/integ_test.yaml``.  On pull
+requests (and on manual ``workflow_dispatch``) it calls the reusable workflow
+``NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml``, which builds
+the image, downloads the test datasets and runs the tests.  The job requests
+an editable install and forwards three secrets:
 
-1. **build** — Builds the Docker image at the configured tier.
-2. **lint-and-unit** — Runs linting and unit tests (no test data required).
-   Runs in parallel with step 3.
-3. **test-data** — Downloads test datasets using the Ansible ``test_data.yml``
-   playbook inside a Docker container with a host volume.  On self-hosted
-   runners the data is cached between CI runs.
-4. **integration** — Runs integration tests with the downloaded data mounted.
-   Uses a matrix strategy to run ``base`` and ``full`` markers in parallel.
-5. **push** *(optional)* — Pushes the image to a Docker registry if
-   ``ENABLE_DOCKER_REGISTRY`` is set.
+- ``token`` — ``GITHUB_TOKEN``, for cloning and status updates.
+- ``docker_token`` — ``DOCKER_TOKEN``, for the image registry.
+- ``private_repos_token`` — ``GEOIPS_PRIVATE_REPOS_TOKEN``, a read-only token
+  for the private plugin repositories.  Without it the image contains the
+  public plugins only.
 
-Configure the workflow using GitHub repository variables:
+``.github/workflows/build-stable-image.yaml`` builds and publishes the
+``stable`` / ``latest`` images on releases and on pushes to the default
+branch, also through a reusable ``geoips_ci`` workflow.
 
-.. list-table::
-   :header-rows: 1
-   :widths: 30 70
-
-   * - Variable
-     - Description
-   * - ``RUNNER``
-     - Runner label (default: ``ubuntu-latest``).
-   * - ``DOCKER_BUILD_TARGET``
-     - Which Dockerfile stage to build (default: ``geoips-full``).
-   * - ``TESTDATA_PATH``
-     - Host path for test data (default: ``/path/on/host/geoips-testdata``).
-   * - ``EXTRA_PLUGINS``
-     - Comma-separated list of extra plugin repos.
-   * - ``CI_LINT``
-     - Set to ``false`` to skip linting.
-   * - ``CI_INTEGRATION``
-     - Set to ``false`` to skip integration tests.
-   * - ``ENABLE_DOCKER_REGISTRY``
-     - Set to ``true`` to enable image push.
-   * - ``DOCKER_REGISTRY``
-     - Registry URL for push.
-   * - ``DOCKER_REGISTRY_USER``
-     - Registry username.
+The devcontainer build args and secrets are described in
+:ref:`dev-container`; ``make`` targets are the simplest way to reproduce a CI
+build locally.
