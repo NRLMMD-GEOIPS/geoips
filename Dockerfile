@@ -5,9 +5,13 @@
 #    docker build --target geoips-base .     # core GeoIPS only
 #    docker build --target geoips-full .     # + shapefiles, settings repos, doc/test extras
 #    docker build --target geoips-site .     # + all open-source plugin packages
-#    docker build --target dev .             # site + editable install + dev tools (ssh,vim,…)
-#    docker build --target dev-quick .       # base + editable install + dev tools (fast build)
+#    docker build --target dev .             # site + editable install + dev tools (sshd:2222, vim,…)
+#    docker build --target dev-quick .       # base + editable install + dev tools (sshd:2222, fast build)
 #    docker build --target production  .     # slim runtime image (no source, no ansible)
+#
+#  The dev container (.devcontainer/devcontainer.json) builds the dev target; the
+#  dev/dev-quick stages start an sshd on port 2222 for key-only geoips_user logins
+#  and give that user passwordless sudo, which postStartCommand uses to start it.
 #
 #  Cache-optimised CI usage:
 #    # 1. Pull/push deps cache across runs (deps stage changes rarely)
@@ -278,10 +282,12 @@ ARG PIP_OVERRIDES=""
 
 USER root
 
-# Developer tools — ssh server for remote connections, editors, shell niceties
+# Developer tools — ssh server for remote connections, editors, shell niceties.
+# sudo lets postStartCommand (running as the remote user) start sshd.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        openssh-server \
+       sudo \
        vim \
        htop \
        curl \
@@ -308,9 +314,20 @@ RUN --mount=type=secret,id=geoips_private_token \
        fi \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
 
-# Prepare SSH for remote dev connections
-RUN mkdir -p /var/run/sshd \
-    && echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+# SSH for remote dev connections: key-only logins as ${USER} on port 2222, plus
+# passwordless sudo so postStartCommand can start sshd.  authorized_keys comes from
+# a host bind mount whose ownership/mode we do not control, hence StrictModes no.
+# (sshd creates /run/sshd itself; /run is a fresh tmpfs in a running container.)
+RUN mkdir -p /etc/sudoers.d /etc/ssh/sshd_config.d \
+    && printf '%s\n' "${USER} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/geoips_user \
+    && chmod 0440 /etc/sudoers.d/geoips_user \
+    && printf '%s\n' \
+         'Port 2222' \
+         'PermitRootLogin no' \
+         'PasswordAuthentication no' \
+         'KbdInteractiveAuthentication no' \
+         'StrictModes no' \
+       > /etc/ssh/sshd_config.d/devcontainer.conf
 
 USER ${USER}
 
@@ -331,6 +348,7 @@ USER root
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        openssh-server \
+       sudo \
        vim \
        htop \
        curl \
@@ -339,8 +357,20 @@ RUN apt-get update \
 
 RUN uv pip install --system --no-cache -e ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,lint,debug]
 
-RUN mkdir -p /var/run/sshd \
-    && echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+# SSH for remote dev connections: key-only logins as ${USER} on port 2222, plus
+# passwordless sudo so postStartCommand can start sshd.  authorized_keys comes from
+# a host bind mount whose ownership/mode we do not control, hence StrictModes no.
+# (sshd creates /run/sshd itself; /run is a fresh tmpfs in a running container.)
+RUN mkdir -p /etc/sudoers.d /etc/ssh/sshd_config.d \
+    && printf '%s\n' "${USER} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/geoips_user \
+    && chmod 0440 /etc/sudoers.d/geoips_user \
+    && printf '%s\n' \
+         'Port 2222' \
+         'PermitRootLogin no' \
+         'PasswordAuthentication no' \
+         'KbdInteractiveAuthentication no' \
+         'StrictModes no' \
+       > /etc/ssh/sshd_config.d/devcontainer.conf
 
 USER ${USER}
 

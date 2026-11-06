@@ -1,0 +1,112 @@
+bug fix:
+- title: 'Make the dev container start and fix its data directories, cartopy data and git handling'
+  description: |
+    The dev container could not be created: ``initializeCommand`` and the test
+    data, output and cartopy mounts used nested ``${...}`` defaults, which the
+    devcontainer substitution engine truncates at the first ``}``, so ``mkdir``
+    and ``docker --mount`` received paths such as ``${env/.geoips/testdata}``.
+
+    * Test data and output now use the fixed sources ``$HOME/.geoips/testdata``
+      and ``$HOME/.geoips/output``, mounted at ``/geoips_testdata`` and
+      ``/output``. A new POSIX ``sh`` script ``.devcontainer/initialize.sh``
+      (invoked from ``initializeCommand`` with a quoted path, because the
+      checkout path may contain spaces) creates them, and also prepares the
+      private plugin token file. When ``GEOIPS_TESTDATA_DIR`` or
+      ``GEOIPS_OUTDIRS`` is exported it creates that directory and points
+      ``~/.geoips/<name>`` at it with a symlink: an existing symlink is
+      repointed, an existing empty directory is replaced, and a non-empty real
+      directory is left alone with a warning on stderr. The script is
+      idempotent and exits successfully in the normal cases.
+    * The cartopy bind mounts and every ``CARTOPY_SHAPEFILES`` reference are
+      gone. The image already bakes the natural-earth shapefiles into
+      ``/packages/shapefiles`` (``CARTOPY_DATA_DIR=/packages``); the old mounts
+      shadowed that data and dangled its symlinks.
+    * ``python.defaultInterpreterPath`` is now ``/usr/local/bin/python`` (all
+      installs use ``uv pip install --system``), and the removed
+      ``python.linting.*`` / ``python.formatting.provider`` settings are
+      replaced by ``"[python]": {"editor.defaultFormatter":
+      "ms-python.black-formatter"}``.
+    * ``tests/ansible/scripts/devcontainer-setup.sh`` no longer runs the plain
+      ``pip install -e`` (the image already installs GeoIPS editable) and never
+      writes to the bind-mounted ``.git``. For a worktree it finds the main
+      clone's ``.git/worktrees/<name>`` directory under ``/workspaces-root`` and,
+      when the host path prefix of the gitdir is not visible in the container,
+      creates a symlink from that prefix to ``/workspaces-root``, so git works
+      inside the container while the host checkout is untouched. Plain clones
+      (a ``.git`` directory) need no handling. The ``safe.directory`` addition
+      is idempotent.
+  files:
+    added:
+    - '.devcontainer/initialize.sh'
+    modified:
+    - '.devcontainer/devcontainer.json'
+    - 'tests/ansible/scripts/devcontainer-setup.sh'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2026-11-06
+    finish: 2026-11-06
+enhancement:
+- title: 'Add SSH access to the dev container on port 2222 and private plugins to its build'
+  description: |
+    * The ``dev`` and ``dev-quick`` stages install ``sudo`` and grant
+      ``geoips_user`` passwordless sudo, drop ``PermitRootLogin yes`` and add
+      ``/etc/ssh/sshd_config.d/devcontainer.conf`` with port 2222, no root
+      login, no password or keyboard-interactive authentication, and
+      ``StrictModes no`` (the authorised keys come from a host bind mount whose
+      ownership and mode the container does not control).
+    * The dev container starts ``sshd`` with ``postStartCommand``, forwards port
+      2222 and labels it ``sshd`` with silent auto-forwarding. The unreachable
+      ``/root/.ssh`` mount is removed; users log in as ``geoips_user`` with the
+      keys in the host's ``~/.ssh/authorized_keys``.
+    * ``GEOIPS_USE_PRIVATE_PLUGINS`` is passed as a build argument from the
+      host environment (default ``false``), and the ``geoips_private_token``
+      BuildKit secret is passed through ``build.options`` as a file
+      (``~/.geoips/github-token``). ``initialize.sh`` writes that file from
+      ``GEOIPS_PRIVATE_TOKEN``, falling back to
+      ``~/.config/geoips/github-token``, and writes an empty file when neither
+      exists, so the build still runs with the public plugins only. A file is
+      used rather than ``env=`` because a build fails when the referenced
+      variable is unset and the build options cannot be made conditional.
+  files:
+    modified:
+    - 'Dockerfile'
+    - '.devcontainer/devcontainer.json'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2026-11-06
+    finish: 2026-11-06
+documentation:
+- title: 'Document the dev container and correct the Docker build documentation'
+  description: |
+    * ``docs/source/contribute/dev-install.md`` no longer lists Docker stages
+      that do not exist (``build``, ``test_base``, ``test_full``,
+      ``test_system``), the missing ``system_install.sh`` or the missing
+      ``base_test.sh``. It documents the real ``base``/``full``/``site``
+      install scripts and Docker stages, adds ``dev``/``dev-quick``, and gains
+      a dev container section covering the host data directories and the
+      environment-variable symlink behaviour, git worktrees, SSH on port 2222
+      and private plugins.
+    * ``docs/source/getting-started/installing/docker.rst`` documents every
+      Dockerfile stage (including ``doclinttest``, ``dev`` and ``dev-quick``),
+      adds ``EDITABLE_PIP_INSTALL`` and the ``geoips_private_token`` secret,
+      and removes the false claims that all packages are compiled from source
+      with ``--no-binary :all:`` / ``pip_extra_args`` and that all stages pass
+      ``editable_pip_install=false``. Its CI section now describes the actual
+      ``.github/workflows/integ_test.yaml`` reusable-workflow call instead of a
+      non-existent ``ci.yml`` and repository variables that are not used.
+  files:
+    added:
+    - 'docs/source/releases/latest/devcontainer-config-and-docker-docs.yaml'
+    modified:
+    - 'docs/source/contribute/dev-install.md'
+    - 'docs/source/getting-started/installing/docker.rst'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2026-11-06
+    finish: 2026-11-06
