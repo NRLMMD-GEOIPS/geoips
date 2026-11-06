@@ -303,9 +303,10 @@ if __name__ == "__main__":
                     "so cannot symlink the most recent"
                 )
             )
-        (args.output_dir / "stable").symlink_to(
-            args.output_dir / latest, target_is_directory=True
-        )
+        link_path = args.output_dir / "stable"
+        if link_path.exists():
+            link_path.unlink()
+        link_path.symlink_to(args.output_dir / latest, target_is_directory=True)
         print(f"Symlinked {latest} as stable")
 
     if args.create_index_redirect:
