@@ -94,12 +94,6 @@ time_key_invalid_input:
   val: True
   cls: AlgorithmArgumentsModel
   err_str: Input should be a valid string
-time_key_missing_input:
-  description: "Ensure that required time_key field is not missing"
-  key: time_key
-  val: 
-  cls: AlgorithmArgumentsModel
-  err_str: Input should be a valid string
 time_fcst_invalid_input:
   description: "Ensure invalid value for time_fcst is not accepted"
   key: time_fcst

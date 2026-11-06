@@ -1,0 +1,35 @@
+bug fix:
+- title: 'Add | None to field annotations where default is None in pydantic_models/v1'
+  description: >
+    20 fields across 8 plugin argument models used None as their default value but
+    were annotated with only non-nullable types. Added | None to the corresponding
+    type annotations to ensure consistency between declared types and default values.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'tests/unit_tests/pydantic_models/v1/coverage_checkers/test_cases_good.yaml'
+    modified:
+    - 'geoips/pydantic_models/v1/filename_formatters.py'
+    - 'geoips/pydantic_models/v1/readers.py'
+    - 'geoips/pydantic_models/v1/algorithms.py'
+    - 'geoips/pydantic_models/v1/title_formatters.py'
+    - 'geoips/pydantic_models/v1/sectors.py'
+    - 'geoips/pydantic_models/v1/bases.py'
+    - 'geoips/pydantic_models/v1/products.py'
+    - 'geoips/pydantic_models/v1/coverage_checkers.py'
+    - 'tests/unit_tests/pydantic_models/v1/filename_formatters/test_cases_good.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/algorithms/test_cases_good.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/algorithms/test_cases_bad.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/title_formatters/test_cases_good.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/sectors/test_cases_good.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/conftest.py'
+    - 'tests/unit_tests/pydantic_models/v1/test_pydantic_models.py'
+  related-issue:
+    number: 1535
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: '2026-11-03'
+    finish: '2026-11-04'

@@ -495,7 +495,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
     relpath: str = Field(
         None, description="Path to the plugin file relative to its parent package."
     )
-    abspath: str = Field(None, description="Absolute path to the plugin file.")
+    abspath: str | None = Field(None, description="Absolute path to the plugin file.")
 
     @model_validator(mode="before")
     def _derive_package_name(

@@ -16,18 +16,18 @@ class TitleFormatterArgumentsModel(PermissiveFrozenModel):
     Pydantic model defining and validating Title Formatter step arguments.
     """
 
-    area_def: str = Field(None, description="Area definition identifier.")
-    product_name_title: str = Field(None, description="Product name title.")
-    product_datatype_title: str = Field(
+    area_def: str | None = Field(None, description="Area definition identifier.")
+    product_name_title: str | None = Field(None, description="Product name title.")
+    product_datatype_title: str | None = Field(
         None, description="Product data type label to include in the title."
     )
-    bg_product_name_title: str = Field(
+    bg_product_name_title: str | None = Field(
         None,
         description="Background product name title when background layer is provided.",
     )
-    bg_datatype_title: str = Field(
+    bg_datatype_title: str | None = Field(
         None, description="Background data type label for the background product title."
     )
-    title_copyright: str = Field(
+    title_copyright: str | None = Field(
         None, description="Copyright string to append to the generated title"
     )

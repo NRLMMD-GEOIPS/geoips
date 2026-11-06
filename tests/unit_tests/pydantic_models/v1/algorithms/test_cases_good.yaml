@@ -220,3 +220,18 @@ algorithm_arguments_model_additional_field:
   key: test
   val: test
   cls: AlgorithmArgumentsModel
+mask_night_null_input:
+  description: "Ensure null is accepted for mask_night"
+  key: mask_night
+  val: null
+  cls: VisIRSpecificAlgorithmArgumentsModel
+mask_day_null_input:
+  description: "Ensure null is accepted for mask_day"
+  key: mask_day
+  val: null
+  cls: VisIRSpecificAlgorithmArgumentsModel
+time_key_null_input:
+  description: "Ensure null is accepted for time_key"
+  key: time_key
+  val: null
+  cls: ModelSpecificAlgorithmArgumentsModel

@@ -1,1 +1,30 @@
-{}
+area_def_null_input:
+  description: "Ensure null is accepted for area_def"
+  key: area_def
+  val: null
+  cls: TitleFormatterArgumentsModel
+product_name_title_null_input:
+  description: "Ensure null is accepted for product_name_title"
+  key: product_name_title
+  val: null
+  cls: TitleFormatterArgumentsModel
+product_datatype_title_null_input:
+  description: "Ensure null is accepted for product_datatype_title"
+  key: product_datatype_title
+  val: null
+  cls: TitleFormatterArgumentsModel
+bg_product_name_title_null_input:
+  description: "Ensure null is accepted for bg_product_name_title"
+  key: bg_product_name_title
+  val: null
+  cls: TitleFormatterArgumentsModel
+bg_datatype_title_null_input:
+  description: "Ensure null is accepted for bg_datatype_title"
+  key: bg_datatype_title
+  val: null
+  cls: TitleFormatterArgumentsModel
+title_copyright_null_input:
+  description: "Ensure null is accepted for title_copyright"
+  key: title_copyright
+  val: null
+  cls: TitleFormatterArgumentsModel

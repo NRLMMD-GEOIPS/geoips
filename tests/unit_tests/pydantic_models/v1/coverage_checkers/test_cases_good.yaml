@@ -1,0 +1,5 @@
+area_def_null_input:
+  description: "Ensure null is accepted for area_def"
+  key: area_def
+  val: null
+  cls: CoverageCheckerArgumentsModel
