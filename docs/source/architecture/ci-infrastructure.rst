@@ -466,6 +466,26 @@ not cloned, installed or tested.  A name that is not in those lists, or that is 
 the parts that use it fail: geocolor's GeoColor products need ``synth_green``, for
 example.
 
+Code coverage
+-------------
+
+The CI measures the line coverage of the repository under test, and only of it.  In
+geoips that is the ``geoips`` package: the plugin tests that run in the same job are not
+measured.  In a plugin repository it is the plugin's package, not geoips.  The unit,
+integration-base and integration-full tests all count.  Most integration tests run a bash
+script that starts ``geoips`` in a new process; coverage.py measures those processes too
+(``patch = subprocess``).
+
+Each run has a ``coverage-report`` artifact (``coverage.xml`` and an HTML report), and its
+job summary shows the total and the coverage of each file.  The ``upload-coverage`` job
+of ``integ_test.yaml`` uploads the report to GitHub Code Quality: on pull requests,
+``github-code-quality[bot]`` comments the coverage compared with ``main``, whose pushes
+provide the baseline.  A repository ruleset can then block pull requests whose coverage
+is too low or drops too much ("Restrict code coverage"), with ``upload-coverage`` as a
+required status check.  Pull requests from forks and manual runs are not uploaded.
+
+See "Code coverage" in the geoips_ci README for the details and the repository setup.
+
 
 Idempotency
 -----------
