@@ -1,0 +1,31 @@
+enhancement:
+- title: 'Expose variables able to be read by a reader plugin'
+  description: |
+    Adds new functionality to expose what channels a given reader plugin can actually
+    read. This information is then attached to the output of the
+    'geoips describe reader' command. Additionally, you can access this information via
+    <reader_plugin>.readable_channels attribute.
+
+    Adds a new class called 'ChannelInformation' which is used to construct a unified
+    channel information dictionary for any reader. These dictionaries are validated via
+    pydantic to ensure that the input data adheres to the information model.
+  files:
+    modified:
+      - geoips/commandline/geoips_command.py
+      - geoips/commandline/geoips_describe.py
+      - geoips/interfaces/class_based/readers.py
+      - geoips/plugins/classes/readers/abi_netcdf.py
+      - geoips/plugins/classes/readers/ahi_hsd.py
+      - geoips/plugins/classes/readers/ami_netcdf.py
+      - geoips/plugins/classes/readers/atms_hdf5.py
+      - geoips/plugins/classes/readers/aws_netcdf.py
+      - geoips/plugins/classes/readers/cygnss_netcdf.py
+      - geoips/plugins/classes/readers/fci_netcdf.py
+      - geoips/plugins/classes/readers/seviri_hrit.py
+      - geoips/plugins/classes/readers/viirs_netcdf.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

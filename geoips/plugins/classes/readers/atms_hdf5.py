@@ -125,6 +125,16 @@ class AtmsHdf5ReaderPlugin(BaseReaderPlugin):
         "SatelliteAzimuthAngle": "satellite_azimuth_angle",
     }
 
+    # Variables that can be output via this reader
+    VARLIST = [
+        "V23",
+        "V31",
+        "H50",
+        "V89",
+        "H165",
+        "H183",
+    ]
+
     # final_xarray = xr.Dataset()  # define a xarray to hold all selected variables
 
     def convert_epoch_to_datetime64(self, time_array, use_shape=None):
