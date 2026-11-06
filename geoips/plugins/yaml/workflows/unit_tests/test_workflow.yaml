@@ -15,21 +15,19 @@ test:
       full_test_policy: on_token_mismatch
       compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean
       output_checker_name: image
-  steps:
-    workflow:
-      spec:
-        steps:
-          abi_Infrared:
-            spec:
-              steps:
-                algorithm:
-                  output_units: Kelvin
-  kinds:
-    readers:
-      satellite_zenith_angle_cutoff: 80
-  globals:
-    sector_list: global_cylindrical
-    logging_level: info
+  arguments:
+    steps:
+      workflow:
+        spec:
+          steps:
+            abi_Infrared:
+              spec:
+                steps:
+                  algorithm:
+                    output_units: Kelvin
+    globals:
+      sector_list: global_cylindrical
+      logging_level: info
 spec:
   steps:
     workflow:

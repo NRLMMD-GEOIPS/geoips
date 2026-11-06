@@ -22,10 +22,11 @@ test:
       full_test_policy: on_token_mismatch # always | never
       compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/smap.unsectored.text_winds
       output_checker_name: text
-spec:
+arguments:
   globals:
     product_name: unsectored
     reader_defined_area_def: False
+spec:
   steps:
     reader:
       kind: reader
