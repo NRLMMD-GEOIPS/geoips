@@ -23,7 +23,7 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
 
     variables: List[str] | None = Field(
         None,
-        description="List of input variables used in algorithm processing",
+        description="List of variables to pass to the algorithm from the input data. If `None`, all variables are passed.",
     )
     output_data_range: tuple[StrictFloat, StrictFloat] | None = Field(
         None,
