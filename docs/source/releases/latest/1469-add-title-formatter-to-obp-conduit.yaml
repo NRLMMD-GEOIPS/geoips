@@ -1,0 +1,36 @@
+bug fix:
+- title: 'Add Title Formatter to OBP Conduit'
+  description: |
+    If you added a title_formatter step to an order-based procflow workflow, the
+    step would run and then its output would get thrown away. The output_formatter
+    never knew about it, so it built its own title using default arguments instead.
+
+    This connects the title_formatter step to the output_formatter. The formatted
+    title now gets passed along as `preformatted_title_str`, and the imagery
+    output_formatters use that string instead of making their own.
+
+    All output_formatters in the `image_overlay` family now need to accept a
+    `preformatted_title_str` argument. The four in GeoIPS have been updated, but
+    any outside of GeoIPS will need the same argument added.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'docs/source/releases/latest/1469-add-title-formatter-to-obp-conduit.yaml'
+    - 'tests/unit_tests/utils/types/test_obp_conduits.py'
+    modified:
+    - 'geoips/interfaces/class_based/output_formatters.py'
+    - 'geoips/plugins/classes/output_formatters/full_disk_image.py'
+    - 'geoips/plugins/classes/output_formatters/imagery_annotated.py'
+    - 'geoips/plugins/classes/output_formatters/imagery_windbarbs.py'
+    - 'geoips/plugins/classes/output_formatters/imagery_windbarbs_multi_level.py'
+    - 'geoips/utils/types/obp_conduits.py'
+    - 'tests/integration_tests/test_obp_family_conversions.py'
+  related-issue:
+    number: 1469
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 2026/07/26
+    finish: 2026/08/14
