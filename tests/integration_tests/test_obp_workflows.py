@@ -101,11 +101,7 @@ def _run_obp_workflow(workflow_name, fail_on_missing_data):
         )
 
 
-all_workflow_names = (
-    mimic_workflow_names
-    + ami_workflow_names
-    + seviri_workflow_names
-)
+all_workflow_names = mimic_workflow_names + ami_workflow_names + seviri_workflow_names
 
 
 @pytest.mark.full
