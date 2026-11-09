@@ -43,7 +43,6 @@ from geoips.interfaces.class_based.sector_metadata_generators import (
     DeckSectorMetaGeneratorPlugin,
 )
 
-import os
 import logging
 from datetime import datetime, timedelta
 
@@ -87,10 +86,11 @@ class FdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
         # Must get tcyear out of the filename in case a storm
         # crosses TC vs calendar years.
         # tcyear = os.path.basename(trackfile_name)[5:9]
-        tc_year = self.get_stormyear_from_fdeck_filename(trackfile_name)
+        tc_year = self.get_stormyear_from_filename(trackfile_name)
         # print tcyear
 
-        flatsf_lines = open(trackfile_name).readlines()
+        with open(trackfile_name, "r") as f:
+            flatsf_lines = f.readlines()
         final_storm_name = self.get_final_storm_name_fdeck(flatsf_lines, tc_year)
         invest_number = self.get_invest_number_fdeck(flatsf_lines)
 
@@ -140,20 +140,6 @@ class FdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
         LOG.info("FINISHED getting fields from %s", trackfile_name)
 
         return all_fields, final_storm_name, tc_year, allowed_aid_types
-
-    def lat_to_dec(self, lat_str):
-        """Return decimal latitude based on N/S specified string."""
-        latnodec = lat_str
-        latdec = latnodec[:-2] + "." + latnodec[-2:]
-        latdecsign = latdec[:-1] if (latdec[-1] == "N") else "-" + latdec[:-1]
-        return latdecsign
-
-    def lon_to_dec(self, lon_str):
-        """Return decimal longitude based on E/W specified string."""
-        lonnodec = lon_str
-        londec = lonnodec[:-2] + "." + lonnodec[-2:]
-        londecsign = londec[:-1] if (londec[-1] == "E") else "-" + londec[:-1]
-        return londecsign
 
     def parse_fdeck_line(
         self,
@@ -316,45 +302,6 @@ class FdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
             "  GETTING storm start time from fdeck entry %s", fields["synoptic_time"]
         )
         return fields["synoptic_time"]
-
-    def get_storm_start_datetime_from_fdeck_filename(self, fdeck_filename):
-        """Get storm start datetime from fdeck file name."""
-        # Return the synoptic time found in the actual filename, if it exists!
-        # This will ONLY be the case for INVESTS, which can use the start
-        # Gwp912022.2022101400.dat
-        fdeck_parts = os.path.basename(fdeck_filename).split(".")
-        storm_start_datetime = None
-        if len(fdeck_parts) > 2:
-            try:
-                storm_start_datetime = datetime.strptime(fdeck_parts[1], "%Y%m%d%H")
-                LOG.info(
-                    "  USING storm start time found in filename %s",
-                    storm_start_datetime,
-                )
-            except ValueError:
-                LOG.warning(
-                    "  SKIPPING no valid storm start time found in filename, %s",
-                    "using first entry in fdeck",
-                )
-                storm_start_datetime = None
-        return storm_start_datetime
-
-    def get_stormyear_from_fdeck_filename(self, fdeck_filename):
-        """Get the storm year from the F-deck filename.
-
-        Parameters
-        ----------
-        fdeck_filename : str
-            * Path to deck file to search for storm year
-            * Must be of format: xxxxxYYYY.dat - pulls YYYY from filename based on
-              location
-
-        Returns
-        -------
-        int
-            Storm year
-        """
-        return int(os.path.basename(fdeck_filename)[5:9])
 
     def get_final_storm_name_fdeck(self, deck_lines, tcyear):
         """Get final storm name from full fdeck file."""

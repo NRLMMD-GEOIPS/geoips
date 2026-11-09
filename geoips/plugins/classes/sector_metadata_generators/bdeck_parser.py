@@ -102,7 +102,6 @@ from geoips.interfaces.class_based.sector_metadata_generators import (
     DeckSectorMetaGeneratorPlugin,
 )
 
-import os
 import logging
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -147,10 +146,11 @@ class BdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
         # Must get tcyear out of the filename in case a storm
         # crosses TC vs calendar years.
         # tcyear = os.path.basename(trackfile_name)[5:9]
-        tc_year = self.get_stormyear_from_bdeck_filename(trackfile_name)
+        tc_year = self.get_stormyear_from_filename(trackfile_name)
         # print tcyear
 
-        flatsf_lines = open(trackfile_name).readlines()
+        with open(trackfile_name, "r") as f:
+            flatsf_lines = f.readlines()
         # This just pulls the time of the first entry in the deck file
         # Note this can change from one deck file to the next during the life of a
         # storm (e.g., storm locations can be added or removed during the life of a
@@ -195,7 +195,7 @@ class BdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
         # we have a consistent unique storm id for invests, since invest numbers
         # repeat throughout the year).
         storm_start_datetime_from_filename_of_current_deck_file = (
-            self.get_storm_start_datetime_from_bdeck_filename(trackfile_name)
+            self.get_storm_start_datetime_from_filename(trackfile_name)
         )
 
         LOG.info("  USING final_storm_name from bdeck %s", final_storm_name)
@@ -247,20 +247,6 @@ class BdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
         LOG.info("FINISHED getting fields from %s", trackfile_name)
 
         return all_fields, final_storm_name, tc_year, allowed_aid_types
-
-    def lat_to_dec(self, lat_str):
-        """Return decimal latitude based on N/S specified string."""
-        latnodec = lat_str
-        latdec = latnodec[:-2] + "." + latnodec[-2:]
-        latdecsign = latdec[:-1] if (latdec[-1] == "N") else "-" + latdec[:-1]
-        return latdecsign
-
-    def lon_to_dec(self, lon_str):
-        """Return decimal longitude based on E/W specified string."""
-        lonnodec = lon_str
-        londec = lonnodec[:-2] + "." + lonnodec[-2:]
-        londecsign = londec[:-1] if (londec[-1] == "E") else "-" + londec[:-1]
-        return londecsign
 
     def parse_bdeck_line(
         self,
@@ -510,96 +496,6 @@ class BdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
             "  GETTING storm start time from bdeck entry %s", fields["synoptic_time"]
         )
         return fields["synoptic_time"]
-
-    def get_storm_start_datetime_from_bdeck_filename(self, bdeck_filename):
-        """Return the storm start time found in the actual filename, if it exists.
-
-        The absolute storm start datetime is the first time a position was ever
-        identified for a given storm.  Note the current deck file may have a different
-        initial entry than when the invest was first identified, but we would like to
-        maintain the original storm start datetime to ensure a consistent storm ID
-        throughout the life of a storm when possible.
-
-        Standard ATCF bdeck file names do NOT include the storm start datetime.
-
-        Standard bdeck filenames
-
-        * bsh912026.dat
-        * bsh122026.dat
-
-        Some processing systems will set the original storm start datetime
-        when the very first position is received, then maintain that same value
-        in the deck filenames throughout the life of the storm (invest and numbered).
-
-        Enhanced filenames, including storm start datetime
-
-        * bsh912026.2026010212.dat
-        * bsh122026.2026010212.dat
-
-        If the storm start datetime is included in the filename, retrieve the
-        filename storm start datetime field here.  We know if this value exists,
-        it is the absolute original storm start datetime, and we can be sure it
-        will remain consistent throughout the life of the storm.
-
-        Example deck file sequences for an invest that becomes a numbered storm:
-
-        bsh912026.2026010212.dat
-
-        * 20260102T1623Z first invest file created
-
-        * 2026010212 First line in first invest deck file
-        * 20260102T1646Z second invest file created (23 min after first)
-
-        * 2026010118 First line in all subsequent invest deck files
-        * 20260104T1833Z final invest file created
-
-        * 2026010418 Final storm position time in final invest deck file
-
-        bsh122026.2026010212.dat
-
-        * 2026010118 First line in all numbered storm deck files
-        * 20260104T1854Z First numbered storm file created (21 min after final invest)
-
-        * 2026010418 Final storm position time in first numbered storm deck file
-            (same as final invest)
-        * 20260106T1857Z final file created
-
-        * 2026010618 Final line in final numbered storm deck file
-
-        """
-        bdeck_parts = os.path.basename(bdeck_filename).split(".")
-        storm_start_datetime = None
-        if len(bdeck_parts) > 2:
-            try:
-                storm_start_datetime = datetime.strptime(bdeck_parts[1], "%Y%m%d%H")
-                LOG.info(
-                    "  USING storm start time found in filename %s",
-                    storm_start_datetime,
-                )
-            except ValueError:
-                LOG.warning(
-                    "  SKIPPING no valid storm start time found in filename, %s",
-                    "using first entry in bdeck",
-                )
-                storm_start_datetime = None
-        return storm_start_datetime
-
-    def get_stormyear_from_bdeck_filename(self, bdeck_filename):
-        """Get the storm year from the B-deck filename.
-
-        Parameters
-        ----------
-        bdeck_filename : str
-            * Path to deck file to search for storm year
-            * Must be of format: `xxxxxYYYY.*.dat` - pulls YYYY from filename based
-              on location
-
-        Returns
-        -------
-        int
-            Storm year
-        """
-        return int(os.path.basename(bdeck_filename)[5:9])
 
     def get_final_storm_name_bdeck(
         self, deck_lines, tcyear, trackfile_name=None, is_archived=False
