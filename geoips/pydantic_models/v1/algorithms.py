@@ -93,8 +93,8 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     mask_night: bool | None = Field(
         None,
         description=(
-            "If True, mask pixels classified as night based on `min_night_zen` and"
-            " `max_night_zen`."
+            "If True, mask pixels classified as night based on `max_day_zen` and"
+            " `min_night_zen`."
         ),
     )
     mask_day: bool | None = Field(
