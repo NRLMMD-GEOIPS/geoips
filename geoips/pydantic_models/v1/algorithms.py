@@ -109,11 +109,13 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     )
     sun_zen_correction: StrictBool | None = Field(
         None,
-        description="Boolean flag indicating whether to apply solar zenith correction"
-        "(True) or not (False)"
-        "  * If True, returned data will have solar zenith correction applied"
-        "      (see data_manipulations.corrections.apply_solar_zenith_correction)"
-        "  * If False, returned data will not be modified based on solar zenith angle)",
+        description=(
+            "Whether to apply a solar zenith angle correction to visible radiometric"
+            " data. \n"
+            "  * If True, a cosine-based solar zenith angle correction is applied."
+            " (see data_manipulations.corrections.apply_solar_zenith_correction) \n"
+            "  * If False, no solar zenith angle correction is applied."
+        ),
     )
     satellite_zenith_angle_cutoff: Optional[float] = Field(
         None,
