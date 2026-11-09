@@ -30,9 +30,9 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     )
     output_data_range: tuple[StrictFloat, StrictFloat] | None = Field(
         None,
-        description="list of min and max value for output data product."
-        " This is applied LAST after all other corrections/adjustments."
-        " If None, use data.min() and data.max()",
+        description="Two-element iterator containing the minimum and maximum value "
+        " for output data product. This is applied LAST after all other"
+        " corrections/adjustments. If None, use data.min() and data.max()",
     )
     min_outbounds: str | None = Field(
         None,
