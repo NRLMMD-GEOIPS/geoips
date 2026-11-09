@@ -50,7 +50,9 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     )
     # used to render to background image
     # assign the bg_data dataset from the DataTree
-    bg_data: Any | None = Field(None)
+    bg_data: Any | None = Field(
+        None, description="Background dataset assigned from the DataTree for rendering."
+    )
     bg_datatype_title: str | None = Field(None, description="background data type")
     bg_mpl_colors_info: dict[str, Any] | None = Field(
         None,
@@ -61,7 +63,12 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     )
     # used for constructing the title string to extract platform
     # do not remove this until after the 2026 GeoIPS workshop
-    bg_xarray: Any | None = Field(None)
+    bg_xarray: Any | None = Field(
+        None,
+        description=(
+            "Background xarray dataset used to construct the platform title string."
+        ),
+    )
     # TASK: validate this to drop
     cog: bool = Field(
         True,
@@ -144,12 +151,17 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
             " specification used for coverage checking"
         ),
     )
-    output_fname_dict: dict | None = Field(None)
+    output_fname_dict: dict | None = Field(
+        None,
+        description="Mapping of output product keys to their generated file paths.",
+    )
     overwrite: bool = Field(
         True,
         description=("When False, skip writing the output file if it already exists."),
     )
-    pressure_range_dict: dict | None = Field(None)
+    pressure_range_dict: dict | None = Field(
+        None, description="Pressure range boundaries used for legend tick labels."
+    )
     product_datatype_title: str | None = Field(
         None,
         description="Display name for the data type in figure title.",
@@ -163,7 +175,10 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     )
     # passed to save_image() which calls remove_duplicates() but the function is not
     # implemented (pass). This can be dropped during SSP -> OBP testing.
-    remove_duplicate_minrange: Any | None = Field(None)
+    remove_duplicate_minrange: Any | None = Field(
+        None,
+        description="Passed to save_image() for duplicate removal; currently a no-op.",
+    )
     # Used by only one 'unprojected_image.py', evaluate.
     savefig_kwargs: dict | None = Field(
         None,

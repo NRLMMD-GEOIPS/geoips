@@ -23,13 +23,16 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
 
     variables: List[str] | None = Field(
         None,
-        description="List of input variables used in algorithm processing",
+        description=(
+            "List of variables to pass to the algorithm from the input data. If"
+            " `None`, all variables are passed.",
+        ),
     )
     output_data_range: tuple[StrictFloat, StrictFloat] | None = Field(
         None,
-        description="list of min and max value for output data product."
-        " This is applied LAST after all other corrections/adjustments."
-        " If None, use data.min() and data.max()",
+        description="Two-element iterator containing the minimum and maximum value "
+        " for output data product. This is applied LAST after all other"
+        " corrections/adjustments. If None, use data.min() and data.max()",
     )
     min_outbounds: str | None = Field(
         None,
@@ -78,31 +81,66 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         description="Units of input data, for applying "
         "necessary conversions. Defaults to None, resulting in no unit conversions.",
     )
-    gamma_list: Optional[List[StrictFloat]] = Field(None)
-    min_night_zen: Optional[float] = Field(None)
-    max_night_zen: float | None = Field(None)
-    max_day_zen: Optional[float] = Field(None)
-    mask_night: bool | None = Field(None)
-    mask_day: bool | None = Field(None)
-    scale_factor: Optional[float] = Field(None)
+    gamma_list: Optional[List[StrictFloat]] = Field(
+        None, description="Gamma correction values to apply per channel."
+    )
+    min_night_zen: Optional[float] = Field(
+        None, description="Minimum solar zenith angle in degrees to classify as night."
+    )
+    max_night_zen: float | None = Field(
+        None, description="Maximum solar zenith angle in degrees to classify as night."
+    )
+    max_day_zen: Optional[float] = Field(
+        None, description="Maximum solar zenith angle in degrees to classify as day."
+    )
+    mask_night: bool | None = Field(
+        None,
+        description=(
+            "If True, mask pixels classified as night based on `max_day_zen` and"
+            " `min_night_zen`."
+        ),
+    )
+    mask_day: bool | None = Field(
+        None,
+        description=("If True, mask pixels classified as day based on `max_day_zen`."),
+    )
+    scale_factor: Optional[float] = Field(
+        None, description="Scalar multiplier applied to the output data."
+    )
     sun_zen_correction: StrictBool | None = Field(
         None,
-        description="Boolean flag indicating whether to apply solar zenith correction"
-        "(True) or not (False)"
-        "  * If True, returned data will have solar zenith correction applied"
-        "      (see data_manipulations.corrections.apply_solar_zenith_correction)"
-        "  * If False, returned data will not be modified based on solar zenith angle)",
+        description=(
+            "Whether to apply a solar zenith angle correction to visible radiometric"
+            " data. \n"
+            "  * If True, a cosine-based solar zenith angle correction is applied."
+            " (see data_manipulations.corrections.apply_solar_zenith_correction) \n"
+            "  * If False, no solar zenith angle correction is applied."
+        ),
     )
     satellite_zenith_angle_cutoff: Optional[float] = Field(
         None,
         description="Cutoff for masking data where satellite zenith angle exceeds"
         "threshold. None, no masking",
     )
-    pressure_key: str | None = Field(None)
-    time_key: str | None = Field(None)
-    time_fcst: StrictInt | None = Field(None)
-    time_dim: StrictInt | None = Field(None, alias="Time_Dimension")
-    grid_geo: StrictBool | None = Field(None)
+    pressure_key: str | None = Field(
+        None,
+        description="Variable name used to identify pressure levels in the dataset.",
+    )
+    time_key: str | None = Field(
+        None,
+        description="Variable name used to identify the time dimension in the dataset.",
+    )
+    time_fcst: StrictInt | None = Field(
+        None, description="Index of the forecast time offset along the time dimension."
+    )
+    time_dim: StrictInt | None = Field(
+        None,
+        alias="Time_Dimension",
+        description="Number of elements along the time dimension in the dataset.",
+    )
+    grid_geo: StrictBool | None = Field(
+        None, description="If True, regrid data to a geographic grid before processing."
+    )
     var_map: Optional[Dict[str, str]] = Field(
         {}, description="Dictionary that maps input variables to names used in xobj"
     )
