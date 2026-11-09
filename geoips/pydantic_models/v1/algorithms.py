@@ -99,9 +99,7 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     )
     mask_day: bool | None = Field(
         None,
-        description=(
-            "If True, mask pixels classified as day based on `max_day_zen`."
-        ),
+        description=("If True, mask pixels classified as day based on `max_day_zen`."),
     )
     scale_factor: Optional[float] = Field(
         None, description="Scalar multiplier applied to the output data."
