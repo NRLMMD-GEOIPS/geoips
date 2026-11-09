@@ -91,10 +91,17 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         None, description="Maximum solar zenith angle in degrees to classify as day."
     )
     mask_night: bool | None = Field(
-        None, description="If True, mask pixels classified as night."
+        None,
+        description=(
+            "If True, mask pixels classified as night based on `min_night_zen` and"
+            " `max_night_zen`."
+        ),
     )
     mask_day: bool | None = Field(
-        None, description="If True, mask pixels classified as day."
+        None,
+        description=(
+            "If True, mask pixels classified as day based on `max_day_zen`."
+        ),
     )
     scale_factor: Optional[float] = Field(
         None, description="Scalar multiplier applied to the output data."
