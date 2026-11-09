@@ -3,7 +3,7 @@
 
 """Filename specification using minimal basic attributes, and no subdirs."""
 
-from geoips.interfaces.class_based.filename_formatters import (
+from geoips.interfaces.class_based.bases.filename_formatters import (
     BaseFilenameFormatterPlugin,
 )
 

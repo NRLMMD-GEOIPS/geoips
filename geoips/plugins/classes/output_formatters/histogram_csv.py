@@ -3,7 +3,9 @@
 
 """Produce histogram from the given dataset with specified bin size."""
 
-from geoips.interfaces.class_based.output_formatters import BaseOutputFormatterPlugin
+from geoips.interfaces.class_based.bases.output_formatters import (
+    BaseOutputFormatterPlugin,
+)
 
 import logging
 import numpy

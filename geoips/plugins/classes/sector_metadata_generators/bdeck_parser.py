@@ -98,7 +98,7 @@ location per line (split between 3 lines each in comments for readability)::
             TEDDY, D, 12, NEQ,  330,  360,  300,  300, genesis-num, 039,
 """
 
-from geoips.interfaces.class_based.sector_metadata_generators import (
+from geoips.interfaces.class_based.bases.sector_metadata_generators import (
     DeckSectorMetaGeneratorPlugin,
 )
 

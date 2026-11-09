@@ -3,7 +3,9 @@
 
 """Routines for outputting formatted text wind speed and vector data files."""
 
-from geoips.interfaces.class_based.output_formatters import BaseOutputFormatterPlugin
+from geoips.interfaces.class_based.bases.output_formatters import (
+    BaseOutputFormatterPlugin,
+)
 
 import logging
 import os

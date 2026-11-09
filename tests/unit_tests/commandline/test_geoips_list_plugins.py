@@ -63,7 +63,7 @@ class TestGeoipsListPlugins(BaseCliTest):
             "ls",
             "plugins",
         ]
-        assert "usage: To use, type `geoips list plugins`" in error
+        assert "To use, type `geoips list plugins`" in error
 
     def check_output(self, args, output):
         """Ensure that the 'geoips list plugins ...' successful output is correct.
@@ -75,7 +75,7 @@ class TestGeoipsListPlugins(BaseCliTest):
         output: str
             - Multiline str representing the output of the CLI call
         """
-        if "usage: To use, type" in output:
+        if "To use, type" in output:
             # -h has been called, check help message contents for this command
             assert "-h" in args
             assert "To use, type `geoips list plugins`" in output

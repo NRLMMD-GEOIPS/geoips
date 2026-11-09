@@ -100,7 +100,7 @@ The actual idr37 data record (idr_record) in C::
     Its total length of idr_record is 72 bytes
 """
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.bases.readers import BaseReaderPlugin
 
 # Python Standard Libraries
 from datetime import datetime

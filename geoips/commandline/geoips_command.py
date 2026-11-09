@@ -71,7 +71,20 @@ class AlphabeticalHelpFormatter(argparse.RawTextHelpFormatter):
 
     This custom formatter extends RawTextHelpFormatter to sort command-line
     arguments alphabetically when displaying help messages.
+
+    Additionally, changes the color of text for each section of argparse help output.
+
+    For example, the usage, start, and command action sections will all be colored
+    differently.
     """
+
+    # ANSI escape codes
+    RESET = "\033[0m"
+    BOLD = "\033[1m"
+    CYAN = "\033[36m"
+    GREEN = "\033[32m"
+    YELLOW = "\033[33m"
+    MAGENTA = "\033[35m"
 
     def add_arguments(self, actions):
         """
@@ -107,6 +120,62 @@ class AlphabeticalHelpFormatter(argparse.RawTextHelpFormatter):
         )
         super().add_arguments(actions)
 
+    def start_section(self, heading):
+        """Start a new argparse help section with a colored heading.
+
+        Parameters
+        ----------
+        heading : str
+            The heading for the new help section, such as "positional arguments" or
+            "options".
+        """
+        if heading:
+            heading = f"{self.BOLD}{self.CYAN}{heading}{self.RESET}"
+        super().start_section(heading)
+
+    def add_usage(self, usage, actions, groups, prefix=None):
+        """Add the usage section with a colored prefix.
+
+        Parameters
+        ----------
+        usage : str or None
+            The usage string to display. If ``None``, argparse generates the usage
+            string automatically.
+        actions : list
+            The argparse actions associated with the usage.
+        groups : list
+            The mutually exclusive argument groups associated with the usage.
+        prefix : str, optional
+            The prefix displayed before the usage string. Defaults to ``"usage: "``
+            when not provided.
+        """
+        if prefix is None:
+            prefix = "usage: "
+
+        prefix = f"{self.BOLD}{self.MAGENTA}{prefix}{self.RESET}"
+        super().add_usage(usage, actions, groups, prefix)
+
+    def _format_action_invocation(self, action):
+        """Format and color an argparse action invocation.
+
+        This method controls the portion of the help output containing the argument or
+        option itself, such as ``--log-level`` or ``input_file``.
+
+        Parameters
+        ----------
+        action : argparse.Action
+            The argparse action being formatted.
+
+        Returns
+        -------
+        str
+            The colored formatted action invocation.
+        """
+        invocation = super()._format_action_invocation(action)
+
+        # Color the actual argument/flag portion
+        return f"{self.YELLOW}{invocation}{self.RESET}"
+
 
 class ParentParsers:
     """Object containing shared arguments for commands in a hierarchical order.
@@ -141,6 +210,15 @@ class ParentParsers:
             "https://docs.python.org/3/library/warnings.html#warning-filter"
         ),
     )
+    geoips_parser.add_argument(
+        "--version",
+        default=False,
+        action="store_true",
+        help=(
+            "Show the current version of your GeoIPS installation and exit. "
+            "Cannot be supplied alongside any other argument."
+        ),
+    )
 
     list_parser = argparse.ArgumentParser(
         add_help=False, formatter_class=AlphabeticalHelpFormatter
@@ -173,8 +251,8 @@ class ParentParsers:
                 """,
     )
 
-    config_parser = argparse.ArgumentParser(add_help=False)
-    config_parser.add_argument(
+    registry_parser = argparse.ArgumentParser(add_help=False)
+    registry_parser.add_argument(
         "-n",
         "--namespace",
         default="geoips.plugin_packages",
@@ -184,7 +262,7 @@ class ParentParsers:
             "If not specified, this defaults to 'geoips.plugin_packages'."
         ),
     )
-    config_parser.add_argument(
+    registry_parser.add_argument(
         "-p",
         "--packages",
         default=None,

@@ -98,7 +98,7 @@ class TestGeoipsListInterfaces(BaseCliTest):
             "interfaces",
         ]
         assert args != ["geoips", "list", "interfaces", "-i"]
-        assert "usage: To use, type `geoips list interfaces`" in error
+        assert "To use, type `geoips list interfaces`" in error
         if "--long" in args and "--columns" in args:
             assert (
                 "error: argument --columns/-c: not allowed with argument --long/-l"
@@ -117,7 +117,7 @@ class TestGeoipsListInterfaces(BaseCliTest):
         output: str
             - Multiline str representing the output of the CLI call
         """
-        if "usage: To use, type" in output:
+        if "To use, type" in output:
             # -h has been called, check help message contents for this command
             assert "-h" in args
             assert "To use, type `geoips list interfaces`" in output

@@ -14,7 +14,7 @@ import logging
 
 from xarray import DataArray
 
-from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
+from geoips.interfaces.class_based.bases.algorithms import BaseAlgorithmPlugin
 
 LOG = logging.getLogger(__name__)
 

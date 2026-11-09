@@ -105,8 +105,8 @@ class TestGeoipsListInterface(BaseCliTest):
         else:
             assert args[2] not in interfaces.__all__
         assert (
-            "usage: To use, type `geoips list <interface_name>`" in error
-            or "usage: To use, type `geoips list <cmd> <sub-cmd>`" in error
+            "To use, type `geoips list <interface_name>`" in error
+            or "To use, type `geoips list <cmd> <sub-cmd>`" in error
         )
 
     def check_output(self, args, output):
