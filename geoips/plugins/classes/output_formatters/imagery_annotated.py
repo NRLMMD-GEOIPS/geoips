@@ -43,6 +43,7 @@ class ImageryAnnotatedOutputFormatterPlugin(BaseOutputFormatterPlugin):
         remove_duplicate_minrange=None,
         title_copyright=None,
         title_formatter=None,
+        preformatted_title_str=None,
         output_dict=None,
         var_name=None,
         x_size=None,
@@ -176,18 +177,22 @@ class ImageryAnnotatedOutputFormatterPlugin(BaseOutputFormatterPlugin):
                     bkgrnd_clr=bkgrnd_clr,
                 )
 
-        # Set the title for final image
-        title_string = get_title_string_from_objects(
-            area_def,
-            xarray_obj,
-            product_name_title,
-            product_datatype_title=product_datatype_title,
-            bg_xarray=bg_xarray,
-            bg_product_name_title=bg_product_name_title,
-            bg_datatype_title=bg_datatype_title,
-            title_copyright=title_copyright,
-            title_formatter=title_formatter,
-        )
+        if preformatted_title_str and isinstance(preformatted_title_str, str):
+            # call() was passed a fully-formatted title string so we use it!
+            title_string = preformatted_title_str
+        else:
+            # Construct the title for final image
+            title_string = get_title_string_from_objects(
+                area_def,
+                xarray_obj,
+                product_name_title,
+                product_datatype_title=product_datatype_title,
+                bg_xarray=bg_xarray,
+                bg_product_name_title=bg_product_name_title,
+                bg_datatype_title=bg_datatype_title,
+                title_copyright=title_copyright,
+                title_formatter=title_formatter,
+            )
         set_title(main_ax, title_string, area_def.height)
 
         if hist_colorbar:
