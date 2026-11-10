@@ -1,11 +1,14 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-# cspell:ignore invf glle
+# cspell:ignore invf glle, gpaths, gvar, MEMUSG,
 
 """Standard GeoIPS xarray dictionary based ABI NetCDF data reader."""
 
-from geoips.interfaces.class_based.readers import BaseAbiReaderPlugin
+from geoips.interfaces.class_based.readers import (
+    BaseAbiReaderPlugin,
+    ChannelInformation,
+)
 
 # Python Standard Libraries
 import logging
@@ -93,6 +96,118 @@ class AbiNetcdfReaderPlugin(BaseAbiReaderPlugin):
         "latitude",
         "longitude",
     ]
+    readable_channels = ChannelInformation(
+        channel_info={
+            "LOW": {
+                "B04": {
+                    "units": ["Rad", "Ref"],
+                    "description": "Near-IR Cirrus",
+                    "wavelength": 1.37,
+                    "usage": "Thin-cirrus detection",
+                },
+                "B06": {
+                    "units": ["Rad", "Ref"],
+                    "description": "Near-IR Cloud Particle Size",
+                    "wavelength": 2.2,
+                    "usage": "Particle sizing",
+                },
+                "B07": {
+                    "units": ["Rad", "BT"],
+                    "description": "IR Shortwave Window",
+                    "wavelength": 3.9,
+                    "usage": "Day / Night Cloud / Ash detection",
+                },
+                "B08": {
+                    "units": ["Rad", "BT"],
+                    "description": "IR Upper-level tropospheric water vapor",
+                    "wavelength": 6.2,
+                    "usage": "High-altitude moisture",
+                },
+                "B09": {
+                    "units": ["Rad", "BT"],
+                    "description": "IR Mid-level water vapor",
+                    "wavelength": 6.9,
+                    "usage": "Mid-troposphere moisture",
+                },
+                "B10": {
+                    "units": ["Rad", "BT"],
+                    "description": "IR Lower-level Water Vapor",
+                    "wavelength": 7.3,
+                    "usage": "Lower-troposphere moisture",
+                },
+                "B11": {
+                    "units": ["Rad", "BT"],
+                    "description": "IR Cloud-top phase",
+                    "wavelength": 8.4,
+                    "usage": "Cloud phase / type / ash",
+                },
+                "B12": {
+                    "units": ["Rad", "BT"],
+                    "description": "IR Ozone",
+                    "wavelength": 9.6,
+                    "usage": "Ozone tropopause dynamics",
+                },
+                "B13": {
+                    "units": ["Rad", "BT"],
+                    "description": "IR Clean Longwave Window",
+                    "wavelength": 10.3,
+                    "usage": "Surface / cloud temperature",
+                },
+                "B14": {
+                    "units": ["Rad", "BT"],
+                    "description": "IR Longwave window",
+                    "wavelength": 11.2,
+                    "usage": "Surface / cloud temperature",
+                },
+                "B15": {
+                    "units": ["Rad", "BT"],
+                    "description": "IR Dirty Longwave Window",
+                    "wavelength": 12.3,
+                    "usage": "Surface / cloud temperature / moisture",
+                },
+                "B16": {
+                    "units": ["Rad", "BT"],
+                    "description": "IR CO2 Longwave infrared",
+                    "wavelength": 13.3,
+                    "usage": "Atmospheric C02 profiling",
+                },
+            },
+            "MED": {
+                "B01": {
+                    "units": ["Rad", "Ref"],
+                    "description": "Vis Blue",
+                    "wavelength": 0.47,
+                    "usage": "Visible atmosphere / Cloud reflectance",
+                },
+                "B02": {
+                    "units": ["Rad", "Ref"],
+                    "description": "Vis Red",
+                    "wavelength": 0.64,
+                    "usage": "Vegetation / Cloud detection",
+                },
+                "B05": {
+                    "units": ["Rad", "Ref"],
+                    "description": "Near-IR Snow/Ice",
+                    "wavelength": 1.6,
+                    "usage": "Snow / Ice / Cloud discrimination",
+                },
+            },
+            "HIGH": {
+                "B03": {
+                    "units": ["Rad", "Ref"],
+                    "description": "Near-IR Veggie",
+                    "wavelength": 0.86,
+                    "usage": "Vegetation / Circulation",
+                }
+            },
+        },
+        resolution_mapping={
+            "LOW": "5424x5424 | 2km",
+            "MED": "10848x10848 | 1km",
+            "HIGH": "21696x21696 | 0.5km",
+        },
+    ).channel_information
+
     ALL_CHANS = {
         "LOW": [
             "B04Rad",
@@ -156,7 +271,7 @@ class AbiNetcdfReaderPlugin(BaseAbiReaderPlugin):
         """
         Check that all input metadata are from the same image time.
 
-        Performs cheks on platform_ID, instrument_type, processing_level, and times.
+        Performs checks on platform_ID, instrument_type, processing_level, and times.
         If these are all equal, returns True.
         If any differ, returns False.
         """
