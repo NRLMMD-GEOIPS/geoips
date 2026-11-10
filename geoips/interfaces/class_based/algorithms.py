@@ -32,8 +32,8 @@ class BaseAlgorithmPlugin(BaseClassPlugin, abstract=True):
         that tree into a mutable Dataset before the base-class hook applies
         family converters. Legacy (non-OBP) inputs pass through unchanged.
         """
-        if _obp_initiated and isinstance(data, xr.DataTree):
-            data = to_mutable_dataset(data)
+        # if _obp_initiated and isinstance(data, xr.DataTree):  # and not self.data_tree
+        #     data = to_mutable_dataset(data)
         return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
     def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
