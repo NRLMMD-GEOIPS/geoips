@@ -12,6 +12,6 @@ remove-enforcement-of-family-for-datatree-plugins:
     # NRLMMD-GEOIPS/geoips_proxyvis#12
     geoips_proxyvis: image-comparison-tolerance
 
-
+  python:
     # The sibling PR for these changes
-    pluginify: remove-enforcement-of-family-for-datatree-plugins
+    pluginify: pluginify @ git+https://github.com/NRLMMD-GEOIPS/pluginify@remove-enforcement-of-family-for-datatree-plugins
