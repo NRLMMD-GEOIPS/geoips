@@ -151,6 +151,11 @@ RUN git config --global --add safe.directory '*'
 # Install geoips core with uv.  python_env role is skipped because uv already
 # installed the package; ansible only runs system_deps verification + registries.
 RUN uv pip install --system --no-cache ${GEOIPS_PACKAGES_DIR}/geoips \
+    && if [ -n "$PIP_OVERRIDES" ]; then \
+         printf '%s\n' "$PIP_OVERRIDES" > /tmp/pip-overrides.txt \
+         && uv pip install --system --no-cache -r /tmp/pip-overrides.txt \
+         && rm /tmp/pip-overrides.txt; \
+       fi \
     && cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
     && ansible-playbook playbooks/install.yml \
        --tags base \
