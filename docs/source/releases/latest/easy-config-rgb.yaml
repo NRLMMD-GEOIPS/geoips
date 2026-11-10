@@ -1,0 +1,23 @@
+enhancement:
+- title: 'Quality-of-life changes for algorithm_config algorithm'
+  description: |
+    'Added albedo, radiance, and reflectance to acceptable units. Also
+      implemented a safe expression evaluator.'
+  files:
+    modified:
+    - 'geoips/commandline/ancillary_info/alias_mapping.yaml'
+    - 'geoips/data_manipulations/conversions.py'
+    - 'geoips/plugins/classes/algorithms/config_rgb.py'
+    - 'geoips/pydantic_models/v1/algorithm_configs.py'
+  date:
+    start: '07/21/2026'
+    finish: '08/28/2026'
+removal:
+- title: 'Removal of config files in favor of plugin support.'
+  description: |
+    'Config files rgb.yaml and abi_airmass.yaml now exist in the plugin package
+      norrkoping_workshop.'
+  files:
+    deleted:
+    - 'geoips/plugins/yaml/algorithm_configs/abi_airmass.yaml'
+    - 'geoips/plugins/yaml/products/rgb.yaml'
