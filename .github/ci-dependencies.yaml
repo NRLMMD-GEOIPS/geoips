@@ -2,15 +2,7 @@
 # test applies (see "Testing against other branches or versions" in the geoips_ci README).
 remove-enforcement-of-family-for-datatree-plugins:
   repos:
-
-    # Lint fixes, from jthielen's forks (owner:ref).
-    # NRLMMD-GEOIPS/fortran_utils#5, NRLMMD-GEOIPS/rayleigh#9
-    fortran_utils: "jthielen:fix-lint-xref-geoips-1510"
     rayleigh: "jthielen:fix-lint-xref-geoips-1510"
-    # Compare the goes_east and goes_west images with a pixelmatch threshold of 0.2
-    # (the night side differs by a few pixels between runs).
-    # NRLMMD-GEOIPS/geoips_proxyvis#12
-    geoips_proxyvis: image-comparison-tolerance
 
   python:
     # The sibling PR for these changes
