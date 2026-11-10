@@ -35,6 +35,7 @@ class FullDiskImageOutputFormatterPlugin(BaseOutputFormatterPlugin):
         bg_product_name_title=None,
         bg_datatype_title=None,
         remove_duplicate_minrange=None,
+        preformatted_title_str=None,
     ):
         """Plot full disk image."""
         if product_name_title is None:
@@ -94,16 +95,20 @@ class FullDiskImageOutputFormatterPlugin(BaseOutputFormatterPlugin):
             norm=mpl_colors_info["norm"],
         )
 
-        # Set the title for final image
-        title_string = get_title_string_from_objects(
-            area_def,
-            xarray_obj,
-            product_name_title,
-            product_datatype_title=product_datatype_title,
-            bg_xarray=bg_xarray,
-            bg_product_name_title=bg_product_name_title,
-            bg_datatype_title=bg_datatype_title,
-        )
+        if preformatted_title_str and isinstance(preformatted_title_str, str):
+            # call() was passed a fully-formatted title string so we use it!
+            title_string = preformatted_title_str
+        else:
+            # Set the title for final image
+            title_string = get_title_string_from_objects(
+                area_def,
+                xarray_obj,
+                product_name_title,
+                product_datatype_title=product_datatype_title,
+                bg_xarray=bg_xarray,
+                bg_product_name_title=bg_product_name_title,
+                bg_datatype_title=bg_datatype_title,
+            )
         set_title(main_ax, title_string, y_size)
 
         if mpl_colors_info["colorbar"] is True:
