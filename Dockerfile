@@ -128,6 +128,7 @@ ARG USER=geoips_user
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 ARG EXTRA_PLUGINS=""
+ARG PIP_OVERRIDES=""
 
 ENV EXTRA_PLUGINS=${EXTRA_PLUGINS} \
     PIP_ROOT_USER_ACTION=ignore
@@ -156,6 +157,7 @@ RUN uv pip install --system --no-cache ${GEOIPS_PACKAGES_DIR}/geoips \
          && uv pip install --system --no-cache -r /tmp/pip-overrides.txt \
          && rm /tmp/pip-overrides.txt; \
        fi \
+    && python -c "import inspect; from pluginify.create_plugin_registries import collect_class_plugin_metadata; print(inspect.getsource(collect_class_plugin_metadata))" \
     && cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
     && ansible-playbook playbooks/install.yml \
        --tags base \
