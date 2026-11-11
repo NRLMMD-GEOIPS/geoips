@@ -3,12 +3,8 @@
 
 """Algorithms interface class."""
 
-# import xarray as xr
-
 from geoips.interfaces.base import BaseClassInterface
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
-
-# from geoips.utils.types.datatree_helpers import to_mutable_dataset
 from geoips.utils.types.family_conversions import ALGORITHM_FAMILY_CONVERSIONS
 
 
@@ -33,8 +29,6 @@ class BaseAlgorithmPlugin(BaseClassPlugin, abstract=True):
         that tree into a mutable Dataset before the base-class hook applies
         family converters. Legacy (non-OBP) inputs pass through unchanged.
         """
-        # if _obp_initiated and isinstance(data, xr.DataTree):  # and not self.data_tree
-        #     data = to_mutable_dataset(data)
         return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
     def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
@@ -93,7 +87,7 @@ class AlgorithmsInterface(BaseClassInterface):
         "xarray_dict_dict_to_xarray": ["xarray_dict_dict"],
         "xarray_dict_to_xarray_dict": ["xarray_dict"],
         "xarray_dict_area_def_to_numpy": ["xarray_dict", "area_def"],
-        "data_tree": [],
+        "data_tree": ["dt", "variables"],
     }
 
     required_kwargs = {
