@@ -23,7 +23,6 @@ from pydantic import Field, field_validator, model_validator
 from pyresample.geometry import AreaDefinition
 
 # GeoIPS imports
-from geoips import deprecation
 from geoips.pydantic_models.v1.bases import (
     _generate_filenames_from_value,
     PermissiveFrozenModel,
@@ -45,17 +44,14 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     chans: List[str] = Field(
         None,
         description="List of variables to read",
-        deprecated=deprecated(
-            """
+        deprecated=deprecated("""
             Name: "`chans` argument in Readers"
             Component: Readers
             Reference Issue: https://github.com/NRLMMD-GEOIPS/geoips/issues/953
             Deprecated In: 1.19.0
             Removal In: 2.0.0
             Replacement: "Use `variables` instead"
-            """,
-            category=deprecation.GeoipsDeprecationWarning,
-        ),
+        """),
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
     self_register: str = Field(None, description="Enable self-registration.")

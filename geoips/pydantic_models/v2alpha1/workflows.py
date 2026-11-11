@@ -25,7 +25,7 @@ from typing_extensions import deprecated
 from pydantic import ConfigDict, Field, field_validator, model_validator
 
 # GeoIPS imports
-from geoips import interfaces, deprecation
+from geoips import interfaces
 from geoips.pydantic_models.v2alpha1.bases import (
     PythonIdentifier,
     PluginModel,
@@ -130,17 +130,14 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     chans: List[str] = Field(
         None,
         description="List of channels to process",
-        deprecated=deprecated(
-            """
+        deprecated=deprecated("""
             Name: "`chans` argument in Readers"
             Component: Readers
             Reference Issue: https://github.com/NRLMMD-GEOIPS/geoips/issues/953
             Deprecated In: 1.19.0
             Removal In: 2.0.0
             Replacement: "Use `variables` instead"
-            """,
-            category=deprecation.GeoipsDeprecationWarning,
-        ),
+        """),
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
     self_register: List[str] = Field(None, description="Enable self-registration.")

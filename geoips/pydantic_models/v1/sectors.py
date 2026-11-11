@@ -17,7 +17,6 @@ from pydantic import (
 )
 from pydantic.functional_validators import AfterValidator
 
-from geoips import deprecation
 from geoips.pydantic_models.v1.bases import (
     FrozenModel,
     PermissiveFrozenModel,
@@ -324,17 +323,14 @@ class AreaDefinitionSpec(FrozenModel):
         ],
         Annotated[
             SectorShape,
-            deprecated(
-                """
+            deprecated("""
                 Name: SectorShape in AreaDefinition
                 Component: Sectors
                 Reference Issue: MISSING
                 Deprecated In: 1.17.0
                 Removal In: 2.1.0
                 Replacement: "Set `shape` as a tuple of positive integers"
-                """,
-                category=deprecation.GeoipsDeprecationWarning,
-            ),
+            """),
         ],
     ] = None
     area_extent: Union[Tuple[float, float, float, float], SectorAreaExtent] = Field(

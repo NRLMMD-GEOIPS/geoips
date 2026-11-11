@@ -19,6 +19,7 @@ import logging
 import os
 from pathlib import Path
 from typing import Any, ClassVar, Dict, List, Union, Tuple, Type
+from typing_extensions import deprecated
 import warnings
 
 # Third-Party Libraries
@@ -37,7 +38,7 @@ from pydantic._internal._model_construction import (
 )  # internal API, but safe to use
 
 # GeoIPS imports
-from geoips import interfaces
+from geoips import interfaces, deprecation
 from geoips.geoips_utils import get_interface_module
 
 LOG = logging.getLogger(__name__)
@@ -143,6 +144,13 @@ class CoreBaseModel(BaseModel):
         - Prints the model name along with the data.
         - Useful for debugging and logging purposes(for dev).
         - This method would be further enhanced in future PR
+
+    - `issue_deprecation_warning_on_validation`
+        - By default, Pydantic only issues a DeprecationWarning *on access*, rather
+          that *on creation*; we want the latter.
+        - Also, Pydantic (as of v2.12, at least), does not respect the `category`
+          argument in PEP 702 `deprecated`; this allows us to use the GeoIPS-specific
+          warning instead.
     """
 
     restricted_fields: ClassVar[Tuple[str, ...]] = ()
@@ -250,6 +258,22 @@ class CoreBaseModel(BaseModel):
             if cls._has_key_nested(values, field):
                 raise ValueError(f"{field} can't be user-defined; set internally")
         return values
+
+    @model_validator(mode="after")
+    def issue_deprecation_warning_on_validation(self):
+        """Issue deprecation warnings on validation, not just access."""
+        for field_name in self.model_fields_set:
+            field_info = type(self).model_fields[field_name]
+            if field_info and field_info.deprecated:
+                deprecation.deprecation_warning(
+                    (
+                        field_info.deprecated.message
+                        if isinstance(field_info.deprecated, deprecated)
+                        else field_info.deprecated
+                    ),
+                    stacklevel=2,
+                )
+        return self
 
 
 class FrozenModel(CoreBaseModel):
