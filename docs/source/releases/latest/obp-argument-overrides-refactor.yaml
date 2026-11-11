@@ -7,14 +7,15 @@ enhancement:
     same format regardless of which section it's specified in. It looks like the
     following:
 
-    ```yaml
-    arguments:
-      global:
-        <global_argument>: <value>
-      <step_id>.<argument>: <value>
-      <step_id>.<nested_step_id>...<argument>: <value
-      <global>.<argument>: <value
-    ```
+    .. code-block:: yaml
+
+      arguments:
+        global:
+          <global_argument>: <value>
+        <step_id>.<argument>: <value>
+        <step_id>.<nested_step_id>...<argument>: <value
+        <global>.<argument>: <value
+
 
     Again, these are optional fields and will only be applied if specified. The logic
     of how these overrides are applied follow these rules:
