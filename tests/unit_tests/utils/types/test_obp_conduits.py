@@ -27,7 +27,7 @@ class TestObpConduits:
             }
         )
         dt = xr.DataTree(children={"title": xr.DataTree(ds, name="title")})
-        kwargs_dict = BaseClassPlugin._extract_child_kwargs(dt, {})
+        kwargs_dict = BaseClassPlugin._extract_child_kwargs(dt, {}, "title_formatters")
         assert kwargs_dict["preformatted_title_str"] == sentinel
 
     def test_title_formatter_does_not_discard_manual_override(self):
@@ -47,6 +47,7 @@ class TestObpConduits:
         result_kwargs_dict = BaseClassPlugin._extract_child_kwargs(
             dt,
             non_empty_kwargs_dict,
+            "title_formatters",
         )
         assert result_kwargs_dict["preformatted_title_str"] == sentinel
 
@@ -59,5 +60,5 @@ class TestObpConduits:
             }
         )
         dt = xr.DataTree(children={"title": xr.DataTree(ds, name="title")})
-        kwargs_dict = BaseClassPlugin._extract_child_kwargs(dt, {})
+        kwargs_dict = BaseClassPlugin._extract_child_kwargs(dt, {}, "colormappers")
         assert "preformatted_title_str" not in kwargs_dict

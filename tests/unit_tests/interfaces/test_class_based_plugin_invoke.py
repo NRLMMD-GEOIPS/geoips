@@ -176,7 +176,7 @@ class TestConduitKwargExtraction:
         data["first_formatter"] = self._filename_formatter_node(["first.png"])
         data["second_formatter"] = self._filename_formatter_node(["second.png"])
 
-        kwargs = BaseClassPlugin._extract_child_kwargs(data, {})
+        kwargs = BaseClassPlugin._extract_child_kwargs(data, {}, "filename_formatters")
 
         assert kwargs["output_filenames"] == ["second.png"]
 
@@ -187,7 +187,7 @@ class TestConduitKwargExtraction:
         data["second_formatter"] = self._filename_formatter_node(["second.png"])
 
         kwargs = BaseClassPlugin._extract_child_kwargs(
-            data, {"output_filenames": ["explicit.png"]}
+            data, {"output_filenames": ["explicit.png"]}, "filename_formatters"
         )
 
         assert kwargs["output_filenames"] == ["explicit.png"]
@@ -208,7 +208,7 @@ class TestConduitKwargExtraction:
             )
         )
 
-        kwargs = BaseClassPlugin._extract_child_kwargs(data, {})
+        kwargs = BaseClassPlugin._extract_child_kwargs(data, {}, "readers")
 
         assert kwargs["xarray_obj"]["data"].values.tolist() == [10, 20, 30]
 
