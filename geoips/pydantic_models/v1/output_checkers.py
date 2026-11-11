@@ -12,8 +12,6 @@
 # the need to manually quote forward-referenced types (simplified type hinting).
 from __future__ import annotations
 
-from typing import List, Optional
-
 from pydantic import ConfigDict, Field, FilePath
 
 from geoips.pydantic_models.v1.bases import FrozenModel
@@ -28,11 +26,11 @@ class OutputCheckerArgumentsModel(FrozenModel):
         ...,
         description="The path to the comparison file.",
     )
-    output_products: Optional[List[FilePath] | List[str]] = Field(
+    output_products: list[FilePath] | list[str] | None = Field(
         None,
         description="A list of paths to the output file(s).",
     )
-    threshold: Optional[float] = Field(
+    threshold: float | None = Field(
         None,
         description=(
             "Threshold for the image comparison. Argument to pixelmatch. Between "

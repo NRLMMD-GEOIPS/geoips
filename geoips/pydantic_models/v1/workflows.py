@@ -22,7 +22,7 @@ import datetime as dt
 from glob import glob
 import logging
 import re
-from typing import Any, Dict, List, Literal, Optional, Union
+from typing import Any, Literal
 
 # Third-Party Libraries
 from pydantic import (
@@ -95,7 +95,7 @@ ORDERED_PRODUCT_FAMILIES = [
 ]
 
 
-def get_plugin_names(plugin_kind: str) -> List[str]:
+def get_plugin_names(plugin_kind: str) -> list[str]:
     """Return valid plugin names for passed plugin kind.
 
     Parameters
@@ -296,7 +296,7 @@ class GlobalVariablesModel(PermissiveFrozenModel):
         None,
         description="Database writer plugin used to store product metadata.",
     )
-    product_db_writer_kwargs: Dict[str, Any] | None = Field(
+    product_db_writer_kwargs: dict[str, Any] | None = Field(
         None,
         description="Keyword arguments passed through to the product database writer.",
     )
@@ -314,7 +314,7 @@ class GlobalVariablesModel(PermissiveFrozenModel):
             "instead of a separately specified sector."
         ),
     )
-    sector_list: List[str] | None = Field(
+    sector_list: list[str] | None = Field(
         None,
         description=(
             "List of sector names to process."
@@ -398,10 +398,10 @@ class WorkflowStepDefinitionModel(FrozenModel):
     spec: WorkflowSpecModel | None = Field(
         None, description="The workflow specification"
     )
-    arguments: Dict[str, Any] | None = Field(
+    arguments: dict[str, Any] | None = Field(
         default_factory=dict, description="step args"
     )
-    depends_on: List[StepReference] | None = Field(
+    depends_on: list[StepReference] | None = Field(
         None,
         description=(
             "Step references this step depends on. Each reference is either a "
@@ -716,7 +716,7 @@ class WorkflowSpecModel(FrozenModel):
         None,
         description="Arguments shared across workflow steps",
     )
-    steps: Dict[PythonIdentifier, WorkflowStepDefinitionModel] = Field(
+    steps: dict[PythonIdentifier, WorkflowStepDefinitionModel] = Field(
         ..., description="Steps to produce the workflow."
     )
 
@@ -729,7 +729,7 @@ class WorkflowSpecModel(FrozenModel):
             "  downstream step references it."
         ),
     )
-    retention_by_kind: Dict[str, Literal["keep_all", "keep_referenced"]] | None = Field(
+    retention_by_kind: dict[str, Literal["keep_all", "keep_referenced"]] | None = Field(
         None,
         description=(
             "Per-kind retention overrides. Keys are plugin kind names "
@@ -737,7 +737,7 @@ class WorkflowSpecModel(FrozenModel):
             "This is a v2 feature; field exists but is not wired in v1."
         ),
     )
-    defaults: Dict[str, Dict[str, Any]] | None = Field(
+    defaults: dict[str, dict[str, Any]] | None = Field(
         None,
         description=(
             "Per-kind argument defaults applied to every step of that kind. "
@@ -1256,7 +1256,7 @@ class OutputCheckerOverrideModel(PermissiveFrozenModel):
         ...
     """
 
-    name: Optional[str] = Field(
+    name: str | None = Field(
         None,
         description=(
             "The name of the output checker plugin to use. If None, use a default "
@@ -1264,11 +1264,11 @@ class OutputCheckerOverrideModel(PermissiveFrozenModel):
         ),
         alias="output_checker_name",
     )
-    compare_path: Union[FilePath, str, None] = Field(
+    compare_path: FilePath | str | None = Field(
         None,
         description="The path to the comparison file.",
     )
-    threshold: Optional[float] = Field(
+    threshold: float | None = Field(
         None,
         description=(
             "Threshold for the image comparison. Argument to pixelmatch. Between "
@@ -1290,7 +1290,7 @@ class WorkflowTestModel(FrozenModel):
     """Model for the test section of GeoIPS workflow plugins."""
 
     # Not pathlib.Path objects as readers only expect a list of strings
-    filenames: List[str] = Field(
+    filenames: list[str] = Field(
         ...,
         description="A list of one or more filepaths to the data used for this test.",
         validation_alias=AliasChoices("fnames", "filenames"),
@@ -1300,7 +1300,7 @@ class WorkflowTestModel(FrozenModel):
     #     globals:
     #         minimum_coverage: <float>
     #         product_name: <some_value>
-    arguments: Optional[Dict[str, Any]] | None = Field(
+    arguments: dict[str, Any] | None = Field(
         None, description="Argument overrides to apply to your workflow."
     )
 
@@ -1314,7 +1314,7 @@ class WorkflowTestModel(FrozenModel):
     #             optional_arg1: <x>
     #             optional_arg2: <z>
 
-    outputs: Dict[str, OutputCheckerOverrideModel] = Field(
+    outputs: dict[str, OutputCheckerOverrideModel] = Field(
         default_factory=dict,
         description=(
             "Override dictionary for output checker steps or every instance of"
@@ -1369,7 +1369,7 @@ class WorkflowPluginModel(PluginModel):
         ],
     )
 
-    arguments: Optional[Dict[str, Any]] | None = Field(
+    arguments: dict[str, Any] | None = Field(
         None, description="Argument overrides to apply to your workflow."
     )
 

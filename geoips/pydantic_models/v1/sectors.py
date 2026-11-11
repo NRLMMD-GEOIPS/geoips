@@ -5,7 +5,7 @@
 
 from datetime import datetime
 from enum import Enum
-from typing import Literal, Tuple, Union
+from typing import Literal
 from typing_extensions import Annotated
 
 from pydantic import (
@@ -50,7 +50,7 @@ def validate_lat_lon_coordinate(arg: tuple[float, float]) -> tuple[float, float]
 
 
 LatLonCoordinate = Annotated[
-    Tuple[float, float], AfterValidator(validate_lat_lon_coordinate)
+    tuple[float, float], AfterValidator(validate_lat_lon_coordinate)
 ]
 
 
@@ -280,11 +280,11 @@ class SectorAreaExtent(FrozenModel):
     For more information on how this is used, see the pyresample documentation.
     """
 
-    lower_left_xy: Tuple[int, int] = Field(
+    lower_left_xy: tuple[int, int] = Field(
         ...,
         description="Lower left corner of the sector in projection units.",
     )
-    upper_right_xy: Tuple[int, int] = Field(
+    upper_right_xy: tuple[int, int] = Field(
         ...,
         description="Upper right corner of the sector in projection units. ",
     )
@@ -321,28 +321,28 @@ class AreaDefinitionSpec(FrozenModel):
     )
     # This can either be a tuple of integers (preferred) or a
     # SectorShape object (deprecated)
-    shape: Union[
-        Tuple[
+    shape: (
+        tuple[
             Annotated[int, Field(strict=True, gt=0)],
             Annotated[int, Field(strict=True, gt=0)],
-        ],
-        SectorShape,
-    ] = None
-    area_extent: Union[Tuple[float, float, float, float], SectorAreaExtent] = Field(
+        ]
+        | SectorShape
+    ) = None
+    area_extent: tuple[float, float, float, float] | SectorAreaExtent = Field(
         None,
         description=(
             "Sector area extent in projection units. "
             "For more information see the pyresample documentation."
         ),
     )
-    resolution: Union[
-        Annotated[float, Field(strict=True, gt=0)],
-        Tuple[
+    resolution: (
+        Annotated[float, Field(strict=True, gt=0)]
+        | tuple[
             Annotated[float, Field(strict=True, gt=0)],
             Annotated[float, Field(strict=True, gt=0)],
-        ],
-        SectorResolution,
-    ] = Field(
+        ]
+        | SectorResolution
+    ) = Field(
         None,
         description=(
             "The size of the pixels in the sector in projection units. "
@@ -629,13 +629,9 @@ class StaticSectorPluginModel(PluginModel):
             "Used to generate a pyresample AreaDefinition."
         ),
     )
-    metadata: Union[
-        BoxMetadata,
-        StaticMetadata,
-        StitchedMetadata,
-        TCMetadata,
-        VolcanoMetadata,
-    ] = Field(
+    metadata: (
+        BoxMetadata | StaticMetadata | StitchedMetadata | TCMetadata | VolcanoMetadata
+    ) = Field(
         ...,
         description=(
             "Metadata describing the sector "
@@ -736,12 +732,10 @@ class DynamicSectorPluginModel(PluginModel):
 
 
 # Discriminated Union via RootModel
-class _SectorPluginUnion(
-    RootModel[Union[DynamicSectorPluginModel, StaticSectorPluginModel]]
-):
+class _SectorPluginUnion(RootModel[DynamicSectorPluginModel | StaticSectorPluginModel]):
     """Private root model to unpack via SectorPluginModel."""
 
-    root: Union[DynamicSectorPluginModel, StaticSectorPluginModel]
+    root: DynamicSectorPluginModel | StaticSectorPluginModel
 
 
 class SectorPluginModel:
