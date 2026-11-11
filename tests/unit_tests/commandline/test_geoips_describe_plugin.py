@@ -47,7 +47,9 @@ class TestGeoipsDescribePlugin(BaseCliTest):
                 ][interface_name]
                 for idx, plugin_name in enumerate(interface_registry):
                     interface_name = interface_name.replace("_", "-")
-                    for alias in self.alias_mapping[interface_name] + [interface_name]:
+                    for alias in self.alias_mapping.get(interface_name, []) + [
+                        interface_name
+                    ]:
                         # Randomly select some plugins to perform 'describe plugin' on.
                         # Doing this because there are too many plugins to test in a
                         # timely manner
