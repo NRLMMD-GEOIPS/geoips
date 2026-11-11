@@ -22,13 +22,16 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
 
     variables: list[str] | None = Field(
         None,
-        description="List of input variables used in algorithm processing",
+        description=(
+            "List of variables to pass to the algorithm from the input data. If"
+            " `None`, all variables are passed.",
+        ),
     )
     output_data_range: tuple[StrictFloat, StrictFloat] | None = Field(
         None,
-        description="list of min and max value for output data product."
-        " This is applied LAST after all other corrections/adjustments."
-        " If None, use data.min() and data.max()",
+        description="Two-element iterator containing the minimum and maximum value "
+        " for output data product. This is applied LAST after all other"
+        " corrections/adjustments. If None, use data.min() and data.max()",
     )
     min_outbounds: str | None = Field(
         None,
@@ -90,21 +93,28 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         None, description="Maximum solar zenith angle in degrees to classify as day."
     )
     mask_night: bool | None = Field(
-        None, description="If True, mask pixels classified as night."
+        None,
+        description=(
+            "If True, mask pixels classified as night based on `max_day_zen` and"
+            " `min_night_zen`."
+        ),
     )
     mask_day: bool | None = Field(
-        None, description="If True, mask pixels classified as day."
+        None,
+        description=("If True, mask pixels classified as day based on `max_day_zen`."),
     )
     scale_factor: float | None = Field(
         None, description="Scalar multiplier applied to the output data."
     )
     sun_zen_correction: StrictBool | None = Field(
         None,
-        description="Boolean flag indicating whether to apply solar zenith correction"
-        "(True) or not (False)"
-        "  * If True, returned data will have solar zenith correction applied"
-        "      (see data_manipulations.corrections.apply_solar_zenith_correction)"
-        "  * If False, returned data will not be modified based on solar zenith angle)",
+        description=(
+            "Whether to apply a solar zenith angle correction to visible radiometric"
+            " data. \n"
+            "  * If True, a cosine-based solar zenith angle correction is applied."
+            " (see data_manipulations.corrections.apply_solar_zenith_correction) \n"
+            "  * If False, no solar zenith angle correction is applied."
+        ),
     )
     satellite_zenith_angle_cutoff: float | None = Field(
         None,
