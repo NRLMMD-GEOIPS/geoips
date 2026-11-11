@@ -33,7 +33,7 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
         le=100.0,
         description="Image coverage, float between 0.0 and 100.0",
     )
-    extension: str = Field(None, description="Extension of filename")
+    extension: str | None = Field(None, description="Extension of filename")
     extra: str | None = Field(
         None,
         description=(
@@ -47,8 +47,10 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
         PLUGIN_PROVIDED,
         description=" Requested output format, ie png, jpg, tif, etc, defaults to None",
     )
-    output_type_dir: str = Field(None, description="If None, default to output_type.")
+    output_type_dir: str | None = Field(
+        None, description="If None, default to output_type."
+    )
     product_filename: str | None = Field(None)
-    product_dir: str = Field(None)
-    product_subdir: str = Field(None)
-    source_dir: str = Field(None)
+    product_dir: str | None = Field(None)
+    product_subdir: str | None = Field(None)
+    source_dir: str | None = Field(None)

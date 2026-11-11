@@ -18,6 +18,7 @@ from geoips.pydantic_models.v1.filename_formatters import (
 from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
 from geoips.pydantic_models.v1.output_formatters import OutputFormatterArgumentsModel
 from geoips.pydantic_models.v1.output_checkers import OutputCheckerArgumentsModel
+from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
 from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
 from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
 from geoips.pydantic_models.v1.workflows import WorkflowSpecModel
@@ -93,6 +94,10 @@ models_available = {
     "colormappers": {
         "good_source": ("fixture", "valid_colormapper_plugin_data"),
         "model": ColormapperArgumentsModel,
+    },
+    "coverage_checkers": {
+        "good_source": ("fixture", "valid_coverage_checker_arguments"),
+        "model": CoverageCheckerArgumentsModel,
     },
 }
 

@@ -58,3 +58,28 @@ source_dir_valid_input:
   key: source_dir
   val: "test_source_dir"
   cls: FilenameFormatterArgumentsModel
+extension_null_input:
+  description: "Ensure null is accepted for extension"
+  key: extension
+  val: null
+  cls: FilenameFormatterArgumentsModel
+output_type_dir_null_input:
+  description: "Ensure null is accepted for output_type_dir"
+  key: output_type_dir
+  val: null
+  cls: FilenameFormatterArgumentsModel
+product_dir_null_input:
+  description: "Ensure null is accepted for product_dir"
+  key: product_dir
+  val: null
+  cls: FilenameFormatterArgumentsModel
+product_subdir_null_input:
+  description: "Ensure null is accepted for product_subdir"
+  key: product_subdir
+  val: null
+  cls: FilenameFormatterArgumentsModel
+source_dir_null_input:
+  description: "Ensure null is accepted for source_dir"
+  key: source_dir
+  val: null
+  cls: FilenameFormatterArgumentsModel

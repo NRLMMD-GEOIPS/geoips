@@ -1,1 +1,5 @@
-{}
+t_epoch_null_input:
+  description: "Ensure null is accepted for t_epoch in SectorProjection"
+  key: spec/projection/t_epoch
+  val: null
+  cls: SectorProjection
