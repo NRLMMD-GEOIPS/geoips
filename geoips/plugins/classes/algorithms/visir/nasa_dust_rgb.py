@@ -7,6 +7,8 @@ Data manipulation steps for the "nasa_dust_rgb" product.
 This algorithm expects Brightness Temperatures in units of degrees Kelvin
 """
 
+import numpy as np
+
 from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
 
 import logging
@@ -93,7 +95,15 @@ class NasaDustRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         )
 
         alp = alpha_from_masked_arrays([red, grn, blu])
-        rgba = rgba_from_arrays(red, grn, blu, alp)
+        try:
+            rgba = rgba_from_arrays(red, grn, blu, alp)
+        except AttributeError:
+            rgba = rgba_from_arrays(
+                np.ma.masked_array(red, fill_value=0),
+                np.ma.masked_array(grn, fill_value=0),
+                np.ma.masked_array(blu, fill_value=0),
+                alp,
+            )
         return rgba
 
 

@@ -346,7 +346,7 @@ class BaseClassPlugin(ABC):
             ) from exc
 
     @staticmethod
-    def _extract_child_kwargs(data, kwargs):
+    def _extract_child_kwargs(data, kwargs, interface):
         """Inject conduit-mapped keyword arguments from upstream DataTree children.
 
         Walks each child of *data* (a ``multi_input`` DataTree built by
@@ -399,7 +399,14 @@ class BaseClassPlugin(ABC):
             if val is not None:
                 kwargs[kwarg_name] = val
 
-        _apply_legacy_product_name_rename(kwargs)
+        # The following interfaces expect 'product_name' to be a variable in the
+        # xarray object they are provided.
+        if interface in [
+            "coverage_checkers",
+            "filename_formatters",
+            "output_formatters",
+        ]:
+            _apply_legacy_product_name_rename(kwargs)
 
         return kwargs
 
@@ -517,7 +524,7 @@ class BaseClassPlugin(ABC):
         # receive the accumulated script tree. Both use conduit extraction to
         # translate upstream child nodes into the kwargs this plugin understands.
         if _obp_initiated:
-            new_kwargs = self._extract_child_kwargs(data, new_kwargs)
+            new_kwargs = self._extract_child_kwargs(data, new_kwargs, self.interface)
         if script_mode:
             # Script trees keep history. The plugin call itself should operate
             # on the current data input when one was discovered, while the
