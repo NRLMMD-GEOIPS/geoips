@@ -9,7 +9,7 @@ import warnings
 
 import deprecate as pydeprecate
 from deprecate import TargetMode
-from pydantic import AnyUrl, BaseModel, Field
+from pydantic import AnyUrl, BaseModel, Field, ValidationError
 from pydantic_extra_types.semantic_version import SemanticVersion
 import yaml
 
@@ -93,29 +93,67 @@ class GeoipsDeprecationMessage(BaseModel):
         """
         return cls.model_validate(yaml.load(message, Loader=yaml.BaseLoader))
 
+    def to_string(self, for_pydeprecate: bool = False):
+        """Reassemble message contents into sentence-style single-line string.
+
+        Parameters
+        ----------
+        for_pydeprecate: bool, optional
+            Use ``%(argument)s``-style format statements, as used by PyDeprecate, where
+            appropriate to include deprecation arguments. Defaults to False.
+        """
+        if for_pydeprecate and not self.name:
+            message = f"`%(source_name)s` (Component: {self.component})"
+        elif not self.name:
+            message = f"This (as a part of {self.component})"
+        else:
+            message = f"{self.name} (Component: {self.component})"
+        message += " is deprecated as of "
+        message += "v%(deprecated_in)s" if for_pydeprecate else str(self.deprecated_in)
+        if not self.remove_in or str(self.remove_in).startswith("Conditional"):
+            message += ". "
+        elif for_pydeprecate:
+            message += ", and will be removed in v%(remove_in)s. "
+        else:
+            message += f", and will be removed in v{self.remove_in}. "
+        if self.replacement:
+            message += f"Replacement/Migration Instructions: {self.replacement}. "
+        if self.reference_issue != "MISSING":
+            message += f"See {self.reference_issue} for more information."
+        return message.strip()
+
+
+def _maybe_reformat_standard_message(message):
+    """Attempt to reformat a standard deprecation message, with graceful fallbacks."""
+    if "\n" in message:
+        try:
+            output_message = GeoipsDeprecationMessage.parse_message(message).to_string()
+        except ValidationError:
+            # If it doesn't meet our model, then just collapse whitespace and
+            # newlines
+            output_message = " ".join(
+                line.strip() for line in message.splitlines() if line.strip()
+            )
+    else:
+        # If no newlines, leave unchanged
+        output_message = message
+    return output_message
+
 
 class GeoipsDeprecationWarning(DeprecationWarning):
     """GeoIPS-specific DeprecationWarning."""
 
     def __init__(self, message):
-        """We expect multiline messages; reformat without newlines."""
-        # TODO: Consider more complete reformat, since that is more or less already
-        # happening in the PyDeprecate wrapper anyway?
-        super().__init__(
-            " - ".join(line.strip() for line in message.splitlines() if line.strip())
-        )
+        """We expect multiline formatted messages; attempt to parse them."""
+        super().__init__(_maybe_reformat_standard_message(message))
 
 
 class GeoipsPendingDeprecationWarning(PendingDeprecationWarning):
     """GeoIPS-specific PendingDeprecationWarning."""
 
     def __init__(self, message):
-        """We expect multiline messages; reformat without newlines."""
-        # TODO: Consider more complete reformat, since that is more or less already
-        # happening in the PyDeprecate wrapper anyway?
-        super().__init__(
-            " - ".join(line.strip() for line in message.splitlines() if line.strip())
-        )
+        """We expect multiline formatted messages; attempt to parse them."""
+        super().__init__(_maybe_reformat_standard_message(message))
 
 
 # Define our callable streams for pydeprecate
@@ -140,22 +178,6 @@ def _parse_for_pydeprecate(
             kwargs[parsed_kwarg] = str(getattr(contents, parsed_kwarg))
 
     # Set custom message
-    name = getattr(contents, "name", None)
-    name = "`%(source_name)s`" if name is None else name
-    pydeprecate_message = (
-        f"{name} (Component: {contents.component}) is deprecated as of "
-        "v%(deprecated_in)s"
-    )
-    if "remove_in" in kwargs and not kwargs["remove_in"].startswith("Conditional"):
-        pydeprecate_message += ", and will be removed in v%(remove_in)s. "
-    else:
-        pydeprecate_message += ". "
-    if getattr(contents, "replacement", None):
-        pydeprecate_message += (
-            f"Replacement/Migration Instructions: {contents.replacement}. "
-        )
-    if contents.reference_issue != "MISSING":
-        pydeprecate_message += f"See {contents.reference_issue} for more information."
     if "message_template" in kwargs:
         warnings.warn(
             (
@@ -165,7 +187,7 @@ def _parse_for_pydeprecate(
             ),
             UserWarning,
         )
-    kwargs["message_template"] = pydeprecate_message.strip()
+    kwargs["message_template"] = contents.to_string(for_pydeprecate=True)
 
     # Set geoips defaults, if not overwritten
     if "stream" not in kwargs:
