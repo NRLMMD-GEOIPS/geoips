@@ -8,6 +8,7 @@ import inspect
 import pytest
 import xarray as xr
 
+from geoips.deprecation import GeoipsDeprecationWarning
 from geoips.errors import BoundaryIOError
 from geoips.interfaces.class_based.output_formatters import BaseOutputFormatterPlugin
 
@@ -20,7 +21,7 @@ class _AreaDef:
 
 def _legacy_area_first_formatter_class():
     """Build a legacy formatter while capturing its deprecation warning."""
-    with pytest.warns(DeprecationWarning, match="legacy 'area_def' before"):
+    with pytest.warns(GeoipsDeprecationWarning, match="Legacy `area_def` before"):
 
         class _LegacyAreaFirstFormatter(BaseOutputFormatterPlugin):
             interface = "output_formatters"

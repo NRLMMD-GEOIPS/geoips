@@ -9,12 +9,13 @@ import inspect
 import json
 import logging
 from os.path import dirname, exists
-import warnings
+from typing_extensions import deprecated
 
 import cartopy.crs as crs
 import numpy
 import xarray as xr
 
+from geoips import deprecation
 from geoips.filenames.base_paths import make_dirs
 from geoips.errors import BoundaryIOError
 from geoips.geoips_utils import replace_geoips_paths
@@ -93,6 +94,30 @@ def _normalize_output_formatter_call_signature(call_method):
     return _data_first_call, True
 
 
+@deprecation.deprecate_callable(num_warns=-1)
+@deprecated(
+    """
+    Name: "Legacy `area_def` before data parameter"
+    Component: Writers
+    Deprecated In: 2.0.0
+    Reference Issue: https://github.com/NRLMMD-GEOIPS/geoips/issues/1318
+    Replacement: Put data first, then pyresample Geometry
+    """,
+    category=None,
+)
+def _handle_deprecated_area_first(data, args, kwargs):
+    data_param = next(
+        (p for p in DATA_PARAM_NAMES if p in kwargs),
+        None,
+    )
+    if data_param is None and args:
+        return args[0], (data, *args[1:]), kwargs
+    if data_param is not None:
+        new_kwargs = dict(kwargs)
+        new_data = new_kwargs.pop(data_param)
+        return new_data, (data, *args), new_kwargs
+
+
 class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS output_formatter plugins.
 
@@ -123,22 +148,13 @@ class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
         if abstract or not hasattr(cls, "family") or not hasattr(cls, "call"):
             return
         if legacy_area_first:
-            data_param = next(
-                pname
-                for pname in DATA_PARAM_NAMES
-                if pname in inspect.signature(cls.call).parameters
-            )
-            warnings.warn(
-                f"Output formatter {cls.name!r} (family {cls.family!r}) "
-                f"has a legacy 'area_def' before '{data_param}' implementation "
-                f"signature. GeoIPS will expose and invoke it as data-first "
-                f"({data_param}) first, then area_def. "
-                f"The preferred migration is to make this plugin "
-                f"DataTree-native (set ``data_tree = True`` and "
-                f"remove ``family``).",
-                DeprecationWarning,
-                stacklevel=2,
-            )
+            deprecation.deprecation_warning("""
+                Name: "Legacy `area_def` before data parameter"
+                Component: Writers
+                Deprecated In: 2.0.0
+                Reference Issue: https://github.com/NRLMMD-GEOIPS/geoips/issues/1318
+                Replacement: Migrate to DataTree-native plugin
+            """)
 
     def _normalize_call_args(self, data, args, kwargs, *, _obp_initiated=False):
         """Normalize legacy formatter calls to data-first argument order.
@@ -150,26 +166,7 @@ class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
         ``formatter(xarray_obj, area_def, ...)``.
         """
         if data is not None and _is_area_definition(data):
-            if not getattr(self, "_warned_geom_first_call", False):
-                warnings.warn(
-                    f"Output formatter {self.name!r} (family {self.family!r}) "
-                    f"received a pyresample Geometry as the first positional "
-                    f"argument. The recommended order is data first, area_def "
-                    f"second.",
-                    DeprecationWarning,
-                    stacklevel=2,
-                )
-                self._warned_geom_first_call = True
-            data_param = next(
-                (p for p in DATA_PARAM_NAMES if p in kwargs),
-                None,
-            )
-            if data_param is None and args:
-                return args[0], (data, *args[1:]), kwargs
-            if data_param is not None:
-                new_kwargs = dict(kwargs)
-                new_data = new_kwargs.pop(data_param)
-                return new_data, (data, *args), new_kwargs
+            return _handle_deprecated_area_first(data, args, kwargs)
         return super()._normalize_call_args(
             data, args, kwargs, _obp_initiated=_obp_initiated
         )

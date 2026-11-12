@@ -16,6 +16,7 @@ from __future__ import annotations
 import keyword
 import logging
 from typing import Any, ClassVar, Dict, Union, Tuple, Type
+from typing_extensions import deprecated
 import warnings
 
 # Third-Party Libraries
@@ -34,7 +35,7 @@ from pydantic._internal._model_construction import (
 )  # internal API, but safe to use
 
 # GeoIPS imports
-from geoips import interfaces
+from geoips import interfaces, deprecation
 from geoips.geoips_utils import get_interface_module
 
 LOG = logging.getLogger(__name__)
@@ -43,11 +44,12 @@ ColorTuple = Union[Tuple[float, float, float], Tuple[float, float, float, float]
 ColorType = Union[ColorTuple, str]
 
 
-class PrettyBaseModel(BaseModel):
-    """Make Pydantic models pretty-print by default.
+class CoreBaseModel(BaseModel):
+    """Extend Pydantic base model for desired printing and warning behavior.
 
     This model overrides the default string representation of Pydantic models to
-    generate a user-friendly, JSON-formatted output with two-space indentation.
+    generate a user-friendly, JSON-formatted output with two-space indentation. It also
+    issues deprecation warnings *on validation* rather than just *on access*.
     """
 
     def __str__(self) -> str:
@@ -64,11 +66,27 @@ class PrettyBaseModel(BaseModel):
         # set. I.e. field = None, vs field defaults to None, and hasn't been supplied
         return self.model_dump_json(indent=2, exclude_unset=True)
 
+    @model_validator(mode="after")
+    def issue_deprecation_warning_on_validation(self):
+        """Issue deprecation warnings on validation, not just access."""
+        for field_name in self.model_fields_set:
+            field_info = type(self).model_fields[field_name]
+            if field_info and field_info.deprecated:
+                deprecation.deprecation_warning(
+                    (
+                        field_info.deprecated.message
+                        if isinstance(field_info.deprecated, deprecated)
+                        else field_info.deprecated
+                    ),
+                    stacklevel=2,
+                )
+        return self
 
-class FrozenModel(PrettyBaseModel):
+
+class FrozenModel(CoreBaseModel):
     """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
 
-    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
+    This model extends ``CoreBaseModel`` and uses Pydantic's ConfigDict to provide
     customized configurations. It is intended for use in cases where additional fields
     are not allowed, and the object data cannot be modified after initialization.
     """
@@ -76,10 +94,10 @@ class FrozenModel(PrettyBaseModel):
     model_config = ConfigDict(extra="forbid", populate_by_name=True, frozen=True)
 
 
-class PermissiveFrozenModel(PrettyBaseModel):
+class PermissiveFrozenModel(CoreBaseModel):
     """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
 
-    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
+    This model extends ``CoreBaseModel`` and uses Pydantic's ConfigDict to provide
     customized configurations. It is intended for use in cases where additional fields
     are allowed, but the object data cannot be modified after initialization.
     """
@@ -87,10 +105,10 @@ class PermissiveFrozenModel(PrettyBaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True, frozen=True)
 
 
-class DynamicModel(PrettyBaseModel):
+class DynamicModel(CoreBaseModel):
     """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
 
-    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
+    This model extends ``CoreBaseModel`` and uses Pydantic's ConfigDict to provide
     customized configurations. It is intended for use in cases where additional fields
     are not allowed, but the object data can be modified after initialization.
     """
@@ -98,10 +116,10 @@ class DynamicModel(PrettyBaseModel):
     model_config = ConfigDict(extra="forbid", populate_by_name=True, frozen=False)
 
 
-class PermissiveDynamicModel(PrettyBaseModel):
+class PermissiveDynamicModel(CoreBaseModel):
     """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
 
-    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
+    This model extends ``CoreBaseModel`` and uses Pydantic's ConfigDict to provide
     customized configurations. It is intended for use in cases where additional fields
     are allowed, and the object data can be modified after initialization.
     """

@@ -9,12 +9,28 @@ This functionality will be replaced with a class-based implementation v2.0,
 and deprecated at that time.
 """
 
+from typing_extensions import deprecated
+
 import logging
+from geoips import deprecation
 from geoips.interfaces import colormappers, coverage_checkers
 
 LOG = logging.getLogger(__name__)
 
 
+# Define re-used deprecation decorator
+# TODO update MISSING -> issue number once reference issue created
+dep_MISSING = deprecated(
+    """
+    Reference Issue: MISSING
+    Component: Products
+    Deprecated In: 2.0.0
+    """,
+    category=deprecation.GeoipsDeprecationWarning,
+)
+
+
+@dep_MISSING
 def get_required_variables(prod_plugin):
     """Interface will be deprecated v2.0.
 
@@ -61,6 +77,7 @@ def get_required_variables(prod_plugin):
     return return_vars
 
 
+@dep_MISSING
 def get_requested_datasets_for_variables(prod_plugin):
     """Interface will be deprecated v2.0.
 
@@ -115,6 +132,7 @@ def get_requested_datasets_for_variables(prod_plugin):
     return return_dict
 
 
+@dep_MISSING
 def get_data_range(prod_plugin, output_dict=None):
     """Interface will be deprecated v2.0.
 
@@ -141,6 +159,7 @@ def get_data_range(prod_plugin, output_dict=None):
     return alg_args["output_data_range"].copy()
 
 
+@dep_MISSING
 def get_cmap_data_range(prod_plugin, output_dict=None):
     """Interface will be deprecated v2.0.
 
@@ -167,6 +186,7 @@ def get_cmap_data_range(prod_plugin, output_dict=None):
     return cmap_args["data_range"].copy()
 
 
+@dep_MISSING
 def get_product_display_name(prod_plugin, output_dict=None):
     """Interface will be deprecated v2.0.
 
@@ -195,6 +215,7 @@ def get_product_display_name(prod_plugin, output_dict=None):
         return prod_plugin.name
 
 
+@dep_MISSING
 def get_cmap_from_product(prod_plugin, output_dict=None):
     r"""Interface will be deprecated v2.0.
 
@@ -225,6 +246,7 @@ def get_cmap_from_product(prod_plugin, output_dict=None):
     return cmap_func(**cmap_args)
 
 
+@dep_MISSING
 def get_covg_from_product(prod_plugin, output_dict=None, covg_field=None):
     """Interface will be deprecated v2.0.
 
@@ -258,6 +280,7 @@ def get_covg_from_product(prod_plugin, output_dict=None, covg_field=None):
         return coverage_checkers.get_plugin("masked_arrays")
 
 
+@dep_MISSING
 def get_covg_args_from_product(prod_plugin, output_dict=None, covg_field=None):
     """Interface will be deprecated v2.0.
 

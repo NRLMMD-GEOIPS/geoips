@@ -19,6 +19,7 @@ from __future__ import annotations
 # Python Standard Libraries
 import logging
 from typing import Any, Dict, List
+from typing_extensions import deprecated
 
 # Third-Party Libraries
 from pydantic import ConfigDict, Field, field_validator, model_validator
@@ -125,10 +126,18 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     """
 
     area_def: str = Field(None, description="Area definition identifier.")
-    variables: List[str] = Field(
+    variables: List[str] = Field(None, description="List of channels to process")
+    chans: List[str] = Field(
         None,
         description="List of channels to process",
-        alias="chans",
+        deprecated=deprecated("""
+            Name: "`chans` argument in Readers"
+            Component: Readers
+            Reference Issue: https://github.com/NRLMMD-GEOIPS/geoips/issues/953
+            Deprecated In: 1.19.0
+            Removal In: 2.0.0
+            Replacement: "Use `variables` instead"
+        """),
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
     self_register: List[str] = Field(None, description="Enable self-registration.")
@@ -137,12 +146,15 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     )
 
     @model_validator(mode="before")
-    def _handle_deprecated_chans(cls, values):
+    @classmethod
+    def _handle_deprecated_chans_alias(cls, values):
         """
-        Check for the deprecated 'chans' field and issue a warning.
+        Check for the deprecated 'chans' field and alias to replacement.
 
-        This method detects if `chans` is present in the input values and issues a
-        deprecation warning, recommending the use of 'variable' instead.
+        This method detects if ``chans`` is present in the input values and assigns it
+        to the aliased ``variables``; such a manual aliasing is required to leverage
+        Pydantic's approach to deprecation, instead of marking it as an alias of
+        ``variables`` in the model directly.
 
         Parameters
         ----------
@@ -152,13 +164,10 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         Returns
         -------
         dict
-            The original input values.
+            The updated input values.
         """
         if "chans" in values:
-            LOG.warning(
-                "'chans' is deprecated and will be removed in GeoIPS 2.0. Use"
-                "'variables' instead."
-            )
+            values["variables"] = values["chans"]
         return values
 
 

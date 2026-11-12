@@ -5,7 +5,6 @@
 
 import collections
 import logging
-import warnings
 from os.path import basename
 from pathlib import Path
 
@@ -13,6 +12,7 @@ import numpy as np
 import xarray as xr
 from xarray import concat, Dataset
 
+from geoips import deprecation
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.errors import NoValidFilesError
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
@@ -37,6 +37,20 @@ with import_optional_dependencies(loglevel="info"):
     import zarr
 
 LOG = logging.getLogger(__name__)
+
+
+@deprecation.deprecate_argument(
+    """
+    Name: "`chans` argument in Readers"
+    Component: Readers
+    Reference Issue: https://github.com/NRLMMD-GEOIPS/geoips/issues/953
+    Deprecated In: 2.0.0
+    """,
+    args_mapping={"chans": "variables"},
+)
+def _deprecate_chans_argument(**kwargs):
+    """Process kwargs to replace deprecated chans for variables."""
+    return kwargs
 
 
 class BaseReaderPlugin(BaseClassPlugin, abstract=True):
@@ -76,14 +90,10 @@ class BaseReaderPlugin(BaseClassPlugin, abstract=True):
             kwargs["fnames"] = kwargs.pop("filenames")
 
         if "chans" in kwargs:
-            chans_message = (
-                "'chans' is deprecated and will be removed in GeoIPS 2.0. Use"
-                " 'variables' instead."
-            )
-            LOG.warning(chans_message)
-            warnings.warn(chans_message, DeprecationWarning, stacklevel=2)
-            kwargs.pop("variables", None)
-        elif "variables" in kwargs:
+            kwargs = _deprecate_chans_argument(**kwargs)
+
+        if "variables" in kwargs:
+            # Reassign variables to chans for legacy plugins
             kwargs["chans"] = kwargs.pop("variables")
 
         return kwargs

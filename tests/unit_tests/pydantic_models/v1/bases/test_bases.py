@@ -7,12 +7,14 @@
 import copy
 import json
 from typing import ClassVar, Tuple
+from typing_extensions import deprecated
 
 # Third-Party Libraries
 import pytest
 from pydantic import ConfigDict, Field, ValidationError
 
 # GeoIPS Libraries
+from geoips.deprecation import GeoipsDeprecationWarning
 from geoips.pydantic_models.v1 import bases
 
 
@@ -69,10 +71,15 @@ def test_bad_invalid_python_identifier(invalid_identifier, expected_error):
 
 # Test CoreBaseModel
 class MockCoreBaseModel(bases.CoreBaseModel):
-    """Test CoreBaseModel to test __str__ method of CoreBaseModel."""
+    """Test CoreBaseModel for __str__ and deprecation behaviors."""
 
     plugin_type: str = Field(description="name of the plugin type")
     plugin_name: str = Field(description="name of the plugin", alias="pluginname")
+    deprecated_argument: bool | None = Field(
+        default=None,
+        description="this is deprecated",
+        deprecated=deprecated("do not use"),
+    )
     restricted_fields: ClassVar[Tuple[str, ...]] = (
         bases.CoreBaseModel.restricted_fields + ("restricted_field_1",)
     )
@@ -161,6 +168,14 @@ def test_bad_core_base_model_invalid_field_type():
     assert len(error_info) == 1
     assert error_info[0]["loc"] == ("plugin_name",)
     assert error_info[0]["type"] == "string_type"
+
+
+def test_core_base_model_deprecations():
+    """Test CoreBaseModel for deprecation warning on-validation."""
+    with pytest.warns(GeoipsDeprecationWarning):
+        MockCoreBaseModel(
+            plugin_type="Reader", pluginname="abi_netcdf", deprecated_argument=True
+        )
 
 
 # Test PluginModel
