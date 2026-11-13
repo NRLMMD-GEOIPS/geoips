@@ -23,10 +23,6 @@ from geoips.pydantic_models.v1.workflows import (
 
 LOG = logging.getLogger(__name__)
 
-interface = "procflows"
-family = "standard"
-name = "order_based"
-
 
 class OrderBased(BaseProcflowPlugin):
     """Execute an order-based process workflow (OBP).
@@ -37,7 +33,6 @@ class OrderBased(BaseProcflowPlugin):
     """
 
     interface = "procflows"
-    family = "order_based"
     name = "order_based"
 
     def call(
