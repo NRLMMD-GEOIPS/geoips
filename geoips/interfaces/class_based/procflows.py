@@ -36,8 +36,14 @@ class ProcflowsInterface(BaseClassInterface):
     required_args = {
         "standard": ["fnames"],
         "order_based": ["workflow_spec", "filenames"],
+        "spm_rt": ["sat_name"],
     }
     required_kwargs = {"standard": ["command_line_args"], "order_based": []}
+    allowable_kwargs = {
+        "spm_rt": ["dryrun", "num_gpu", "max_times", "overwrite"],
+        "standard": [],
+        "order_based": [],
+    }
 
 
 procflows = ProcflowsInterface()

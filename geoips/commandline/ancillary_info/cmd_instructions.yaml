@@ -465,6 +465,14 @@ instructions:
       To use, type `geoips run single_source **<single_source_args>`.
     output_info:
       - Log Output of the Single Source Process Workflow (Procflow)
+  geoips_run_spm_rt:
+    help_str: |
+      Run the geoips_spm spm_rt processing workflow. This will run the synthetic passive
+      microwave model on the specified satellite.
+    usage_str: |
+      To use, type `geoips run spm_rt <sat_name> <opt_args>`.
+    output_info:
+      - Log output of the spm_rt processing workflow.
   geoips_test:
     help_str: |
       Run tests implemented in GeoIPS or a separate GeoIPS Package. This could be

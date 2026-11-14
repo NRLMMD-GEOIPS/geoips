@@ -1,0 +1,21 @@
+enhancement:
+- title: 'Add geoips run spm_rt command'
+  description: |
+    Adds a new GeoIPS CLI command for the newly implemented spm_rt processing workflow.
+    Called via 'geoips run spm_rt'. This procflow implements entirely different logic
+    than is required via the order_based procflow and should only be used alongside the
+    geoips_spm plugin package.
+
+    Additionally, added new family for procflows to handle the corner case that
+    spm_rt represents. The new family is called 'spm_rt'.
+  files:
+    modified:
+      - geoips/commandline/ancillary_info/cmd_instructions.py
+      - geoips/commandline/geoips_run.py
+      - geoips/interfaces/class_based/procflows.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
