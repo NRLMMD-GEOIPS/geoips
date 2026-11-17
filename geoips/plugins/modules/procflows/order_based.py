@@ -35,6 +35,8 @@ class OrderBased(BaseProcflowPlugin):
     interface = "procflows"
     name = "order_based"
 
+    data_tree = True
+
     def call(
         self,
         workflow_spec: WorkflowPluginModel | WorkflowSpecModel | dict,
