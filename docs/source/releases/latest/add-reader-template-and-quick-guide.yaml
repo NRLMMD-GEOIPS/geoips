@@ -1,0 +1,12 @@
+documentation:
+- title: Add reader development tutorial and template
+  description: |
+    Add a tutorial for writing GeoIPS readers, with documentation on reader
+    structure, required output components, implementation tips, and a complete code
+    template with examples.
+  files:
+    added:
+    - docs/source/tutorials/extending-with-plugins/reader-quickguide.rst
+  date:
+    start: a month ago
+    finish: today
