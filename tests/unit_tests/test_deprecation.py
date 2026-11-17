@@ -3,6 +3,8 @@
 
 """Unit tests for GeoIPS deprecation helpers."""
 
+from typing_extensions import deprecated
+
 from pydantic import ValidationError
 import pytest
 
@@ -120,12 +122,123 @@ def test_message_parsing_for_pydeprecate():
         Removal In: 2.0.0
         Replacement: "Use `variables` instead"
     """
+    # As expected
     kwargs = deprecation._parse_for_pydeprecate(message)
-    assert kwargs["message_template"] == (
+    correct_output_message = (
         "`chans` argument in Readers (Component: Readers) is deprecated as of "
         "v%(deprecated_in)s, and will be removed in v%(remove_in)s. "
         "Replacement/Migration Instructions: Use `variables` instead. See "
         "https://github.com/NRLMMD-GEOIPS/geoips/issues/953 for more information."
     )
+    assert kwargs["message_template"] == correct_output_message
     assert kwargs["deprecated_in"] == "1.19.0"
     assert kwargs["remove_in"] == "2.0.0"
+    # Test message_template warning
+    with pytest.warns(UserWarning, match="overwrite"):
+        kwargs = deprecation._parse_for_pydeprecate(
+            message, message_template="In: v%(deprecated_in)s, Out: v%(remove_in)s"
+        )
+    assert kwargs["message_template"] == correct_output_message
+    # Test omission of docstring args
+    kwargs = deprecation._parse_for_pydeprecate(message, include_docstring_args=False)
+    assert "update_docstring" not in kwargs
+
+
+def test_message_parsing_not_for_pydeprecate():
+    """Ensure that our deprecation message parsing excluding pydeprecate options."""
+    message = deprecation.GeoipsDeprecationMessage.parse_message("""
+        Component: CLI
+        Deprecated In: 2.0.0
+        Removal In: 3.0.0
+        Reference Issue: MISSING
+    """).to_string()
+    assert message == (
+        "This (as a part of CLI) is deprecated as of v2.0.0, and will be removed in "
+        "v3.0.0."
+    )
+
+
+def test_pending_deprecation_with_non_geoips_format():
+    """Ensure that our pending deprecation warning works, with non-GeoIPS format."""
+    with pytest.warns(
+        deprecation.GeoipsPendingDeprecationWarning, match="removed. Use"
+    ):
+        deprecation.pending_deprecation_warning(
+            "This will be removed.\nUse this instead."
+        )
+
+
+def test_deprecate_callable():
+    """Test GeoIPS wrapper of PyDeprecate for callables."""
+
+    @deprecation.deprecate_callable()
+    @deprecated("""
+        Component: Scripting
+        Reference Issue: MISSING
+        Deprecated In: 2.0.0
+    """)
+    def test_function():
+        pass
+
+    with pytest.warns(
+        deprecation.GeoipsDeprecationWarning, match="deprecated as of v2.0.0."
+    ):
+        test_function()
+
+
+def test_deprecate_argument():
+    """Test GeoIPS wrapper of PyDeprecate for callable arguments."""
+
+    @deprecation.deprecate_argument(
+        """
+            Component: Scripting
+            Reference Issue: MISSING
+            Deprecated In: 2.0.0
+        """,
+        args_mapping={"old": "new"},
+    )
+    def test_function(new: str):
+        return f"{new}, {new}!"
+
+    with pytest.warns(
+        deprecation.GeoipsDeprecationWarning, match="deprecated as of v2.0.0."
+    ):
+        assert test_function(old="a") == "a, a!"
+
+
+def test_deprecate_class():
+    """Test GeoIPS wrapper of PyDeprecate for classes."""
+
+    @deprecation.deprecate_class()
+    @deprecated("""
+        Component: Scripting
+        Reference Issue: MISSING
+        Deprecated In: 2.0.0
+    """)
+    class OldClass:
+        old: bool = True
+
+        def __init__(self, old=True):
+            self.old = old
+
+    with pytest.warns(
+        deprecation.GeoipsDeprecationWarning, match="deprecated as of v2.0.0."
+    ):
+        OldClass()
+
+
+def test_deprecate_instance():
+    """Test GeoIPS wrapper of PyDeprecate for instances."""
+    old_thing = {"message": "Hello, world!"}
+    old_thing = deprecation.deprecate_instance(
+        old_thing,
+        """
+            Component: Scripting
+            Reference Issue: MISSING
+            Deprecated In: 2.0.0
+        """,
+    )
+    with pytest.warns(
+        deprecation.GeoipsDeprecationWarning, match="deprecated as of v2.0.0."
+    ):
+        old_thing["message"]

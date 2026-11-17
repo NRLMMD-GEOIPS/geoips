@@ -110,7 +110,7 @@ class GeoipsDeprecationMessage(BaseModel):
         else:
             message = f"{self.name} (Component: {self.component})"
         message += " is deprecated as of "
-        message += "v%(deprecated_in)s" if for_pydeprecate else str(self.deprecated_in)
+        message += "v%(deprecated_in)s" if for_pydeprecate else f"v{self.deprecated_in}"
         if not self.remove_in or str(self.remove_in).startswith("Conditional"):
             message += ". "
         elif for_pydeprecate:
@@ -279,7 +279,7 @@ def deprecate_argument(message: str, **kwargs) -> Callable:
     return pydeprecate.deprecated(target=TargetMode.ARGS_REMAP, **kwargs)
 
 
-def deprecate_instance(obj: Any, message: str, **kwargs) -> None:
+def deprecate_instance(obj: Any, message: str, **kwargs) -> Any:
     r"""Deprecate the specified instance of an object.
 
     This is a wrapper of PyDeprecate's ``deprecated_instance``, parsing the standard
