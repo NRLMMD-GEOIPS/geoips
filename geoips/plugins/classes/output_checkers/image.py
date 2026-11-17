@@ -3,6 +3,8 @@
 
 """Test script for representative product comparisons."""
 
+# cspell:ignore RGBX
+
 import logging
 from PIL import Image
 import numpy as np
@@ -35,6 +37,13 @@ class ImageOutputCheckerPlugin(BaseOutputCheckerPlugin):
             makedirs(savedir)
 
         thresholds = ["lenient", "medium", "strict"]
+        # I decided to use these modes from inspecting the
+        # PIL.ImageMode:ModeDescriptor:getmode function. In a comment, it's denoted that
+        # these are the core image modes.
+        # ndim2 = ["1", "L", "I", "F", "P"]
+        ndim3 = ["RGB", "RGBX", "RGBA", "CMYK", "YCbCr"]
+        # image_modes = [*ndim2, *ndim3]
+        image_modes = [*ndim3]
         # thresholds is used for naming files.
         # Relates to thresholds [0.1, 0.05, 0.0]
         compare_files = []
@@ -42,23 +51,41 @@ class ImageOutputCheckerPlugin(BaseOutputCheckerPlugin):
 
         predictable_random = get_numpy_seeded_random_generator()
 
-        for threshold in thresholds:
-            for i in range(3):
-                comp_arr = predictable_random.rand(100, 100, 3)
-                test_arr = np.copy(comp_arr)
-                if i == 1:
-                    rand = predictable_random.randint(0, 100)
-                    test_arr[rand][:] = predictable_random.rand(3)
-                elif i == 2:
-                    test_arr = predictable_random.rand(100, 100, 3)
-                comp_img = Image.fromarray((comp_arr * 255).astype(np.uint8))
-                test_img = Image.fromarray((test_arr * 255).astype(np.uint8))
-                comp_file = join(savedir, f"comp_img_{threshold}{str(i)}.png")
-                test_file = join(savedir, f"test_img_{threshold}{str(i)}.png")
-                comp_img.save(comp_file)
-                test_img.save(test_file)
-                compare_files.append(comp_file)
-                test_files.append(test_file)
+        for mode in image_modes:
+            for threshold in thresholds:
+                for i in range(3):
+                    if mode in ["1", "L", "I", "P", "F"]:
+                        shape = (100, 100)
+                    else:
+                        shape = (100, 100, 3)
+                    comp_arr = predictable_random.random(shape)
+                    test_arr = np.copy(comp_arr)
+                    if i == 1:
+                        rand = predictable_random.random((100,)).round().astype(int)
+                        if len(shape) == 3:
+                            test_arr[rand][:] = predictable_random.random((3))
+                        else:
+                            test_arr[rand][:] = predictable_random.random()
+
+                    elif i == 2:
+                        test_arr = predictable_random.random(shape)
+                    print(comp_arr.shape)
+                    comp_img = Image.fromarray(
+                        (comp_arr * 255).astype(np.uint8), mode=mode
+                    )
+                    test_img = Image.fromarray(
+                        (test_arr * 255).astype(np.uint8), mode=mode
+                    )
+                    comp_file = join(
+                        savedir, f"comp_img_{mode}_{threshold}{str(i)}.png"
+                    )
+                    test_file = join(
+                        savedir, f"test_img_{mode}_{threshold}{str(i)}.png"
+                    )
+                    comp_img.save(comp_file)
+                    test_img.save(test_file)
+                    compare_files.append(comp_file)
+                    test_files.append(test_file)
         return compare_files, test_files
 
     def perform_test_comparisons(self, compare_files, test_files):
