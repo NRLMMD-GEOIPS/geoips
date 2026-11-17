@@ -5,4 +5,9 @@
 #
 # Repos that need a disabled repo still install, but the parts that use it fail
 # (geocolor's GeoColor products need synth_green, for example).
-{}
+{
+  geoips_nucaps: "JSON error on property name",
+  rayleigh: "Linting issue, PR open to merge",
+  recenter_tc: "Unknown error", 
+  ryglickicane: "Unknown error",
+}
