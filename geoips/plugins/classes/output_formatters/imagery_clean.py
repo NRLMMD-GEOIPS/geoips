@@ -71,7 +71,7 @@ class ImageryCleanOutputFormatterPlugin(BaseOutputFormatterPlugin):
                     fig,
                     clean_fname,
                     is_final=False,
-                    image_datetime=xarray_obj.start_datetime,
+                    image_datetime=getattr(xarray_obj, "start_datetime", None),
                     remove_duplicate_minrange=remove_duplicate_minrange,
                 )
 

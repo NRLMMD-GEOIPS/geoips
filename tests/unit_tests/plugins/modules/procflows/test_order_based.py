@@ -13,6 +13,7 @@ class TestOrderBased:
         """Expected class-level interface, family, name, and data_tree attrs."""
         ob = OrderBased()
         assert ob.interface == "procflows"
-        assert ob.family == "order_based"
+        # No family required as this is a data tree native plugin
+        assert not hasattr(ob, "family")
         assert ob.name == "order_based"
         assert ob.data_tree is True

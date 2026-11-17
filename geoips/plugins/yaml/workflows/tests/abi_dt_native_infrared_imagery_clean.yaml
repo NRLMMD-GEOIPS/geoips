@@ -1,0 +1,60 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: dt_abi_static_infrared_imagery_clean
+docstring: Read test.
+package: geoips
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
+spec:
+  globals:
+    product_name: Infrared
+    reader_defined_area_def: False
+    # will be uncommented after split operation is implemented
+    # sector_list: ["test_goes16_eqc_3km_day_20200918T1950Z"]
+  steps:
+    sector:
+      kind: sector
+      name: test_goes16_eqc_3km_day_20200918T1950Z
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        resampled_read: True
+        chans: [B14BT]
+    interpolator:
+      kind: interpolator
+      name: interp_nearest
+      depends_on: [reader, sector]
+      arguments: {}
+    algorithm:
+      kind: algorithm
+      name: dt_single_channel
+      arguments:
+        variables: [Infrared]
+        output_data_range: [-90.0, 30.0]
+        input_units: Kelvin
+        output_units: celsius
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: false
+        inverse: false
+    colormapper:
+      kind: colormapper
+      name: Infrared
+      depends_on: []
+      arguments:
+        data_range: [-90.0, 30.0]
+    output_formatter:
+      kind: output_formatter
+      name: imagery_clean
+      depends_on:
+        - algorithm
+        - colormapper
+        - sector
+      arguments:
+        output_fnames:
+          - !ENV ${GEOIPS_OUTDIRS}/outputs/abi_dt_infrared_imagery_clean.png

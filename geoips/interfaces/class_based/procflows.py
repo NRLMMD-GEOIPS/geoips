@@ -10,7 +10,7 @@ from geoips.interfaces.base import BaseClassInterface
 class BaseProcflowPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS procflow plugins."""
 
-    data_tree = True
+    data_tree = False
 
     pass
 
@@ -36,8 +36,13 @@ class ProcflowsInterface(BaseClassInterface):
     required_args = {
         "standard": ["fnames"],
         "order_based": ["workflow_spec", "filenames"],
+        "data_tree": ["workflow_spec", "filenames"],
     }
-    required_kwargs = {"standard": ["command_line_args"], "order_based": []}
+    required_kwargs = {
+        "standard": ["command_line_args"],
+        "order_based": [],
+        "data_tree": [],
+    }
 
 
 procflows = ProcflowsInterface()
