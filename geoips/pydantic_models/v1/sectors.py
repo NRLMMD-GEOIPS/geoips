@@ -173,8 +173,11 @@ class SectorProjection(PermissiveFrozenModel):
             description="Longitude of origin in degrees.",
         ),
     ]
-    t_epoch: float | None = Field(
-        None, description=("Central epoch of the transformation.")
+    t_epoch: float | None = (
+        Field(
+            None,
+            description=("Central epoch of the transformation."),
+        ),
     )
     t_final: float = Field(
         None,
