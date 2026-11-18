@@ -1,0 +1,53 @@
+enhancement:
+- title: >
+    Preliminary deprecation spec, with re-implementation of existing deprecations
+    according to it
+  description: >
+    Adds an initial partial draft of the deprecation specification, defining at least
+    two of the three components for implementing a deprecation according to the new,
+    standardized pattern: the YAML-formatted message string and the code by which the
+    deprecations are implemented for any variety of deprecated "thing." Existing
+    deprecations in the GeoIPS codebase are modified according to it. The final base
+    component (the canonical reference issue) as well as handling the deprecations in
+    the docs and finalizing the full deprecation spec are left to a follow-up PR.
+  files:
+    added:
+    - 'docs/dev/deprecation-spec.md'
+    - 'geoips/deprecation.py'
+    - 'tests/unit_tests/test_deprecation.py'
+    modified:
+    - 'geoips/cli.py'
+    - 'geoips/commandline/commandline_interface.py'
+    - 'geoips/commandline/geoips_run.py'
+    - 'geoips/commandline/list_available_plugins.py'
+    - 'geoips/config/config.py'
+    - 'geoips/dev/output_config.py'
+    - 'geoips/dev/product.py'
+    - 'geoips/filenames/base_paths.py'
+    - 'geoips/geoips_utils.py'
+    - 'geoips/interfaces/class_based/output_formatters.py'
+    - 'geoips/interfaces/class_based/readers.py'
+    - 'geoips/pydantic_models/v1/bases.py'
+    - 'geoips/pydantic_models/v1/readers.py'
+    - 'geoips/pydantic_models/v1/sectors.py'
+    - 'geoips/pydantic_models/v2alpha1/bases.py'
+    - 'geoips/pydantic_models/v2alpha1/sectors.py'
+    - 'geoips/pydantic_models/v2alpha1/workflows.py'
+    - 'pyproject.toml'
+    - 'tests/unit_tests/commandline/test_geoips_describe_family.py'
+    - 'tests/unit_tests/commandline/test_geoips_describe_interface.py'
+    - 'tests/unit_tests/commandline/test_geoips_describe_plugin.py'
+    - 'tests/unit_tests/interfaces/test_output_formatter_call_order.py'
+    - 'tests/unit_tests/pydantic_models/v1/bases/test_bases.py'
+    - 'tests/unit_tests/pydantic_models/v1/readers/test_reader_arguments_model.py'
+    - 'tests/unit_tests/pydantic_models/v1/utils.py'
+    - 'tests/unit_tests/pydantic_models/v2alpha1/test_bases.py'
+    deleted:
+    - 'geoips/utils/decorators.py'
+    moved:
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: '2026-09-30'
+    finish: '2026-11-17'

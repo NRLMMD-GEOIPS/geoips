@@ -8,6 +8,7 @@ from importlib import import_module, resources
 from pathlib import Path
 import pytest
 from copy import deepcopy
+import re
 from typing import Any, List, Tuple, Type
 import warnings
 import yaml
@@ -310,12 +311,30 @@ def _attempt_to_associate_model_with_error(
 
     """
     for error in reversed(errors):
-        if failing_model in error.get("loc", ()):
-            return error
+        for error_loc_component in error.get("loc", ()):
+            if failing_model in error_loc_component:
+                return error
 
     # If no errors could be associated with the failing model, just default
     # to the last error reported
     return errors[-1]
+
+
+def _parse_out_error_loc_element(loc: str) -> str:
+    """Flexibly handle the Pydantic error loc element.
+
+    The element(s) within the "loc" item on a Pydantic error may be a simple string
+    corresponding to the field or model name, or if an after-validator is used,
+    a string which includes such information as the last element of a comma separated
+    list within square brackets. This parses out our desired field/model name element.
+
+    Parameters
+    ----------
+    loc: str
+        The string in the loc item to parse
+    """
+    inner = re.findall(r"\[(.*)\]", loc)
+    return inner[0].split(",")[-1].strip() if inner else loc
 
 
 def validate_base_plugin(base_plugin: dict, plugin_model: Type):
@@ -434,7 +453,7 @@ def validate_bad_plugin(
             # specifying plugin types which don't adhere to their family type.
             bad_field = failing_model
         else:
-            bad_field = val_err["loc"][-1]
+            bad_field = _parse_out_error_loc_element(val_err["loc"][-1])
 
         err_msg = val_err["msg"]
         model_class = _resolve_model_class(failing_model)
@@ -445,7 +464,11 @@ def validate_bad_plugin(
             # added to a single product plugin's arguments that doesn't adhere to the
             # family it falls under.
             if test_tup.loc is not None:
-                assert test_tup.loc == val_err["loc"]
+                error_loc_tup = (
+                    _parse_out_error_loc_element(val_err["loc"][0]),
+                    *val_err["loc"][1:],
+                )
+                assert test_tup.loc == error_loc_tup
             else:
                 assert (
                     bad_field in model_class.model_fields

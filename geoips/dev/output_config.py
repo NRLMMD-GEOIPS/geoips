@@ -9,7 +9,10 @@ This functionality will be replaced with a class-based implementation v2.0,
 and deprecated at that time.
 """
 
+from typing_extensions import deprecated
+
 import logging
+from geoips import deprecation
 from geoips.interfaces import products
 from geoips.interfaces import colormappers
 from geoips.interfaces import feature_annotators
@@ -19,7 +22,20 @@ from geoips.image_utils.maps import compute_lon_extent
 LOG = logging.getLogger(__name__)
 
 
+# Define re-used deprecation decorator
+# TODO update MISSING -> issue number once reference issue created
+dep_MISSING = deprecated(
+    """
+    Reference Issue: MISSING
+    Component: Config
+    Deprecated In: 2.0.0
+    """,
+    category=deprecation.GeoipsDeprecationWarning,
+)
+
+
 # ### Output config dictionaries ###
+@dep_MISSING
 def is_valid_output_config(output_config_dict):
     """Interface will be deprecated v2.0.
 
@@ -152,6 +168,7 @@ def is_valid_output_config(output_config_dict):
     return True
 
 
+@dep_MISSING
 def get_output_config_type(output_config_dict):
     """Interface will be deprecated v2.0.
 
@@ -173,6 +190,7 @@ def get_output_config_type(output_config_dict):
     return output_config_dict["output_config_type"]
 
 
+@dep_MISSING
 def get_filename_formatters(output_dict):
     """Interface will be deprecated v2.0."""
     if "filename_formatter" in output_dict and isinstance(
@@ -183,11 +201,13 @@ def get_filename_formatters(output_dict):
         return output_dict["filename_formatters"]
 
 
+@dep_MISSING
 def get_output_formatter(output_dict):
     """Interface will be deprecated v2.0."""
     return output_dict["output_formatter"]
 
 
+@dep_MISSING
 def get_metadata_output_formatter(output_dict):
     """Interface will be deprecated v2.0."""
     if "metadata_output_formatter" in output_dict:
@@ -195,6 +215,7 @@ def get_metadata_output_formatter(output_dict):
     return None
 
 
+@dep_MISSING
 def get_metadata_filename_formatter(filename_formatter, output_dict):
     """Interface will be deprecated v2.0."""
     fname_format = None
@@ -219,6 +240,7 @@ def get_metadata_filename_formatter(filename_formatter, output_dict):
     return fname_format
 
 
+@dep_MISSING
 def get_minimum_coverage(product_name, output_dict):
     """Interface will be deprecated v2.0."""
     minimum_coverage = None
@@ -251,6 +273,7 @@ def get_minimum_coverage(product_name, output_dict):
     return minimum_coverage
 
 
+@dep_MISSING
 def get_filename_formatter_kwargs(filename_formatter, output_dict):
     """Interface will be deprecated v2.0.
 
@@ -286,6 +309,7 @@ def get_filename_formatter_kwargs(filename_formatter, output_dict):
     return filename_formatter_kwargs
 
 
+@dep_MISSING
 def get_metadata_filename_formatter_kwargs(filename_formatter, output_dict):
     """Interface will be deprecated v2.0.
 
@@ -317,6 +341,7 @@ def get_metadata_filename_formatter_kwargs(filename_formatter, output_dict):
     return metadata_filename_formatter_kwargs
 
 
+@dep_MISSING
 def set_lonlat_spacing(gridline_annotator, area_def):
     """Interface will be deprecated v2.0."""
     if (
@@ -361,6 +386,7 @@ def set_lonlat_spacing(gridline_annotator, area_def):
     return gridline_annotator
 
 
+@dep_MISSING
 def get_output_formatter_kwargs(
     output_dict,
     xarray_obj=None,
@@ -421,6 +447,7 @@ def get_output_formatter_kwargs(
     return output_formatter_kwargs
 
 
+@dep_MISSING
 def get_metadata_output_formatter_kwargs(output_dict):
     """Interface will be deprecated v2.0."""
     metadata_output_formatter_kwargs = {}
@@ -432,6 +459,7 @@ def get_metadata_output_formatter_kwargs(output_dict):
     return metadata_output_formatter_kwargs
 
 
+@dep_MISSING
 def produce_current_time(config_dict, metadata_xobj, output_dict_keys=None):
     """Interface will be deprecated v2.0.
 
@@ -475,6 +503,7 @@ def produce_current_time(config_dict, metadata_xobj, output_dict_keys=None):
     return retval
 
 
+@dep_MISSING
 def test_output_config_interface(output_config_dict):
     """Interface will be deprecated v2.0.
 

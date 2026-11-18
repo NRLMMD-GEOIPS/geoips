@@ -10,17 +10,11 @@ new ``geoips.config.GeoIPSConfig`` singleton.
 
 import logging
 import os
-from warnings import warn
 
+from geoips import deprecation
 from geoips.config import config, make_dirs as _make_dirs
 
 LOG = logging.getLogger(__name__)
-
-warn(
-    "geoips.filenames.base_paths is deprecated; use geoips.config instead.",
-    DeprecationWarning,
-    stacklevel=4,
-)
 
 # This module already emits its own DeprecationWarning above, so build PATHS
 # directly from the config's cached legacy dict to avoid a redundant warning
@@ -72,3 +66,14 @@ def initialize_paths():
     Deprecated: Use ``geoips.config.GeoIPSConfig.to_legacy_dict`` instead.
     """
     return config.to_legacy_dict()
+
+
+deprecation.deprecate_module(
+    """
+    Reference Issue: MISSING
+    Component: Config
+    Replacement: Use geoips.config instead
+    Deprecated In: 2.0.0
+    """,
+    name=__name__,
+)

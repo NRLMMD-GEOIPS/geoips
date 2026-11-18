@@ -73,7 +73,9 @@ class GeoipsRunConfigBased(GeoipsExecutableCommand):
                 "flag wasn't specified. Please either specify which procflow is "
                 "being executed via '--procflow <procflow_name>' or use the "
                 "supported procflow call 'geoips run <procflow_name>'"
-            )
+            )  # deprecation-audit: Strictly speaking this is an error of an unsupported
+            # set of arguments rather than a deprecation itself; it suggests the
+            # supported usage of a deprecated procflow call instead.
             self.parser.error(err_str)
         elif args.procflow is None:
             # If None, set to 'config_based'. We don't want users to have to specify
@@ -109,7 +111,9 @@ class GeoipsRunDataFusion(GeoipsExecutableCommand):
                     "--procflow flag wasn't specified. Please either specify which "
                     "procflow is being executed via '--procflow <procflow_name>' or "
                     "use the supported procflow call 'geoips run <procflow_name>'"
-                )
+                )  # deprecation-audit: Strictly speaking this is an error of an
+                # unsupported set of arguments rather than a deprecation itself; it
+                # suggests the supported usage of a deprecated procflow call instead.
                 self.parser.error(err_str)
             elif args.procflow is None:
                 # If None, set to 'data_fusion'. We don't want users to have to specify
@@ -447,7 +451,9 @@ class GeoipsRunSingleSource(GeoipsExecutableCommand):
                 "flag wasn't specified. Please either specify which procflow is "
                 "being executed via '--procflow <procflow_name>' or use the "
                 "supported procflow call 'geoips run <procflow_name>'"
-            )
+            )  # deprecation-audit: Strictly speaking this is an error of an unsupported
+            # set of arguments rather than a deprecation itself; it suggests the
+            # supported usage of a deprecated procflow call instead.
             self.parser.error(err_str)
         elif args.procflow is None:
             # If None, set to 'single_source'. We don't want users to have to specify
