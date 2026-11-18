@@ -11,7 +11,7 @@ import deprecate as pydeprecate
 from deprecate import TargetMode
 from pydantic import AliasChoices, AnyUrl, BaseModel, Field, ValidationError
 from pydantic_extra_types.semantic_version import SemanticVersion
-import yaml
+import geoips_yaml_utils as yaml
 
 
 class GeoipsDeprecationMessage(BaseModel):
@@ -92,7 +92,7 @@ class GeoipsDeprecationMessage(BaseModel):
             The (validated) Pydantic data model with relevant fields available
 
         """
-        return cls.model_validate(yaml.load(message, Loader=yaml.BaseLoader))
+        return cls.model_validate(yaml.safe_load(message))
 
     def to_string(self, for_pydeprecate: bool = False):
         """Reassemble message contents into sentence-style single-line string.
