@@ -31,7 +31,7 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     output_data_range: tuple[StrictFloat, StrictFloat] | None = Field(
         None,
         description="Two-element iterator containing the minimum and maximum value "
-        " for output data product. This is applied LAST after all other"
+        " for the output data product. This is applied LAST after all other"
         " corrections/adjustments. If None, use data.min() and data.max()",
     )
     min_outbounds: str | None = Field(
@@ -41,7 +41,8 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         "  Valid values are: "
         " * retain: keep all pixels as is"
         " * mask: mask all pixels that are out of range"
-        " * crop: set out of range values to the nearest bound (min_val or max_val)",
+        " * crop: values below the lower bound of `output_data_range` are set to"
+        " that lower bound",
     )
     max_outbounds: str | None = Field(
         None,
@@ -50,7 +51,8 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         "  Valid values are: "
         " * retain: keep all pixels as is"
         " * mask: mask all pixels that are out of range"
-        " * crop: set out of range values to the nearest bound (min_val or max_val)",
+        " * crop: values above the upper bound of `output_data_range` are set to that"
+        " upper bound.",
     )
     norm: StrictBool = Field(
         None,
